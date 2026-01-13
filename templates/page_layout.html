@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <header>
+    <h1>{% block page_title %}頁面標題{% endblock %}</h1>
+  </header>
+  <main>
+    {% block page_content %}{% endblock %}
+  </main>
+  <footer>
+    <p>&copy; 2024 宜加寵物用品連鎖</p>
+  </footer>
+{% endblock %}

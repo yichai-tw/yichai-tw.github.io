@@ -1,0 +1,131 @@
+# 機密檔案與環境變數
+.env
+.env.*
+!.env.example
+*.env
+*.env.local
+*.env.production
+*.env.development
+*.env.test
+
+# 私鑰與憑證檔案
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.p7b
+*.p7c
+*.p7s
+*.jks
+*.keystore
+*.truststore
+id_rsa
+id_rsa.pub
+id_dsa
+id_dsa.pub
+*.priv
+*.private
+
+# 密碼與金鑰檔案
+secrets.txt
+*.secret
+*.password
+api-keys.txt
+
+# 備份檔案
+*.bak
+*.backup
+*.old
+*.tmp
+*.swp
+*.swo
+*~
+
+# 系統檔案
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# IDE 與編輯器設定
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+.project
+.classpath
+.settings/
+
+# 建置輸出與暫存檔案
+dist/
+build/
+out/
+.cache/
+.temp/
+.tmp/
+*.log
+logs/
+*.log.*
+
+# Node.js (如果使用)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.pnpm-debug.log*
+
+# Python (如果使用)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# 壓縮檔 (可能包含敏感資料)
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# 資料庫檔案
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# JSON 檔案 (預設全部排除，有需要的再指定例外)
+*.json
+# 允許的 JSON 檔案範例 (取消註解以啟用)
+# !package.json
+# !tsconfig.json
+# !package-lock.json
+# !public/config.json
+# !public/data.json
+
+# 專案特定排除
+content/              # 原始資料目錄（人只改這裡，不追蹤）
+tools/project_tree_generator.py
+project_structure.txt
+
+# 其他敏感檔案
+*.conf
+!public/*.conf
+*.config
+!public/*.config
+private/
+secrets/
+confidential/

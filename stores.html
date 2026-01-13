@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>實體門市資訊 - 宜加寵物用品連鎖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 2.5em;
+      text-align: center;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #7f8c8d;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+    }
+    
+    .stores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    
+    .store-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .store-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .store-name {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #3498db;
+    }
+    
+    .store-info {
+      margin-bottom: 12px;
+    }
+    
+    .store-info strong {
+      color: #34495e;
+      display: inline-block;
+      min-width: 80px;
+    }
+    
+    .store-info a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    
+    .store-info a:hover {
+      text-decoration: underline;
+    }
+    
+    .headquarters {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+    }
+    
+    .headquarters .store-name {
+      color: white;
+      border-bottom-color: rgba(255,255,255,0.3);
+    }
+    
+    .headquarters .store-info strong {
+      color: rgba(255,255,255,0.9);
+    }
+    
+    .headquarters .store-info {
+      color: white;
+    }
+    
+    .headquarters .store-info a {
+      color: #ffd700;
+    }
+    
+    @media (max-width: 768px) {
+      .stores-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .container {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>宜加寵物生活館</h1>
+    <p class="subtitle">實體門市資訊與交通資訊</p>
+    
+    <div class="stores-grid">
+      <!-- 總公司 -->
+      <div class="store-card headquarters">
+        <div class="store-name">宜加寵物生活館總公司</div>
+        <div class="store-info">
+          <strong>服務專線：</strong>
+          <a href="tel:02-29085835">02-2908-5835</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          新北市新莊區新樹路71-5號
+        </div>
+      </div>
+      
+      <!-- 新和店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 新和店</div>
+        <div class="store-info">
+          <strong>服務專線：</strong>
+          <a href="tel:0229972211">02-2997-2211</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          242新北市新莊區中和街28號
+        </div>
+      </div>
+      
+      <!-- 中華店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 中華店</div>
+        <div class="store-info">
+          <strong>服務電話：</strong>
+          <a href="tel:0289936000">02-8993-6000</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          242新北市新莊區中華路二段22-1號
+        </div>
+      </div>
+      
+      <!-- 中正店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 中正店</div>
+        <div class="store-info">
+          <strong>服務電話：</strong>
+          <a href="tel:0289917700">02-8991-7700</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          242新北市新莊區中正路380號
+        </div>
+      </div>
+      
+      <!-- 仁愛店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 仁愛店</div>
+        <div class="store-info">
+          <strong>服務電話：</strong>
+          <a href="tel:0229832929">02-2983-2929</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          24149新北市三重區仁愛街508號
+        </div>
+      </div>
+      
+      <!-- 九芎店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 九芎店</div>
+        <div class="store-info">
+          <strong>服務電話：</strong>
+          <a href="tel:0282857111">02-8285-7111</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          247新北市蘆洲區九芎街90巷11-1號
+        </div>
+      </div>
+      
+      <!-- 五股店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 五股店</div>
+        <div class="store-info">
+          <strong>服務電話：</strong>
+          <a href="tel:0222952000">02-2295-2000</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          248新北市五股區成泰路一段138號
+        </div>
+      </div>
+      
+      <!-- 長榮店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 長榮店</div>
+        <div class="store-info">
+          <strong>服務電話：</strong>
+          <a href="tel:0222820066">02-2282-0066</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          247新北市蘆洲區長榮路788號
+        </div>
+      </div>
+      
+      <!-- 內湖店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 內湖店</div>
+        <div class="store-info">
+          <strong>服務電話：</strong>
+          <a href="tel:0227961100">02-2796-1100</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          114台北市內湖區金龍路17號
+        </div>
+      </div>
+      
+      <!-- 康寧店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 康寧店</div>
+        <div class="store-info">
+          <strong>服務電話：</strong>
+          <a href="tel:0226935678">02-2693-5678</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          221新北市汐止區康寧街378號
+        </div>
+      </div>
+      
+      <!-- 淡水店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 淡水店</div>
+        <div class="store-info">
+          <strong>服務電話：</strong>
+          <a href="tel:0226269555">02-2626-9555</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          251新北市淡水區中山路170號
+        </div>
+      </div>
+      
+      <!-- 龍安店 -->
+      <div class="store-card">
+        <div class="store-name">宜加寵物生活館 龍安店</div>
+        <div class="store-info">
+          <strong>服務電話：</strong>
+          <a href="tel:0222025000">02-2202-5000</a>
+        </div>
+        <div class="store-info">
+          <strong>地址：</strong>
+          242新北市新莊區龍安路300號
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
