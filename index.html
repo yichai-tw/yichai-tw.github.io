@@ -94,6 +94,26 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    /* 聯絡表單樣式 */
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 8px; }
+    .form-group input, .form-group textarea, .form-group select { 
+      width: 100%; padding: 12px; border: 1px solid; border-radius: 5px; 
+      transition: border-color 0.3s, box-shadow 0.3s;
+      font-size: 1rem;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      outline: none;
+    }
+    .required-mark { color: #ef4444; margin-left: 3px; }
+    .contact-hint { 
+      font-size: 0.9em; 
+      margin-bottom: 15px; 
+      padding: 12px; 
+      border-left: 3px solid;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
   <!-- 導航欄 -->
@@ -105,10 +125,13 @@
       <ul class="flex gap-8 list-none flex-col md:flex-row text-center md:text-left">
         <li><a href="index.html" class="text-gray-800 font-medium text-lg transition-colors hover:text-[#DF7621] no-underline" title="宜加寵物用品連鎖首頁">首頁</a></li>
         <li><a href="stores.html" class="text-gray-800 font-medium text-lg transition-colors hover:text-[#DF7621] no-underline" title="查看所有門市據點資訊">門市資訊</a></li>
+        <li><a href="contact.html" class="text-gray-800 font-medium text-lg transition-colors hover:text-[#DF7621] no-underline" title="聯絡我們">聯絡我們</a></li>
       </ul>
     </div>
   </nav>
 
+  <!-- 主要內容 -->
+  <main>
   <!-- 主要內容 -->
   <main>
   <!-- 主要橫幅區 -->
@@ -294,33 +317,13 @@
       <p class="max-w-2xl mx-auto text-lg opacity-90 leading-relaxed mt-5">如有任何問題，歡迎直接聯繫各門市，由門市同仁為您服務。我們也歡迎您加入我們的 LINE 官方帳號，隨時掌握最新優惠與活動資訊。</p>
     </div>
   </section>
+  </main>
 
   <!-- 頁尾 -->
   <footer class="bg-gray-800 text-white py-12 px-5">
     <div class="max-w-7xl mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-8">
-        <!-- 左欄：聯絡資訊與快速連結 -->
-        <div>
-          <h3 class="text-xl font-bold mb-5 text-[#DF7621]">聯絡我們</h3>
-          <div class="space-y-3 text-gray-300">
-            <p class="mb-4">如有任何問題或建議，歡迎與我們聯繫</p>
-            <div class="mb-4">
-              <a href="mailto:yi.chai@toppets.com.tw?subject=【宜加寵物用品連鎖】聯絡我們&body=親愛的宜加寵物用品連鎖團隊：%0D%0A%0D%0A您好，%0D%0A%0D%0A我想詢問：%0D%0A%0D%0A%0D%0A%0D%0A感謝您！%0D%0A%0D%0A---%0D%0A姓名：%0D%0A聯絡電話：%0D%0A電子郵件：" class="inline-flex items-center text-white hover:text-[#DF7621] transition-colors no-underline">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
-                yi.chai@toppets.com.tw
-              </a>
-            </div>
-            <div class="mb-4">
-              <a href="https://lin.ee/79ysbfnm" target="_blank" rel="noopener noreferrer" class="inline-block">
-                <img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入 LINE 好友" height="36" style="height: 36px; width: auto; max-width: 100%;" border="0">
-              </a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- 右欄：快速連結 -->
+        <!-- 左欄：快速連結 -->
         <div>
           <h3 class="text-xl font-bold mb-5 text-[#DF7621]">快速連結</h3>
           <ul class="space-y-3 text-gray-300 list-none">
@@ -331,12 +334,30 @@
               <a href="stores.html" class="hover:text-[#DF7621] transition-colors no-underline">門市據點</a>
             </li>
             <li>
-              <a href="stores.html#taipei" class="hover:text-[#DF7621] transition-colors no-underline">台北市門市</a>
-            </li>
-            <li>
-              <a href="stores.html#new-taipei" class="hover:text-[#DF7621] transition-colors no-underline">新北市門市</a>
+              <a href="contact.html" class="hover:text-[#DF7621] transition-colors no-underline">聯絡我們</a>
             </li>
           </ul>
+        </div>
+        
+        <!-- 右欄：聯絡資訊 -->
+        <div>
+          <h3 class="text-xl font-bold mb-5 text-[#DF7621]">聯絡資訊</h3>
+          <div class="space-y-3 text-gray-300">
+            <p>如有任何問題或建議，歡迎與我們聯繫</p>
+            <div>
+              <a href="mailto:yi.chai@toppets.com.tw" class="inline-flex items-center text-white hover:text-[#DF7621] transition-colors no-underline">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                yi.chai@toppets.com.tw
+              </a>
+            </div>
+            <div>
+              <a href="https://lin.ee/79ysbfnm" target="_blank" rel="noopener noreferrer" class="inline-block">
+                <img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入 LINE 好友" height="36" style="height: 36px; width: auto; max-width: 100%;" border="0">
+              </a>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -346,6 +367,5 @@
       </div>
     </div>
   </footer>
-  </main>
 </body>
 </html>

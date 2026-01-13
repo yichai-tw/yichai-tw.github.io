@@ -361,6 +361,7 @@
       <ul class="nav-links">
         <li><a href="index.html" title="返回首頁">首頁</a></li>
         <li><a href="stores.html" style="color: #DF7621;" title="查看所有門市據點">門市資訊</a></li>
+        <li><a href="contact.html" title="聯絡我們">聯絡我們</a></li>
       </ul>
     </div>
   </nav>
@@ -709,13 +710,29 @@
   <footer style="background: #2c3e50; color: white; padding: 40px 20px; margin-top: 60px;">
     <div style="max-width: 1200px; margin: 0 auto;">
       <div class="footer-grid" style="display: grid; grid-template-columns: 1fr; gap: 30px; margin-bottom: 30px;">
-        <!-- 左欄：聯絡資訊 -->
+        <!-- 左欄：快速連結 -->
         <div>
-          <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 20px; color: #DF7621;">聯絡我們</h3>
+          <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 20px; color: #DF7621;">快速連結</h3>
+          <ul style="list-style: none; padding: 0; color: #b0b0b0; line-height: 2;">
+            <li>
+              <a href="index.html" style="color: #b0b0b0; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#DF7621'" onmouseout="this.style.color='#b0b0b0'">首頁</a>
+            </li>
+            <li>
+              <a href="stores.html" style="color: #b0b0b0; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#DF7621'" onmouseout="this.style.color='#b0b0b0'">門市據點</a>
+            </li>
+            <li>
+              <a href="contact.html" style="color: #b0b0b0; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#DF7621'" onmouseout="this.style.color='#b0b0b0'">聯絡我們</a>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- 右欄：聯絡資訊 -->
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 20px; color: #DF7621;">聯絡資訊</h3>
           <div style="color: #b0b0b0; line-height: 1.8;">
             <p style="margin-bottom: 15px;">如有任何問題或建議，歡迎與我們聯繫</p>
             <div style="margin-bottom: 15px;">
-              <a href="mailto:yi.chai@toppets.com.tw?subject=【宜加寵物用品連鎖】聯絡我們&body=親愛的宜加寵物用品連鎖團隊：%0D%0A%0D%0A您好，%0D%0A%0D%0A我想詢問：%0D%0A%0D%0A%0D%0A%0D%0A感謝您！%0D%0A%0D%0A---%0D%0A姓名：%0D%0A聯絡電話：%0D%0A電子郵件：" style="color: white; text-decoration: none; display: inline-flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='#DF7621'" onmouseout="this.style.color='white'">
+              <a href="mailto:yi.chai@toppets.com.tw" style="color: white; text-decoration: none; display: inline-flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='#DF7621'" onmouseout="this.style.color='white'">
                 <svg style="width: 20px; height: 20px; margin-right: 8px; fill: none; stroke: currentColor;" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
@@ -728,25 +745,6 @@
               </a>
             </div>
           </div>
-        </div>
-        
-        <!-- 右欄：快速連結 -->
-        <div>
-          <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 20px; color: #DF7621;">快速連結</h3>
-          <ul style="list-style: none; padding: 0; color: #b0b0b0; line-height: 2;">
-            <li>
-              <a href="index.html" style="color: #b0b0b0; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#DF7621'" onmouseout="this.style.color='#b0b0b0'">首頁</a>
-            </li>
-            <li>
-              <a href="stores.html" style="color: #b0b0b0; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#DF7621'" onmouseout="this.style.color='#b0b0b0'">門市據點</a>
-            </li>
-            <li>
-              <a href="stores.html#taipei" style="color: #b0b0b0; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#DF7621'" onmouseout="this.style.color='#b0b0b0'">台北市門市</a>
-            </li>
-            <li>
-              <a href="stores.html#new-taipei" style="color: #b0b0b0; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#DF7621'" onmouseout="this.style.color='#b0b0b0'">新北市門市</a>
-            </li>
-          </ul>
         </div>
       </div>
       
@@ -842,6 +840,7 @@
       }, { passive: true });
     })();
   </script>
+
 
 </body>
 </html>
