@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>實體門市資訊 - 宜加寵物用品連鎖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -16,9 +17,51 @@
       line-height: 1.6;
       color: #333;
       background-color: #f5f5f5;
-      padding: 20px;
     }
     
+    /* 導航欄 */
+    .navbar { 
+      background: white; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+      position: sticky; 
+      top: 0; 
+      z-index: 1000; 
+      padding: 15px 0; 
+    }
+    .nav-container { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 0 20px; 
+    }
+    .logo { 
+      height: 40px; 
+      font-weight: bold; 
+      font-size: 1.5rem; 
+      color: #2c3e50; 
+      text-decoration: none; 
+      display: flex; 
+      align-items: center; 
+      gap: 10px;
+    }
+    .nav-links { 
+      display: flex; 
+      gap: 30px; 
+      list-style: none; 
+    }
+    .nav-links a { 
+      color: #2c3e50; 
+      text-decoration: none; 
+      font-weight: 500; 
+      transition: color 0.3s; 
+    }
+    .nav-links a:hover { 
+      color: #DF7621; 
+    }
+
+    /* 容器與標題 */
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -42,19 +85,24 @@
       font-size: 1.1em;
     }
     
+    /* 門市網格 */
     .stores-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 25px;
       margin-top: 30px;
     }
     
+    /* 卡片樣式 */
     .store-card {
       background: #fff;
       border: 1px solid #e0e0e0;
       border-radius: 8px;
       padding: 20px;
       transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     
     .store-card:hover {
@@ -68,21 +116,23 @@
       color: #2c3e50;
       margin-bottom: 15px;
       padding-bottom: 10px;
-      border-bottom: 2px solid #3498db;
+      border-bottom: 2px solid #DF7621;
     }
     
     .store-info {
       margin-bottom: 12px;
+      color: #7f8c8d;
+      flex-grow: 1;
     }
     
     .store-info strong {
       color: #34495e;
       display: inline-block;
-      min-width: 80px;
+      min-width: 60px;
     }
     
     .store-info a {
-      color: #3498db;
+      color: #DF7621;
       text-decoration: none;
     }
     
@@ -90,8 +140,9 @@
       text-decoration: underline;
     }
     
+    /* 總公司特殊樣式 */
     .headquarters {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #DF7621 0%, #E88A3F 100%);
       color: white;
       border: none;
     }
@@ -113,6 +164,71 @@
       color: #ffd700;
     }
     
+    /* 按鈕樣式 */
+    .store-actions {
+      margin-top: auto;
+      padding-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .btn-map {
+      flex: 1;
+      text-align: center;
+      background: #f1f2f6;
+      color: #2c3e50;
+      padding: 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9em;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    
+    .btn-map:hover { 
+      background: #dfe4ea; 
+    }
+    
+    .btn-call {
+      flex: 1;
+      text-align: center;
+      background: #DF7621;
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9em;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    
+    .btn-call:hover {
+      background: #C65D1A;
+    }
+    
+    /* Google Map 嵌入樣式 */
+    .map-container {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 15px;
+      border: 1px solid #e0e0e0;
+    }
+    
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    /* 響應式設計 */
     @media (max-width: 768px) {
       .stores-grid {
         grid-template-columns: 1fr;
@@ -129,167 +245,270 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>宜加寵物生活館</h1>
-    <p class="subtitle">實體門市資訊與交通資訊</p>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-paw" style="color: #DF7621;"></i> 宜加寵物
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="stores.html" style="color: #DF7621;">門市資訊</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container" style="margin-top: 40px;">
+    <h1>全台門市據點</h1>
+    <p class="subtitle">宜加寵物生活館目前共有 12 間門市為您服務</p>
     
     <div class="stores-grid">
       <!-- 總公司 -->
       <div class="store-card headquarters">
-        <div class="store-name">宜加寵物生活館總公司</div>
+        <div class="store-name"><i class="fas fa-building"></i> 宜加寵物生活館總公司</div>
         <div class="store-info">
-          <strong>服務專線：</strong>
-          <a href="tel:02-29085835">02-2908-5835</a>
+          <strong>地址：</strong>新北市新莊區新樹路71-5號<br>
+          <strong>電話：</strong><a href="tel:02-29085835">02-2908-5835</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          新北市新莊區新樹路71-5號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.03,121.45&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區新樹路71-5號" target="_blank" class="btn-map" style="background: rgba(255,255,255,0.2); color: white;">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:02-29085835" class="btn-map" style="background: rgba(255,255,255,0.2); color: white;">
+            <i class="fas fa-phone"></i> 撥打電話
+          </a>
         </div>
       </div>
       
       <!-- 新和店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 新和店</div>
+        <div class="store-name">新和店</div>
         <div class="store-info">
-          <strong>服務專線：</strong>
-          <a href="tel:0229972211">02-2997-2211</a>
+          <strong>地址：</strong>新北市新莊區中和街28號<br>
+          <strong>電話：</strong><a href="tel:0229972211">02-2997-2211</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          242新北市新莊區中和街28號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.04377345957,121.44825366083482&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中和街28號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0229972211" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
-      
+
       <!-- 中華店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 中華店</div>
+        <div class="store-name">中華店</div>
         <div class="store-info">
-          <strong>服務電話：</strong>
-          <a href="tel:0289936000">02-8993-6000</a>
+          <strong>地址：</strong>新北市新莊區中華路二段22-1號<br>
+          <strong>電話：</strong><a href="tel:0289936000">02-8993-6000</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          242新北市新莊區中華路二段22-1號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.0448444216677,121.453486519488&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中華路二段22-1號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0289936000" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
-      
+
       <!-- 中正店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 中正店</div>
+        <div class="store-name">中正店</div>
         <div class="store-info">
-          <strong>服務電話：</strong>
-          <a href="tel:0289917700">02-8991-7700</a>
+          <strong>地址：</strong>新北市新莊區中正路380號<br>
+          <strong>電話：</strong><a href="tel:0289917700">02-8991-7700</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          242新北市新莊區中正路380號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.0342200600257,121.442976421663&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中正路380號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0289917700" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
-      
+
       <!-- 仁愛店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 仁愛店</div>
+        <div class="store-name">仁愛店</div>
         <div class="store-info">
-          <strong>服務電話：</strong>
-          <a href="tel:0229832929">02-2983-2929</a>
+          <strong>地址：</strong>新北市三重區仁愛街508號<br>
+          <strong>電話：</strong><a href="tel:0229832929">02-2983-2929</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          24149新北市三重區仁愛街508號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.082103788280826,121.4878785876342&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市三重區仁愛街508號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0229832929" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
-      
+
       <!-- 九芎店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 九芎店</div>
+        <div class="store-name">九芎店</div>
         <div class="store-info">
-          <strong>服務電話：</strong>
-          <a href="tel:0282857111">02-8285-7111</a>
+          <strong>地址：</strong>新北市蘆洲區九芎街90巷11-1號<br>
+          <strong>電話：</strong><a href="tel:0282857111">02-8285-7111</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          247新北市蘆洲區九芎街90巷11-1號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.080976586918503,121.46489604170408&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市蘆洲區九芎街90巷11-1號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0282857111" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
-      
+
       <!-- 五股店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 五股店</div>
+        <div class="store-name">五股店</div>
         <div class="store-info">
-          <strong>服務電話：</strong>
-          <a href="tel:0222952000">02-2295-2000</a>
+          <strong>地址：</strong>新北市五股區成泰路一段138號<br>
+          <strong>電話：</strong><a href="tel:0222952000">02-2295-2000</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          248新北市五股區成泰路一段138號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.0758952725763,121.435053940776&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市五股區成泰路一段138號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0222952000" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
-      
+
       <!-- 長榮店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 長榮店</div>
+        <div class="store-name">長榮店</div>
         <div class="store-info">
-          <strong>服務電話：</strong>
-          <a href="tel:0222820066">02-2282-0066</a>
+          <strong>地址：</strong>新北市蘆洲區長榮路788號<br>
+          <strong>電話：</strong><a href="tel:0222820066">02-2282-0066</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          247新北市蘆洲區長榮路788號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.09277205476275,121.46108365542734&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市蘆洲區長榮路788號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0222820066" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
-      
+
       <!-- 內湖店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 內湖店</div>
+        <div class="store-name">內湖店</div>
         <div class="store-info">
-          <strong>服務電話：</strong>
-          <a href="tel:0227961100">02-2796-1100</a>
+          <strong>地址：</strong>台北市內湖區金龍路17號<br>
+          <strong>電話：</strong><a href="tel:0227961100">02-2796-1100</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          114台北市內湖區金龍路17號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.08460893161349,121.59463993217013&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=台北市內湖區金龍路17號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0227961100" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
-      
+
       <!-- 康寧店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 康寧店</div>
+        <div class="store-name">康寧店</div>
         <div class="store-info">
-          <strong>服務電話：</strong>
-          <a href="tel:0226935678">02-2693-5678</a>
+          <strong>地址：</strong>新北市汐止區康寧街378號<br>
+          <strong>電話：</strong><a href="tel:0226935678">02-2693-5678</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          221新北市汐止區康寧街378號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.06766847256219,121.62908637907044&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市汐止區康寧街378號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0226935678" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
-      
+
       <!-- 淡水店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 淡水店</div>
+        <div class="store-name">淡水店</div>
         <div class="store-info">
-          <strong>服務電話：</strong>
-          <a href="tel:0226269555">02-2626-9555</a>
+          <strong>地址：</strong>新北市淡水區中山路170號<br>
+          <strong>電話：</strong><a href="tel:0226269555">02-2626-9555</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          251新北市淡水區中山路170號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.1739699524988,121.441238394258&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市淡水區中山路170號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0226269555" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
-      
+
       <!-- 龍安店 -->
       <div class="store-card">
-        <div class="store-name">宜加寵物生活館 龍安店</div>
+        <div class="store-name">龍安店</div>
         <div class="store-info">
-          <strong>服務電話：</strong>
-          <a href="tel:0222025000">02-2202-5000</a>
+          <strong>地址：</strong>新北市新莊區龍安路300號<br>
+          <strong>電話：</strong><a href="tel:0222025000">02-2202-5000</a>
         </div>
-        <div class="store-info">
-          <strong>地址：</strong>
-          242新北市新莊區龍安路300號
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps?q=25.0188687324957,121.423177604826&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="store-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區龍安路300號" target="_blank" class="btn-map">
+            <i class="fas fa-map-marker-alt"></i> Google 導航
+          </a>
+          <a href="tel:0222025000" class="btn-call">
+            <i class="fas fa-phone-alt"></i> 撥打電話
+          </a>
         </div>
       </div>
+
     </div>
   </div>
+  
+  <footer style="background: #2c3e50; color: white; text-align: center; padding: 30px 20px; margin-top: 60px;">
+    <p>&copy; 2026 宜加寵物用品連鎖 版權所有</p>
+  </footer>
+
 </body>
 </html>
