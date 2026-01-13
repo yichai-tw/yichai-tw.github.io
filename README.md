@@ -20,7 +20,7 @@ yichai-tw.github.io/
 ├─ assets/
 │  ├─ css/                 # CSS 樣式檔案
 │  └─ images/              # 圖片資源
-│     └─ logo_20230802094035.png
+│     └─ yichai-petshop-logo.png
 │
 ├─ content/                # 原始資料目錄（不追蹤）
 │  ├─ stores.md
@@ -82,7 +82,7 @@ cd yichai-tw.github.io
 
 ### 圖片資源
 
-- Logo 位置：`assets/images/logo_20230802094035.png`
+- Logo 位置：`assets/images/yichai-petshop-logo.png`
 - 其他圖片請放置在 `assets/images/` 目錄
 
 ## 📋 注意事項
