@@ -84,6 +84,32 @@
       margin-bottom: 40px;
       font-size: 1.1em;
     }
+
+    /* 城市分類標題 */
+    .city-section {
+      margin-top: 50px;
+      margin-bottom: 30px;
+    }
+
+    .city-section:first-of-type {
+      margin-top: 0;
+    }
+
+    .city-title {
+      font-size: 1.8em;
+      color: #DF7621;
+      font-weight: bold;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #DF7621;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .city-title i {
+      font-size: 1.2em;
+    }
     
     /* 門市網格 */
     .stores-grid {
@@ -138,30 +164,6 @@
     
     .store-info a:hover {
       text-decoration: underline;
-    }
-    
-    /* 總公司特殊樣式 */
-    .headquarters {
-      background: linear-gradient(135deg, #DF7621 0%, #E88A3F 100%);
-      color: white;
-      border: none;
-    }
-    
-    .headquarters .store-name {
-      color: white;
-      border-bottom-color: rgba(255,255,255,0.3);
-    }
-    
-    .headquarters .store-info strong {
-      color: rgba(255,255,255,0.9);
-    }
-    
-    .headquarters .store-info {
-      color: white;
-    }
-    
-    .headquarters .store-info a {
-      color: #ffd700;
     }
     
     /* 按鈕樣式 */
@@ -241,6 +243,10 @@
       h1 {
         font-size: 2em;
       }
+
+      .city-title {
+        font-size: 1.5em;
+      }
     }
   </style>
 </head>
@@ -260,254 +266,347 @@
 
   <div class="container" style="margin-top: 40px;">
     <h1>全台門市據點</h1>
-    <p class="subtitle">宜加寵物生活館目前共有 12 間門市為您服務</p>
+    <p class="subtitle">宜加寵物生活館擁有多間門市據點為您服務</p>
     
-    <div class="stores-grid">
-      <!-- 總公司 -->
-      <div class="store-card headquarters">
-        <div class="store-name"><i class="fas fa-building"></i> 宜加寵物生活館總公司</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市新莊區新樹路71-5號<br>
-          <strong>電話：</strong><a href="tel:02-29085835">02-2908-5835</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.03,121.45&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區新樹路71-5號" target="_blank" class="btn-map" style="background: rgba(255,255,255,0.2); color: white;">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:02-29085835" class="btn-map" style="background: rgba(255,255,255,0.2); color: white;">
-            <i class="fas fa-phone"></i> 撥打電話
-          </a>
-        </div>
-      </div>
-      
-      <!-- 新和店 -->
-      <div class="store-card">
-        <div class="store-name">新和店</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市新莊區中和街28號<br>
-          <strong>電話：</strong><a href="tel:0229972211">02-2997-2211</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.04377345957,121.44825366083482&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中和街28號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0229972211" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
+    <!-- 台北市 -->
+    <div class="city-section">
+      <h2 class="city-title">
+        <i class="fas fa-city"></i> 台北市
+      </h2>
+      <div class="stores-grid">
+        <!-- 內湖店 -->
+        <div class="store-card">
+          <div class="store-name">內湖店</div>
+          <div class="store-info">
+            <strong>地址：</strong>台北市內湖區金龍路17號<br>
+            <strong>電話：</strong><a href="tel:0227961100">02-2796-1100</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.08460893161349,121.59463993217013&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=台北市內湖區金龍路17號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0227961100" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- 中華店 -->
-      <div class="store-card">
-        <div class="store-name">中華店</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市新莊區中華路二段22-1號<br>
-          <strong>電話：</strong><a href="tel:0289936000">02-8993-6000</a>
+    <!-- 新北市 -->
+    <div class="city-section">
+      <h2 class="city-title">
+        <i class="fas fa-city"></i> 新北市
+      </h2>
+      <div class="stores-grid">
+        <!-- 新和店 -->
+        <div class="store-card">
+          <div class="store-name">新和店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市新莊區中和街28號<br>
+            <strong>電話：</strong><a href="tel:0229972211">02-2997-2211</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.04377345957,121.44825366083482&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中和街28號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0229972211" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
         </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.0448444216677,121.453486519488&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+
+        <!-- 中華店 -->
+        <div class="store-card">
+          <div class="store-name">中華店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市新莊區中華路二段22-1號<br>
+            <strong>電話：</strong><a href="tel:0289936000">02-8993-6000</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.0448444216677,121.453486519488&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中華路二段22-1號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0289936000" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
         </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中華路二段22-1號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0289936000" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
+
+        <!-- 中正店 -->
+        <div class="store-card">
+          <div class="store-name">中正店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市新莊區中正路380號<br>
+            <strong>電話：</strong><a href="tel:0289917700">02-8991-7700</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.0342200600257,121.442976421663&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中正路380號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0289917700" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 龍安店 -->
+        <div class="store-card">
+          <div class="store-name">龍安店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市新莊區龍安路306號<br>
+            <strong>電話：</strong><a href="tel:0222025000">02-2202-5000</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.0188687324957,121.423177604826&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區龍安路306號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0222025000" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 中港店 -->
+        <div class="store-card">
+          <div class="store-name">中港店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市新莊區中港路430號<br>
+            <strong>電話：</strong><a href="tel:0229901715">02-2990-1715</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.050784883087186,121.45204051941089&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中港路430號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0229901715" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 仁愛店 -->
+        <div class="store-card">
+          <div class="store-name">仁愛店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市三重區仁愛街508號<br>
+            <strong>電話：</strong><a href="tel:0229832929">02-2983-2929</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.082103788280826,121.4878785876342&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市三重區仁愛街508號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0229832929" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 九芎店 -->
+        <div class="store-card">
+          <div class="store-name">九芎店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市蘆洲區九芎街90巷11-1號<br>
+            <strong>電話：</strong><a href="tel:0282857111">02-8285-7111</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.080976586918503,121.46489604170408&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市蘆洲區九芎街90巷11-1號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0282857111" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 長榮店 -->
+        <div class="store-card">
+          <div class="store-name">長榮店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市蘆洲區長榮路786、788號<br>
+            <strong>電話：</strong><a href="tel:0222820066">02-2282-0066</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.09277205476275,121.46108365542734&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市蘆洲區長榮路786、788號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0222820066" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 五股店 -->
+        <div class="store-card">
+          <div class="store-name">五股店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市五股區成泰路一段138號<br>
+            <strong>電話：</strong><a href="tel:0222952000">02-2295-2000</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.0758952725763,121.435053940776&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市五股區成泰路一段138號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0222952000" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 成泰店 -->
+        <div class="store-card">
+          <div class="store-name">成泰店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市五股區成泰路3段518號<br>
+            <strong>電話：</strong><a href="tel:0229080960">02-2908-0960</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.10246021872565,121.45233081543373&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市五股區成泰路3段518號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0229080960" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 康寧店 -->
+        <div class="store-card">
+          <div class="store-name">康寧店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市汐止區康寧街378號<br>
+            <strong>電話：</strong><a href="tel:0226935678">02-2693-5678</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.06766847256219,121.62908637907044&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市汐止區康寧街378號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0226935678" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 淡水店 -->
+        <div class="store-card">
+          <div class="store-name">淡水店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市淡水區中山路170號<br>
+            <strong>電話：</strong><a href="tel:0226269555">02-2626-9555</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.1739699524988,121.441238394258&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市淡水區中山路170號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0226269555" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 泰山店 -->
+        <div class="store-card">
+          <div class="store-name">泰山店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市泰山區明志路二段152號<br>
+            <strong>電話：</strong><a href="tel:0229000650">02-2900-0650</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.050724686371264,121.42750942755018&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市泰山區明志路二段152號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0229000650" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 明志店 -->
+        <div class="store-card">
+          <div class="store-name">明志店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市泰山區明志路一段409號<br>
+            <strong>電話：</strong><a href="tel:0229830518">02-2983-0518</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=25.05717924625939,121.43082585122028&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市泰山區明志路一段409號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0229830518" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
+        </div>
+
+        <!-- 北大店 -->
+        <div class="store-card">
+          <div class="store-name">北大店</div>
+          <div class="store-info">
+            <strong>地址：</strong>新北市三峽區三樹路202-1號<br>
+            <strong>電話：</strong><a href="tel:0286725898">02-8672-5898</a>
+          </div>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps?q=24.94189437221343,121.3792083511288&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="store-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=新北市三峽區三樹路202-1號" target="_blank" class="btn-map">
+              <i class="fas fa-map-marker-alt"></i> Google 導航
+            </a>
+            <a href="tel:0286725898" class="btn-call">
+              <i class="fas fa-phone-alt"></i> 撥打電話
+            </a>
+          </div>
         </div>
       </div>
-
-      <!-- 中正店 -->
-      <div class="store-card">
-        <div class="store-name">中正店</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市新莊區中正路380號<br>
-          <strong>電話：</strong><a href="tel:0289917700">02-8991-7700</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.0342200600257,121.442976421663&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中正路380號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0289917700" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
-        </div>
-      </div>
-
-      <!-- 仁愛店 -->
-      <div class="store-card">
-        <div class="store-name">仁愛店</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市三重區仁愛街508號<br>
-          <strong>電話：</strong><a href="tel:0229832929">02-2983-2929</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.082103788280826,121.4878785876342&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市三重區仁愛街508號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0229832929" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
-        </div>
-      </div>
-
-      <!-- 九芎店 -->
-      <div class="store-card">
-        <div class="store-name">九芎店</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市蘆洲區九芎街90巷11-1號<br>
-          <strong>電話：</strong><a href="tel:0282857111">02-8285-7111</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.080976586918503,121.46489604170408&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市蘆洲區九芎街90巷11-1號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0282857111" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
-        </div>
-      </div>
-
-      <!-- 五股店 -->
-      <div class="store-card">
-        <div class="store-name">五股店</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市五股區成泰路一段138號<br>
-          <strong>電話：</strong><a href="tel:0222952000">02-2295-2000</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.0758952725763,121.435053940776&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市五股區成泰路一段138號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0222952000" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
-        </div>
-      </div>
-
-      <!-- 長榮店 -->
-      <div class="store-card">
-        <div class="store-name">長榮店</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市蘆洲區長榮路788號<br>
-          <strong>電話：</strong><a href="tel:0222820066">02-2282-0066</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.09277205476275,121.46108365542734&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市蘆洲區長榮路788號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0222820066" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
-        </div>
-      </div>
-
-      <!-- 內湖店 -->
-      <div class="store-card">
-        <div class="store-name">內湖店</div>
-        <div class="store-info">
-          <strong>地址：</strong>台北市內湖區金龍路17號<br>
-          <strong>電話：</strong><a href="tel:0227961100">02-2796-1100</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.08460893161349,121.59463993217013&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=台北市內湖區金龍路17號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0227961100" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
-        </div>
-      </div>
-
-      <!-- 康寧店 -->
-      <div class="store-card">
-        <div class="store-name">康寧店</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市汐止區康寧街378號<br>
-          <strong>電話：</strong><a href="tel:0226935678">02-2693-5678</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.06766847256219,121.62908637907044&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市汐止區康寧街378號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0226935678" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
-        </div>
-      </div>
-
-      <!-- 淡水店 -->
-      <div class="store-card">
-        <div class="store-name">淡水店</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市淡水區中山路170號<br>
-          <strong>電話：</strong><a href="tel:0226269555">02-2626-9555</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.1739699524988,121.441238394258&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市淡水區中山路170號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0226269555" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
-        </div>
-      </div>
-
-      <!-- 龍安店 -->
-      <div class="store-card">
-        <div class="store-name">龍安店</div>
-        <div class="store-info">
-          <strong>地址：</strong>新北市新莊區龍安路300號<br>
-          <strong>電話：</strong><a href="tel:0222025000">02-2202-5000</a>
-        </div>
-        <div class="map-container">
-          <iframe src="https://www.google.com/maps?q=25.0188687324957,121.423177604826&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="store-actions">
-          <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區龍安路300號" target="_blank" class="btn-map">
-            <i class="fas fa-map-marker-alt"></i> Google 導航
-          </a>
-          <a href="tel:0222025000" class="btn-call">
-            <i class="fas fa-phone-alt"></i> 撥打電話
-          </a>
-        </div>
-      </div>
-
     </div>
   </div>
   
   <footer style="background: #2c3e50; color: white; text-align: center; padding: 30px 20px; margin-top: 60px;">
-    <p>&copy; 2026 宜加寵物用品連鎖 版權所有</p>
+    <p>Copyright © 1999–2026 宜加寵物生活館. All rights reserved.</p>
   </footer>
 
 </body>

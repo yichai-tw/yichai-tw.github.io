@@ -1,408 +1,411 @@
-<!doctype html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="utf-8">
-  <title>宜加寵物用品連鎖 - 您最信賴的寵物生活夥伴</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="宜加寵物用品連鎖，提供優質寵物用品與服務，全台12間門市為您的毛孩提供最貼心的照顧。">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #f5f5f5;
-    }
-    
-    /* 導航欄 */
-    .navbar {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      padding: 15px 0;
-    }
-    
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-    }
-    
-    .logo {
-      height: 60px;
-      width: auto;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 30px;
-      list-style: none;
-    }
-    
-    .nav-links a {
-      color: #2c3e50;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s;
-      font-size: 1.1em;
-    }
-    
-    .nav-links a:hover {
-      color: #DF7621;
-    }
-    
-    /* 主要內容區 */
-    .hero {
-      background: linear-gradient(135deg, #DF7621 0%, #E88A3F 100%);
-      color: white;
-      padding: 80px 20px;
-      text-align: center;
-    }
-    
-    .hero h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
-    
-    .hero p {
-      font-size: 1.3em;
-      margin-bottom: 30px;
-      opacity: 0.95;
-    }
-    
-    .cta-button {
-      display: inline-block;
-      background: white;
-      color: #DF7621;
-      padding: 15px 40px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1em;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    }
-    
-    /* 特色區塊 */
-    .features {
-      max-width: 1200px;
-      margin: 60px auto;
-      padding: 0 20px;
-    }
-    
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
-    
-    .feature-card {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-    }
-    
-    .feature-icon {
-      font-size: 3em;
-      margin-bottom: 15px;
-    }
-    
-    .feature-card h3 {
-      color: #2c3e50;
-      margin-bottom: 15px;
-      font-size: 1.5em;
-    }
-    
-    .feature-card p {
-      color: #7f8c8d;
-      line-height: 1.8;
-    }
-    
-    /* 門市資訊區 */
-    .stores-section {
-      background: white;
-      padding: 60px 20px;
-      margin-top: 60px;
-    }
-    
-    .stores-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    
-    .stores-container h2 {
-      color: #2c3e50;
-      font-size: 2.5em;
-      margin-bottom: 20px;
-    }
-    
-    .stores-container p {
-      color: #7f8c8d;
-      font-size: 1.2em;
-      margin-bottom: 40px;
-    }
-    
-    .stores-preview {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      margin-top: 40px;
-    }
-    
-    .store-preview-card {
-      background: #f8f9fa;
-      padding: 25px;
-      border-radius: 8px;
-      border-left: 4px solid #DF7621;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    
-    .store-preview-card:hover {
-      transform: translateX(5px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    .store-preview-card h3 {
-      color: #2c3e50;
-      margin-bottom: 10px;
-      font-size: 1.3em;
-    }
-    
-    .store-preview-card p {
-      color: #7f8c8d;
-      font-size: 0.95em;
-      margin-bottom: 5px;
-    }
-    
-    .view-all-stores {
-      display: inline-block;
-      margin-top: 40px;
-      background: #DF7621;
-      color: white;
-      padding: 15px 40px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1em;
-      transition: background 0.3s, transform 0.3s;
-    }
-    
-    .view-all-stores:hover {
-      background: #C65D1A;
-      transform: translateY(-2px);
-    }
-    
-    /* 聯絡資訊區 */
-    .contact-section {
-      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-      color: white;
-      padding: 60px 20px;
-      text-align: center;
-    }
-    
-    .contact-container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .contact-container h2 {
-      font-size: 2.5em;
-      margin-bottom: 30px;
-    }
-    
-    .contact-info {
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-    
-    .contact-item {
-      font-size: 1.2em;
-    }
-    
-    .contact-item strong {
-      display: block;
-      margin-bottom: 10px;
-      color: #ecf0f1;
-    }
-    
-    .contact-item a {
-      color: #DF7621;
-      text-decoration: none;
-    }
-    
-    .contact-item a:hover {
-      text-decoration: underline;
-    }
-    
-    /* 頁尾 */
-    footer {
-      background: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-    }
-    
-    footer p {
-      opacity: 0.8;
-    }
-    
-    /* 響應式設計 */
-    @media (max-width: 768px) {
-      .nav-container {
-        flex-direction: column;
-        gap: 20px;
-      }
-      
-      .nav-links {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-      }
-      
-      .hero h1 {
-        font-size: 2em;
-      }
-      
-      .hero p {
-        font-size: 1.1em;
-      }
-      
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .stores-preview {
-        grid-template-columns: 1fr;
-      }
-      
-      .contact-info {
-        flex-direction: column;
-        gap: 30px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <!-- 導航欄 -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <img src="assets/images/logo_20230802094035.png" alt="宜加寵物用品連鎖" class="logo">
-      <ul class="nav-links">
-        <li><a href="index.html">首頁</a></li>
-        <li><a href="stores.html">門市資訊</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- 主要橫幅區 -->
-  <section class="hero">
-    <h1>宜加寵物用品連鎖</h1>
-    <p>您最信賴的寵物生活夥伴</p>
-    <a href="stores.html" class="cta-button">查看門市資訊</a>
-  </section>
-
-  <!-- 特色區塊 -->
-  <section class="features">
-    <h2 style="text-align: center; color: #2c3e50; font-size: 2.5em; margin-bottom: 20px;">為什麼選擇宜加</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🏪</div>
-        <h3>全台12間門市</h3>
-        <p>遍布新北市、台北市，方便您就近選購，提供最便利的服務</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🛒</div>
-        <h3>優質商品</h3>
-        <p>嚴選各類寵物用品，從食品、玩具到生活用品，應有盡有</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">💝</div>
-        <h3>專業服務</h3>
-        <p>專業團隊提供貼心諮詢，讓您的毛孩獲得最好的照顧</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📞</div>
-        <h3>即時服務</h3>
-        <p>各門市提供專線服務，隨時為您解答疑問與提供協助</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 門市資訊預覽 -->
-  <section class="stores-section">
-    <div class="stores-container">
-      <h2>實體門市資訊</h2>
-      <p>全台12間門市，為您的毛孩提供最貼心的服務</p>
-      <div class="stores-preview">
-        <div class="store-preview-card">
-          <h3>總公司</h3>
-          <p><strong>地址：</strong>新北市新莊區新樹路71-5號</p>
-          <p><strong>電話：</strong>02-2908-5835</p>
-        </div>
-        <div class="store-preview-card">
-          <h3>新和店</h3>
-          <p><strong>地址：</strong>新北市新莊區中和街28號</p>
-          <p><strong>電話：</strong>02-2997-2211</p>
-        </div>
-        <div class="store-preview-card">
-          <h3>內湖店</h3>
-          <p><strong>地址：</strong>台北市內湖區金龍路17號</p>
-          <p><strong>電話：</strong>02-2796-1100</p>
-        </div>
-      </div>
-      <a href="stores.html" class="view-all-stores">查看所有門市資訊</a>
-    </div>
-  </section>
-
-  <!-- 聯絡資訊 -->
-  <section class="contact-section">
-    <div class="contact-container">
-      <h2>聯絡我們</h2>
-      <div class="contact-info">
-        <div class="contact-item">
-          <strong>總公司服務專線</strong>
-          <a href="tel:02-29085835">02-2908-5835</a>
-        </div>
-        <div class="contact-item">
-          <strong>地址</strong>
-          新北市新莊區新樹路71-5號
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 頁尾 -->
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>å®å?å¯µç©?¨å???? - ?¨æ?ä¿¡è³´?å¯µ?©ç?æ´»å¤¥ä¼?/title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="å®å?å¯µç©?¨å????ï¼æ?ä¾åªè³ªå¯µ?©ç¨?è??å?ï¼å¨??2?é?å¸çº?¨ç?æ¯å­©?ä??è²¼å??ç§é¡§ã?>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+    
+    /* å°èªæ¬?*/
+    .navbar {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 15px 0;
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      height: 60px;
+      width: auto;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+    
+    .nav-links a {
+      color: #2c3e50;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: 1.1em;
+    }
+    
+    .nav-links a:hover {
+      color: #DF7621;
+    }
+    
+    /* ä¸»è??§å®¹? */
+    .hero {
+      background: linear-gradient(135deg, #DF7621 0%, #E88A3F 100%);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    
+    .hero p {
+      font-size: 1.3em;
+      margin-bottom: 30px;
+      opacity: 0.95;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background: white;
+      color: #DF7621;
+      padding: 15px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    
+    /* ?¹è²?å¡?*/
+    .features {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .feature-card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    
+    .feature-icon {
+      font-size: 3em;
+      margin-bottom: 15px;
+    }
+    
+    .feature-card h3 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-size: 1.5em;
+    }
+    
+    .feature-card p {
+      color: #7f8c8d;
+      line-height: 1.8;
+    }
+    
+    /* ?å¸è?è¨å? */
+    .stores-section {
+      background: white;
+      padding: 60px 20px;
+      margin-top: 60px;
+    }
+    
+    .stores-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .stores-container h2 {
+      color: #2c3e50;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    
+    .stores-container p {
+      color: #7f8c8d;
+      font-size: 1.2em;
+      margin-bottom: 40px;
+    }
+    
+    .stores-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+    
+    .store-preview-card {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 8px;
+      border-left: 4px solid #DF7621;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .store-preview-card:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .store-preview-card h3 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 1.3em;
+    }
+    
+    .store-preview-card p {
+      color: #7f8c8d;
+      font-size: 0.95em;
+      margin-bottom: 5px;
+    }
+    
+    .view-all-stores {
+      display: inline-block;
+      margin-top: 40px;
+      background: #DF7621;
+      color: white;
+      padding: 15px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+      transition: background 0.3s, transform 0.3s;
+    }
+    
+    .view-all-stores:hover {
+      background: #C65D1A;
+      transform: translateY(-2px);
+    }
+    
+    /* ?¯çµ¡è³è?? */
+    .contact-section {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .contact-container h2 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+    }
+    
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .contact-item {
+      font-size: 1.2em;
+    }
+    
+    .contact-item strong {
+      display: block;
+      margin-bottom: 10px;
+      color: #ecf0f1;
+    }
+    
+    .contact-item a {
+      color: #DF7621;
+      text-decoration: none;
+    }
+    
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+    
+    /* ?å°¾ */
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    
+    footer p {
+      opacity: 0.8;
+    }
+    
+    /* ?¿æ?å¼è¨­è¨?*/
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .hero h1 {
+        font-size: 2em;
+      }
+      
+      .hero p {
+        font-size: 1.1em;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .stores-preview {
+        grid-template-columns: 1fr;
+      }
+      
+      .contact-info {
+        flex-direction: column;
+        gap: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- å°èªæ¬?-->
+  <nav class="navbar">
+    <div class="nav-container">
+      <img src="assets/images/logo_20230802094035.png" alt="å®å?å¯µç©?¨å????" class="logo">
+      <ul class="nav-links">
+        <li><a href="index.html">é¦é?</a></li>
+        <li><a href="stores.html">?å¸è?è¨?/a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ä¸»è?æ©«å?? -->
+  <section class="hero">
+    <h1>å®å?å¯µç©?¨å????</h1>
+    <p>?¨æ?ä¿¡è³´?å¯µ?©ç?æ´»å¤¥ä¼?/p>
+    <a href="stores.html" class="cta-button">?¥ç??å¸è?è¨?/a>
+  </section>
+
+  <!-- ?¹è²?å¡?-->
+  <section class="features">
+    <h2 style="text-align: center; color: #2c3e50; font-size: 2.5em; margin-bottom: 20px;">?ºä?éº¼é¸?å???/h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">?ª</div>
+        <h3>?¨å°12?é?å¸?/h3>
+        <p>?å??°å?å¸ãå°?å?ï¼æ¹ä¾¿æ¨å°±è??¸è³¼ï¼æ?ä¾æ?ä¾¿å©?æ???/p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">??</div>
+        <h3>?ªè³ª?å?</h3>
+        <p>?´é¸?é?å¯µç©?¨å?ï¼å?é£å??ç©?·å°?æ´»?¨å?ï¼æ??ç¡??/p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">??</div>
+        <h3>å°æ¥­?å?</h3>
+        <p>å°æ¥­?é??ä?è²¼å?è«®è©¢ï¼è??¨ç?æ¯å­©?²å??å¥½ç??§é¡§</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">??</div>
+        <h3>?³æ??å?</h3>
+        <p>?é?å¸æ?ä¾å?ç·æ??ï??¨æ??ºæ¨è§???å??æ?ä¾å???/p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ?å¸è?è¨é?è¦?-->
+  <section class="stores-section">
+    <div class="stores-container">
+      <h2>å¯¦é??å¸è?è¨?/h2>
+      <p>?¨å°12?é?å¸ï??ºæ¨?æ?å­©æ?ä¾æ?è²¼å??æ???/p>
+      <div class="stores-preview">
+        <div class="store-preview-card">
+          <h3>ç¸½å¬??/h3>
+          <p><strong>?°å?ï¼?/strong>?°å?å¸æ°?å??°æ¨¹è·?1-5??/p>
+          <p><strong>?»è©±ï¼?/strong></p>
+        </div>
+        <div class="store-preview-card">
+          <h3>?°å?åº?/h3>
+          <p><strong>?°å?ï¼?/strong>?°å?å¸æ°?å?ä¸­å?è¡?8??/p>
+          <p><strong>?»è©±ï¼?/strong>02-2997-2211</p>
+        </div>
+        <div class="store-preview-card">
+          <h3>?§æ?åº?/h3>
+          <p><strong>?°å?ï¼?/strong>?°å?å¸å§æ¹å??é?è·?7??/p>
+          <p><strong>?»è©±ï¼?/strong>02-2796-1100</p>
+        </div>
+      </div>
+      <a href="stores.html" class="view-all-stores">?¥ç???é?å¸è?è¨?/a>
+    </div>
+  </section>
+
+  <!-- ?¯çµ¡è³è? -->
+  <section class="contact-section">
+    <div class="contact-container">
+      <h2>?¯çµ¡?å?/h2>
+      <div class="contact-info">
+        <div class="contact-item">
+          <strong>ç¸½å¬?¸æ??å?ç·?/strong>
+          <a href="tel:02-29085835"></a>
+        </div>
+        <div class="contact-item">
+          <strong>?°å?</strong>
+          ?°å?å¸æ°?å??°æ¨¹è·?1-5??
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ?å°¾ -->
   <footer>
-    <p>&copy; 2026 宜加寵物用品連鎖 版權所有</p>
-  </footer>
-</body>
-</html>
+    <div style="margin-bottom: 20px;">
+      <a href="https://lin.ee/79ysbfnm"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="36" border="0"></a>
+    </div>
+    <p>Copyright © 1999–2026 宜加寵物生活館. All rights reserved.</p>
+  </footer>
+</body>
+</html>
