@@ -222,12 +222,35 @@
       overflow: hidden;
       margin-top: 15px;
       border: 1px solid #e0e0e0;
+      position: relative;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .map-container::before {
+      content: '載入地圖中...';
+      position: absolute;
+      color: #7f8c8d;
+      font-size: 0.9em;
+      z-index: 1;
     }
     
     .map-container iframe {
       width: 100%;
       height: 100%;
       border: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .map-container iframe.loaded {
+      opacity: 1;
+    }
+    
+    .map-container.loaded::before {
+      display: none;
     }
     
     /* 響應式設計 */
@@ -282,7 +305,7 @@
             <strong>電話：</strong><a href="tel:0227961100">02-2796-1100</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.08460893161349,121.59463993217013&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.08460893161349,121.59463993217013&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=台北市內湖區金龍路17號" target="_blank" class="btn-map">
@@ -310,7 +333,7 @@
             <strong>電話：</strong><a href="tel:0229972211">02-2997-2211</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.04377345957,121.44825366083482&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.04377345957,121.44825366083482&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中和街28號" target="_blank" class="btn-map">
@@ -330,7 +353,7 @@
             <strong>電話：</strong><a href="tel:0289936000">02-8993-6000</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.0448444216677,121.453486519488&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.0448444216677,121.453486519488&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中華路二段22-1號" target="_blank" class="btn-map">
@@ -350,7 +373,7 @@
             <strong>電話：</strong><a href="tel:0289917700">02-8991-7700</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.0342200600257,121.442976421663&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.0342200600257,121.442976421663&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中正路380號" target="_blank" class="btn-map">
@@ -370,7 +393,7 @@
             <strong>電話：</strong><a href="tel:0222025000">02-2202-5000</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.0188687324957,121.423177604826&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.0188687324957,121.423177604826&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區龍安路306號" target="_blank" class="btn-map">
@@ -390,7 +413,7 @@
             <strong>電話：</strong><a href="tel:0229901715">02-2990-1715</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.050784883087186,121.45204051941089&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.050784883087186,121.45204051941089&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市新莊區中港路430號" target="_blank" class="btn-map">
@@ -410,7 +433,7 @@
             <strong>電話：</strong><a href="tel:0229832929">02-2983-2929</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.082103788280826,121.4878785876342&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.082103788280826,121.4878785876342&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市三重區仁愛街508號" target="_blank" class="btn-map">
@@ -430,7 +453,7 @@
             <strong>電話：</strong><a href="tel:0282857111">02-8285-7111</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.080976586918503,121.46489604170408&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.080976586918503,121.46489604170408&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市蘆洲區九芎街90巷11-1號" target="_blank" class="btn-map">
@@ -450,7 +473,7 @@
             <strong>電話：</strong><a href="tel:0222820066">02-2282-0066</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.09277205476275,121.46108365542734&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.09277205476275,121.46108365542734&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市蘆洲區長榮路786、788號" target="_blank" class="btn-map">
@@ -470,7 +493,7 @@
             <strong>電話：</strong><a href="tel:0222952000">02-2295-2000</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.0758952725763,121.435053940776&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.0758952725763,121.435053940776&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市五股區成泰路一段138號" target="_blank" class="btn-map">
@@ -490,7 +513,7 @@
             <strong>電話：</strong><a href="tel:0229080960">02-2908-0960</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.10246021872565,121.45233081543373&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.10246021872565,121.45233081543373&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市五股區成泰路3段518號" target="_blank" class="btn-map">
@@ -510,7 +533,7 @@
             <strong>電話：</strong><a href="tel:0226935678">02-2693-5678</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.06766847256219,121.62908637907044&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.06766847256219,121.62908637907044&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市汐止區康寧街378號" target="_blank" class="btn-map">
@@ -530,7 +553,7 @@
             <strong>電話：</strong><a href="tel:0226269555">02-2626-9555</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.1739699524988,121.441238394258&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.1739699524988,121.441238394258&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市淡水區中山路170號" target="_blank" class="btn-map">
@@ -550,7 +573,7 @@
             <strong>電話：</strong><a href="tel:0229000650">02-2900-0650</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.050724686371264,121.42750942755018&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.050724686371264,121.42750942755018&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市泰山區明志路二段152號" target="_blank" class="btn-map">
@@ -570,7 +593,7 @@
             <strong>電話：</strong><a href="tel:0229830518">02-2983-0518</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=25.05717924625939,121.43082585122028&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=25.05717924625939,121.43082585122028&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市泰山區明志路一段409號" target="_blank" class="btn-map">
@@ -590,7 +613,7 @@
             <strong>電話：</strong><a href="tel:0286725898">02-8672-5898</a>
           </div>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps?q=24.94189437221343,121.3792083511288&hl=zh-TW&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
+            <iframe data-src="https://www.google.com/maps?q=24.94189437221343,121.3792083511288&hl=zh-TW&z=15&output=embed" allowfullscreen=""></iframe>
           </div>
           <div class="store-actions">
             <a href="https://www.google.com/maps/search/?api=1&query=新北市三峽區三樹路202-1號" target="_blank" class="btn-map">
@@ -608,6 +631,92 @@
   <footer style="background: #2c3e50; color: white; text-align: center; padding: 30px 20px; margin-top: 60px;">
     <p>Copyright © 1999–2026 宜加寵物生活館. All rights reserved.</p>
   </footer>
+
+  <script>
+    // 延遲載入地圖機制
+    (function() {
+      let mapsLoaded = false;
+      let loadTimer = null;
+      const DELAY_TIME = 2000; // 延遲 2 秒後開始載入
+      
+      // 載入單個地圖
+      function loadMap(iframe) {
+        if (iframe.dataset.src && !iframe.src) {
+          iframe.src = iframe.dataset.src;
+          iframe.onload = function() {
+            iframe.classList.add('loaded');
+            iframe.parentElement.classList.add('loaded');
+          };
+        }
+      }
+      
+      // 使用 Intersection Observer 來檢測可見的地圖
+      function initLazyLoad() {
+        const mapContainers = document.querySelectorAll('.map-container');
+        
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting && mapsLoaded) {
+                const iframe = entry.target.querySelector('iframe');
+                if (iframe) {
+                  loadMap(iframe);
+                  observer.unobserve(entry.target);
+                }
+              }
+            });
+          }, {
+            rootMargin: '50px' // 提前 50px 開始載入
+          });
+          
+          mapContainers.forEach(function(container) {
+            observer.observe(container);
+          });
+        } else {
+          // 不支援 Intersection Observer 的瀏覽器，直接載入所有地圖
+          mapContainers.forEach(function(container) {
+            const iframe = container.querySelector('iframe');
+            if (iframe) {
+              loadMap(iframe);
+            }
+          });
+        }
+      }
+      
+      // 頁面載入完成後，延遲幾秒才開始載入地圖
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          loadTimer = setTimeout(function() {
+            mapsLoaded = true;
+            initLazyLoad();
+          }, DELAY_TIME);
+        });
+      } else {
+        loadTimer = setTimeout(function() {
+          mapsLoaded = true;
+          initLazyLoad();
+        }, DELAY_TIME);
+      }
+      
+      // 如果用戶開始滾動，提前開始載入
+      let scrollStarted = false;
+      window.addEventListener('scroll', function() {
+        if (!scrollStarted && mapsLoaded) {
+          scrollStarted = true;
+          const mapContainers = document.querySelectorAll('.map-container');
+          mapContainers.forEach(function(container) {
+            const rect = container.getBoundingClientRect();
+            if (rect.top < window.innerHeight + 100) {
+              const iframe = container.querySelector('iframe');
+              if (iframe && !iframe.src) {
+                loadMap(iframe);
+              }
+            }
+          });
+        }
+      }, { passive: true });
+    })();
+  </script>
 
 </body>
 </html>

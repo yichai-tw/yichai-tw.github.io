@@ -5,393 +5,227 @@
   <title>宜加寵物用品連鎖 - 您最信賴的寵物生活夥伴</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="宜加寵物用品連鎖，提供優質寵物用品與服務，多間門市為您的毛孩提供最貼心的照顧。">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #f5f5f5;
-    }
-    
-    /* 導航欄 */
-    .navbar {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      padding: 15px 0;
-    }
-    
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-    }
-    
-    .logo {
-      height: 60px;
-      width: auto;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 30px;
-      list-style: none;
-    }
-    
-    .nav-links a {
-      color: #2c3e50;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s;
-      font-size: 1.1em;
-    }
-    
-    .nav-links a:hover {
-      color: #DF7621;
-    }
-    
-    /* 主要內容區 */
-    .hero {
-      background: linear-gradient(135deg, #DF7621 0%, #E88A3F 100%);
-      color: white;
-      padding: 80px 20px;
-      text-align: center;
-    }
-    
-    .hero h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
-    
-    .hero p {
-      font-size: 1.3em;
-      margin-bottom: 30px;
-      opacity: 0.95;
-    }
-    
-    .cta-button {
-      display: inline-block;
-      background: white;
-      color: #DF7621;
-      padding: 15px 40px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1em;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    }
-    
-    /* 特色區塊 */
-    .features {
-      max-width: 1200px;
-      margin: 60px auto;
-      padding: 0 20px;
-    }
-    
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
-    
-    .feature-card {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-    }
-    
-    .feature-icon {
-      font-size: 3em;
-      margin-bottom: 15px;
-    }
-    
-    .feature-card h3 {
-      color: #2c3e50;
-      margin-bottom: 15px;
-      font-size: 1.5em;
-    }
-    
-    .feature-card p {
-      color: #7f8c8d;
-      line-height: 1.8;
-    }
-    
-    /* 門市資訊區 */
-    .stores-section {
-      background: white;
-      padding: 60px 20px;
-      margin-top: 60px;
-    }
-    
-    .stores-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    
-    .stores-container h2 {
-      color: #2c3e50;
-      font-size: 2.5em;
-      margin-bottom: 20px;
-    }
-    
-    .stores-container p {
-      color: #7f8c8d;
-      font-size: 1.2em;
-      margin-bottom: 40px;
-    }
-    
-    .stores-preview {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      margin-top: 40px;
-    }
-    
-    .store-preview-card {
-      background: #f8f9fa;
-      padding: 25px;
-      border-radius: 8px;
-      border-left: 4px solid #DF7621;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    
-    .store-preview-card:hover {
-      transform: translateX(5px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    .store-preview-card h3 {
-      color: #2c3e50;
-      margin-bottom: 10px;
-      font-size: 1.3em;
-    }
-    
-    .store-preview-card p {
-      color: #7f8c8d;
-      font-size: 0.95em;
-      margin-bottom: 5px;
-    }
-    
-    .view-all-stores {
-      display: inline-block;
-      margin-top: 40px;
-      background: #DF7621;
-      color: white;
-      padding: 15px 40px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1em;
-      transition: background 0.3s, transform 0.3s;
-    }
-    
-    .view-all-stores:hover {
-      background: #C65D1A;
-      transform: translateY(-2px);
-    }
-    
-    /* 聯絡資訊區 */
-    .contact-section {
-      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-      color: white;
-      padding: 60px 20px;
-      text-align: center;
-    }
-    
-    .contact-container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .contact-container h2 {
-      font-size: 2.5em;
-      margin-bottom: 30px;
-    }
-    
-    .contact-info {
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-    
-    .contact-item {
-      font-size: 1.2em;
-    }
-    
-    .contact-item strong {
-      display: block;
-      margin-bottom: 10px;
-      color: #ecf0f1;
-    }
-    
-    .contact-item a {
-      color: #DF7621;
-      text-decoration: none;
-    }
-    
-    .contact-item a:hover {
-      text-decoration: underline;
-    }
-    
-    /* 頁尾 */
-    footer {
-      background: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-    }
-    
-    footer p {
-      opacity: 0.8;
-    }
-    
-    /* 響應式設計 */
-    @media (max-width: 768px) {
-      .nav-container {
-        flex-direction: column;
-        gap: 20px;
-      }
-      
-      .nav-links {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-      }
-      
-      .hero h1 {
-        font-size: 2em;
-      }
-      
-      .hero p {
-        font-size: 1.1em;
-      }
-      
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .stores-preview {
-        grid-template-columns: 1fr;
-      }
-      
-      .contact-info {
-        flex-direction: column;
-        gap: 30px;
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#DF7621',
+            'primary-dark': '#C65D1A',
+            'primary-light': '#E88A3F',
+            dark: '#2c3e50',
+            'dark-light': '#34495e',
+            gray: '#7f8c8d',
+          }
+        }
       }
     }
-  </style>
+  </script>
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800">
   <!-- 導航欄 -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <img src="assets/images/logo_20230802094035.png" alt="宜加寵物用品連鎖" class="logo">
-      <ul class="nav-links">
-        <li><a href="index.html">首頁</a></li>
-        <li><a href="stores.html">門市資訊</a></li>
+  <nav class="bg-white shadow-md sticky top-0 z-50 py-4">
+    <div class="max-w-7xl mx-auto px-5 flex justify-between items-center flex-col md:flex-row gap-5 md:gap-0">
+      <img src="assets/images/logo_20230802094035.png" alt="宜加寵物用品連鎖" class="h-15 w-auto">
+      <ul class="flex gap-8 list-none flex-col md:flex-row text-center md:text-left">
+        <li><a href="index.html" class="text-dark font-medium text-lg transition-colors hover:text-primary no-underline">首頁</a></li>
+        <li><a href="stores.html" class="text-dark font-medium text-lg transition-colors hover:text-primary no-underline">門市資訊</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- 主要橫幅區 -->
-  <section class="hero">
-    <h1>宜加寵物用品連鎖</h1>
-    <p>您最信賴的寵物生活夥伴</p>
-    <a href="stores.html" class="cta-button">查看門市資訊</a>
+  <section class="bg-gradient-to-br from-primary to-primary-light text-white py-24 px-5 text-center relative overflow-hidden">
+    <div class="relative z-10">
+      <h1 class="text-5xl md:text-6xl font-bold mb-5 drop-shadow-lg">宜加寵物用品連鎖</h1>
+      <p class="text-xl md:text-2xl mb-4 opacity-95">您最信賴的寵物生活夥伴</p>
+      <p class="text-lg md:text-xl opacity-90 mb-10">自1999年以來，陪伴您與毛孩的每一個美好時刻</p>
+      <a href="stores.html" class="inline-block bg-white text-primary px-10 py-4 rounded-full font-bold text-lg no-underline mt-2 transition-all hover:-translate-y-0.5 hover:shadow-xl shadow-lg">探索門市據點</a>
+    </div>
+  </section>
+
+  <!-- 品牌故事區 -->
+  <section class="bg-white py-20 px-5">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+      <div>
+        <h2 class="text-4xl text-dark mb-6 relative pb-4 title-underline">關於宜加</h2>
+        <p class="text-gray text-lg leading-relaxed mb-5">宜加寵物用品連鎖成立於1999年，深耕寵物用品零售市場超過25年。我們致力於為每一位寵物主人提供最優質的商品與最專業的服務。</p>
+        <p class="text-gray text-lg leading-relaxed mb-10">從新北市到台北市，我們建立了多間實體門市，讓您能夠就近選購，享受便利的購物體驗。無論是寵物食品、玩具、生活用品，還是專業諮詢服務，宜加都是您最值得信賴的選擇。</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+          <div class="text-center p-5 bg-gray-50 rounded-lg">
+            <div class="text-4xl font-bold text-primary mb-2">25+</div>
+            <div class="text-gray text-sm">年專業經驗</div>
+          </div>
+          <div class="text-center p-5 bg-gray-50 rounded-lg">
+            <div class="text-4xl font-bold text-primary mb-2">多間</div>
+            <div class="text-gray text-sm">實體門市</div>
+          </div>
+          <div class="text-center p-5 bg-gray-50 rounded-lg">
+            <div class="text-4xl font-bold text-primary mb-2">100%</div>
+            <div class="text-gray text-sm">用心服務</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gradient-to-br from-primary to-primary-light rounded-2xl p-10 text-white text-center shadow-xl" style="box-shadow: 0 10px 30px rgba(223, 118, 33, 0.3);">
+        <h3 class="text-3xl mb-5">我們的使命</h3>
+        <p class="text-lg opacity-95 leading-relaxed">讓每一隻毛孩都能獲得最好的照顧，讓每一位主人都能享受與寵物共度的美好時光。宜加不僅是寵物用品店，更是您與毛孩之間情感的橋樑。</p>
+      </div>
+    </div>
   </section>
 
   <!-- 特色區塊 -->
-  <section class="features">
-    <h2 style="text-align: center; color: #2c3e50; font-size: 2.5em; margin-bottom: 20px;">為什麼選擇宜加</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🏪</div>
-        <h3>多間門市</h3>
-        <p>遍布新北市、台北市，方便您就近選購，提供最便利的服務</p>
+  <section class="max-w-7xl mx-auto my-20 px-5">
+    <h2 class="text-center text-4xl text-dark mb-4">為什麼選擇宜加</h2>
+    <p class="text-center text-gray text-xl mb-12">專業、便利、貼心，是我們對您的承諾</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+      <div class="bg-white p-10 rounded-2xl shadow-md text-center transition-all hover:-translate-y-1 hover:shadow-lg border-t-4 border-primary">
+        <div class="text-5xl mb-5">🏪</div>
+        <h3 class="text-dark mb-4 text-2xl">多間門市</h3>
+        <p class="text-gray leading-relaxed">遍布新北市、台北市，方便您就近選購，提供最便利的服務</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🛒</div>
-        <h3>優質商品</h3>
-        <p>嚴選各類寵物用品，從食品、玩具到生活用品，應有盡有</p>
+      <div class="bg-white p-10 rounded-2xl shadow-md text-center transition-all hover:-translate-y-1 hover:shadow-lg border-t-4 border-primary">
+        <div class="text-5xl mb-5">🛒</div>
+        <h3 class="text-dark mb-4 text-2xl">優質商品</h3>
+        <p class="text-gray leading-relaxed">嚴選各類寵物用品，從食品、玩具到生活用品，應有盡有</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">💝</div>
-        <h3>專業服務</h3>
-        <p>專業團隊提供貼心諮詢，讓您的毛孩獲得最好的照顧</p>
+      <div class="bg-white p-10 rounded-2xl shadow-md text-center transition-all hover:-translate-y-1 hover:shadow-lg border-t-4 border-primary">
+        <div class="text-5xl mb-5">💝</div>
+        <h3 class="text-dark mb-4 text-2xl">專業服務</h3>
+        <p class="text-gray leading-relaxed">專業團隊提供貼心諮詢，讓您的毛孩獲得最好的照顧</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">📞</div>
-        <h3>即時服務</h3>
-        <p>各門市提供專線服務，隨時為您解答疑問與提供協助</p>
+      <div class="bg-white p-10 rounded-2xl shadow-md text-center transition-all hover:-translate-y-1 hover:shadow-lg border-t-4 border-primary">
+        <div class="text-5xl mb-5">📞</div>
+        <h3 class="text-dark mb-4 text-2xl">即時服務</h3>
+        <p class="text-gray leading-relaxed">各門市提供專線服務，隨時為您解答疑問與提供協助</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 服務項目區 -->
+  <section class="bg-gradient-to-br from-gray-50 to-gray-100 py-20 px-5">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-center text-4xl text-dark mb-4">服務項目</h2>
+      <p class="text-center text-gray text-xl mb-12">全方位滿足您與毛孩的需求</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mt-10">
+        <div class="bg-white p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+          <div class="text-4xl mb-4">🍖</div>
+          <h4 class="text-dark text-lg mb-2">寵物食品</h4>
+        </div>
+        <div class="bg-white p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+          <div class="text-4xl mb-4">🎾</div>
+          <h4 class="text-dark text-lg mb-2">玩具用品</h4>
+        </div>
+        <div class="bg-white p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+          <div class="text-4xl mb-4">🛏️</div>
+          <h4 class="text-dark text-lg mb-2">生活用品</h4>
+        </div>
+        <div class="bg-white p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+          <div class="text-4xl mb-4">💊</div>
+          <h4 class="text-dark text-lg mb-2">保健用品</h4>
+        </div>
+        <div class="bg-white p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+          <div class="text-4xl mb-4">🦴</div>
+          <h4 class="text-dark text-lg mb-2">零食點心</h4>
+        </div>
+        <div class="bg-white p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+          <div class="text-4xl mb-4">💬</div>
+          <h4 class="text-dark text-lg mb-2">專業諮詢</h4>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- 門市資訊預覽 -->
-  <section class="stores-section">
-    <div class="stores-container">
-      <h2>實體門市資訊</h2>
-      <p>多間門市，為您的毛孩提供最貼心的服務</p>
-      <div class="stores-preview">
-        <div class="store-preview-card">
-          <h3>新和店</h3>
-          <p><strong>地址：</strong>新北市新莊區中和街28號</p>
-          <p><strong>電話：</strong>02-2997-2211</p>
+  <section class="bg-white py-20 px-5">
+    <div class="max-w-7xl mx-auto text-center">
+      <h2 class="text-4xl text-dark mb-4">門市據點</h2>
+      <p class="text-gray text-xl mb-12">多間門市，為您的毛孩提供最貼心的服務</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mt-10">
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">內湖店</h3>
+          <p class="text-gray text-sm">台北市內湖區</p>
         </div>
-        <div class="store-preview-card">
-          <h3>內湖店</h3>
-          <p><strong>地址：</strong>台北市內湖區金龍路17號</p>
-          <p><strong>電話：</strong>02-2796-1100</p>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">新和店</h3>
+          <p class="text-gray text-sm">新北市新莊區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">中華店</h3>
+          <p class="text-gray text-sm">新北市新莊區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">中正店</h3>
+          <p class="text-gray text-sm">新北市新莊區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">龍安店</h3>
+          <p class="text-gray text-sm">新北市新莊區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">中港店</h3>
+          <p class="text-gray text-sm">新北市新莊區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">仁愛店</h3>
+          <p class="text-gray text-sm">新北市三重區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">九芎店</h3>
+          <p class="text-gray text-sm">新北市蘆洲區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">長榮店</h3>
+          <p class="text-gray text-sm">新北市蘆洲區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">五股店</h3>
+          <p class="text-gray text-sm">新北市五股區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">成泰店</h3>
+          <p class="text-gray text-sm">新北市五股區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">康寧店</h3>
+          <p class="text-gray text-sm">新北市汐止區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">淡水店</h3>
+          <p class="text-gray text-sm">新北市淡水區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">泰山店</h3>
+          <p class="text-gray text-sm">新北市泰山區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">明志店</h3>
+          <p class="text-gray text-sm">新北市泰山區</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-primary transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
+          <h3 class="text-dark mb-2 text-xl">北大店</h3>
+          <p class="text-gray text-sm">新北市三峽區</p>
         </div>
       </div>
-      <a href="stores.html" class="view-all-stores">查看所有門市資訊</a>
+      <a href="stores.html" class="inline-block mt-10 bg-primary text-white px-10 py-4 rounded-full font-bold text-lg no-underline transition-all hover:bg-primary-dark hover:-translate-y-0.5">查看完整門市資訊</a>
     </div>
   </section>
 
   <!-- 聯絡資訊 -->
-  <section class="contact-section">
-    <div class="contact-container">
-      <h2>聯絡我們</h2>
-      <p style="max-width: 600px; margin: 20px auto 0; font-size: 1.1em;">如有任何問題，歡迎直接聯繫各門市，由門市同仁為您服務。</p>
+  <section class="bg-gradient-to-br from-dark to-dark-light text-white py-20 px-5 text-center">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl mb-5">聯絡我們</h2>
+      <p class="max-w-2xl mx-auto text-lg opacity-90 leading-relaxed mt-5">如有任何問題，歡迎直接聯繫各門市，由門市同仁為您服務。我們也歡迎您加入我們的 LINE 官方帳號，隨時掌握最新優惠與活動資訊。</p>
     </div>
   </section>
 
   <!-- 頁尾 -->
-  <footer>
-    <div style="margin-bottom: 20px;">
+  <footer class="bg-dark text-white text-center py-10 px-5">
+    <div class="mb-5">
       <a href="https://lin.ee/79ysbfnm"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="36" border="0"></a>
     </div>
-    <p>Copyright © 1999–2026 宜加寵物生活館. All rights reserved.</p>
+    <p class="opacity-80 mt-4">Copyright © 1999–2026 宜加寵物生活館. All rights reserved.</p>
   </footer>
 </body>
 </html>
