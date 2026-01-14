@@ -1,5 +1,11 @@
 // 門市定位系統
 (function() {
+  // 偵測 LINE 內建瀏覽器
+  function isLineBrowser() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    return /Line/i.test(ua) || /Naver/i.test(ua);
+  }
+
   // 所有門市資料
   const stores = [
     { name: '內湖店', lat: 25.08460893161349, lng: 121.59463993217013, address: '台北市內湖區金龍路17號', phone: '02-2796-1100', mapUrl: 'https://maps.app.goo.gl/njRYqtSPN6fTKvKZ7', city: '台北市' },
@@ -53,6 +59,31 @@
     const container = document.getElementById('nearest-store-container');
     if (!container) return;
 
+    const isLine = isLineBrowser();
+    const mapUrl = `https://www.google.com/maps?q=${store.lat},${store.lng}`;
+    
+    // 如果是 LINE 瀏覽器，不顯示 iframe，改用外開連結
+    const mapSection = isLine ? `
+      <div class="mb-4 p-4 bg-gray-50 rounded-lg text-center">
+        <p class="text-gray-600 mb-3">點擊下方按鈕在 Google Maps App 中開啟地圖</p>
+        <a href="${mapUrl}" target="_blank" class="inline-block bg-[#DF7621] text-white text-center py-3 px-6 rounded-lg text-base font-medium hover:bg-[#C65D1A] transition-colors no-underline">
+          <i class="fas fa-map-marker-alt mr-2"></i> 在 Google Maps 中開啟
+        </a>
+      </div>
+    ` : `
+      <div class="mb-4 rounded-lg overflow-hidden" style="height: 300px;">
+        <iframe 
+          src="https://www.google.com/maps?q=${store.lat},${store.lng}&hl=zh-TW&z=15&output=embed" 
+          width="100%" 
+          height="100%" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    `;
+
     container.innerHTML = `
       <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-8">
         <div class="flex items-center gap-2 mb-4">
@@ -64,18 +95,9 @@
           <p class="text-gray-600 mb-1"><strong>地址：</strong>${store.address}</p>
           <p class="text-gray-600 mb-1"><strong>電話：</strong><a href="tel:${store.phone.replace(/-/g, '')}" class="text-[#DF7621] hover:underline">${store.phone}</a></p>
           <p class="text-gray-600 mb-4"><strong>距離：</strong>約 ${store.distance} 公里</p>
+          ${store.accuracy ? `<p class="text-gray-500 text-sm">定位精度: 約 ${store.accuracy} 公尺</p>` : ''}
         </div>
-        <div class="mb-4 rounded-lg overflow-hidden" style="height: 300px;">
-          <iframe 
-            src="https://www.google.com/maps?q=${store.lat},${store.lng}&hl=zh-TW&z=15&output=embed" 
-            width="100%" 
-            height="100%" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-        </div>
+        ${mapSection}
         <div class="flex gap-3">
           <a href="${store.mapUrl}" target="_blank" class="flex-1 bg-[#DF7621] text-white text-center py-2 md:py-3 px-3 md:px-4 rounded-lg text-sm md:text-base font-medium hover:bg-[#C65D1A] transition-colors no-underline">
             <i class="fas fa-map-marker-alt mr-2"></i> Google 導航
