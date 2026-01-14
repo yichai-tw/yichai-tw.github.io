@@ -3,6 +3,19 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
 }
 
+/* PC 版最大寬度限制，避免在超寬螢幕上失真 */
+@media (min-width: 1024px) {
+  body {
+    max-width: 1920px;
+    margin: 0 auto;
+  }
+  
+  /* 確保主要內容區域在超寬螢幕上居中 */
+  main {
+    max-width: 100%;
+  }
+}
+
 /* Hero 區塊背景裝飾 */
 .hero::before {
   content: '';
