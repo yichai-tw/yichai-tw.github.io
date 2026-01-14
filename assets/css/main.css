@@ -39,3 +39,18 @@ body {
   height: 4px;
   background: #DF7621;
 }
+
+/* 頁尾響應式樣式 */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+/* PC 版頁尾兩欄顯示 */
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

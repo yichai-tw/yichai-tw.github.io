@@ -77,15 +77,26 @@
           </iframe>
         </div>
         <div class="flex gap-3">
-          <a href="${store.mapUrl}" target="_blank" class="flex-1 bg-[#DF7621] text-white text-center py-3 px-4 rounded-lg font-medium hover:bg-[#C65D1A] transition-colors no-underline">
+          <a href="${store.mapUrl}" target="_blank" class="flex-1 bg-[#DF7621] text-white text-center py-2 md:py-3 px-3 md:px-4 rounded-lg text-sm md:text-base font-medium hover:bg-[#C65D1A] transition-colors no-underline">
             <i class="fas fa-map-marker-alt mr-2"></i> Google 導航
           </a>
-          <a href="tel:${store.phone.replace(/-/g, '')}" class="flex-1 bg-gray-100 text-gray-800 text-center py-3 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors no-underline">
+          <a href="tel:${store.phone.replace(/-/g, '')}" class="flex-1 bg-gray-100 text-gray-800 text-center py-2 md:py-3 px-3 md:px-4 rounded-lg text-sm md:text-base font-medium hover:bg-gray-200 transition-colors no-underline">
             <i class="fas fa-phone-alt mr-2"></i> 撥打電話
           </a>
         </div>
       </div>
     `;
+  }
+
+  // 從地址中提取「XX市XX區」格式
+  function extractCityDistrict(address) {
+    // 匹配「XX市XX區」格式，例如：台北市內湖區、新北市新莊區
+    const match = address.match(/(台北市|新北市)([^區]+區)/);
+    if (match) {
+      return match[1] + match[2]; // 返回「XX市XX區」
+    }
+    // 如果匹配失敗，返回原城市名稱
+    return address.includes('台北市') ? '台北市' : '新北市';
   }
 
   // 渲染其他門市（簡單資訊）
@@ -98,12 +109,15 @@
     container.innerHTML = `
       <h3 class="text-2xl font-bold text-gray-800 mb-6">其他門市據點</h3>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-        ${otherStores.map(store => `
+        ${otherStores.map(store => {
+          const location = extractCityDistrict(store.address);
+          return `
           <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-[#DF7621] transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
             <h4 class="text-gray-800 mb-2 text-xl">${store.name}</h4>
-            <p class="text-gray-600 text-sm">${store.city}</p>
+            <p class="text-gray-600 text-sm">${location}</p>
           </div>
-        `).join('')}
+        `;
+        }).join('')}
       </div>
     `;
   }
@@ -121,12 +135,15 @@
     // 顯示所有門市的簡短資訊
     otherStoresContainer.innerHTML = `
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-        ${stores.map(store => `
+        ${stores.map(store => {
+          const location = extractCityDistrict(store.address);
+          return `
           <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-[#DF7621] transition-all hover:translate-x-1 hover:shadow-md hover:bg-white text-left">
             <h4 class="text-gray-800 mb-2 text-xl">${store.name}</h4>
-            <p class="text-gray-600 text-sm">${store.city}</p>
+            <p class="text-gray-600 text-sm">${location}</p>
           </div>
-        `).join('')}
+        `;
+        }).join('')}
       </div>
     `;
   }

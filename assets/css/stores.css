@@ -254,11 +254,6 @@ h1 {
 }
 
 /* 響應式設計 */
-@media (min-width: 768px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr !important;
-  }
-}
 
 @media (max-width: 768px) {
   .stores-grid {
