@@ -226,7 +226,38 @@
       return;
     }
 
-    // 4. 準備 EmailJS 參數
+    // 4. Email 格式驗證
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(email !== "" && !emailRegex.test(email)) {
+      showMessage("Email 格式不正確，請檢查後重新輸入。", "error");
+      document.getElementById("user_email").focus();
+      return;
+    }
+
+    // 5. 檢查是否把 Email 填到電話欄位
+    if(phone !== "" && emailRegex.test(phone)) {
+      showMessage("您似乎把 Email 填到電話欄位了，請檢查後重新輸入。", "error");
+      document.getElementById("user_phone").focus();
+      return;
+    }
+
+    // 6. 檢查是否把電話填到 Email 欄位
+    var phoneRegex = /^[\d\s\-\+\(\)]+$/;
+    // 如果 email 欄位只包含電話格式字符（數字、空格、連字號等），但不符合 email 格式
+    if(email !== "" && phoneRegex.test(email)) {
+      showMessage("您似乎把電話填到 Email 欄位了，請檢查後重新輸入。", "error");
+      document.getElementById("user_email").focus();
+      return;
+    }
+
+    // 7. 電話格式基本驗證（至少包含數字）
+    if(phone !== "" && !phoneRegex.test(phone)) {
+      showMessage("電話格式不正確，請輸入有效的電話號碼。", "error");
+      document.getElementById("user_phone").focus();
+      return;
+    }
+
+    // 8. 準備 EmailJS 參數
     var templateParams = {
       name: name,
       phone: phone || "(未填寫)",
@@ -235,12 +266,12 @@
       message: msg
     };
 
-    // 5. 禁用按鈕，顯示載入狀態
+    // 9. 禁用按鈕，顯示載入狀態
     var submitBtn = document.getElementById("submit-btn");
     submitBtn.disabled = true;
     submitBtn.textContent = "送出中...";
 
-    // 6. 使用 EmailJS 發送郵件
+    // 10. 使用 EmailJS 發送郵件
     emailjs.send("service_i9kkrqj", "template_hg8hddr", templateParams)
       .then(function(response) {
         console.log("SUCCESS!", response.status, response.text);
