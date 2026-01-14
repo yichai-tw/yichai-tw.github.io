@@ -151,6 +151,15 @@
               <textarea id="message" rows="6" placeholder="請輸入您想詢問的事項..." required></textarea>
             </div>
 
+            <!-- 隱私權政策同意勾選 -->
+            <div class="mt-2 mb-4 flex items-start">
+              <input type="checkbox" id="agree_privacy" class="mt-1 mr-2">
+              <label for="agree_privacy" class="text-sm text-gray-600">
+                提交此表單即表示您已閱讀並同意
+                <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="text-[#DF7621] hover:text-[#C65D1A] font-bold no-underline">隱私權政策</a>。
+              </label>
+            </div>
+
             <button type="submit" id="submit-btn" class="w-full py-3 md:py-4 bg-[#DF7621] hover:bg-[#C65D1A] text-white border-none rounded-md text-base md:text-lg font-bold cursor-pointer transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
               送出表單
             </button>
@@ -257,7 +266,15 @@
       return;
     }
 
-    // 8. 準備 EmailJS 參數
+    // 8. 隱私權政策同意勾選檢查
+    var agreePrivacy = document.getElementById("agree_privacy");
+    if (agreePrivacy && !agreePrivacy.checked) {
+      showMessage("請勾選「提交即表示同意隱私權政策」。", "error");
+      agreePrivacy.focus();
+      return;
+    }
+
+    // 9. 準備 EmailJS 參數
     var templateParams = {
       name: name,
       phone: phone || "(未填寫)",
@@ -266,12 +283,12 @@
       message: msg
     };
 
-    // 9. 禁用按鈕，顯示載入狀態
+    // 10. 禁用按鈕，顯示載入狀態
     var submitBtn = document.getElementById("submit-btn");
     submitBtn.disabled = true;
     submitBtn.textContent = "送出中...";
 
-    // 10. 使用 EmailJS 發送郵件
+    // 11. 使用 EmailJS 發送郵件
     emailjs.send("service_i9kkrqj", "template_hg8hddr", templateParams)
       .then(function(response) {
         console.log("SUCCESS!", response.status, response.text);
