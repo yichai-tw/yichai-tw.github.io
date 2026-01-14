@@ -42,6 +42,8 @@ official-site/
 ├── contact.html           # 聯絡我們頁
 ├── index.html             # 首頁
 ├── stores.html            # 門市資訊頁
+├── privacy.html           # 隱私權政策頁
+├── terms.html             # 使用條款頁
 ├── sitemap.xml            # Google 搜尋引擎網站地圖
 ├── robots.txt             # 搜尋引擎爬蟲規則
 ├── google0af03b0932efc485.html  # Google Search Console 驗證檔案
@@ -99,9 +101,37 @@ official-site/
   - 欄位混淆檢查（防止 Email 填到電話欄位，或電話填到 Email 欄位）
   - 必填欄位檢查
   - 聯絡方式二選一驗證（電話或 Email 至少填寫一項）
+  - **隱私權政策同意勾選驗證**（必須勾選才能送出表單）
 - Email 與 LINE 聯絡方式
 - 門市選擇下拉選單（16 間門市）
 - 即時錯誤提示與成功訊息
+
+### 隱私權政策頁 (privacy.html)
+
+- 完整的隱私權保護政策說明
+- 包含七大章節：
+  - 隱私權保護政策的適用範圍
+  - 資料的蒐集與使用方式
+  - 資料之保護
+  - 網站對外的相關連結
+  - Cookie 之使用
+  - **第三方服務揭露**（EmailJS、LINE 官方帳號、Google Maps）
+  - 隱私權保護政策之修正
+- 與其他頁面一致的設計風格
+
+### 使用條款頁 (terms.html)
+
+- 完整的網站使用條款說明
+- 包含八大章節：
+  - 網站使用規範
+  - 使用者責任
+  - 服務內容與變更
+  - 第三方服務
+  - 免責聲明
+  - 智慧財產權
+  - 使用條款之修正
+  - 準據法與管轄法院
+- 與其他頁面一致的設計風格
 
 ## 🛠️ 開發說明
 
@@ -138,6 +168,11 @@ official-site/
 - Open Graph 標籤（Facebook、LinkedIn 等）
 - Twitter Card 標籤
 - Schema.org 結構化資料（JSON-LD）
+  - Store / Organization 結構化資料
+  - ContactPage 結構化資料
+  - PrivacyPolicy 結構化資料
+  - TermsOfService 結構化資料
+  - **BreadcrumbList 結構化資料**（全站主要頁面）
 - 語義化 HTML 標籤
 - Canonical URLs
 - **Google Search Console**：已通過網域驗證，可監控網站收錄狀態
@@ -198,6 +233,8 @@ official-site/
 - [官方網站](https://yichai-tw.github.io/)
 - [門市資訊](https://yichai-tw.github.io/stores.html)
 - [聯絡我們](https://yichai-tw.github.io/contact.html)
+- [隱私權政策](https://yichai-tw.github.io/privacy.html)
+- [使用條款](https://yichai-tw.github.io/terms.html)
 - [LINE 官方帳號](https://lin.ee/79ysbfnm)
 
 ## 📄 授權
@@ -206,7 +243,7 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 
 ---
 
-**最後更新**：2026年1月14日
+**最後更新**：2026年1月
 
 ## 📌 技術特色
 
@@ -229,3 +266,7 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 - ✅ 手機版卡片兩欄布局優化
 - ✅ Google Search Console 網域驗證（已通過驗證）
 - ✅ Google Fonts Zen Old Mincho 字體（全站統一使用）
+- ✅ **Breadcrumb 結構化資料**（BreadcrumbList，符合 Google 官方規範）
+- ✅ **隱私權政策頁面**（包含第三方服務揭露說明）
+- ✅ **使用條款頁面**（完整的網站使用規範）
+- ✅ **LINE 瀏覽器優化**（偵測 LINE 內建瀏覽器，隱藏 Google Maps iframe，顯示提示訊息）
