@@ -116,58 +116,8 @@
   </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
-  <!-- 導航欄 -->
-  <nav class="bg-white shadow-md sticky top-0 z-50 py-2 md:py-4">
-    <div class="max-w-7xl mx-auto px-3 md:px-5 flex justify-between items-center gap-3 md:gap-0">
-      <a href="index.html" aria-label="宜加寵物用品連鎖首頁">
-        <img src="assets/images/yichai-petshop-logo.png" alt="宜加寵物用品連鎖 Logo" class="h-10 md:h-16 w-auto">
-      </a>
-      <!-- 桌面版導航 -->
-      <ul class="hidden md:flex gap-8 list-none text-center">
-        <li><a href="index.html" class="text-gray-800 font-medium text-lg transition-colors hover:text-[#DF7621] no-underline" title="宜加寵物用品連鎖首頁">首頁</a></li>
-        <li><a href="stores.html" class="text-gray-800 font-medium text-lg transition-colors hover:text-[#DF7621] no-underline" title="查看所有門市據點資訊">門市資訊</a></li>
-        <li><a href="contact.html" class="text-gray-800 font-medium text-lg transition-colors hover:text-[#DF7621] no-underline" title="聯絡我們">聯絡我們</a></li>
-      </ul>
-      <!-- 手機版漢堡選單按鈕 -->
-      <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-800 hover:text-[#DF7621] transition-colors" aria-label="開啟選單">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-    </div>
-  </nav>
-  
-  <!-- 手機版側邊欄選單 -->
-  <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-white shadow-xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden">
-    <div class="flex flex-col h-full">
-      <!-- 選單標題 -->
-      <div class="flex justify-between items-center p-4 border-b">
-        <span class="font-bold text-gray-800">選單</span>
-        <button id="mobile-menu-close" class="p-2 text-gray-800 hover:text-[#DF7621] transition-colors" aria-label="關閉選單">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
-      <!-- 選單項目 -->
-      <nav class="flex-1 p-4">
-        <ul class="space-y-4">
-          <li>
-            <a href="index.html" class="block py-3 px-4 text-gray-800 font-medium hover:bg-gray-100 hover:text-[#DF7621] rounded-md transition-colors no-underline">首頁</a>
-          </li>
-          <li>
-            <a href="stores.html" class="block py-3 px-4 text-gray-800 font-medium hover:bg-gray-100 hover:text-[#DF7621] rounded-md transition-colors no-underline">門市資訊</a>
-          </li>
-          <li>
-            <a href="contact.html" class="block py-3 px-4 text-gray-800 font-medium hover:bg-gray-100 hover:text-[#DF7621] rounded-md transition-colors no-underline">聯絡我們</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-  
-  <!-- 側邊欄背景遮罩 -->
-  <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"></div>
+  <!-- 頁首容器 -->
+  <div id="header-container"></div>
 
   <!-- 主要內容 -->
   <main>
@@ -356,104 +306,13 @@
   </section>
   </main>
 
-  <!-- 頁尾 -->
-  <footer class="bg-gray-800 text-white py-12 px-5">
-    <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-8">
-        <!-- 左欄：快速連結 -->
-        <div>
-          <h3 class="text-xl font-bold mb-5 text-[#DF7621]">快速連結</h3>
-          <ul class="space-y-3 text-gray-300 list-none">
-            <li>
-              <a href="index.html" class="hover:text-[#DF7621] transition-colors no-underline">首頁</a>
-            </li>
-            <li>
-              <a href="stores.html" class="hover:text-[#DF7621] transition-colors no-underline">門市據點</a>
-            </li>
-            <li>
-              <a href="contact.html" class="hover:text-[#DF7621] transition-colors no-underline">聯絡我們</a>
-            </li>
-          </ul>
-        </div>
-        
-        <!-- 右欄：聯絡資訊 -->
-        <div>
-          <h3 class="text-xl font-bold mb-5 text-[#DF7621]">聯絡資訊</h3>
-          <div class="space-y-3 text-gray-300">
-            <p>如有任何問題或建議，歡迎與我們聯繫</p>
-            <div>
-              <a href="mailto:yi.chai@toppets.com.tw" class="inline-flex items-center text-white hover:text-[#DF7621] transition-colors no-underline">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
-                yi.chai@toppets.com.tw
-              </a>
-            </div>
-            <div>
-              <a href="https://lin.ee/79ysbfnm" target="_blank" rel="noopener noreferrer" class="inline-block">
-                <img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入 LINE 好友" height="36" style="height: 36px; width: auto; max-width: 100%;" border="0">
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 版權資訊 -->
-      <div class="border-t border-gray-700 pt-6 text-center text-gray-400 text-sm">
-        <p>Copyright © 1999–2026 宜加寵物生活館. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+  <!-- 頁尾容器 -->
+  <div id="footer-container"></div>
   
-  <script>
-    // 手機版側邊欄選單控制
-    document.addEventListener('DOMContentLoaded', function() {
-      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-      const mobileMenu = document.getElementById('mobile-menu');
-      const mobileMenuClose = document.getElementById('mobile-menu-close');
-      const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-      
-      if (!mobileMenuBtn || !mobileMenu || !mobileMenuClose || !mobileMenuOverlay) {
-        console.error('側邊欄選單元素未找到');
-        return;
-      }
-      
-      function openMenu() {
-        mobileMenu.classList.remove('translate-x-full');
-        mobileMenuOverlay.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      }
-      
-      function closeMenu() {
-        mobileMenu.classList.add('translate-x-full');
-        mobileMenuOverlay.classList.add('hidden');
-        document.body.style.overflow = '';
-      }
-      
-      mobileMenuBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        openMenu();
-      });
-      
-      mobileMenuClose.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        closeMenu();
-      });
-      
-      mobileMenuOverlay.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        closeMenu();
-      });
-      
-      // 點擊選單連結時關閉選單
-      const menuLinks = mobileMenu.querySelectorAll('a');
-      menuLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
-      });
-    });
-  </script>
+  <!-- 載入通用頁首 -->
+  <script src="assets/js/load-header.js"></script>
+  
+  <!-- 載入通用頁尾 -->
+  <script src="assets/js/load-footer.js"></script>
 </body>
 </html>

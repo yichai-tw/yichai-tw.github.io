@@ -14,16 +14,19 @@
 official-site/
 ├── assets/
 │   ├── components/        # 共用組件
+│   │   ├── header.html    # 共用頁首組件
 │   │   └── footer.html    # 共用頁尾組件
 │   ├── css/               # CSS 樣式檔案
 │   │   ├── main.css       # 通用自訂樣式
 │   │   └── stores.css     # 門市資訊頁專用樣式
 │   ├── fonts/             # 字體檔案
 │   │   ├── twicon.otf     # TW Icon Fonts 字體
+│   │   ├── twicon.dart    # TW Icon 字元對照表
 │   │   └── twicon_license.md  # 字體版權資訊
 │   ├── images/            # 圖片資源
 │   │   └── yichai-petshop-logo.png
 │   └── js/                # JavaScript 檔案
+│       ├── load-header.js # 動態載入頁首腳本
 │       └── load-footer.js # 動態載入頁尾腳本
 ├── config/                # 設定檔案目錄
 ├── content/               # 原始資料目錄（不追蹤）
@@ -104,12 +107,14 @@ cd yichai-tw.github.io
 
 ### 導航系統
 
+- **共用頁首組件**：所有頁面統一使用 `assets/components/header.html`
 - **桌面版**：水平導航列，顯示所有連結
 - **手機版**：緊湊的頁首設計，使用側邊欄選單
   - 漢堡選單按鈕（右上角）
   - 從右側滑出的側邊欄選單
   - 背景遮罩效果
   - 平滑動畫過渡
+  - 自動高亮當前頁面連結
 
 ### SEO 優化
 
@@ -125,11 +130,14 @@ cd yichai-tw.github.io
 - Logo 位置：`assets/images/yichai-petshop-logo.png`
 - 其他圖片請放置在 `assets/images/` 目錄
 
-### 共用組件
+### 共用組件系統
 
-- **頁尾組件**：`assets/components/footer.html` - 通用頁尾組件
-- **載入腳本**：`assets/js/load-footer.js` - 動態載入頁尾的 JavaScript
-- 所有頁面統一使用共用頁尾組件，便於維護和更新
+- **頁首組件**：`assets/components/header.html` - 通用頁首組件（包含導航列與手機版選單）
+- **頁尾組件**：`assets/components/footer.html` - 通用頁尾組件（包含快速連結與聯絡資訊）
+- **載入腳本**：
+  - `assets/js/load-header.js` - 動態載入頁首的 JavaScript（包含手機版選單功能與當前頁面高亮）
+  - `assets/js/load-footer.js` - 動態載入頁尾的 JavaScript
+- **優勢**：所有頁面統一使用共用頁首與頁尾組件，修改一次即可同步到所有頁面，便於維護和更新
 
 ## 📋 注意事項
 
@@ -163,18 +171,19 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 
 ---
 
-**最後更新**：2026年1月14日
+**最後更新**：2026年1月15日
 
 ## 📌 技術特色
 
 - ✅ 純靜態 HTML，無需後端伺服器
 - ✅ Tailwind CSS 響應式設計
 - ✅ CSS 模組化設計（樣式檔案分離）
-- ✅ 共用組件系統（頁尾統一管理）
+- ✅ 共用組件系統（頁首與頁尾統一管理，動態載入）
 - ✅ SEO 優化（Meta Tags、Open Graph、結構化資料）
 - ✅ 地圖延遲載入優化
 - ✅ 表單驗證與 mailto 功能
 - ✅ 16 間門市完整資訊
 - ✅ TW Icon Fonts 台灣圖示字體
-- ✅ 手機版側邊欄導航選單
+- ✅ 手機版側邊欄導航選單（自動高亮當前頁面）
 - ✅ 優化的手機版頁首設計（緊湊、不占版面）
+- ✅ JavaScript 模組化（共用功能統一管理）
