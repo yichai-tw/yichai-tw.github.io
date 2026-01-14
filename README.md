@@ -50,7 +50,7 @@ official-site/
 
 ### 本地開發
 
-1. 克隆專案：
+1. 複製專案：
 
    ```bash
    git clone https://github.com/yichai-tw/yichai-tw.github.io.git
@@ -71,7 +71,7 @@ official-site/
 
 - 公司介紹與品牌形象
 - 服務特色展示
-- **GPS 定位門市系統**：自動定位用戶位置，推薦最近的門市並顯示地圖
+- **GPS 定位門市系統**：自動定位使用者位置，推薦最近的門市並顯示地圖
 - 門市資訊預覽（16間門市，顯示「XX市XX區」格式）
 - 品牌故事與服務項目
 - 使用 Tailwind CSS 框架
@@ -148,10 +148,10 @@ official-site/
 
 ### GPS 門市定位系統
 
-- **定位功能**：使用瀏覽器 Geolocation API 自動獲取用戶位置
+- **定位功能**：使用瀏覽器 Geolocation API 自動獲取使用者位置
 - **智能推薦**：使用 Haversine 公式計算距離，自動推薦最近的門市
 - **地圖整合**：最近門市顯示 Google Maps 嵌入地圖
-- **距離顯示**：顯示門市與用戶的距離（公里）
+- **距離顯示**：顯示門市與使用者的距離（公里）
 - **快速操作**：提供 Google 導航和撥打電話按鈕
 - **容錯處理**：定位失敗時顯示所有門市的簡短資訊卡片
 - **腳本位置**：`assets/js/store-locator.js`
