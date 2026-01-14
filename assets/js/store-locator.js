@@ -166,11 +166,36 @@
       return;
     }
 
-    // 獲取用戶位置
+    // 檢查是否有緩存的位置資訊（7天內有效，符合國際標準規範）
+    const cachedLocation = localStorage.getItem('userLocation');
+    const cacheTime = localStorage.getItem('userLocationTime');
+    const now = Date.now();
+    const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000; // 7天（毫秒），符合國際標準規範的最長緩存期限
+
+    if (cachedLocation && cacheTime && (now - parseInt(cacheTime)) < CACHE_DURATION) {
+      // 使用緩存的位置資訊
+      try {
+        const location = JSON.parse(cachedLocation);
+        const nearestStore = findNearestStore(location.lat, location.lng);
+        if (nearestStore) {
+          renderNearestStore(nearestStore);
+          renderOtherStores(nearestStore.name);
+        }
+        return;
+      } catch (e) {
+        console.warn('緩存位置資訊解析失敗，重新獲取位置');
+      }
+    }
+
+    // 獲取使用者位置
     navigator.geolocation.getCurrentPosition(
       function(position) {
         const userLat = position.coords.latitude;
         const userLng = position.coords.longitude;
+        
+        // 將位置資訊存入 localStorage（7天有效，符合國際標準規範）
+        localStorage.setItem('userLocation', JSON.stringify({ lat: userLat, lng: userLng }));
+        localStorage.setItem('userLocationTime', now.toString());
         
         const nearestStore = findNearestStore(userLat, userLng);
         if (nearestStore) {
@@ -179,14 +204,28 @@
         }
       },
       function(error) {
-        // 定位失敗，顯示所有門市的簡短資訊
+        // 定位失敗，檢查是否有舊的緩存可以使用
+        if (cachedLocation) {
+          try {
+            const location = JSON.parse(cachedLocation);
+            const nearestStore = findNearestStore(location.lat, location.lng);
+            if (nearestStore) {
+              renderNearestStore(nearestStore);
+              renderOtherStores(nearestStore.name);
+              return;
+            }
+          } catch (e) {
+            console.warn('使用舊緩存失敗');
+          }
+        }
+        // 如果沒有緩存或緩存無效，顯示所有門市的簡短資訊
         console.warn('無法獲取位置:', error);
         renderAllStoresSimple();
       },
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false, // 降低精度要求，加快定位速度
         timeout: 10000,
-        maximumAge: 0
+        maximumAge: 5 * 60 * 1000 // 使用 5 分鐘內的緩存位置（如果有的話）
       }
     );
   }
