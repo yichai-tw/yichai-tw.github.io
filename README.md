@@ -42,6 +42,9 @@ official-site/
 ├── contact.html           # 聯絡我們頁
 ├── index.html             # 首頁
 ├── stores.html            # 門市資訊頁
+├── sitemap.xml            # Google 搜尋引擎網站地圖
+├── robots.txt             # 搜尋引擎爬蟲規則
+├── google0af03b0932efc485.html  # Google Search Console 驗證檔案
 ├── project_structure.txt  # 專案結構檔案
 └── README.md              # 專案說明文件
 ```
@@ -89,10 +92,16 @@ official-site/
 
 ### 聯絡我們頁 (contact.html)
 
-- 線上諮詢表單
-- 表單驗證功能
+- 線上諮詢表單（使用 EmailJS 串接 Gmail）
+- 完整的表單驗證功能：
+  - Email 格式驗證
+  - 電話格式驗證
+  - 欄位混淆檢查（防止 Email 填到電話欄位，或電話填到 Email 欄位）
+  - 必填欄位檢查
+  - 聯絡方式二選一驗證（電話或 Email 至少填寫一項）
 - Email 與 LINE 聯絡方式
-- 門市選擇下拉選單
+- 門市選擇下拉選單（16 間門市）
+- 即時錯誤提示與成功訊息
 
 ## 🛠️ 開發說明
 
@@ -131,6 +140,9 @@ official-site/
 - Schema.org 結構化資料（JSON-LD）
 - 語義化 HTML 標籤
 - Canonical URLs
+- **Sitemap.xml**：Google 搜尋引擎網站地圖，包含所有主要頁面
+- **robots.txt**：搜尋引擎爬蟲規則，指向 Sitemap 位置
+- **Google Search Console**：已整合驗證，方便監控網站收錄狀態
 
 ### 圖片資源
 
@@ -207,7 +219,8 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 - ✅ **GPS 門市定位系統**（高精度定位、分層定位策略、7天緩存、智能推薦、地圖整合）
 - ✅ SEO 優化（Meta Tags、Open Graph、結構化資料）
 - ✅ 地圖延遲載入優化
-- ✅ 表單驗證與 mailto 功能
+- ✅ **EmailJS 表單整合**（串接 Gmail，無需後端伺服器）
+- ✅ 完整的表單驗證功能（Email/電話格式驗證、欄位混淆檢查）
 - ✅ 16 間門市完整資訊
 - ✅ TW Icon Fonts 台灣圖示字體
 - ✅ 手機版側邊欄導航選單（自動高亮當前頁面、連結正常導航）
@@ -216,3 +229,5 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 - ✅ PC 版最大寬度限制（1920px），避免超寬螢幕失真
 - ✅ 響應式按鈕設計（手機版文字較小，避免換行）
 - ✅ 手機版卡片兩欄布局優化
+- ✅ Google Search Console 整合（Sitemap、robots.txt、網站驗證）
+- ✅ Google Fonts Zen Old Mincho 字體（全站統一使用）
