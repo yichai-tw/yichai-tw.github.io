@@ -77,6 +77,25 @@
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
+    /* TW Icon Fonts */
+    @font-face {
+      font-family: 'TW Icon';
+      src: url('assets/fonts/twicon.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    
+    .twicon {
+      font-family: 'TW Icon', sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
     * {
       margin: 0;
       padding: 0;
@@ -281,8 +300,25 @@
       gap: 10px;
     }
 
-    .city-title i {
+    .city-title i,
+    .city-title svg,
+    .city-title .twicon {
       font-size: 1.2em;
+      width: 1.2em;
+      height: 1.2em;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+      color: #DF7621;
+    }
+    
+    .city-title svg {
+      fill: #DF7621;
+    }
+    
+    .city-title .twicon {
+      font-size: 1.5em;
+      line-height: 1;
     }
     
     /* 門市網格 */
@@ -515,7 +551,7 @@
     <!-- 台北市 -->
     <div class="city-section">
       <h2 class="city-title">
-        <i class="fas fa-city"></i> 台北市
+        <span class="twicon" data-icon="taipei101">&#xE000;</span> 台北市
       </h2>
       <div class="stores-grid">
         <!-- 內湖店 -->
@@ -543,7 +579,7 @@
     <!-- 新北市 -->
     <div class="city-section">
       <h2 class="city-title">
-        <i class="fas fa-city"></i> 新北市
+        <span class="twicon" data-icon="newtaipei">&#xE001;</span> 新北市
       </h2>
       <div class="stores-grid">
         <!-- 新和店 -->
