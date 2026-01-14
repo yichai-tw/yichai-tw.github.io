@@ -270,6 +270,17 @@ section.bg-gradient-to-br h1 {
   display: none;
 }
 
+/* LINE 瀏覽器地圖提示訊息樣式 */
+.map-container.line-browser {
+  min-height: 100px;
+  background: #f8f9fa;
+  border: 1px dashed #dee2e6;
+}
+
+.line-map-notice {
+  width: 100%;
+}
+
 /* 響應式設計 */
 
 @media (max-width: 768px) {

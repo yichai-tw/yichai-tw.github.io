@@ -461,7 +461,7 @@
     // 處理 LINE 瀏覽器的地圖顯示
     function handleLineBrowserMaps() {
       if (isLineBrowser()) {
-        // 隱藏所有 iframe 並移除載入文字
+        // 隱藏所有 iframe 並顯示提示訊息
         const mapContainers = document.querySelectorAll('.map-container');
         mapContainers.forEach(function(container) {
           // 添加 class 來隱藏 ::before 偽元素（載入地圖中...文字）
@@ -470,29 +470,15 @@
           const iframe = container.querySelector('iframe');
           if (iframe) {
             iframe.style.display = 'none';
-            
-            // 獲取地圖座標或地址
-            const dataSrc = iframe.getAttribute('data-src');
-            if (dataSrc) {
-              // 從 data-src 提取座標
-              const coordMatch = dataSrc.match(/q=([\d.]+),([\d.]+)/);
-              if (coordMatch) {
-                const lat = coordMatch[1];
-                const lng = coordMatch[2];
-                
-                // 創建外開連結按鈕（使用 maps.app.goo.gl 格式，可在 Google Maps App 中開啟）
-                const linkButton = document.createElement('a');
-                linkButton.href = `https://www.google.com/maps?q=${lat},${lng}`;
-                linkButton.target = '_blank';
-                linkButton.rel = 'noopener noreferrer';
-                linkButton.className = 'btn-map';
-                linkButton.style.cssText = 'display: block; text-align: center; background: #DF7621; color: white; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;';
-                linkButton.innerHTML = '<i class="fas fa-map-marker-alt"></i> 在 Google Maps 中開啟';
-                
-                container.appendChild(linkButton);
-              }
-            }
           }
+          
+          // 顯示提示訊息
+          const notice = document.createElement('div');
+          notice.className = 'line-map-notice';
+          notice.style.cssText = 'text-align: center; padding: 20px; color: #7f8c8d; font-size: 0.9em; line-height: 1.6;';
+          notice.innerHTML = '<i class="fas fa-info-circle" style="margin-right: 5px;"></i>Google 地圖不支援 LINE 瀏覽器<br>請使用其他瀏覽器或 Google Maps App 查看地圖';
+          
+          container.appendChild(notice);
         });
       }
     }

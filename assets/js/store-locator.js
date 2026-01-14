@@ -67,13 +67,13 @@
     const isLine = isLineBrowser();
     const mapUrl = `https://www.google.com/maps?q=${store.lat},${store.lng}`;
     
-    // 如果是 LINE 瀏覽器，不顯示 iframe，改用外開連結
+    // 如果是 LINE 瀏覽器，不顯示 iframe，顯示提示訊息
     const mapSection = isLine ? `
       <div class="mb-4 p-4 bg-gray-50 rounded-lg text-center">
-        <p class="text-gray-600 mb-3">點擊下方按鈕在 Google Maps App 中開啟地圖</p>
-        <a href="${mapUrl}" target="_blank" class="inline-block bg-[#DF7621] text-white text-center py-3 px-6 rounded-lg text-base font-medium hover:bg-[#C65D1A] transition-colors no-underline">
-          <i class="fas fa-map-marker-alt mr-2"></i> 在 Google Maps 中開啟
-        </a>
+        <p class="text-gray-600 mb-2">
+          <i class="fas fa-info-circle mr-2"></i>Google 地圖不支援 LINE 瀏覽器
+        </p>
+        <p class="text-gray-500 text-sm">請使用其他瀏覽器或 Google Maps App 查看地圖</p>
       </div>
     ` : `
       <div class="mb-4 rounded-lg overflow-hidden" style="height: 300px;">
