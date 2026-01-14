@@ -193,28 +193,8 @@
       return;
     }
 
-    // 檢查是否有緩存的位置資訊（7天內有效，符合國際標準規範）
-    const cachedLocation = localStorage.getItem('userLocation');
-    const cacheTime = localStorage.getItem('userLocationTime');
-    const now = Date.now();
-    const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000; // 7天（毫秒），符合國際標準規範的最長緩存期限
-
-    if (cachedLocation && cacheTime && (now - parseInt(cacheTime)) < CACHE_DURATION) {
-      // 使用緩存的位置資訊
-      try {
-        const location = JSON.parse(cachedLocation);
-        const nearestStore = findNearestStore(location.lat, location.lng);
-        if (nearestStore) {
-          renderNearestStore(nearestStore);
-          renderOtherStores(nearestStore.name);
-        }
-        return;
-      } catch (e) {
-        console.warn('緩存位置資訊解析失敗，重新獲取位置');
-      }
-    }
-
     // 獲取使用者位置（優先使用高精度定位）
+    // 注意：瀏覽器會自動記住用戶的授權狀態，不需要手動緩存
     function attemptHighAccuracyLocation() {
       navigator.geolocation.getCurrentPosition(
         function(position) {
@@ -225,10 +205,6 @@
           if (position.coords.accuracy) {
             console.log('高精度定位成功，精度：', Math.round(position.coords.accuracy), '公尺');
           }
-          
-          // 將位置資訊存入 localStorage（7天有效，符合國際標準規範）
-          localStorage.setItem('userLocation', JSON.stringify({ lat: userLat, lng: userLng }));
-          localStorage.setItem('userLocationTime', now.toString());
           
           const nearestStore = findNearestStore(userLat, userLng);
           if (nearestStore) {
@@ -261,10 +237,6 @@
             console.log('低精度定位成功，精度：', Math.round(position.coords.accuracy), '公尺');
           }
           
-          // 將位置資訊存入 localStorage
-          localStorage.setItem('userLocation', JSON.stringify({ lat: userLat, lng: userLng }));
-          localStorage.setItem('userLocationTime', now.toString());
-          
           const nearestStore = findNearestStore(userLat, userLng);
           if (nearestStore) {
             renderNearestStore(nearestStore);
@@ -272,21 +244,7 @@
           }
         },
         function(error) {
-          // 低精度定位也失敗，檢查是否有舊的緩存可以使用
-          if (cachedLocation) {
-            try {
-              const location = JSON.parse(cachedLocation);
-              const nearestStore = findNearestStore(location.lat, location.lng);
-              if (nearestStore) {
-                renderNearestStore(nearestStore);
-                renderOtherStores(nearestStore.name);
-                return;
-              }
-            } catch (e) {
-              console.warn('使用舊緩存失敗');
-            }
-          }
-          // 如果沒有緩存或緩存無效，顯示所有門市的簡短資訊
+          // 定位失敗，顯示所有門市的簡短資訊
           console.warn('無法獲取位置:', error.message);
           renderAllStoresSimple();
         },
