@@ -33,11 +33,7 @@ official-site/
 ├── content/               # 原始資料目錄（不追蹤）
 ├── mapping/               # 資料對應檔案（不追蹤）
 │   └── PetStores_BranchInfo.json
-├── templates/              # HTML 模板
-│   ├── base.html
-│   └── page_layout.html
 ├── tools/                 # 工具腳本
-│   ├── build.py
 │   └── project_tree_generator.py
 ├── contact.html           # 聯絡我們頁
 ├── index.html             # 首頁
@@ -137,9 +133,7 @@ official-site/
 
 ### 內容管理
 
-- **原始資料**：編輯 `content/` 目錄下的 Markdown 檔案
-- **HTML 生成**：使用 `tools/build.py` 將 Markdown 轉換為 HTML
-- **直接編輯**：也可以直接編輯 `index.html` 和 `stores.html`
+- **直接編輯**：直接編輯 HTML 檔案（`index.html`、`stores.html`、`contact.html` 等）
 
 ### 樣式設計
 
