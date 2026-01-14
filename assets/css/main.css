@@ -1,6 +1,13 @@
 /* 字體設定 - 全局使用 Google Fonts Zen Old Mincho */
 body {
-  font-family: "Zen Old Mincho", "Noto Serif TC", "Microsoft JhengHei", serif;
+  font-family: "Zen Old Mincho", "Noto Serif TC", "Microsoft JhengHei", serif !important;
+}
+
+/* 確保所有文字元素都使用 Zen Old Mincho，但不影響圖標字體 */
+p, h1, h2, h3, h4, h5, h6, 
+span:not(.twicon):not(.fa):not([class*="fa-"]), 
+a, li, td, th, label, input, textarea, select, button {
+  font-family: "Zen Old Mincho", "Noto Serif TC", "Microsoft JhengHei", serif !important;
 }
 
 /* PC 版最大寬度限制，避免在超寬螢幕上失真 */
