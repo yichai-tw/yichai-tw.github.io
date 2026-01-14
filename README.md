@@ -5,12 +5,12 @@
 ## 🌐 網站資訊
 
 - **發布平台**：GitHub Pages
-- **主站網址**：https://yichai-tw.github.io/
-- **倉庫地址**：https://github.com/yichai-tw/yichai-tw.github.io
+- **主站網址**：<https://yichai-tw.github.io/>
+- **倉庫地址**：<https://github.com/yichai-tw/yichai-tw.github.io>
 
 ## 📁 專案結構
 
-```
+```text
 official-site/
 ├── assets/
 │   ├── components/        # 共用組件
@@ -51,10 +51,11 @@ official-site/
 ### 本地開發
 
 1. 克隆專案：
-```bash
-git clone https://github.com/yichai-tw/yichai-tw.github.io.git
-cd yichai-tw.github.io
-```
+
+   ```bash
+   git clone https://github.com/yichai-tw/yichai-tw.github.io.git
+   cd yichai-tw.github.io
+   ```
 
 2. 直接在瀏覽器開啟 `index.html` 即可預覽
 
@@ -67,6 +68,7 @@ cd yichai-tw.github.io
 ## 📝 頁面說明
 
 ### 首頁 (index.html)
+
 - 公司介紹與品牌形象
 - 服務特色展示
 - **GPS 定位門市系統**：自動定位用戶位置，推薦最近的門市並顯示地圖
@@ -75,6 +77,7 @@ cd yichai-tw.github.io
 - 使用 Tailwind CSS 框架
 
 ### 門市資訊頁 (stores.html)
+
 - 全台 16 間門市完整資訊
 - 各門市地址、聯絡電話與 Google 地圖
 - 依城市分類（台北市、新北市）
@@ -84,6 +87,7 @@ cd yichai-tw.github.io
 - CSS 模組化（使用 `assets/css/stores.css`）
 
 ### 聯絡我們頁 (contact.html)
+
 - 線上諮詢表單
 - 表單驗證功能
 - Email 與 LINE 聯絡方式
@@ -156,6 +160,7 @@ cd yichai-tw.github.io
 ### Git 排除規則
 
 以下檔案/目錄不會被追蹤：
+
 - `content/` - 原始資料目錄
 - `tools/project_tree_generator.py` - 工具腳本
 - `project_structure.txt` - 專案結構檔案
