@@ -59,7 +59,10 @@ function initMobileMenu() {
   }
 
   mobileMenuLinks.forEach(link => {
-    link.addEventListener('click', closeMenu);
+    link.addEventListener('click', function(event) {
+      // 讓連結正常導航，延遲關閉選單以確保導航發生
+      setTimeout(closeMenu, 100);
+    });
   });
 }
 

@@ -27,7 +27,8 @@ official-site/
 │   │   └── yichai-petshop-logo.png
 │   └── js/                # JavaScript 檔案
 │       ├── load-header.js # 動態載入頁首腳本
-│       └── load-footer.js # 動態載入頁尾腳本
+│       ├── load-footer.js # 動態載入頁尾腳本
+│       └── store-locator.js # GPS 門市定位系統
 ├── config/                # 設定檔案目錄
 ├── content/               # 原始資料目錄（不追蹤）
 ├── mapping/               # 資料對應檔案（不追蹤）
@@ -68,6 +69,7 @@ cd yichai-tw.github.io
 ### 首頁 (index.html)
 - 公司介紹與品牌形象
 - 服務特色展示
+- **GPS 定位門市系統**：自動定位用戶位置，推薦最近的門市並顯示地圖
 - 門市資訊預覽（16間門市）
 - 品牌故事與服務項目
 - 使用 Tailwind CSS 框架
@@ -139,6 +141,16 @@ cd yichai-tw.github.io
   - `assets/js/load-footer.js` - 動態載入頁尾的 JavaScript
 - **優勢**：所有頁面統一使用共用頁首與頁尾組件，修改一次即可同步到所有頁面，便於維護和更新
 
+### GPS 門市定位系統
+
+- **定位功能**：使用瀏覽器 Geolocation API 自動獲取用戶位置
+- **智能推薦**：使用 Haversine 公式計算距離，自動推薦最近的門市
+- **地圖整合**：最近門市顯示 Google Maps 嵌入地圖
+- **距離顯示**：顯示門市與用戶的距離（公里）
+- **快速操作**：提供 Google 導航和撥打電話按鈕
+- **容錯處理**：定位失敗時顯示所有門市的簡短資訊卡片
+- **腳本位置**：`assets/js/store-locator.js`
+
 ## 📋 注意事項
 
 ### Git 排除規則
@@ -171,7 +183,7 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 
 ---
 
-**最後更新**：2026年1月15日
+**最後更新**：2026年1月14日
 
 ## 📌 技術特色
 
@@ -179,11 +191,12 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 - ✅ Tailwind CSS 響應式設計
 - ✅ CSS 模組化設計（樣式檔案分離）
 - ✅ 共用組件系統（頁首與頁尾統一管理，動態載入）
+- ✅ **GPS 門市定位系統**（自動定位、智能推薦、地圖整合）
 - ✅ SEO 優化（Meta Tags、Open Graph、結構化資料）
 - ✅ 地圖延遲載入優化
 - ✅ 表單驗證與 mailto 功能
 - ✅ 16 間門市完整資訊
 - ✅ TW Icon Fonts 台灣圖示字體
-- ✅ 手機版側邊欄導航選單（自動高亮當前頁面）
+- ✅ 手機版側邊欄導航選單（自動高亮當前頁面、連結正常導航）
 - ✅ 優化的手機版頁首設計（緊湊、不占版面）
 - ✅ JavaScript 模組化（共用功能統一管理）
