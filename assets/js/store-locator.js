@@ -187,47 +187,92 @@
       }
     }
 
-    // 獲取使用者位置
-    navigator.geolocation.getCurrentPosition(
-      function(position) {
-        const userLat = position.coords.latitude;
-        const userLng = position.coords.longitude;
-        
-        // 將位置資訊存入 localStorage（7天有效，符合國際標準規範）
-        localStorage.setItem('userLocation', JSON.stringify({ lat: userLat, lng: userLng }));
-        localStorage.setItem('userLocationTime', now.toString());
-        
-        const nearestStore = findNearestStore(userLat, userLng);
-        if (nearestStore) {
-          renderNearestStore(nearestStore);
-          renderOtherStores(nearestStore.name);
-        }
-      },
-      function(error) {
-        // 定位失敗，檢查是否有舊的緩存可以使用
-        if (cachedLocation) {
-          try {
-            const location = JSON.parse(cachedLocation);
-            const nearestStore = findNearestStore(location.lat, location.lng);
-            if (nearestStore) {
-              renderNearestStore(nearestStore);
-              renderOtherStores(nearestStore.name);
-              return;
-            }
-          } catch (e) {
-            console.warn('使用舊緩存失敗');
+    // 獲取使用者位置（優先使用高精度定位）
+    function attemptHighAccuracyLocation() {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+          
+          // 記錄定位精度資訊（用於調試和優化）
+          if (position.coords.accuracy) {
+            console.log('高精度定位成功，精度：', Math.round(position.coords.accuracy), '公尺');
           }
+          
+          // 將位置資訊存入 localStorage（7天有效，符合國際標準規範）
+          localStorage.setItem('userLocation', JSON.stringify({ lat: userLat, lng: userLng }));
+          localStorage.setItem('userLocationTime', now.toString());
+          
+          const nearestStore = findNearestStore(userLat, userLng);
+          if (nearestStore) {
+            renderNearestStore(nearestStore);
+            renderOtherStores(nearestStore.name);
+          }
+        },
+        function(error) {
+          // 高精度定位失敗，嘗試使用低精度定位作為備選
+          console.warn('高精度定位失敗，嘗試低精度定位:', error.message);
+          attemptLowAccuracyLocation();
+        },
+        {
+          enableHighAccuracy: true, // 啟用高精度定位，使用 GPS 衛星定位
+          timeout: 15000, // 增加超時時間至 15 秒，給予更多時間獲取高精度位置
+          maximumAge: 0 // 不使用瀏覽器緩存，確保獲取最新且最精確的位置
         }
-        // 如果沒有緩存或緩存無效，顯示所有門市的簡短資訊
-        console.warn('無法獲取位置:', error);
-        renderAllStoresSimple();
-      },
-      {
-        enableHighAccuracy: false, // 降低精度要求，加快定位速度
-        timeout: 10000,
-        maximumAge: 5 * 60 * 1000 // 使用 5 分鐘內的緩存位置（如果有的話）
-      }
-    );
+      );
+    }
+
+    // 低精度定位備選方案（當高精度定位失敗時使用）
+    function attemptLowAccuracyLocation() {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+          
+          // 記錄定位精度資訊
+          if (position.coords.accuracy) {
+            console.log('低精度定位成功，精度：', Math.round(position.coords.accuracy), '公尺');
+          }
+          
+          // 將位置資訊存入 localStorage
+          localStorage.setItem('userLocation', JSON.stringify({ lat: userLat, lng: userLng }));
+          localStorage.setItem('userLocationTime', now.toString());
+          
+          const nearestStore = findNearestStore(userLat, userLng);
+          if (nearestStore) {
+            renderNearestStore(nearestStore);
+            renderOtherStores(nearestStore.name);
+          }
+        },
+        function(error) {
+          // 低精度定位也失敗，檢查是否有舊的緩存可以使用
+          if (cachedLocation) {
+            try {
+              const location = JSON.parse(cachedLocation);
+              const nearestStore = findNearestStore(location.lat, location.lng);
+              if (nearestStore) {
+                renderNearestStore(nearestStore);
+                renderOtherStores(nearestStore.name);
+                return;
+              }
+            } catch (e) {
+              console.warn('使用舊緩存失敗');
+            }
+          }
+          // 如果沒有緩存或緩存無效，顯示所有門市的簡短資訊
+          console.warn('無法獲取位置:', error.message);
+          renderAllStoresSimple();
+        },
+        {
+          enableHighAccuracy: false, // 使用低精度定位（基於網路或 WiFi），作為備選方案
+          timeout: 10000,
+          maximumAge: 0
+        }
+      );
+    }
+
+    // 開始嘗試高精度定位
+    attemptHighAccuracyLocation();
   }
 
   // 頁面載入完成後初始化
