@@ -140,9 +140,7 @@ official-site/
 - Schema.org 結構化資料（JSON-LD）
 - 語義化 HTML 標籤
 - Canonical URLs
-- **Sitemap.xml**：Google 搜尋引擎網站地圖，包含所有主要頁面
-- **robots.txt**：搜尋引擎爬蟲規則，指向 Sitemap 位置
-- **Google Search Console**：已整合驗證，方便監控網站收錄狀態
+- **Google Search Console**：已通過網域驗證，可監控網站收錄狀態
 
 ### 圖片資源
 
@@ -229,5 +227,5 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 - ✅ PC 版最大寬度限制（1920px），避免超寬螢幕失真
 - ✅ 響應式按鈕設計（手機版文字較小，避免換行）
 - ✅ 手機版卡片兩欄布局優化
-- ✅ Google Search Console 整合（Sitemap、robots.txt、網站驗證）
+- ✅ Google Search Console 網域驗證（已通過驗證）
 - ✅ Google Fonts Zen Old Mincho 字體（全站統一使用）
