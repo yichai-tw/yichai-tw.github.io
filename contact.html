@@ -50,6 +50,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/css/main.css">
   <style>
@@ -148,9 +151,10 @@
               <textarea id="message" rows="6" placeholder="請輸入您想詢問的事項..." required></textarea>
             </div>
 
-            <button type="button" onclick="sendMail()" class="w-full py-3 md:py-4 bg-[#DF7621] hover:bg-[#C65D1A] text-white border-none rounded-md text-base md:text-lg font-bold cursor-pointer transition-colors shadow-md hover:shadow-lg">
-              開啟郵件軟體寄出
+            <button type="submit" id="submit-btn" class="w-full py-3 md:py-4 bg-[#DF7621] hover:bg-[#C65D1A] text-white border-none rounded-md text-base md:text-lg font-bold cursor-pointer transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+              送出表單
             </button>
+            <div id="form-message" class="mt-4 text-center hidden"></div>
           </form>
         </div>
 
@@ -187,54 +191,90 @@
   <div id="footer-container"></div>
 
   <script>
-  function sendMail() {
-      // 1. 抓取資料 (.trim() 是為了去掉客人不小心多按的空白鍵)
-      var name = document.getElementById("user_name").value.trim();
-      var phone = document.getElementById("user_phone").value.trim();
-      var email = document.getElementById("user_email").value.trim();
-      var store = document.getElementById("store_name").value;
-      var msg = document.getElementById("message").value.trim();
+  // 初始化 EmailJS
+  (function() {
+    emailjs.init("OJ0Lh7ui5y1KWKp7e");
+  })();
 
-      // 2. 基礎必填檢查 (姓名與內容)
-      if(name === "") {
-          alert("請填寫您的姓名喔！");
-          document.getElementById("user_name").focus(); // 幫客人把游標移過去
-          return;
-      }
-      if(msg === "") {
-          alert("請輸入您想詢問的內容！");
-          document.getElementById("message").focus();
-          return;
-      }
+  // 表單提交處理
+  document.getElementById("mail-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    // 1. 抓取資料 (.trim() 是為了去掉客人不小心多按的空白鍵)
+    var name = document.getElementById("user_name").value.trim();
+    var phone = document.getElementById("user_phone").value.trim();
+    var email = document.getElementById("user_email").value.trim();
+    var store = document.getElementById("store_name").value;
+    var msg = document.getElementById("message").value.trim();
 
-      // 3. 【核心邏輯】聯絡方式二選一檢查
-      // 如果電話是空的，而且 Email 也是空的 -> 擋下來
-      if(phone === "" && email === "") {
-          alert("為了能回覆您的問題，請至少留下「電話」或「Email」其中一種聯絡方式喔！");
-          document.getElementById("user_phone").focus();
-          return;
-      }
+    // 2. 基礎必填檢查 (姓名與內容)
+    if(name === "") {
+      showMessage("請填寫您的姓名喔！", "error");
+      document.getElementById("user_name").focus();
+      return;
+    }
+    if(msg === "") {
+      showMessage("請輸入您想詢問的內容！", "error");
+      document.getElementById("message").focus();
+      return;
+    }
 
-      // 4. 準備收件資料
-      var to_email = "yi.chai@toppets.com.tw";
-      var subject = "[官網諮詢-" + store + "] " + name;
+    // 3. 【核心邏輯】聯絡方式二選一檢查
+    if(phone === "" && email === "") {
+      showMessage("為了能回覆您的問題，請至少留下「電話」或「Email」其中一種聯絡方式喔！", "error");
+      document.getElementById("user_phone").focus();
+      return;
+    }
 
-      // 5. 組合信件內文 (幫你在 Outlook 裡排版排好)
-      var body_content = 
-          "【官網諮詢表單】\n" +
-          "--------------------------------\n" +
-          "姓名：" + name + "\n" +
-          "諮詢門市：" + store + "\n" +
-          "--------------------------------\n" +
-          "聯絡電話：" + (phone ? phone : "(未填寫)") + "\n" +
-          "電子信箱：" + (email ? email : "(未填寫)") + "\n" +
-          "--------------------------------\n\n" +
-          "詢問內容：\n" + msg;
+    // 4. 準備 EmailJS 參數
+    var templateParams = {
+      name: name,
+      phone: phone || "(未填寫)",
+      email: email || "(未填寫)",
+      store: store,
+      message: msg
+    };
 
-      // 6. 開啟外部信箱
-      window.location.href = "mailto:" + to_email + 
-                             "?subject=" + encodeURIComponent(subject) + 
-                             "&body=" + encodeURIComponent(body_content);
+    // 5. 禁用按鈕，顯示載入狀態
+    var submitBtn = document.getElementById("submit-btn");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "送出中...";
+
+    // 6. 使用 EmailJS 發送郵件
+    emailjs.send("service_i9kkrqj", "template_hg8hddr", templateParams)
+      .then(function(response) {
+        console.log("SUCCESS!", response.status, response.text);
+        showMessage("表單已成功送出！我們會盡快回覆您。", "success");
+        // 清空表單
+        document.getElementById("mail-form").reset();
+        submitBtn.disabled = false;
+        submitBtn.textContent = "送出表單";
+      }, function(error) {
+        console.log("FAILED...", error);
+        showMessage("送出失敗，請稍後再試或直接撥打電話聯繫我們。", "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "送出表單";
+      });
+  });
+
+  // 顯示訊息函數
+  function showMessage(message, type) {
+    var messageDiv = document.getElementById("form-message");
+    messageDiv.textContent = message;
+    messageDiv.classList.remove("hidden");
+    
+    if(type === "success") {
+      messageDiv.className = "mt-4 text-center p-4 bg-green-100 border border-green-400 text-green-700 rounded";
+    } else {
+      messageDiv.className = "mt-4 text-center p-4 bg-red-100 border border-red-400 text-red-700 rounded";
+    }
+    
+    // 3秒後自動隱藏錯誤訊息，成功訊息保留
+    if(type === "error") {
+      setTimeout(function() {
+        messageDiv.classList.add("hidden");
+      }, 5000);
+    }
   }
   </script>
   
