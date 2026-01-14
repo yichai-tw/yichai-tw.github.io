@@ -53,6 +53,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/css/main.css">
   <style>
+    /* 強制套用 Zen Old Mincho 字體 */
+    * {
+      font-family: "Zen Old Mincho", "Noto Serif TC", "Microsoft JhengHei", serif !important;
+    }
+    /* 排除圖標字體 */
+    .fa, [class*="fa-"], .twicon, i[class*="fa"] {
+      font-family: "Font Awesome 6 Free", "TW Icon", sans-serif !important;
+    }
+    
     /* 聯絡表單樣式 */
     .form-group { margin-bottom: 20px; }
     .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
