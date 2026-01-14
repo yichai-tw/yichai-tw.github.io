@@ -1,11 +1,15 @@
 // 動態載入頁尾
 (function() {
-  // 取得頁尾容器
-  const footerContainer = document.getElementById('footer-container');
-  if (!footerContainer) return;
+  function loadFooter() {
+    // 取得頁尾容器
+    const footerContainer = document.getElementById('footer-container');
+    if (!footerContainer) {
+      console.warn('頁尾容器未找到');
+      return;
+    }
 
-  // 載入 footer.html
-  fetch('assets/components/footer.html')
+    // 載入 footer.html
+    fetch('assets/components/footer.html')
     .then(response => {
       if (!response.ok) {
         throw new Error('無法載入頁尾');
@@ -24,4 +28,12 @@
         </div>
       `;
     });
+  }
+
+  // 確保 DOM 載入完成後執行
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadFooter);
+  } else {
+    loadFooter();
+  }
 })();

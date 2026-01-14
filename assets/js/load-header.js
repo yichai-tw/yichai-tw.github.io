@@ -1,11 +1,15 @@
 // 動態載入頁首
 (function() {
-  // 取得頁首容器
-  const headerContainer = document.getElementById('header-container');
-  if (!headerContainer) return;
+  function loadHeader() {
+    // 取得頁首容器
+    const headerContainer = document.getElementById('header-container');
+    if (!headerContainer) {
+      console.warn('頁首容器未找到');
+      return;
+    }
 
-  // 載入 header.html
-  fetch('assets/components/header.html')
+    // 載入 header.html
+    fetch('assets/components/header.html')
     .then(response => {
       if (!response.ok) {
         throw new Error('無法載入頁首');
@@ -24,6 +28,14 @@
     .catch(error => {
       console.error('載入頁首時發生錯誤:', error);
     });
+  }
+
+  // 確保 DOM 載入完成後執行
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadHeader);
+  } else {
+    loadHeader();
+  }
 })();
 
 // 初始化手機版選單
