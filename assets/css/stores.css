@@ -265,6 +265,11 @@ section.bg-gradient-to-br h1 {
   display: none;
 }
 
+/* LINE 瀏覽器模式下隱藏載入文字 */
+.map-container.line-browser::before {
+  display: none;
+}
+
 /* 響應式設計 */
 
 @media (max-width: 768px) {

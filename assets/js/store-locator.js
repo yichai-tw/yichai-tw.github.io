@@ -2,8 +2,13 @@
 (function() {
   // 偵測 LINE 內建瀏覽器
   function isLineBrowser() {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-    return /Line/i.test(ua) || /Naver/i.test(ua);
+    const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+    // 偵測 LINE 內建瀏覽器（多種可能的 User-Agent 格式）
+    return /Line/i.test(ua) || 
+           /Naver/i.test(ua) || 
+           /LINE/i.test(ua) ||
+           (ua.indexOf('Line') !== -1) ||
+           (ua.indexOf('line') !== -1);
   }
 
   // 所有門市資料

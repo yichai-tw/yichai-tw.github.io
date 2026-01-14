@@ -449,16 +449,24 @@
   <script>
     // 偵測 LINE 內建瀏覽器
     function isLineBrowser() {
-      const ua = navigator.userAgent || navigator.vendor || window.opera;
-      return /Line/i.test(ua) || /Naver/i.test(ua);
+      const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+      // 偵測 LINE 內建瀏覽器（多種可能的 User-Agent 格式）
+      return /Line/i.test(ua) || 
+             /Naver/i.test(ua) || 
+             /LINE/i.test(ua) ||
+             (ua.indexOf('Line') !== -1) ||
+             (ua.indexOf('line') !== -1);
     }
 
     // 處理 LINE 瀏覽器的地圖顯示
     function handleLineBrowserMaps() {
       if (isLineBrowser()) {
-        // 隱藏所有 iframe
+        // 隱藏所有 iframe 並移除載入文字
         const mapContainers = document.querySelectorAll('.map-container');
         mapContainers.forEach(function(container) {
+          // 添加 class 來隱藏 ::before 偽元素（載入地圖中...文字）
+          container.classList.add('line-browser');
+          
           const iframe = container.querySelector('iframe');
           if (iframe) {
             iframe.style.display = 'none';
