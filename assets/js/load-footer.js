@@ -9,18 +9,8 @@
     }
 
     // 載入 footer.html
-    // 使用相對於根目錄的路徑，確保在所有頁面都能正確載入
-    let footerPath = 'assets/components/footer.html';
-    // 如果當前路徑不是根目錄，需要計算相對路徑
-    const currentPath = window.location.pathname;
-    if (currentPath && currentPath !== '/' && currentPath !== '/index.html') {
-      // 計算需要返回的層級數
-      const pathParts = currentPath.split('/').filter(p => p && !p.endsWith('.html'));
-      if (pathParts.length > 0) {
-        // 在子目錄中，需要返回根目錄
-        footerPath = '/' + footerPath;
-      }
-    }
+    // 使用相對於根目錄的路徑（以 / 開頭），確保在所有頁面都能正確載入
+    const footerPath = '/assets/components/footer.html';
     
     fetch(footerPath)
     .then(response => {
