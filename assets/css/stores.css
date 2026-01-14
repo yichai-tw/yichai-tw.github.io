@@ -1,0 +1,422 @@
+/* TW Icon Fonts */
+@font-face {
+  font-family: 'TW Icon';
+  src: url('../fonts/twicon.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.twicon {
+  font-family: 'TW Icon', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 基礎樣式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+/* 導航欄 */
+.navbar { 
+  background: white; 
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+  position: sticky; 
+  top: 0; 
+  z-index: 1000; 
+  padding: 8px 0; 
+}
+
+.nav-container { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 0 15px; 
+}
+
+.logo { 
+  height: 32px; 
+  font-weight: bold; 
+  font-size: 1.2rem; 
+  color: #2c3e50; 
+  text-decoration: none; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px;
+}
+
+.nav-links { 
+  display: flex; 
+  gap: 15px; 
+  list-style: none; 
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a { 
+  color: #2c3e50; 
+  text-decoration: none; 
+  font-weight: 500; 
+  font-size: 0.9rem;
+  transition: color 0.3s; 
+}
+
+.nav-links a:hover { 
+  color: #DF7621; 
+}
+
+/* 手機版漢堡選單按鈕 */
+.mobile-menu-btn {
+  display: none;
+  padding: 8px;
+  background: none;
+  border: none;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.mobile-menu-btn:hover {
+  color: #DF7621;
+}
+
+/* 手機版側邊欄選單 */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 256px;
+  height: 100vh;
+  background: white;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1001;
+}
+
+.mobile-menu.show {
+  transform: translateX(0);
+}
+
+/* 側邊欄背景遮罩 */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: none;
+}
+
+.mobile-menu-overlay.show {
+  display: block;
+}
+
+/* 手機版選單連結 */
+.mobile-menu-link {
+  display: block;
+  padding: 12px 16px;
+  color: #2c3e50;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.mobile-menu-link:hover {
+  background-color: #f3f4f6;
+  color: #DF7621;
+}
+
+.mobile-menu-close {
+  padding: 8px;
+  background: none;
+  border: none;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.mobile-menu-close:hover {
+  color: #DF7621;
+}
+
+/* 容器與標題 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 2.5em;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 40px;
+  font-size: 1.1em;
+}
+
+/* 城市分類標題 */
+.city-section {
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.city-section:first-of-type {
+  margin-top: 0;
+}
+
+.city-title {
+  font-size: 1.8em;
+  color: #DF7621;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #DF7621;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.city-title i,
+.city-title svg,
+.city-title .twicon {
+  font-size: 1.2em;
+  width: 1.2em;
+  height: 1.2em;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  color: #DF7621;
+}
+
+.city-title svg,
+.city-title .city-icon {
+  fill: #DF7621;
+}
+
+.city-title .twicon {
+  font-size: 1.5em;
+  line-height: 1;
+  min-width: 1.2em;
+  text-align: center;
+}
+
+/* 門市網格 */
+.stores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+/* 卡片樣式 */
+.store-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.store-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.store-name {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #DF7621;
+}
+
+.store-info {
+  margin-bottom: 12px;
+  color: #7f8c8d;
+  flex-grow: 1;
+}
+
+.store-info strong {
+  color: #34495e;
+  display: inline-block;
+  min-width: 60px;
+}
+
+.store-info a {
+  color: #DF7621;
+  text-decoration: none;
+}
+
+.store-info a:hover {
+  text-decoration: underline;
+}
+
+/* 按鈕樣式 */
+.store-actions {
+  margin-top: auto;
+  padding-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-map {
+  flex: 1;
+  text-align: center;
+  background: #f1f2f6;
+  color: #2c3e50;
+  padding: 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.btn-map:hover { 
+  background: #dfe4ea; 
+}
+
+.btn-call {
+  flex: 1;
+  text-align: center;
+  background: #DF7621;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.btn-call:hover {
+  background: #C65D1A;
+}
+
+/* Google Map 嵌入樣式 */
+.map-container {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 15px;
+  border: 1px solid #e0e0e0;
+  position: relative;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-container::before {
+  content: '載入地圖中...';
+  position: absolute;
+  color: #7f8c8d;
+  font-size: 0.9em;
+  z-index: 1;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.map-container iframe.loaded {
+  opacity: 1;
+}
+
+.map-container.loaded::before {
+  display: none;
+}
+
+/* 響應式設計 */
+@media (max-width: 767px) {
+  .desktop-nav {
+    display: none;
+  }
+  .mobile-menu-btn {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    padding: 15px 0;
+  }
+  .nav-container {
+    padding: 0 20px;
+  }
+  .logo {
+    height: 40px;
+    font-size: 1.5rem;
+    gap: 10px;
+  }
+  .nav-links {
+    gap: 30px;
+  }
+  .nav-links a {
+    font-size: 1rem;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .stores-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 2em;
+  }
+
+  .city-title {
+    font-size: 1.5em;
+  }
+}
