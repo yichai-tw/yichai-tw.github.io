@@ -9,10 +9,21 @@
     }
 
     // 載入 header.html
-    fetch('assets/components/header.html')
+    // 根據當前頁面路徑決定相對路徑
+    let headerPath = 'assets/components/header.html';
+    const currentPath = window.location.pathname;
+    if (currentPath && currentPath !== '/' && currentPath !== '/index.html') {
+      // 如果不在根目錄，需要調整路徑
+      const depth = currentPath.split('/').filter(p => p && !p.endsWith('.html')).length;
+      if (depth > 0) {
+        headerPath = '../' + headerPath;
+      }
+    }
+    
+    fetch(headerPath)
     .then(response => {
       if (!response.ok) {
-        throw new Error('無法載入頁首');
+        throw new Error('無法載入頁首: HTTP ' + response.status);
       }
       return response.text();
     })
