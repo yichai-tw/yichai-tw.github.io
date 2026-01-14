@@ -9,15 +9,12 @@
     }
 
     // 載入 footer.html
-    // 根據當前頁面路徑決定相對路徑
+    // 使用絕對路徑，確保在所有頁面都能正確載入
     let footerPath = 'assets/components/footer.html';
-    const currentPath = window.location.pathname;
-    if (currentPath && currentPath !== '/' && currentPath !== '/index.html') {
-      // 如果不在根目錄，需要調整路徑
-      const depth = currentPath.split('/').filter(p => p && !p.endsWith('.html')).length;
-      if (depth > 0) {
-        footerPath = '../' + footerPath;
-      }
+    // 如果是 GitHub Pages，使用相對於根目錄的路徑
+    if (window.location.hostname.includes('github.io')) {
+      const basePath = window.location.pathname.split('/').slice(0, -1).join('/') || '';
+      footerPath = (basePath ? basePath + '/' : '') + 'assets/components/footer.html';
     }
     
     fetch(footerPath)
