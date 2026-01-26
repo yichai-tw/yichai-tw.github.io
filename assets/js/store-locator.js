@@ -379,28 +379,37 @@
     }
   }
 
-  function filterStoresByTag(stores, filterTag) {
-    if (filterTag === 'all') {
+  function filterStoresByTags(stores, activeFilters) {
+    if (!activeFilters || activeFilters.length === 0) {
       return stores;
     }
     
-    if (filterTag === 'taipei') {
-      return stores.filter(store => store.city === '台北市');
+    let filtered = stores;
+    
+    // 縣市篩選（只能選一個，如果選了多個則取第一個）
+    const cityFilters = activeFilters.filter(f => f === 'taipei' || f === 'newtaipei');
+    if (cityFilters.length > 0) {
+      const cityFilter = cityFilters[0];
+      if (cityFilter === 'taipei') {
+        filtered = filtered.filter(store => store.city === '台北市');
+      } else if (cityFilter === 'newtaipei') {
+        filtered = filtered.filter(store => store.city === '新北市');
+      }
     }
     
-    if (filterTag === 'newtaipei') {
-      return stores.filter(store => store.city === '新北市');
+    // 功能篩選（可以多選）
+    const featureFilters = activeFilters.filter(f => f === 'open' || f === 'grooming');
+    if (featureFilters.length > 0) {
+      featureFilters.forEach(filter => {
+        if (filter === 'open') {
+          filtered = filtered.filter(store => store.isOpen === true);
+        } else if (filter === 'grooming') {
+          filtered = filtered.filter(store => store.hasGrooming === true);
+        }
+      });
     }
     
-    if (filterTag === 'open') {
-      return stores.filter(store => store.isOpen === true);
-    }
-    
-    if (filterTag === 'grooming') {
-      return stores.filter(store => store.hasGrooming === true);
-    }
-    
-    return stores;
+    return filtered;
   }
 
   function renderStoresPage(stores, userLat, userLng) {
@@ -416,7 +425,7 @@
 
     // 自動選中第一筆（按 GPS 距離或城市排序後的第一筆）
     let currentStore = ordered[0] || null;
-    let currentFilter = 'all';
+    let activeFilters = []; // 改為陣列，支援多選
     let filteredStores = ordered;
     
     // 保存用戶位置，供篩選時使用
@@ -525,50 +534,68 @@
     }
     initPanelInteractions(panel);
 
-    // 標籤篩選功能
+    // 標籤篩選功能（多選）
     if (filterTags) {
       const tagButtons = filterTags.querySelectorAll('.filter-tag');
+      
+      function updateFilters() {
+        // 收集所有選中的標籤
+        activeFilters = Array.from(tagButtons)
+          .filter(btn => btn.classList.contains('active'))
+          .map(btn => btn.dataset.filter);
+        
+        // 篩選門市
+        const filtered = filterStoresByTags(ordered, activeFilters);
+        // 重新排序篩選結果（保持距離或城市排序）
+        filteredStores = sortStoresByDistance(filtered, savedUserLat, savedUserLng);
+        
+        // 如果當前選中的門市不在篩選結果中，自動選中第一筆
+        if (currentStore && !filteredStores.find(s => s.id === currentStore.id)) {
+          currentStore = filteredStores[0] || null;
+          if (currentStore) {
+            updateMapFrame(currentStore);
+          }
+        }
+        // 如果沒有選中的門市，自動選中第一筆
+        else if (!currentStore && filteredStores.length > 0) {
+          currentStore = filteredStores[0];
+          updateMapFrame(currentStore);
+        }
+        
+        updateStoreList(filteredStores);
+        
+        // 更新地圖（如果選中的門市在篩選結果中）
+        if (currentStore && filteredStores.find(s => s.id === currentStore.id)) {
+          updateMapFrame(currentStore);
+        }
+      }
+      
       tagButtons.forEach(button => {
         button.addEventListener('click', () => {
-          // 更新按鈕狀態
-          tagButtons.forEach(btn => btn.classList.remove('active'));
-          button.classList.add('active');
+          const filter = button.dataset.filter;
+          const group = button.dataset.group;
           
-          // 獲取篩選標籤
-          currentFilter = button.dataset.filter;
+          // 切換選中狀態
+          const isActive = button.classList.contains('active');
           
-          // 篩選門市
-          const filtered = filterStoresByTag(ordered, currentFilter);
-          // 重新排序篩選結果（保持距離或城市排序）
-          filteredStores = sortStoresByDistance(filtered, savedUserLat, savedUserLng);
-          
-          // 如果當前選中的門市不在篩選結果中，自動選中第一筆
-          if (currentStore && !filteredStores.find(s => s.id === currentStore.id)) {
-            currentStore = filteredStores[0] || null;
-            if (currentStore) {
-              updateMapFrame(currentStore);
+          if (group === 'city') {
+            // 縣市標籤：同一組內只能選一個，切換選中狀態
+            const sameGroupButtons = Array.from(tagButtons).filter(
+              btn => btn.dataset.group === 'city'
+            );
+            sameGroupButtons.forEach(btn => btn.classList.remove('active'));
+            if (!isActive) {
+              button.classList.add('active');
             }
-          }
-          // 如果沒有選中的門市，自動選中第一筆
-          else if (!currentStore && filteredStores.length > 0) {
-            currentStore = filteredStores[0];
-            updateMapFrame(currentStore);
+          } else {
+            // 功能標籤：可以多選，切換選中狀態
+            button.classList.toggle('active');
           }
           
-          updateStoreList(filteredStores);
-          
-          // 更新地圖（如果選中的門市在篩選結果中）
-          if (currentStore && filteredStores.find(s => s.id === currentStore.id)) {
-            updateMapFrame(currentStore);
-          }
+          // 更新篩選
+          updateFilters();
         });
       });
-      
-      // 預設選中「全部」
-      const allButton = filterTags.querySelector('[data-filter="all"]');
-      if (allButton) {
-        allButton.classList.add('active');
-      }
     }
 
     return true;

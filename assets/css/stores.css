@@ -145,6 +145,26 @@ body {
 
 .store-filter-tags {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group-label {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-group-tags {
+  display: flex;
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
@@ -563,6 +583,18 @@ body {
   }
 
   .store-filter-tags {
+    gap: 12px;
+  }
+
+  .filter-group {
+    gap: 10px;
+  }
+
+  .filter-group-label {
+    font-size: 0.8em;
+  }
+
+  .filter-group-tags {
     gap: 10px;
   }
 

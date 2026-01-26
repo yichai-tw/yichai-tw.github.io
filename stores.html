@@ -144,11 +144,20 @@
           <div class="store-panel-header">
             <h2 class="store-panel-title">門市清單</h2>
             <div class="store-filter-tags" id="store-filter-tags">
-              <button class="filter-tag" data-filter="all" aria-label="顯示全部">全部</button>
-              <button class="filter-tag" data-filter="taipei" aria-label="篩選台北市">台北市</button>
-              <button class="filter-tag" data-filter="newtaipei" aria-label="篩選新北市">新北市</button>
-              <button class="filter-tag" data-filter="open" aria-label="篩選營業中">營業中</button>
-              <button class="filter-tag" data-filter="grooming" aria-label="篩選有寵物美容">寵物美容</button>
+              <div class="filter-group">
+                <span class="filter-group-label">縣市</span>
+                <div class="filter-group-tags">
+                  <button class="filter-tag" data-filter="taipei" data-group="city" aria-label="篩選台北市">台北市</button>
+                  <button class="filter-tag" data-filter="newtaipei" data-group="city" aria-label="篩選新北市">新北市</button>
+                </div>
+              </div>
+              <div class="filter-group">
+                <span class="filter-group-label">功能</span>
+                <div class="filter-group-tags">
+                  <button class="filter-tag" data-filter="open" data-group="feature" aria-label="篩選營業中">營業中</button>
+                  <button class="filter-tag" data-filter="grooming" data-group="feature" aria-label="篩選有寵物美容">寵物美容</button>
+                </div>
+              </div>
             </div>
           </div>
           

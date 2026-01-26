@@ -115,6 +115,7 @@ ENV/
 # !package-lock.json
 # !public/config.json
 # !public/data.json
+!mapping/PetStores_BranchInfo.json
 
 # 專案特定排除
 content/              # 原始資料目錄（人只改這裡，不追蹤）
