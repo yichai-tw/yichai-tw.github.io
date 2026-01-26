@@ -1,0 +1,135 @@
+yichai_pet_branches:
+  - branch_name: "中正店"
+    brand_full_name: "宜加寵物生活館_中正店"
+    location:
+      address: "242台灣新北市新莊區中正路380號"
+      postal_code: "242"
+    business_hours:
+      monday:    "OFF"
+      tuesday:   "12:00-22:00"
+      wednesday: "12:00-22:00"
+      thursday:  "12:00-22:00"
+      friday:    "12:00-22:00"
+      saturday:  "11:00-22:00"
+      sunday:    "11:00-22:00"
+    summary: { weekly_closed_on: "Monday" }
+
+  - branch_name: "內湖店"
+    brand_full_name: "宜加寵物生活館_內湖店"
+    location:
+      address: "114臺北市內湖區金龍路17號"
+      postal_code: "114"
+    business_hours:
+      monday:    "12:00-22:00"
+      tuesday:   "12:00-22:00"
+      wednesday: "12:00-22:00"
+      thursday:  "12:00-22:00"
+      friday:    "12:00-22:00"
+      saturday:  "11:30-22:30"
+      sunday:    "11:30-22:30"
+    summary: { weekly_closed_on: null }
+
+  - branch_name: "新和店"
+    brand_full_name: "宜加寵物生活館 新和店"
+    location:
+      address: "242台灣新北市新莊區中和街28號"
+      postal_code: "242"
+    business_hours:
+      monday:    "11:00-22:00"
+      tuesday:   "11:00-22:00"
+      wednesday: "11:00-22:00"
+      thursday:  "11:00-22:00"
+      friday:    "11:00-22:00"
+      saturday:  "11:00-22:00"
+      sunday:    "11:00-22:00"
+    summary: { weekly_closed_on: null }
+
+  - branch_name: "中華店"
+    brand_full_name: "宜加寵物生活館_中華店"
+    location:
+      address: "242台灣新北市新莊區中華路二段22-1號"
+      postal_code: "242"
+    business_hours:
+      monday:    "10:30-22:30"
+      tuesday:   "10:30-22:30"
+      wednesday: "10:30-22:30"
+      thursday:  "10:30-22:30"
+      friday:    "10:30-22:30"
+      saturday:  "10:30-22:30"
+      sunday:    "10:30-22:30"
+    summary: { weekly_closed_on: null }
+
+  - branch_name: "龍安店"
+    brand_full_name: "宜加寵物生活館_龍安店"
+    location:
+      address: "242台灣新北市新莊區龍安路306號"
+      postal_code: "242"
+    business_hours:
+      monday:    "11:00-22:00"
+      tuesday:   "11:00-22:00"
+      wednesday: "11:00-22:00"
+      thursday:  "11:00-22:00"
+      friday:    "11:00-22:00"
+      saturday:  "11:00-22:00"
+      sunday:    "11:00-22:00"
+    summary: { weekly_closed_on: null }
+
+  - branch_name: "中港店"
+    brand_full_name: "宜加寵物生活館_中港店"
+    location:
+      address: "242台灣新北市新莊區中港路430號"
+      postal_code: "242"
+    business_hours:
+      monday:    "11:00-22:00"
+      tuesday:   "11:00-22:00"
+      wednesday: "11:00-22:00"
+      thursday:  "11:00-22:00"
+      friday:    "11:00-22:00"
+      saturday:  "11:00-22:00"
+      sunday:    "11:00-22:00"
+    summary: { weekly_closed_on: null }
+
+  - branch_name: "五股成泰店"
+    brand_full_name: "宜加寵物生活館_五股成泰店(無美容)"
+    location:
+      address: "248台灣新北市五股區成泰路三段518號"
+      postal_code: "248"
+    business_hours:
+      monday:    "11:00-22:00"
+      tuesday:   "11:00-22:00"
+      wednesday: "11:00-22:00"
+      thursday:  "11:00-22:00"
+      friday:    "11:00-22:00"
+      saturday:  "11:00-22:00"
+      sunday:    "11:00-22:00"
+    summary: { weekly_closed_on: null, services: { grooming: false } }
+
+  - branch_name: "明志(泰山)店"
+    brand_full_name: "宜加寵物生活館_明志(泰山)店"
+    location:
+      address: "243台灣新北市泰山區明志路一段409號"
+      postal_code: "243"
+    business_hours:
+      monday:    "12:00-22:00"
+      tuesday:   "12:00-22:00"
+      wednesday: "12:00-22:00"
+      thursday:  "12:00-22:00"
+      friday:    "12:00-22:00"
+      saturday:  "11:00-22:00"
+      sunday:    "11:00-22:00"
+    summary: { weekly_closed_on: null }
+
+  - branch_name: "泰山店"
+    brand_full_name: "宜加寵物生活館_泰山店"
+    location:
+      address: "243台灣 New Taipei City 泰山區明志路二段152號"
+      postal_code: "243"
+    business_hours:
+      monday:    "11:00-22:00"
+      tuesday:   "11:00-22:00"
+      wednesday: "11:00-22:00"
+      thursday:  "11:00-22:00"
+      friday:    "11:00-22:00"
+      saturday:  "11:00-22:00"
+      sunday:    "11:00-22:00"
+    summary: { weekly_closed_on: null }
