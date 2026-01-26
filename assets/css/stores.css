@@ -178,6 +178,59 @@ section.bg-gradient-to-br h1 {
   text-decoration: underline;
 }
 
+.store-hours {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.92em;
+}
+
+.store-hours-time {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.store-hours-status {
+  font-weight: 600;
+}
+
+.store-status-open {
+  color: #16a34a;
+}
+
+.store-status-closing {
+  color: #dc2626;
+}
+
+.store-status-closed {
+  color: #6b7280;
+}
+
+.store-status-upcoming {
+  color: #2563eb;
+}
+
+.store-hours-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 4px;
+}
+
+.store-hours-action {
+  color: #DF7621;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.store-hours-action:hover {
+  color: #C65D1A;
+  text-decoration: none;
+}
+
 /* 按鈕樣式 */
 .store-actions {
   margin-top: auto;

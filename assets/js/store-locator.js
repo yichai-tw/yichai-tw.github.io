@@ -31,6 +31,83 @@
     { name: '北大店', lat: 24.94189437221343, lng: 121.3792083511288, address: '新北市三峽區三樹路202-1號', phone: '02-8672-5898', mapUrl: 'https://www.google.com/maps/search/?api=1&query=新北市三峽區三樹路202-1號', city: '新北市' }
   ];
 
+  const defaultHours = { open: '11:00', close: '22:00' };
+  const storeHoursByName = {
+    '內湖店': { open: '12:00', close: '22:30' },
+    '新和店': { open: '11:00', close: '22:00' },
+    '中華店': { open: '10:30', close: '22:30' },
+    '中正店': { open: '12:00', close: '22:00' },
+    '龍安店': { open: '11:00', close: '22:00' },
+    '中港店': { open: '11:00', close: '22:00' },
+    '泰山店': { open: '11:00', close: '22:00' },
+    '明志店': { open: '12:00', close: '22:00' },
+    '成泰店': { open: '11:00', close: '22:00' },
+    '五股店': { open: '11:00', close: '22:00' }
+  };
+
+  stores.forEach(store => {
+    store.hours = storeHoursByName[store.name] || defaultHours;
+  });
+
+  function parseTimeToDate(baseDate, timeText) {
+    const [hours, minutes] = timeText.split(':').map(Number);
+    const target = new Date(baseDate);
+    target.setHours(hours, minutes, 0, 0);
+    return target;
+  }
+
+  function getStoreStatus(hours, now) {
+    const openAt = parseTimeToDate(now, hours.open);
+    const closeAt = parseTimeToDate(now, hours.close);
+    const diff = closeAt - now;
+
+    if (now < openAt) {
+      return { text: `尚未營業 (${hours.open} 開門)`, className: 'store-status-upcoming' };
+    }
+    if (diff <= 0) {
+      return { text: `已打烊 (${hours.close} 關門)`, className: 'store-status-closed' };
+    }
+    if (diff <= 30 * 60 * 1000) {
+      return { text: `即將打烊 (${hours.close} 關門)`, className: 'store-status-closing' };
+    }
+    return { text: `營業中 (${hours.close} 關門)`, className: 'store-status-open' };
+  }
+
+  function buildHoursLine(hours, phoneHref, mapHref) {
+    const status = getStoreStatus(hours, new Date());
+    const phoneLink = phoneHref ? `<a href="${phoneHref}" class="store-hours-action" aria-label="撥打電話"><i class="fas fa-phone-alt"></i></a>` : '';
+    const mapLink = mapHref ? `<a href="${mapHref}" class="store-hours-action" target="_blank" rel="noopener noreferrer" aria-label="開啟地圖"><i class="fas fa-map-marker-alt"></i></a>` : '';
+
+    return `
+      <div class="store-hours">
+        <strong>營業：</strong>
+        <span class="store-hours-time">${hours.open}-${hours.close}</span>
+        <span class="store-hours-status ${status.className}">● ${status.text}</span>
+        <span class="store-hours-actions">${phoneLink}${mapLink}</span>
+      </div>
+    `;
+  }
+
+  function injectStoreHoursToCards() {
+    const cards = document.querySelectorAll('.store-card');
+    if (!cards.length) return;
+
+    cards.forEach(card => {
+      if (card.querySelector('.store-hours')) return;
+
+      const name = card.querySelector('.store-name')?.textContent?.trim();
+      const store = stores.find(item => item.name === name);
+      const hours = store?.hours || defaultHours;
+      const phoneHref = card.querySelector('.store-info a[href^="tel:"]')?.getAttribute('href');
+      const mapHref = card.querySelector('.store-actions a.btn-map')?.getAttribute('href');
+      const infoBlock = card.querySelector('.store-info');
+
+      if (infoBlock) {
+        infoBlock.insertAdjacentHTML('beforeend', buildHoursLine(hours, phoneHref, mapHref));
+      }
+    });
+  }
+
   // 計算兩點間距離（Haversine 公式）
   function calculateDistance(lat1, lng1, lat2, lng2) {
     const R = 6371; // 地球半徑（公里）
@@ -99,6 +176,7 @@
           <h4 class="text-xl font-bold text-[#DF7621] mb-2">${store.name}</h4>
           <p class="text-gray-600 mb-1"><strong>地址：</strong>${store.address}</p>
           <p class="text-gray-600 mb-1"><strong>電話：</strong><a href="tel:${store.phone.replace(/-/g, '')}" class="text-[#DF7621] hover:underline">${store.phone}</a></p>
+          ${buildHoursLine(store.hours || defaultHours, `tel:${store.phone.replace(/-/g, '')}`, store.mapUrl)}
           <p class="text-gray-600 mb-4"><strong>距離：</strong>約 ${store.distance} 公里</p>
           ${store.accuracy ? `<p class="text-gray-500 text-sm">定位精度: 約 ${store.accuracy} 公尺</p>` : ''}
         </div>
@@ -190,6 +268,7 @@
     if (!navigator.geolocation) {
       // 不支援定位，顯示所有門市的簡短資訊
       renderAllStoresSimple();
+      injectStoreHoursToCards();
       return;
     }
 
@@ -210,6 +289,7 @@
           if (nearestStore) {
             renderNearestStore(nearestStore);
             renderOtherStores(nearestStore.name);
+            injectStoreHoursToCards();
           }
         },
         function(error) {
@@ -241,12 +321,14 @@
           if (nearestStore) {
             renderNearestStore(nearestStore);
             renderOtherStores(nearestStore.name);
+            injectStoreHoursToCards();
           }
         },
         function(error) {
           // 定位失敗，顯示所有門市的簡短資訊
           console.warn('無法獲取位置:', error.message);
           renderAllStoresSimple();
+          injectStoreHoursToCards();
         },
         {
           enableHighAccuracy: false, // 使用低精度定位（基於網路或 WiFi），作為備選方案
