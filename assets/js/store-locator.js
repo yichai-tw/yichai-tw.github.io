@@ -32,22 +32,58 @@
   ];
 
   const defaultHours = { open: '11:00', close: '22:00' };
-  const storeHoursByName = {
-    '內湖店': { open: '12:00', close: '22:30' },
-    '新和店': { open: '11:00', close: '22:00' },
-    '中華店': { open: '10:30', close: '22:30' },
-    '中正店': { open: '12:00', close: '22:00' },
-    '龍安店': { open: '11:00', close: '22:00' },
-    '中港店': { open: '11:00', close: '22:00' },
-    '泰山店': { open: '11:00', close: '22:00' },
-    '明志店': { open: '12:00', close: '22:00' },
-    '成泰店': { open: '11:00', close: '22:00' },
-    '五股店': { open: '11:00', close: '22:00' }
-  };
 
-  stores.forEach(store => {
-    store.hours = storeHoursByName[store.name] || defaultHours;
-  });
+  function normalizeStoreName(name) {
+    return name.replace(/店$/, '').trim();
+  }
+
+  function getTodayKey(date) {
+    return ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'][date.getDay()];
+  }
+
+  function resolveTodayHours(weeklyHours, now) {
+    if (!weeklyHours) return null;
+
+    const todayKey = getTodayKey(now);
+    const todayHours = weeklyHours[todayKey];
+    if (!todayHours) return null;
+
+    if (todayHours.toUpperCase() === 'OFF') {
+      return { isClosedAllDay: true, rawText: todayHours };
+    }
+
+    const [open, close] = todayHours.split('-');
+    if (!open || !close) return null;
+
+    return { open, close, rawText: todayHours };
+  }
+
+  async function assignStoreHoursFromMapping() {
+    try {
+      const response = await fetch('mapping/PetStores_BranchInfo.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error('Failed to load store hours');
+      const data = await response.json();
+      const hoursMap = new Map();
+
+      (data.stores || []).forEach(store => {
+        const normalizedName = normalizeStoreName(store.store_name || '');
+        hoursMap.set(normalizedName, store.business_hours || null);
+      });
+
+      const now = new Date();
+      stores.forEach(store => {
+        const normalizedName = normalizeStoreName(store.name);
+        const weeklyHours = hoursMap.get(normalizedName);
+        const todayHours = resolveTodayHours(weeklyHours, now);
+        store.hours = todayHours || { ...defaultHours };
+      });
+    } catch (error) {
+      console.warn('載入門市營業時間失敗，使用預設時間:', error);
+      stores.forEach(store => {
+        store.hours = { ...defaultHours };
+      });
+    }
+  }
 
   function parseTimeToDate(baseDate, timeText) {
     const [hours, minutes] = timeText.split(':').map(Number);
@@ -57,6 +93,10 @@
   }
 
   function getStoreStatus(hours, now) {
+    if (hours.isClosedAllDay) {
+      return { text: '今日休息', className: 'store-status-closed' };
+    }
+
     const openAt = parseTimeToDate(now, hours.open);
     const closeAt = parseTimeToDate(now, hours.close);
     const diff = closeAt - now;
@@ -78,10 +118,12 @@
     const phoneLink = phoneHref ? `<a href="${phoneHref}" class="store-hours-action" aria-label="撥打電話"><i class="fas fa-phone-alt"></i></a>` : '';
     const mapLink = mapHref ? `<a href="${mapHref}" class="store-hours-action" target="_blank" rel="noopener noreferrer" aria-label="開啟地圖"><i class="fas fa-map-marker-alt"></i></a>` : '';
 
+    const timeText = hours.isClosedAllDay ? '今日休息' : `${hours.open}-${hours.close}`;
+
     return `
       <div class="store-hours">
         <strong>營業：</strong>
-        <span class="store-hours-time">${hours.open}-${hours.close}</span>
+        <span class="store-hours-time">${timeText}</span>
         <span class="store-hours-status ${status.className}">● ${status.text}</span>
         <span class="store-hours-actions">${phoneLink}${mapLink}</span>
       </div>
@@ -254,7 +296,7 @@
   }
 
   // 初始化
-  function init() {
+  async function init() {
     const nearestStoreContainer = document.getElementById('nearest-store-container');
     const otherStoresContainer = document.getElementById('other-stores-container');
     
@@ -263,6 +305,8 @@
     // 顯示載入訊息
     nearestStoreContainer.innerHTML = '<div class="text-center py-8"><p class="text-gray-600">正在定位您的位置...</p></div>';
     otherStoresContainer.innerHTML = '<div class="text-center py-8"><p class="text-gray-600">載入中...</p></div>';
+
+    await assignStoreHoursFromMapping();
 
     // 檢查是否支援 Geolocation API
     if (!navigator.geolocation) {
