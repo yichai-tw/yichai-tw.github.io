@@ -124,6 +124,171 @@
       </div>
     </section>
 
+    <!-- 門市地圖與清單 -->
+    <section class="store-map-shell">
+      <div class="store-map-layer">
+        <iframe id="store-map-frame" title="門市地圖" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="store-map-hint">點擊門市清單可切換地圖</div>
+      </div>
+      <div class="store-panel is-collapsed" id="store-panel">
+        <button class="store-panel-handle" type="button" aria-label="展開門市清單">
+          <span class="store-panel-handle-bar"></span>
+        </button>
+        <div class="store-panel-inner">
+          <div class="store-panel-header">
+            <h2 class="store-panel-title">門市清單</h2>
+            <div class="store-search">
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input id="store-search-input" type="search" placeholder="搜尋門市或區域" aria-label="搜尋門市或區域">
+            </div>
+          </div>
+          <div class="store-panel-preview" id="store-preview"></div>
+          <div class="store-panel-list" id="store-list"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- 頁尾容器 -->
+  <div id="footer-container"></div>
+
+  <!-- 載入通用頁首 -->
+  <script src="assets/js/load-header.js"></script>
+  
+  <!-- 載入通用頁尾 -->
+  <script src="assets/js/load-footer.js"></script>
+
+  <!-- 門市營業狀態 -->
+  <script src="assets/js/store-locator.js?v=20260122"></script>
+
+</body>
+</html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>宜加寵物生活館｜雙北16間門市｜法國皇家、法米納等百款品牌飼料專賣</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="宜加寵物深耕新北25年，於新莊、五股、蘆洲、三重、泰山、汐止、淡水、內湖等區設有16間門市，專營法國皇家、法米納等進口飼料，不販售活體寵物。立即查看各分店地址、電話與LINE諮詢。">
+  <meta name="keywords" content="宜加寵物,宜加寵物生活館,宜佳寵物,台北市寵物用品,新北市寵物用品,宜加寵物用品,宜佳寵物用品,雙北寵物店,寵物用品專賣,法國皇家飼料,法米納貓糧,新莊寵物店,五股寵物用品,蘆洲寵物店,三重寵物用品,泰山寵物店,汐止寵物用品,淡水寵物用品,內湖寵物店,門市地址,門市電話,LINE諮詢,無活體寵物店">
+  <meta name="author" content="宜加寵物生活館">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yichai-tw.github.io/stores.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yichai-tw.github.io/stores.html">
+  <meta property="og:title" content="宜加寵物生活館｜雙北16間門市｜法國皇家、法米納等百款品牌飼料專賣">
+  <meta property="og:description" content="宜加寵物深耕新北25年，於新莊、五股、蘆洲、三重、泰山、汐止、淡水、內湖等區設有16間門市，專營法國皇家、法米納等進口飼料，不販售活體寵物。立即查看各分店地址、電話與LINE諮詢。">
+  <meta property="og:image" content="https://yichai-tw.github.io/assets/images/yichai-petshop-logo.png">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:site_name" content="宜加寵物生活館">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://yichai-tw.github.io/stores.html">
+  <meta name="twitter:title" content="宜加寵物生活館｜雙北16間門市｜法國皇家、法米納等百款品牌飼料專賣">
+  <meta name="twitter:description" content="宜加寵物深耕新北25年，於新莊、五股、蘆洲、三重、泰山、汐止、淡水、內湖等區設有16間門市，專營法國皇家、法米納等進口飼料，不販售活體寵物。立即查看各分店地址、電話與LINE諮詢。">
+  <meta name="twitter:image" content="https://yichai-tw.github.io/assets/images/yichai-petshop-logo.png">
+  
+  <!-- 結構化資料 (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "宜加寵物生活館",
+    "alternateName": ["宜加寵物", "宜加寵物用品", "宜佳寵物", "宜佳寵物用品"],
+    "url": "https://yichai-tw.github.io/",
+    "logo": "https://yichai-tw.github.io/assets/images/yichai-petshop-logo.png",
+    "description": "宜加寵物生活館16間實體門市完整資訊，包含地址、電話及Google地圖導航",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "寵物用品與服務",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "寵物用品零售",
+            "description": "提供寵物食品、玩具、生活用品等各類寵物用品"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "專業諮詢服務",
+            "description": "專業團隊提供寵物照顧諮詢服務"
+          }
+        }
+      ]
+    },
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "新北市"
+      },
+      {
+        "@type": "City",
+        "name": "台北市"
+      }
+    ],
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "value": "16",
+      "unitText": "間門市"
+    }
+  }
+  </script>
+  <!-- Breadcrumb 結構化資料 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "首頁",
+        "item": "https://yichai-tw.github.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "門市據點",
+        "item": "https://yichai-tw.github.io/stores.html"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Google Fonts - Zen Old Mincho -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/stores.css">
+</head>
+<body>
+
+  <!-- 頁首容器 -->
+  <div id="header-container"></div>
+
+  <!-- 主要內容 -->
+  <main>
+    <!-- 頁首橫幅 -->
+    <section class="bg-gradient-to-br from-[#DF7621] to-[#E88A3F] text-white py-16 px-5 text-center">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">全台門市據點</h1>
+        <p class="text-xl md:text-2xl opacity-95">宜加寵物生活館擁有16間實體門市據點為您服務</p>
+      </div>
+    </section>
+
     <!-- 門市資訊區 -->
     <section class="bg-white py-10 px-5">
       <div class="container" style="margin-top: 0; padding-top: 0;">

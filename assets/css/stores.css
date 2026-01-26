@@ -32,6 +32,230 @@ body {
   background-color: #f5f5f5;
 }
 
+.store-map-shell {
+  position: relative;
+  height: 100vh;
+  background: #f5f5f5;
+  overflow: hidden;
+}
+
+.store-map-layer {
+  position: absolute;
+  inset: 0;
+}
+
+#store-map-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.store-map-hint {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.85em;
+  color: #555;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.store-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--panel-height, 180px);
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  transition: height 0.2s ease;
+}
+
+.store-panel-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.store-panel-handle {
+  border: none;
+  background: transparent;
+  padding: 10px 0 0;
+  cursor: pointer;
+}
+
+.store-panel-handle-bar {
+  display: block;
+  width: 44px;
+  height: 4px;
+  margin: 0 auto;
+  background: #d1d5db;
+  border-radius: 999px;
+}
+
+.store-panel-header {
+  padding: 14px 18px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.store-panel-title {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.store-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  color: #6b7280;
+}
+
+.store-search input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 0.95em;
+}
+
+.store-panel-preview,
+.store-panel-list {
+  padding: 0 18px 18px;
+}
+
+.store-panel-list {
+  overflow-y: auto;
+}
+
+.store-panel.is-collapsed .store-panel-header,
+.store-panel.is-collapsed .store-panel-list {
+  display: none;
+}
+
+.store-panel.is-collapsed .store-panel-preview {
+  display: block;
+}
+
+.store-panel.is-expanded .store-panel-preview {
+  display: none;
+}
+
+.store-list-item {
+  background: #fff7f2;
+  border: 1px solid #f3e2d3;
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.store-list-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.store-list-title {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.store-list-address {
+  font-size: 0.92em;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.store-list-status {
+  margin-top: 6px;
+  font-size: 0.92em;
+  font-weight: 600;
+}
+
+.status-open {
+  color: #16a34a;
+}
+
+.status-closing {
+  color: #dc2626;
+}
+
+.status-closed {
+  color: #6b7280;
+}
+
+.status-upcoming {
+  color: #2563eb;
+}
+
+.store-list-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.store-list-actions a {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.95em;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid #f3e2d3;
+  color: #df7621;
+}
+
+.store-list-actions a:hover {
+  background: #fff3e9;
+}
+
+@media (min-width: 1024px) {
+  .store-map-shell {
+    height: calc(100vh - 180px);
+  }
+
+  .store-panel {
+    top: 24px;
+    bottom: 24px;
+    left: 24px;
+    right: auto;
+    width: 380px;
+    height: auto;
+    border-radius: 20px;
+  }
+
+  .store-panel-handle {
+    display: none;
+  }
+
+  .store-panel.is-collapsed .store-panel-header,
+  .store-panel.is-collapsed .store-panel-list,
+  .store-panel.is-expanded .store-panel-header,
+  .store-panel.is-expanded .store-panel-list {
+    display: block;
+  }
+
+  .store-panel-preview {
+    display: none;
+  }
+}
+
 /* 導航欄樣式已移至共用組件，使用 Tailwind CSS */
 
 /* 容器與標題 */
