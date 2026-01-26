@@ -231,6 +231,59 @@ section.bg-gradient-to-br h1 {
   text-decoration: none;
 }
 
+.store-hours-details {
+  width: 100%;
+  margin-top: 6px;
+  font-size: 0.9em;
+}
+
+.store-hours-details summary {
+  cursor: pointer;
+  color: #DF7621;
+  font-weight: 600;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.store-hours-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.store-hours-details summary::before {
+  content: "▾";
+  font-size: 0.9em;
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}
+
+.store-hours-details[open] summary::before {
+  transform: rotate(180deg) translateY(1px);
+}
+
+.store-hours-week {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  color: #6b7280;
+}
+
+.store-hours-week li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 0;
+}
+
+.store-hours-day {
+  color: #374151;
+}
+
+.store-hours-slot {
+  color: #6b7280;
+}
+
 /* 按鈕樣式 */
 .store-actions {
   margin-top: auto;

@@ -31,8 +31,6 @@
     { name: '北大店', lat: 24.94189437221343, lng: 121.3792083511288, address: '新北市三峽區三樹路202-1號', phone: '02-8672-5898', mapUrl: 'https://www.google.com/maps/search/?api=1&query=新北市三峽區三樹路202-1號', city: '新北市' }
   ];
 
-  const defaultHours = { open: '11:00', close: '22:00' };
-
   function normalizeStoreName(name) {
     return name.replace(/店$/, '').trim();
   }
@@ -58,6 +56,42 @@
     return { open, close, rawText: todayHours };
   }
 
+  function buildWeeklyHoursList(weeklyHours) {
+    const order = [
+      { key: 'monday', label: '週一' },
+      { key: 'tuesday', label: '週二' },
+      { key: 'wednesday', label: '週三' },
+      { key: 'thursday', label: '週四' },
+      { key: 'friday', label: '週五' },
+      { key: 'saturday', label: '週六' },
+      { key: 'sunday', label: '週日' }
+    ];
+
+    return order
+      .map(({ key, label }) => {
+        const value = weeklyHours?.[key];
+        if (!value) return null;
+        const display = value.toUpperCase() === 'OFF' ? '休息' : value;
+        return `<li><span class="store-hours-day">${label}</span><span class="store-hours-slot">${display}</span></li>`;
+      })
+      .filter(Boolean)
+      .join('');
+  }
+
+  function buildWeeklyHoursDetails(weeklyHours) {
+    const list = buildWeeklyHoursList(weeklyHours);
+    if (!list) return '';
+
+    return `
+      <details class="store-hours-details">
+        <summary>本週完整時間</summary>
+        <ul class="store-hours-week">
+          ${list}
+        </ul>
+      </details>
+    `;
+  }
+
   async function assignStoreHoursFromMapping() {
     try {
       const response = await fetch('mapping/PetStores_BranchInfo.json', { cache: 'no-store' });
@@ -75,12 +109,14 @@
         const normalizedName = normalizeStoreName(store.name);
         const weeklyHours = hoursMap.get(normalizedName);
         const todayHours = resolveTodayHours(weeklyHours, now);
-        store.hours = todayHours || { ...defaultHours };
+        store.hours = todayHours || null;
+        store.weeklyHours = weeklyHours || null;
       });
     } catch (error) {
       console.warn('載入門市營業時間失敗，使用預設時間:', error);
       stores.forEach(store => {
-        store.hours = { ...defaultHours };
+        store.hours = null;
+        store.weeklyHours = null;
       });
     }
   }
@@ -93,6 +129,10 @@
   }
 
   function getStoreStatus(hours, now) {
+    if (!hours) {
+      return null;
+    }
+
     if (hours.isClosedAllDay) {
       return { text: '今日休息', className: 'store-status-closed' };
     }
@@ -114,22 +154,29 @@
     if (diff <= 30 * 60 * 1000) {
       return { text: `即將打烊 (${hours.close} 關門)`, className: 'store-status-closing' };
     }
-    return { text: `營業中 (${hours.close} 關門)`, className: 'store-status-open' };
+    return { text: '營業中', className: 'store-status-open' };
   }
 
-  function buildHoursLine(hours, phoneHref, mapHref) {
+  function buildHoursLine(hours, phoneHref, mapHref, weeklyHours) {
+    if (!hours && !weeklyHours) {
+      return '';
+    }
+
     const status = getStoreStatus(hours, new Date());
     const phoneLink = phoneHref ? `<a href="${phoneHref}" class="store-hours-action" aria-label="撥打電話"><i class="fas fa-phone-alt"></i></a>` : '';
     const mapLink = mapHref ? `<a href="${mapHref}" class="store-hours-action" target="_blank" rel="noopener noreferrer" aria-label="開啟地圖"><i class="fas fa-map-marker-alt"></i></a>` : '';
 
-    const timeText = hours.isClosedAllDay ? '今日休息' : `${hours.open}-${hours.close}`;
+    const timeText = hours
+      ? (hours.isClosedAllDay ? '今日休息' : `${hours.open}-${hours.close}`)
+      : '';
 
     return `
       <div class="store-hours">
         <strong>營業：</strong>
-        <span class="store-hours-time">${timeText}</span>
-        <span class="store-hours-status ${status.className}">● ${status.text}</span>
+        ${timeText ? `<span class="store-hours-time">${timeText}</span>` : ''}
+        ${status ? `<span class="store-hours-status ${status.className}">● ${status.text}</span>` : ''}
         <span class="store-hours-actions">${phoneLink}${mapLink}</span>
+        ${buildWeeklyHoursDetails(weeklyHours)}
       </div>
     `;
   }
@@ -143,13 +190,14 @@
 
       const name = card.querySelector('.store-name')?.textContent?.trim();
       const store = stores.find(item => item.name === name);
-      const hours = store?.hours || defaultHours;
+      const hours = store?.hours || null;
+      const weeklyHours = store?.weeklyHours || null;
       const phoneHref = card.querySelector('.store-info a[href^="tel:"]')?.getAttribute('href');
       const mapHref = card.querySelector('.store-actions a.btn-map')?.getAttribute('href');
       const infoBlock = card.querySelector('.store-info');
 
       if (infoBlock) {
-        infoBlock.insertAdjacentHTML('beforeend', buildHoursLine(hours, phoneHref, mapHref));
+        infoBlock.insertAdjacentHTML('beforeend', buildHoursLine(hours, phoneHref, mapHref, weeklyHours));
       }
     });
   }
@@ -222,7 +270,7 @@
           <h4 class="text-xl font-bold text-[#DF7621] mb-2">${store.name}</h4>
           <p class="text-gray-600 mb-1"><strong>地址：</strong>${store.address}</p>
           <p class="text-gray-600 mb-1"><strong>電話：</strong><a href="tel:${store.phone.replace(/-/g, '')}" class="text-[#DF7621] hover:underline">${store.phone}</a></p>
-          ${buildHoursLine(store.hours || defaultHours, `tel:${store.phone.replace(/-/g, '')}`, store.mapUrl)}
+          ${buildHoursLine(store.hours || null, `tel:${store.phone.replace(/-/g, '')}`, store.mapUrl, store.weeklyHours)}
           <p class="text-gray-600 mb-4"><strong>距離：</strong>約 ${store.distance} 公里</p>
           ${store.accuracy ? `<p class="text-gray-500 text-sm">定位精度: 約 ${store.accuracy} 公尺</p>` : ''}
         </div>
