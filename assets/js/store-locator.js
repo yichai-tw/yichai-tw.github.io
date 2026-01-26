@@ -102,6 +102,10 @@
     const diff = closeAt - now;
 
     if (now < openAt) {
+      const untilOpen = openAt - now;
+      if (untilOpen <= 30 * 60 * 1000) {
+        return { text: `即將營業 (${hours.open} 開門)`, className: 'store-status-upcoming' };
+      }
       return { text: `尚未營業 (${hours.open} 開門)`, className: 'store-status-upcoming' };
     }
     if (diff <= 0) {
@@ -299,14 +303,16 @@
   async function init() {
     const nearestStoreContainer = document.getElementById('nearest-store-container');
     const otherStoresContainer = document.getElementById('other-stores-container');
-    
-    if (!nearestStoreContainer || !otherStoresContainer) return;
+    const hasLocatorContainers = nearestStoreContainer && otherStoresContainer;
+
+    await assignStoreHoursFromMapping();
+    injectStoreHoursToCards();
+
+    if (!hasLocatorContainers) return;
 
     // 顯示載入訊息
     nearestStoreContainer.innerHTML = '<div class="text-center py-8"><p class="text-gray-600">正在定位您的位置...</p></div>';
     otherStoresContainer.innerHTML = '<div class="text-center py-8"><p class="text-gray-600">載入中...</p></div>';
-
-    await assignStoreHoursFromMapping();
 
     // 檢查是否支援 Geolocation API
     if (!navigator.geolocation) {
