@@ -119,6 +119,12 @@
       const weeklyHours = store.business_hours || null;
       const hours = resolveTodayHours(weeklyHours, now);
 
+      // 檢查是否有寵物美容服務（預設為 true，除非明確標記為 false）
+      const hasGrooming = store.services?.grooming !== false;
+      const status = getStatus(hours, now);
+      // 判斷是否營業中（status-open 表示正在營業）
+      const isOpen = status && (status.className === 'status-open' || status.className === 'status-closing');
+
       return {
         id: normalizeStoreName(store.store_name),
         name: `${store.store_name}店`,
@@ -131,6 +137,8 @@
         phoneDigits,
         weeklyHours,
         hours,
+        hasGrooming,
+        isOpen,
         mapUrl: fullAddress
           ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`
           : `https://www.google.com/maps?q=${lat},${lng}`,
@@ -141,34 +149,101 @@
     });
   }
 
-  function buildStoreCard(store, isCompact) {
+  function buildStoreCard(store, isCompact, isSelected) {
     const status = getStatus(store.hours, new Date());
     const statusText = status ? `<div class="store-list-status ${status.className}">${status.text}</div>` : '';
-    const details = isCompact ? '' : buildWeeklyHoursDetails(store.weeklyHours);
     const phoneLink = store.phoneDigits ? `tel:${store.phoneDigits}` : '';
     const mapLink = store.mapUrl || '';
-    const actions = isCompact ? '' : `
+    
+    // PC版：hover 工具提示顯示完整營業時間
+    const hoursTooltip = store.weeklyHours ? buildWeeklyHoursTooltip(store.weeklyHours) : '';
+    
+    // 手機版：Accordion 展開詳情（只在非選中時顯示，選中時顯示按鈕）
+    const mobileDetails = (isCompact || isSelected) ? '' : buildMobileStoreDetails(store.weeklyHours);
+    
+    // 操作按鈕：只在選中的門市或手機版預覽時顯示
+    const actions = (isSelected || isCompact) ? `
       <div class="store-list-actions">
-        ${phoneLink ? `<a href="${phoneLink}"><i class="fas fa-phone-alt"></i> 電話</a>` : ''}
-        ${mapLink ? `<a href="${mapLink}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> 地圖</a>` : ''}
+        ${phoneLink ? `<a href="${phoneLink}" class="btn-phone"><i class="fas fa-phone-alt"></i> 撥打電話</a>` : ''}
+        ${mapLink ? `<a href="${mapLink}" target="_blank" rel="noopener noreferrer" class="btn-map"><i class="fas fa-map-marker-alt"></i> Google 導航</a>` : ''}
       </div>
-    `;
+    ` : '';
 
     return `
       <div class="store-list-item" data-store-id="${store.id}">
         <div class="store-list-title">${store.name}</div>
         <div class="store-list-address">${store.address}</div>
         ${statusText}
+        ${hoursTooltip}
         ${actions}
-        ${details}
+        ${mobileDetails}
       </div>
+    `;
+  }
+
+  function buildWeeklyHoursTooltip(weeklyHours) {
+    if (!weeklyHours) return '';
+    
+    const list = buildWeeklyHoursList(weeklyHours);
+    if (!list) return '';
+    
+    const todayKey = getTodayKey(new Date());
+    const todayHours = weeklyHours[todayKey];
+    const todayDisplay = todayHours && todayHours.toUpperCase() !== 'OFF' ? todayHours : '今日休息';
+    
+    return `
+      <div class="store-hours-preview">
+        <span class="store-hours-preview-text">營業時間：${todayDisplay}</span>
+        <div class="store-hours-tooltip">
+          <ul class="store-hours-week">
+            ${list}
+          </ul>
+        </div>
+      </div>
+    `;
+  }
+
+  function buildMobileStoreDetails(weeklyHours) {
+    if (!weeklyHours) return '';
+    
+    // 手機版：直接顯示完整營業時間列表，不需要再點開
+    const hoursList = buildWeeklyHoursList(weeklyHours);
+    if (!hoursList) return '';
+    
+    return `
+      <details class="store-details-accordion">
+        <summary>查看完整營業時間</summary>
+        <div class="store-details-content">
+          <ul class="store-hours-week-mobile">
+            ${hoursList}
+          </ul>
+        </div>
+      </details>
     `;
   }
 
   function updateMapFrame(store) {
     const mapFrame = document.getElementById('store-map-frame');
-    if (!mapFrame || !store?.mapEmbedUrl) return;
-    mapFrame.src = store.mapEmbedUrl;
+    if (!mapFrame) return;
+    
+    if (store?.mapEmbedUrl) {
+      mapFrame.src = store.mapEmbedUrl;
+    } else {
+      // 如果沒有選中門市，清空地圖
+      mapFrame.src = '';
+    }
+  }
+
+  function calculateDistance(lat1, lng1, lat2, lng2) {
+    if (!lat1 || !lng1 || !lat2 || !lng2) return Infinity;
+    const R = 6371; // 地球半徑（公里）
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
   }
 
   function findNearestStore(stores, lat, lng) {
@@ -178,14 +253,7 @@
 
     stores.forEach(store => {
       if (!store.lat || !store.lng) return;
-      const R = 6371;
-      const dLat = (store.lat - lat) * Math.PI / 180;
-      const dLng = (store.lng - lng) * Math.PI / 180;
-      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(lat * Math.PI / 180) * Math.cos(store.lat * Math.PI / 180) *
-                Math.sin(dLng / 2) * Math.sin(dLng / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      const distance = R * c;
+      const distance = calculateDistance(lat, lng, store.lat, store.lng);
 
       if (distance < minDistance) {
         minDistance = distance;
@@ -194,6 +262,41 @@
     });
 
     return nearest || stores[0];
+  }
+
+  function sortStoresByDistance(stores, userLat, userLng) {
+    if (!stores.length) return stores;
+
+    // 如果有用戶位置，按距離排序
+    if (userLat && userLng) {
+      return stores.map(store => ({
+        ...store,
+        distance: calculateDistance(userLat, userLng, store.lat, store.lng)
+      })).sort((a, b) => {
+        // 先按距離排序
+        if (a.distance !== b.distance) {
+          return a.distance - b.distance;
+        }
+        // 距離相同時，按城市排序（台北市 > 新北市）
+        return sortByCity(a, b);
+      });
+    }
+
+    // 如果沒有用戶位置，只按城市排序（台北市 > 新北市）
+    return [...stores].sort(sortByCity);
+  }
+
+  function sortByCity(a, b) {
+    const cityOrder = { '台北市': 1, '新北市': 2 };
+    const orderA = cityOrder[a.city] || 999;
+    const orderB = cityOrder[b.city] || 999;
+    
+    if (orderA !== orderB) {
+      return orderA - orderB;
+    }
+    
+    // 同城市時，按店名排序
+    return a.name.localeCompare(b.name, 'zh-TW');
   }
 
   function initPanelInteractions(panel) {
@@ -254,42 +357,218 @@
     });
   }
 
-  function renderStoresPage(stores, nearestStore) {
+  function showLoading() {
+    const list = document.getElementById('store-list');
+    const preview = document.getElementById('store-preview');
+    
+    if (list) {
+      list.innerHTML = `
+        <div class="store-list-loading">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2em; color: #DF7621; margin-bottom: 12px;"></i>
+          <p>載入門市資料中...</p>
+        </div>
+      `;
+    }
+    
+    if (preview) {
+      preview.innerHTML = `
+        <div class="store-list-loading">
+          <i class="fas fa-spinner fa-spin" style="font-size: 1.5em; color: #DF7621;"></i>
+        </div>
+      `;
+    }
+  }
+
+  function filterStoresByTag(stores, filterTag) {
+    if (filterTag === 'all') {
+      return stores;
+    }
+    
+    if (filterTag === 'taipei') {
+      return stores.filter(store => store.city === '台北市');
+    }
+    
+    if (filterTag === 'newtaipei') {
+      return stores.filter(store => store.city === '新北市');
+    }
+    
+    if (filterTag === 'open') {
+      return stores.filter(store => store.isOpen === true);
+    }
+    
+    if (filterTag === 'grooming') {
+      return stores.filter(store => store.hasGrooming === true);
+    }
+    
+    return stores;
+  }
+
+  function renderStoresPage(stores, userLat, userLng) {
     const panel = document.getElementById('store-panel');
     const list = document.getElementById('store-list');
     const preview = document.getElementById('store-preview');
-    const searchInput = document.getElementById('store-search-input');
+    const filterTags = document.getElementById('store-filter-tags');
 
     if (!panel || !list || !preview) return false;
 
-    const ordered = nearestStore
-      ? [nearestStore, ...stores.filter(store => store.id !== nearestStore.id)]
-      : stores;
+    // 按距離或城市排序
+    const ordered = sortStoresByDistance(stores, userLat, userLng);
 
-    preview.innerHTML = ordered[0] ? buildStoreCard(ordered[0], true) : '';
-    list.innerHTML = ordered.map(store => buildStoreCard(store, false)).join('');
-    updateMapFrame(ordered[0]);
+    // 自動選中第一筆（按 GPS 距離或城市排序後的第一筆）
+    let currentStore = ordered[0] || null;
+    let currentFilter = 'all';
+    let filteredStores = ordered;
+    
+    // 保存用戶位置，供篩選時使用
+    const savedUserLat = userLat;
+    const savedUserLng = userLng;
+
+    function updateStoreList(storesToShow) {
+      // 如果當前選中的門市不在篩選結果中，選中第一筆
+      if (currentStore && !storesToShow.find(s => s.id === currentStore.id)) {
+        currentStore = storesToShow[0] || null;
+      }
+      // 如果沒有選中的門市，自動選中第一筆
+      else if (!currentStore && storesToShow.length > 0) {
+        currentStore = storesToShow[0];
+      }
+      
+      // 手機版預覽：只在手機版顯示選中的門市（帶按鈕）
+      // PC版不需要預覽區域，選中的門市在列表中顯示
+      if (preview) {
+        if (window.innerWidth < 1024 && currentStore) {
+          preview.innerHTML = buildStoreCard(currentStore, true, true);
+        } else {
+          preview.innerHTML = '';
+        }
+      }
+      
+      // 列表：所有門市都顯示，但只有選中的才顯示按鈕
+      // PC版和手機版都統一處理，避免重複顯示
+      list.innerHTML = storesToShow.map(store => {
+        const isSelected = currentStore && store.id === currentStore.id;
+        return buildStoreCard(store, false, isSelected);
+      }).join('');
+      
+      // 高亮選中的門市
+      if (currentStore) {
+        const activeItem = list.querySelector(`[data-store-id="${currentStore.id}"]`);
+        if (activeItem) {
+          activeItem.classList.add('active');
+        }
+      }
+      
+      // 重新綁定點擊事件
+      bindStoreItemEvents(storesToShow);
+    }
+
+    function bindStoreItemEvents(storesToShow) {
+      const items = list.querySelectorAll('.store-list-item');
+      items.forEach(item => {
+        item.addEventListener('click', event => {
+          // 防止點擊詳情按鈕時觸發
+          if (event.target.closest('a') || event.target.closest('details')) {
+            return;
+          }
+          
+          const storeId = item.dataset.storeId;
+          const selected = storesToShow.find(store => store.id === storeId);
+          if (selected) {
+            // 更新選中的門市
+            currentStore = selected;
+            updateMapFrame(selected);
+            
+            // 更新手機版預覽（帶按鈕），PC版不需要
+            if (preview && window.innerWidth < 1024) {
+              preview.innerHTML = buildStoreCard(selected, true, true);
+            }
+            
+            // 重新渲染列表，只有選中的門市才顯示按鈕
+            list.innerHTML = storesToShow.map(store => {
+              const isSelected = store.id === selected.id;
+              return buildStoreCard(store, false, isSelected);
+            }).join('');
+            
+            // 重新綁定事件並高亮選中的門市
+            bindStoreItemEvents(storesToShow);
+            const activeItem = list.querySelector(`[data-store-id="${selected.id}"]`);
+            if (activeItem) {
+              activeItem.classList.add('active');
+            }
+            
+            // 手機版：點擊後展開面板（但限制高度，確保地圖可見）
+            if (window.innerWidth < 1024) {
+              if (panel.classList.contains('is-collapsed')) {
+                panel.classList.remove('is-collapsed');
+                panel.classList.add('is-expanded');
+                // 限制最大高度為 50vh，確保地圖至少有 50% 可見
+                const maxHeight = Math.round(window.innerHeight * 0.5);
+                panel.style.setProperty('--panel-height', `${maxHeight}px`);
+              }
+              // 手機版才滾動到可見區域
+              setTimeout(() => {
+                if (activeItem) {
+                  activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+              }, 100);
+            }
+            // PC 端不自動滾動，讓用戶自由滾動
+          }
+        });
+      });
+    }
+
+    updateStoreList(filteredStores);
+    // 自動顯示第一筆門市的地圖
+    if (currentStore) {
+      updateMapFrame(currentStore);
+    }
     initPanelInteractions(panel);
 
-    list.addEventListener('click', event => {
-      const item = event.target.closest('.store-list-item');
-      if (!item) return;
-      const storeId = item.dataset.storeId;
-      const selected = ordered.find(store => store.id === storeId);
-      if (selected) {
-        updateMapFrame(selected);
-      }
-    });
-
-    if (searchInput) {
-      searchInput.addEventListener('input', event => {
-        const keyword = event.target.value.trim();
-        const filtered = ordered.filter(store => {
-          const target = `${store.name}${store.address}${store.city}${store.district}`;
-          return target.includes(keyword);
+    // 標籤篩選功能
+    if (filterTags) {
+      const tagButtons = filterTags.querySelectorAll('.filter-tag');
+      tagButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // 更新按鈕狀態
+          tagButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          
+          // 獲取篩選標籤
+          currentFilter = button.dataset.filter;
+          
+          // 篩選門市
+          const filtered = filterStoresByTag(ordered, currentFilter);
+          // 重新排序篩選結果（保持距離或城市排序）
+          filteredStores = sortStoresByDistance(filtered, savedUserLat, savedUserLng);
+          
+          // 如果當前選中的門市不在篩選結果中，自動選中第一筆
+          if (currentStore && !filteredStores.find(s => s.id === currentStore.id)) {
+            currentStore = filteredStores[0] || null;
+            if (currentStore) {
+              updateMapFrame(currentStore);
+            }
+          }
+          // 如果沒有選中的門市，自動選中第一筆
+          else if (!currentStore && filteredStores.length > 0) {
+            currentStore = filteredStores[0];
+            updateMapFrame(currentStore);
+          }
+          
+          updateStoreList(filteredStores);
+          
+          // 更新地圖（如果選中的門市在篩選結果中）
+          if (currentStore && filteredStores.find(s => s.id === currentStore.id)) {
+            updateMapFrame(currentStore);
+          }
         });
-        list.innerHTML = filtered.map(store => buildStoreCard(store, false)).join('');
       });
+      
+      // 預設選中「全部」
+      const allButton = filterTags.querySelector('[data-filter="all"]');
+      if (allButton) {
+        allButton.classList.add('active');
+      }
     }
 
     return true;
@@ -370,32 +649,71 @@
     return true;
   }
 
+  function showError(message) {
+    const panel = document.getElementById('store-panel');
+    const list = document.getElementById('store-list');
+    const preview = document.getElementById('store-preview');
+    
+    if (list) {
+      list.innerHTML = `
+        <div class="store-list-empty">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>${message}</p>
+          <p style="font-size: 0.85em; margin-top: 8px; color: #9ca3af;">請稍後再試或聯絡客服</p>
+        </div>
+      `;
+    }
+    
+    if (preview) {
+      preview.innerHTML = `
+        <div class="store-list-empty">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>${message}</p>
+        </div>
+      `;
+    }
+  }
+
   async function init() {
+    // 顯示載入狀態
+    showLoading();
+    
     let stores = [];
     try {
       stores = await loadStoreData();
+      if (!stores || stores.length === 0) {
+        showError('目前沒有門市資料');
+        return;
+      }
     } catch (error) {
-      console.warn('載入門市資料失敗:', error);
+      console.error('載入門市資料失敗:', error);
+      showError('無法載入門市資料，請檢查網路連線');
       return;
     }
 
+    let userLat = null;
+    let userLng = null;
     let nearestStore = stores[0] || null;
+
     if (navigator.geolocation && stores.length) {
       navigator.geolocation.getCurrentPosition(
         position => {
-          const { latitude, longitude } = position.coords;
-          nearestStore = findNearestStore(stores, latitude, longitude) || nearestStore;
-          renderStoresPage(stores, nearestStore);
+          userLat = position.coords.latitude;
+          userLng = position.coords.longitude;
+          nearestStore = findNearestStore(stores, userLat, userLng) || nearestStore;
+          renderStoresPage(stores, userLat, userLng);
           renderIndexPage(stores, nearestStore);
         },
         () => {
-          renderStoresPage(stores, nearestStore);
+          // 定位失敗，使用城市排序
+          renderStoresPage(stores, null, null);
           renderIndexPage(stores, nearestStore);
         },
         { enableHighAccuracy: false, timeout: 10000, maximumAge: 0 }
       );
     } else {
-      renderStoresPage(stores, nearestStore);
+      // 不支援定位，使用城市排序
+      renderStoresPage(stores, null, null);
       renderIndexPage(stores, nearestStore);
     }
   }

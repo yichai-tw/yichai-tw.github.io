@@ -30,24 +30,42 @@ body {
   line-height: 1.6;
   color: #333;
   background-color: #f5f5f5;
+  overflow-x: hidden;
 }
 
+/* 主容器 */
+.store-locator-main {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* 頁首橫幅 */
+.store-header-banner {
+  position: relative;
+  z-index: 10;
+}
+
+/* 地圖與面板容器 */
 .store-map-shell {
   position: relative;
-  height: 100vh;
+  height: calc(100vh - 200px);
+  min-height: 500px;
   background: #f5f5f5;
   overflow: hidden;
 }
 
+/* 地圖背景層 */
 .store-map-layer {
   position: absolute;
   inset: 0;
+  z-index: 1;
 }
 
 #store-map-frame {
   width: 100%;
   height: 100%;
   border: 0;
+  display: block;
 }
 
 .store-map-hint {
@@ -60,21 +78,19 @@ body {
   font-size: 0.85em;
   color: #555;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  z-index: 2;
+  pointer-events: none;
 }
 
+/* 響應式面板 - 基礎樣式 */
 .store-panel {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: var(--panel-height, 180px);
+  z-index: 20;
   background: #fff;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
   box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  transition: height 0.2s ease;
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .store-panel-inner {
@@ -84,11 +100,15 @@ body {
   overflow: hidden;
 }
 
+/* 手機版：Bottom Sheet */
 .store-panel-handle {
   border: none;
   background: transparent;
-  padding: 10px 0 0;
+  padding: 12px 0 8px;
   cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .store-panel-handle-bar {
@@ -98,90 +118,162 @@ body {
   margin: 0 auto;
   background: #d1d5db;
   border-radius: 999px;
+  transition: background 0.2s;
 }
 
+.store-panel-handle:hover .store-panel-handle-bar,
+.store-panel-handle:active .store-panel-handle-bar {
+  background: #9ca3af;
+}
+
+/* 面板標題與標籤篩選 */
 .store-panel-header {
-  padding: 14px 18px 10px;
+  padding: 16px 20px 12px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  border-bottom: 1px solid #f3f4f6;
+  flex-shrink: 0;
 }
 
 .store-panel-title {
-  font-size: 1.2em;
+  font-size: 1.3em;
   font-weight: 700;
   color: #2c3e50;
+  margin: 0;
 }
 
-.store-search {
+.store-filter-tags {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
-  padding: 10px 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  align-items: center;
+}
+
+.filter-tag {
+  padding: 6px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 20px;
+  background: #fff;
   color: #6b7280;
+  font-size: 0.9em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.store-search input {
-  border: none;
-  outline: none;
-  width: 100%;
-  font-size: 0.95em;
+.filter-tag:hover {
+  border-color: #DF7621;
+  color: #DF7621;
+  background: #fff7f2;
 }
 
-.store-panel-preview,
+.filter-tag.active {
+  background: #DF7621;
+  border-color: #DF7621;
+  color: #fff;
+}
+
+.filter-tag.active:hover {
+  background: #C65D1A;
+  border-color: #C65D1A;
+}
+
+/* 手機版預覽 */
+.store-panel-preview {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f3f4f6;
+  flex-shrink: 0;
+}
+
+/* 門市列表容器 */
 .store-panel-list {
-  padding: 0 18px 18px;
-}
-
-.store-panel-list {
+  flex: 1;
   overflow-y: auto;
-}
-
-.store-panel.is-collapsed .store-panel-header,
-.store-panel.is-collapsed .store-panel-list {
-  display: none;
-}
-
-.store-panel.is-collapsed .store-panel-preview {
+  overflow-x: hidden;
+  padding: 12px 20px 20px;
+  -webkit-overflow-scrolling: touch;
   display: block;
+  width: 100%;
 }
 
-.store-panel.is-expanded .store-panel-preview {
-  display: none;
+/* 確保列表容器內的所有直接子元素都是塊級元素 */
+.store-panel-list > * {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+.store-panel-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.store-panel-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.store-panel-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.store-panel-list::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* 門市列表項目 */
 .store-list-item {
   background: #fff7f2;
   border: 1px solid #f3e2d3;
   border-radius: 16px;
-  padding: 14px 16px;
+  padding: 16px;
   margin-bottom: 12px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .store-list-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  border-color: #DF7621;
+}
+
+.store-list-item.active {
+  border-color: #DF7621;
+  box-shadow: 0 4px 12px rgba(223, 118, 33, 0.2);
+  background: #fffbf7;
 }
 
 .store-list-title {
-  font-size: 1.1em;
+  font-size: 1.15em;
   font-weight: 700;
   color: #2c3e50;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .store-list-address {
   font-size: 0.92em;
   color: #6b7280;
   margin-top: 4px;
+  line-height: 1.5;
 }
 
 .store-list-status {
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 0.92em;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .status-open {
@@ -200,10 +292,86 @@ body {
   color: #2563eb;
 }
 
+/* 營業時間顯示 */
+.store-hours-preview {
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: #6b7280;
+  position: relative;
+  display: inline-block;
+}
+
+.store-hours-preview-text {
+  cursor: help;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+}
+
+.store-hours-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: #1f2937;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.85em;
+  min-width: 180px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.store-hours-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #1f2937;
+}
+
+.store-hours-preview:hover .store-hours-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-12px);
+}
+
+.store-hours-week {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.store-hours-week li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  font-size: 0.9em;
+}
+
+.store-hours-day {
+  color: #e5e7eb;
+  min-width: 50px;
+  font-weight: 500;
+}
+
+.store-hours-slot {
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+/* 手機版操作按鈕 */
 .store-list-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .store-list-actions a {
@@ -211,23 +379,128 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  font-size: 0.95em;
+  gap: 5px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85em;
+  font-weight: 600;
   text-decoration: none;
+  transition: all 0.2s;
+}
+
+.store-list-actions a.btn-phone {
+  background: #DF7621;
+  color: #fff;
+  border: 1.5px solid #DF7621;
+}
+
+.store-list-actions a.btn-phone:hover {
+  background: #C65D1A;
+  border-color: #C65D1A;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(223, 118, 33, 0.25);
+}
+
+.store-list-actions a.btn-map {
   background: #fff;
-  border: 1px solid #f3e2d3;
-  color: #df7621;
+  color: #DF7621;
+  border: 1.5px solid #DF7621;
 }
 
-.store-list-actions a:hover {
+.store-list-actions a.btn-map:hover {
   background: #fff3e9;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(223, 118, 33, 0.15);
 }
 
+/* Accordion 展開詳情（手機版） */
+.store-details-accordion {
+  margin-top: 10px;
+  border-top: 1px solid #f3e2d3;
+  padding-top: 10px;
+}
+
+.store-details-accordion summary {
+  cursor: pointer;
+  color: #DF7621;
+  font-weight: 600;
+  font-size: 0.9em;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.store-details-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.store-details-accordion summary::before {
+  content: "▾";
+  font-size: 0.9em;
+  transition: transform 0.2s ease;
+}
+
+.store-details-accordion[open] summary::before {
+  transform: rotate(180deg);
+}
+
+.store-details-content {
+  margin-top: 8px;
+  padding-left: 0;
+}
+
+/* 手機版：Bottom Sheet 樣式 */
+.store-panel {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--panel-height, 180px);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  max-height: 50vh;
+}
+
+.store-panel.is-collapsed {
+  --panel-height: 180px;
+}
+
+.store-panel.is-expanded {
+  --panel-height: 50vh;
+}
+
+.store-panel.is-collapsed .store-panel-header,
+.store-panel.is-collapsed .store-panel-list {
+  display: none;
+}
+
+.store-panel.is-collapsed .store-panel-preview {
+  display: block;
+}
+
+.store-panel.is-expanded .store-panel-preview {
+  display: none;
+}
+
+.store-panel.is-expanded .store-panel-header {
+  display: flex;
+}
+
+.store-panel.is-expanded .store-panel-list {
+  display: block;
+}
+
+/* PC版：Side Panel 樣式 */
 @media (min-width: 1024px) {
   .store-map-shell {
     height: calc(100vh - 180px);
+    min-height: 600px;
+  }
+
+  .store-map-hint {
+    display: none;
   }
 
   .store-panel {
@@ -235,8 +508,26 @@ body {
     bottom: 24px;
     left: 24px;
     right: auto;
-    width: 380px;
+    width: 420px;
     height: auto;
+    max-height: calc(100vh - 48px);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    --panel-height: auto;
+  }
+
+  /* PC版：地圖從側邊欄右側開始，避免左上角被遮擋 */
+  .store-map-layer {
+    left: 468px; /* 420px (側邊欄寬度) + 24px (左側間距) + 24px (右側間距) */
+    right: 24px;
+    top: 24px;
+    bottom: 24px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  #store-map-frame {
     border-radius: 20px;
   }
 
@@ -245,8 +536,95 @@ body {
   }
 
   .store-panel.is-collapsed .store-panel-header,
+  .store-panel.is-expanded .store-panel-header {
+    display: flex;
+  }
+
   .store-panel.is-collapsed .store-panel-list,
-  .store-panel.is-expanded .store-panel-header,
+  .store-panel.is-expanded .store-panel-list {
+    display: block;
+  }
+
+  .store-panel-preview {
+    display: none !important;
+  }
+  
+  /* PC版：預覽區域完全隱藏，選中的門市在列表中顯示 */
+  .store-panel.is-collapsed .store-panel-preview {
+    display: none !important;
+  }
+
+  .store-panel-header {
+    padding: 20px 24px 16px;
+  }
+
+  .store-panel-title {
+    font-size: 1.4em;
+  }
+
+  .store-filter-tags {
+    gap: 10px;
+  }
+
+  .filter-tag {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+
+  .store-panel-list {
+    padding: 12px 24px 24px;
+    display: block !important;
+    flex-direction: column !important;
+  }
+
+  .store-list-item {
+    padding: 18px;
+    margin-bottom: 14px;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    float: none !important;
+  }
+
+  .store-list-title {
+    font-size: 1.2em;
+  }
+
+  /* PC版：hover 時顯示完整營業時間 */
+  .store-hours-preview {
+    position: relative;
+  }
+
+  .store-list-actions {
+    margin-top: 12px;
+    gap: 8px;
+  }
+
+  .store-list-actions a {
+    padding: 8px 12px;
+    font-size: 0.85em;
+    gap: 5px;
+  }
+}
+
+/* 平板版調整 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .store-panel {
+    width: 400px;
+    left: 24px;
+    right: auto;
+    border-radius: 20px;
+  }
+
+  .store-panel-handle {
+    display: none;
+  }
+
+  .store-panel.is-collapsed .store-panel-header,
+  .store-panel.is-collapsed .store-panel-list {
+    display: flex;
+  }
+
   .store-panel.is-expanded .store-panel-list {
     display: block;
   }
@@ -256,377 +634,138 @@ body {
   }
 }
 
-/* 導航欄樣式已移至共用組件，使用 Tailwind CSS */
-
-/* 容器與標題 */
-.container {
-  max-width: 1280px; /* 統一使用 1280px，與 Tailwind max-w-7xl 一致 */
-  margin: 0 auto;
-  background: white;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-/* 當容器在白色背景的 section 中時，移除背景和陰影 */
-section.bg-white .container {
-  background: transparent;
-  box-shadow: none;
-  border-radius: 0;
-}
-
-/* PC 版響應式調整 */
-@media (min-width: 1024px) {
-  .container {
-    padding: 40px 60px; /* PC 版增加左右內距 */
-  }
-}
-
-h1 {
-  color: #2c3e50;
-  margin-bottom: 10px;
-  font-size: 2.5em;
-}
-
-/* 頁首橫幅中的 h1 使用白色 */
-section.bg-gradient-to-br h1 {
-  color: white !important;
-  text-align: center;
-}
-
-.subtitle {
-  text-align: center;
-  color: #7f8c8d;
-  margin-bottom: 40px;
-  font-size: 1.1em;
-}
-
-/* 城市分類標題 */
-.city-section {
-  margin-top: 50px;
-  margin-bottom: 30px;
-}
-
-.city-section:first-of-type {
-  margin-top: 0;
-}
-
-.city-title {
-  font-size: 1.8em;
-  color: #DF7621;
-  font-weight: bold;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 3px solid #DF7621;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.city-title i,
-.city-title svg,
-.city-title .twicon {
-  font-size: 1.2em;
-  width: 1.2em;
-  height: 1.2em;
-  display: inline-block;
-  vertical-align: middle;
-  flex-shrink: 0;
-  color: #DF7621;
-}
-
-.city-title svg,
-.city-title .city-icon {
-  fill: #DF7621;
-}
-
-.city-title .twicon {
-  font-size: 1.5em;
-  line-height: 1;
-  min-width: 1.2em;
-  text-align: center;
-}
-
-/* 門市網格 */
-.stores-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 25px;
-  margin-top: 30px;
-}
-
-/* 卡片樣式 */
-.store-card {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.store-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.store-name {
-  font-size: 1.3em;
-  font-weight: bold;
-  color: #2c3e50;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #DF7621;
-}
-
-.store-info {
-  margin-bottom: 12px;
-  color: #7f8c8d;
-  flex-grow: 1;
-}
-
-.store-info strong {
-  color: #34495e;
-  display: inline-block;
-  min-width: 60px;
-}
-
-.store-info a {
-  color: #DF7621;
-  text-decoration: none;
-}
-
-.store-info a:hover {
-  text-decoration: underline;
-}
-
-.store-hours {
-  margin-top: 8px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.92em;
-}
-
-.store-hours-time {
-  color: #2c3e50;
-  font-weight: 600;
-}
-
-.store-hours-status {
-  font-weight: 600;
-}
-
-.store-status-open {
-  color: #16a34a;
-}
-
-.store-status-closing {
-  color: #dc2626;
-}
-
-.store-status-closed {
-  color: #6b7280;
-}
-
-.store-status-upcoming {
-  color: #2563eb;
-}
-
-.store-hours-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: 4px;
-}
-
-.store-hours-action {
-  color: #DF7621;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-}
-
-.store-hours-action:hover {
-  color: #C65D1A;
-  text-decoration: none;
-}
-
-.store-hours-details {
-  width: 100%;
-  margin-top: 6px;
-  font-size: 0.9em;
-}
-
-.store-hours-details summary {
-  cursor: pointer;
-  color: #DF7621;
-  font-weight: 600;
-  list-style: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.store-hours-details summary::-webkit-details-marker {
-  display: none;
-}
-
-.store-hours-details summary::before {
-  content: "▾";
-  font-size: 0.9em;
-  transform: translateY(-1px);
-  transition: transform 0.2s ease;
-}
-
-.store-hours-details[open] summary::before {
-  transform: rotate(180deg) translateY(1px);
-}
-
-.store-hours-week {
-  margin: 8px 0 0;
-  padding: 0;
-  list-style: none;
-  color: #6b7280;
-}
-
-.store-hours-week li {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 2px 0;
-}
-
-.store-hours-day {
-  color: #374151;
-}
-
-.store-hours-slot {
-  color: #6b7280;
-}
-
-/* 按鈕樣式 */
-.store-actions {
-  margin-top: auto;
-  padding-top: 15px;
-  display: flex;
-  gap: 10px;
-}
-
-.btn-map {
-  flex: 1;
-  text-align: center;
-  background: #f1f2f6;
-  color: #2c3e50;
-  padding: 10px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 0.9em;
-  transition: 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.btn-map:hover { 
-  background: #dfe4ea; 
-}
-
-.btn-call {
-  flex: 1;
-  text-align: center;
-  background: #DF7621;
-  color: white;
-  padding: 10px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 0.9em;
-  transition: background 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.btn-call:hover {
-  background: #C65D1A;
-}
-
-/* Google Map 嵌入樣式 */
-.map-container {
-  width: 100%;
-  height: 200px;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-top: 15px;
-  border: 1px solid #e0e0e0;
-  position: relative;
-  background: #f5f5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.map-container::before {
-  content: '載入地圖中...';
-  position: absolute;
-  color: #7f8c8d;
-  font-size: 0.9em;
-  z-index: 1;
-}
-
-.map-container iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.map-container iframe.loaded {
-  opacity: 1;
-}
-
-.map-container.loaded::before {
-  display: none;
-}
-
-/* LINE 瀏覽器模式下隱藏載入文字 */
-.map-container.line-browser::before {
-  display: none;
-}
-
-/* LINE 瀏覽器地圖提示訊息樣式 */
-.map-container.line-browser {
-  min-height: 100px;
-  background: #f8f9fa;
-  border: 1px dashed #dee2e6;
-}
-
-.line-map-notice {
-  width: 100%;
-}
-
-/* 響應式設計 */
-
-@media (max-width: 768px) {
-  .stores-grid {
-    grid-template-columns: 1fr;
+/* 手機版優化 */
+@media (max-width: 767px) {
+  .store-map-shell {
+    height: calc(100vh - 160px);
+    min-height: 400px;
   }
   
-  .container {
-    padding: 20px;
-  }
-  
-  h1 {
-    font-size: 2em;
+  /* 確保地圖始終可見，面板最多佔 50% */
+  .store-panel.is-expanded {
+    --panel-height: 50vh !important;
+    max-height: 50vh !important;
   }
 
-  .city-title {
-    font-size: 1.5em;
+  .store-header-banner {
+    padding: 20px 16px;
+  }
+
+  .store-header-banner h1 {
+    font-size: 1.75rem;
+  }
+
+  .store-header-banner p {
+    font-size: 1rem;
+  }
+
+  .store-list-actions {
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .store-list-actions a {
+    padding: 8px 10px;
+    font-size: 0.8em;
+    gap: 4px;
+  }
+
+  .store-list-actions a i {
+    font-size: 0.85em;
+  }
+
+  .store-list-actions a.btn-phone {
+    border-width: 1.5px;
+  }
+
+  .store-list-actions a.btn-map {
+    border-width: 1.5px;
+  }
+
+  /* 手機版營業時間列表 */
+  .store-hours-week-mobile {
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .store-hours-week-mobile li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    font-size: 0.9em;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .store-hours-week-mobile li:last-child {
+    border-bottom: none;
+  }
+
+  .store-hours-week-mobile .store-hours-day {
+    color: #1f2937;
+    font-weight: 600;
+  }
+
+  .store-hours-week-mobile .store-hours-slot {
+    color: #1f2937;
+    font-weight: 500;
+  }
+
+  .store-details-accordion {
+    margin-top: 10px;
+  }
+
+  .store-details-accordion summary {
+    font-size: 0.85em;
+  }
+
+  .store-details-content {
+    margin-top: 8px;
+    padding-left: 0;
+  }
+}
+
+/* 載入狀態 */
+.store-list-loading {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+}
+
+.store-list-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #9ca3af;
+}
+
+.store-list-empty i {
+  font-size: 3em;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+/* 動畫效果 */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.store-panel.is-expanded {
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 觸控優化 */
+@media (hover: none) and (pointer: coarse) {
+  .store-list-item:hover {
+    transform: none;
+  }
+
+  .store-list-item:active {
+    transform: scale(0.98);
   }
 }
