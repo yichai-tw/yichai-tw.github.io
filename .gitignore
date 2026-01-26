@@ -107,14 +107,10 @@ ENV/
 *.sqlite3
 *.db-journal
 
-# JSON 檔案 (預設全部排除，有需要的再指定例外)
+# JSON 檔案 (預設全部排除，只有明確允許的才追蹤)
 *.json
-# 允許的 JSON 檔案範例 (取消註解以啟用)
-# !package.json
-# !tsconfig.json
-# !package-lock.json
-# !public/config.json
-# !public/data.json
+
+# 允許追蹤的 JSON 檔案（明確指定）
 !mapping/PetStores_BranchInfo.json
 
 # 專案特定排除
