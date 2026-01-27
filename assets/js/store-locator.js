@@ -259,25 +259,25 @@
     if (nearestContainer) {
       const nearest = sortedStores[0];
       nearestContainer.innerHTML = `
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
-          <div class="p-8 md:p-10 flex flex-col justify-center border-t-4 border-[#DF7621] lg:border-t-0 lg:border-l-4 lg:border-l-[#DF7621]">
-            <div class="inline-block bg-[#DF7621] text-white px-4 py-1 rounded-full text-sm font-bold mb-4 w-fit">離您最近的門市</div>
-            <h3 class="text-3xl font-bold mb-4 text-gray-800">${nearest.name}</h3>
-            <div class="space-y-3 text-gray-600">
-              <p class="flex items-start text-sm md:text-base"><i class="fas fa-map-marker-alt mt-1 mr-3 text-[#DF7621]"></i> <span>${nearest.address}</span></p>
-              <p class="flex items-center text-sm md:text-base"><i class="fas fa-phone-alt mr-3 text-[#DF7621]"></i> <a href="tel:${nearest.phoneDigits}" class="hover:text-[#DF7621] transition-colors">${nearest.phone}</a></p>
-              <p class="flex items-center text-sm md:text-base"><i class="fas fa-clock mr-3 text-[#DF7621]"></i> <span>${nearest.status?.text || '載入中...'}</span></p>
+        <div class="bg-white rounded-[2rem] shadow-xl border border-gray-100 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+          <div class="p-10 md:p-12 flex flex-col justify-center border-t-8 border-[#DF7621] lg:border-t-0 lg:border-l-8 lg:border-l-[#DF7621]">
+            <div class="inline-block bg-[#DF7621] text-white px-5 py-1.5 rounded-full text-xs font-bold mb-6 w-fit uppercase tracking-widest">離您最近的門市</div>
+            <h3 class="text-4xl font-bold mb-6 text-gray-800">${nearest.name}</h3>
+            <div class="space-y-4 text-gray-600">
+              <p class="flex items-start text-base"><i class="fas fa-map-marker-alt mt-1.5 mr-4 text-[#DF7621] text-lg"></i> <span>${nearest.address}</span></p>
+              <p class="flex items-center text-base"><i class="fas fa-phone-alt mr-4 text-[#DF7621] text-lg"></i> <a href="tel:${nearest.phoneDigits}" class="hover:text-[#DF7621] transition-colors font-medium">${nearest.phone}</a></p>
+              <p class="flex items-center text-base"><i class="fas fa-clock mr-4 text-[#DF7621] text-lg"></i> <span>${nearest.status?.text || '載入中...'}</span></p>
             </div>
-            <div class="mt-6 flex flex-wrap gap-3">
-              <a href="${nearest.mapUrl}" target="_blank" class="bg-gray-800 text-white px-5 py-2 rounded-lg font-bold hover:bg-black transition-all flex items-center text-sm">
+            <div class="mt-10 flex flex-wrap gap-4">
+              <a href="${nearest.mapUrl}" target="_blank" class="bg-gray-800 text-white px-8 py-3 rounded-full font-bold hover:bg-black transition-all flex items-center shadow-lg hover:shadow-xl">
                 <i class="fas fa-directions mr-2"></i> 導航路線
               </a>
-              <a href="tel:${nearest.phoneDigits}" class="border-2 border-[#DF7621] text-[#DF7621] px-5 py-2 rounded-lg font-bold hover:bg-[#DF7621] hover:text-white transition-all flex items-center text-sm">
+              <a href="tel:${nearest.phoneDigits}" class="border-2 border-[#DF7621] text-[#DF7621] px-8 py-3 rounded-full font-bold hover:bg-[#DF7621] hover:text-white transition-all flex items-center shadow-sm hover:shadow-lg">
                 <i class="fas fa-phone-alt mr-2"></i> 撥打電話
               </a>
             </div>
           </div>
-          <div class="h-[250px] lg:h-auto min-h-[250px] relative">
+          <div class="h-[300px] lg:h-auto min-h-[350px] relative">
             <iframe width="100%" height="100%" frameborder="0" style="border:0" src="${nearest.mapEmbedUrl}" allowfullscreen></iframe>
           </div>
         </div>
@@ -293,9 +293,9 @@
             // 縮短名稱以適應小卡片：移除「宜加寵物生活館」字樣，只保留分店名
             const shortName = store.name.replace('宜加寵物', '').replace('生活館', '').replace('店', '');
             return `
-              <div class="bg-white p-2 md:p-4 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all hover:-translate-y-1 hover:border-[#DF7621] text-center group">
-                <h4 class="font-bold text-[13px] md:text-base text-gray-800 group-hover:text-[#DF7621] transition-colors line-clamp-1">${shortName}</h4>
-                <p class="text-gray-500 text-[9px] md:text-[10px] mt-0.5 md:mt-1 truncate">${store.city}</p>
+              <div class="bg-white p-4 md:p-6 rounded-[1.5rem] shadow-sm border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-2 hover:border-[#DF7621] text-center group">
+                <h4 class="font-bold text-[15px] md:text-lg text-gray-800 group-hover:text-[#DF7621] transition-colors line-clamp-1">${shortName}</h4>
+                <p class="text-gray-400 text-[10px] md:text-xs mt-2 tracking-wide uppercase font-medium">${store.city}</p>
               </div>
             `;
           }).join('')}

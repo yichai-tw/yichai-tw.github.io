@@ -1,63 +1,105 @@
-/* 字體設定 - 全局使用 Google Fonts Zen Old Mincho */
-body {
-  font-family: "Zen Old Mincho", "Noto Serif TC", "Microsoft JhengHei", serif !important;
+:root {
+  --primary-color: #DF7621;
+  --primary-light: #E88A3F;
+  --primary-dark: #C65D1A;
+  --bg-main: #FFFFFF;
+  --bg-soft: #FDF9F6; /* 溫暖的淺米色，更符合品牌色 */
+  --text-main: #2C3E50;
+  --text-muted: #64748B;
+  --border-color: #F1F5F9;
+  --card-shadow: 0 10px 30px rgba(223, 118, 33, 0.05);
+  --card-shadow-hover: 0 20px 40px rgba(223, 118, 33, 0.1);
+  --radius-lg: 1rem;    /* 16px */
+  --radius-xl: 1.5rem;  /* 24px */
 }
 
-/* 確保所有文字元素都使用 Zen Old Mincho，但不影響圖標字體 */
+/* 全域設定 */
+body {
+  font-family: "Zen Old Mincho", "Noto Serif TC", "Microsoft JhengHei", serif !important;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+/* 統一字體 */
 p, h1, h2, h3, h4, h5, h6, 
 span:not(.twicon):not(.fa):not([class*="fa-"]), 
 a, li, td, th, label, input, textarea, select, button {
   font-family: "Zen Old Mincho", "Noto Serif TC", "Microsoft JhengHei", serif !important;
 }
 
-/* PC 版最大寬度限制，避免在超寬螢幕上失真 */
+/* 標題裝飾 */
+h2 {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.title-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.title-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: var(--primary-color);
+  border-radius: 2px;
+}
+
+/* 統一卡片樣式 */
+.standard-card {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--card-shadow);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.standard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--primary-light);
+}
+
+/* 按鈕風格 */
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.8rem 2.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(223, 118, 33, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(223, 118, 33, 0.3);
+}
+
+/* 頁尾格線系統 */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* PC 版寬度限制 */
 @media (min-width: 1024px) {
   body {
     max-width: 1920px;
     margin: 0 auto;
-  }
-  
-  /* 確保主要內容區域在超寬螢幕上居中 */
-  main {
-    max-width: 100%;
-  }
-}
-
-/* Hero 區塊背景裝飾 */
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,0 C150,80 350,80 500,40 C650,0 850,0 1000,40 C1150,80 1200,80 1200,80 L1200,120 L0,120 Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom;
-  background-size: cover;
-  opacity: 0.3;
-}
-
-/* 標題下劃線裝飾 */
-.title-underline::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 60px;
-  height: 4px;
-  background: #DF7621;
-}
-
-/* 頁尾響應式樣式 */
-.footer-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
-  margin-bottom: 30px;
-}
-
-/* PC 版頁尾兩欄顯示 */
-@media (min-width: 768px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
   }
 }
