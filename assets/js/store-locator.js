@@ -404,27 +404,15 @@
     
     let filtered = stores;
     
-    // 縣市篩選（只能選一個，如果選了多個則取第一個）
-    const cityFilters = activeFilters.filter(f => f === 'taipei' || f === 'newtaipei');
+    // 縣市篩選（只能選一個，且 'all' 表示不篩選縣市）
+    const cityFilters = activeFilters.filter(f => f === 'taipei' || f === 'newtaipei' || f === 'all');
     if (cityFilters.length > 0) {
       const cityFilter = cityFilters[0];
       if (cityFilter === 'taipei') {
         filtered = filtered.filter(store => store.city === '台北市');
       } else if (cityFilter === 'newtaipei') {
         filtered = filtered.filter(store => store.city === '新北市');
-      }
-    }
-    
-    // 功能篩選（可以多選）
-    const featureFilters = activeFilters.filter(f => f === 'open' || f === 'grooming');
-    if (featureFilters.length > 0) {
-      featureFilters.forEach(filter => {
-        if (filter === 'open') {
-          filtered = filtered.filter(store => store.isOpen === true);
-        } else if (filter === 'grooming') {
-          filtered = filtered.filter(store => store.hasGrooming === true);
-        }
-      });
+      } // 如果是 'all' 則不過濾城市
     }
     
     return filtered;
@@ -443,7 +431,7 @@
 
     // 自動選中第一筆（按 GPS 距離或城市排序後的第一筆）
     let currentStore = ordered[0] || null;
-    let activeFilters = []; // 改為陣列，支援多選
+    let activeFilters = ['all']; // 預設選中 '全部' 篩選器
     let filteredStores = ordered;
     
     // 保存用戶位置，供篩選時使用
@@ -552,14 +540,14 @@
     }
     initPanelInteractions(panel);
 
-    // 標籤篩選功能（多選）
+    // 標籤篩選功能
     if (filterTags) {
       const tagButtons = filterTags.querySelectorAll('.filter-tag');
       
       function updateFilters() {
-        // 收集所有選中的標籤
+        // 收集所有選中的縣市標籤 (只允許單選)
         activeFilters = Array.from(tagButtons)
-          .filter(btn => btn.classList.contains('active'))
+          .filter(btn => btn.classList.contains('active') && btn.dataset.group === 'city')
           .map(btn => btn.dataset.filter);
         
         // 篩選門市
@@ -593,21 +581,13 @@
           const filter = button.dataset.filter;
           const group = button.dataset.group;
           
-          // 切換選中狀態
-          const isActive = button.classList.contains('active');
-          
+          // 縣市標籤：同一組內只能選一個，切換選中狀態
           if (group === 'city') {
-            // 縣市標籤：同一組內只能選一個，切換選中狀態
             const sameGroupButtons = Array.from(tagButtons).filter(
               btn => btn.dataset.group === 'city'
             );
             sameGroupButtons.forEach(btn => btn.classList.remove('active'));
-            if (!isActive) {
-              button.classList.add('active');
-            }
-          } else {
-            // 功能標籤：可以多選，切換選中狀態
-            button.classList.toggle('active');
+            button.classList.add('active');
           }
           
           // 更新篩選
