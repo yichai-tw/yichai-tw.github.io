@@ -302,58 +302,76 @@
   function initPanelInteractions(panel) {
     if (!panel) return;
     const handle = panel.querySelector('.store-panel-handle');
-    if (!handle) return;
+    const toggleButtonPC = panel.querySelector('.store-panel-toggle-btn');
+    const mapLayer = document.querySelector('.store-map-layer');
 
-    const setHeight = height => {
-      panel.style.setProperty('--panel-height', `${height}px`);
-    };
+    // 行動版點擊展開/收合邏輯
+    if (handle) {
+      const minHeight = 160; // 初始收合高度
+      const expandedHeight = Math.round(window.innerHeight * 0.5); // 展開高度限制為 50vh
 
-    const minHeight = 160;
-    let maxHeight = Math.round(window.innerHeight * 0.85);
-    setHeight(minHeight);
+      function togglePanel() {
+        const isCollapsed = panel.classList.contains('is-collapsed');
+        if (isCollapsed) {
+          panel.classList.remove('is-collapsed');
+          panel.classList.add('is-expanded');
+          panel.style.setProperty('--panel-height', `${expandedHeight}px`);
+        } else {
+          panel.classList.remove('is-expanded');
+          panel.classList.add('is-collapsed');
+          panel.style.setProperty('--panel-height', `${minHeight}px`);
+        }
+      }
 
-    function snapPanel(height) {
-      const midpoint = (minHeight + maxHeight) / 2;
-      const isExpanded = height >= midpoint;
-      panel.classList.toggle('is-expanded', isExpanded);
-      panel.classList.toggle('is-collapsed', !isExpanded);
-      setHeight(isExpanded ? maxHeight : minHeight);
+      handle.addEventListener('click', togglePanel);
+
+      // 初始設定為收合狀態
+      panel.classList.add('is-collapsed');
+      panel.style.setProperty('--panel-height', `${minHeight}px`);
     }
 
-    let startY = 0;
-    let startHeight = 0;
-    let dragging = false;
+    // PC版切換按鈕邏輯
+    if (toggleButtonPC && window.innerWidth >= 1024) {
+      toggleButtonPC.addEventListener('click', () => {
+        panel.classList.toggle('is-collapsed-pc');
+        if (mapLayer) {
+          mapLayer.classList.toggle('map-expanded');
+        }
+      });
 
-    function onPointerMove(event) {
-      if (!dragging) return;
-      const delta = startY - event.clientY;
-      const nextHeight = Math.min(Math.max(startHeight + delta, minHeight), maxHeight);
-      setHeight(nextHeight);
+      // 初始狀態檢查：根據是否有 is-collapsed-pc 類別設定地圖層級
+      if (panel.classList.contains('is-collapsed-pc') && mapLayer) {
+        mapLayer.classList.add('map-expanded');
+      } else if (mapLayer) {
+        mapLayer.classList.remove('map-expanded');
+      }
     }
 
-    function onPointerUp(event) {
-      if (!dragging) return;
-      dragging = false;
-      const currentHeight = parseFloat(getComputedStyle(panel).height);
-      snapPanel(currentHeight);
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
-      window.removeEventListener('pointercancel', onPointerUp);
-    }
-
-    handle.addEventListener('click', () => {
-      const currentHeight = parseFloat(getComputedStyle(panel).height);
-      snapPanel(currentHeight === minHeight ? maxHeight : minHeight);
-    });
-
-    handle.addEventListener('pointerdown', event => {
-      dragging = true;
-      startY = event.clientY;
-      startHeight = parseFloat(getComputedStyle(panel).height);
-      maxHeight = Math.round(window.innerHeight * 0.85);
-      window.addEventListener('pointermove', onPointerMove);
-      window.addEventListener('pointerup', onPointerUp);
-      window.addEventListener('pointercancel', onPointerUp);
+    // 監聽視窗大小變化，處理 PC 和手機模式切換
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 1024) {
+        // 切換到手機模式，移除 PC 相關類別
+        panel.classList.remove('is-collapsed-pc');
+        if (mapLayer) {
+          mapLayer.classList.remove('map-expanded');
+        }
+        // 確保行動版面板狀態正確
+        if (!panel.classList.contains('is-expanded') && !panel.classList.contains('is-collapsed')) {
+          panel.classList.add('is-collapsed');
+          panel.style.setProperty('--panel-height', `160px`);
+        }
+      } else {
+        // 切換到 PC 模式，確保沒有行動版相關類別
+        panel.classList.remove('is-collapsed');
+        panel.classList.remove('is-expanded');
+        panel.style.setProperty('--panel-height', 'auto'); // PC 模式下高度由 CSS 控制
+        // 根據初始狀態或上次的 PC 狀態設定地圖層級
+        if (panel.classList.contains('is-collapsed-pc') && mapLayer) {
+          mapLayer.classList.add('map-expanded');
+        } else if (mapLayer) {
+          mapLayer.classList.remove('map-expanded');
+        }
+      }
     });
   }
 
