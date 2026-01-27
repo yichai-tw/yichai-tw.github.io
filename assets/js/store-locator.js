@@ -186,7 +186,15 @@
     if (!navContainer || !detailContainer) return;
 
     const ordered = sortStoresByDistance(stores, userLat, userLng);
-    let currentStore = ordered[0] || null;
+    
+    // 邏輯：如果有 GPS (userLat 存在)，則自動選最近的 (ordered[0])
+    // 如果沒有 GPS，則優先找「內湖店」，找不到才選第一個
+    let currentStore = null;
+    if (userLat && userLng) {
+      currentStore = ordered[0];
+    } else {
+      currentStore = ordered.find(s => s.name.includes('內湖')) || ordered[0];
+    }
 
     function renderNav() {
       const grouped = ordered.reduce((acc, store) => {
