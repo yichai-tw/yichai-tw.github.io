@@ -492,35 +492,59 @@
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   max-height: 50vh;
-}
-
-.store-panel.is-collapsed {
-  --panel-height: 180px;
+  overscroll-behavior: contain; /* 防止滑動洩漏到背景 */
+  touch-action: pan-y;
 }
 
 .store-panel.is-expanded {
   --panel-height: 50vh;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.store-panel.is-collapsed .store-panel-header,
-.store-panel.is-collapsed .store-panel-list {
-  display: none;
-}
-
-.store-panel.is-collapsed .store-panel-preview {
+/* 強化清單容器的滑動穩定性 */
+.store-panel-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 20px 20px;
+  -webkit-overflow-scrolling: touch;
   display: block;
+  width: 100%;
+  overscroll-behavior-y: auto; /* 允許在觸底後連動背景，但需配合 JS 鎖定 */
 }
 
-.store-panel.is-expanded .store-panel-preview {
-  display: none;
-}
-
-.store-panel.is-expanded .store-panel-header {
+/* 調整把手圖示，讓它更像一個可點擊的按鈕 */
+.store-panel-handle {
+  border: none;
+  background: transparent;
+  padding: 10px 0 5px;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-.store-panel.is-expanded .store-panel-list {
+.store-panel-handle-icon {
+  font-size: 1.4em;
+  color: #DF7621; /* 使用品牌色提升提示感 */
+  margin-bottom: -5px;
+  transition: transform 0.3s ease;
+}
+
+.store-panel.is-expanded .store-panel-handle-icon {
+  transform: rotate(180deg);
+}
+
+.store-panel-handle-bar {
   display: block;
+  width: 40px;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  margin-top: 4px;
 }
 
 /* PC版：Side Panel 樣式 */

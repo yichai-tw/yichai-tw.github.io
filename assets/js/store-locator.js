@@ -258,23 +258,46 @@
     const handle = panel.querySelector('.store-panel-handle');
     const toggleButtonPC = panel.querySelector('.store-panel-toggle-btn');
     const mapLayer = document.querySelector('.store-map-layer');
+    const list = document.getElementById('store-list');
 
     if (handle) {
       const minHeight = 160;
       const expandedHeight = Math.round(window.innerHeight * 0.5);
+      
       function togglePanel() {
         const isCollapsed = panel.classList.contains('is-collapsed');
         if (isCollapsed) {
           panel.classList.remove('is-collapsed');
           panel.classList.add('is-expanded');
           panel.style.setProperty('--panel-height', `${expandedHeight}px`);
+          // 展開時，若清單未觸底，鎖定 body 防止頁面一起滑動
+          updateBodyScrollLock();
         } else {
           panel.classList.remove('is-expanded');
           panel.classList.add('is-collapsed');
           panel.style.setProperty('--panel-height', `${minHeight}px`);
+          document.body.style.overflow = ''; // 收合時務必釋放鎖定
         }
       }
+
+      function updateBodyScrollLock() {
+        if (!list || window.innerWidth >= 1024) return;
+        
+        const isAtBottom = list.scrollHeight - list.scrollTop <= list.clientHeight + 1;
+        if (panel.classList.contains('is-expanded') && !isAtBottom) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      }
+
       handle.addEventListener('click', togglePanel);
+      
+      // 監聽清單滑動，動態決定是否釋放背景滑動
+      if (list) {
+        list.addEventListener('scroll', updateBodyScrollLock, { passive: true });
+      }
+
       panel.classList.add('is-collapsed');
       panel.style.setProperty('--panel-height', `${minHeight}px`);
     }
