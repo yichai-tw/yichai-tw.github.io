@@ -166,27 +166,32 @@
     /* 手機版調整品牌卡片大小 */
     @media (max-width: 768px) {
       .brand-card {
-        min-width: 140px;
-        width: 140px;
-        height: 140px;
-        padding: 10px;
+        min-width: 180px;
+        width: 180px;
+        height: 260px; /* 顯著增加高度以容納更多文字 */
+        padding: 12px;
         aspect-ratio: auto;
       }
       .brand-logo-container {
-        width: 60px !important;
-        height: 60px !important;
-        margin-bottom: 8px !important;
+        width: 70px !important;
+        height: 70px !important;
+        margin-bottom: 10px !important;
       }
       .brand-name {
-        font-size: 0.8rem !important;
+        font-size: 0.9rem !important;
+      }
+      .brand-description {
+        padding: 15px 12px !important;
       }
       .desc-title {
         font-size: 0.85rem !important;
-        margin-bottom: 5px !important;
+        margin-bottom: 8px !important;
+        padding-bottom: 3px !important;
+        border-bottom: 1px solid #DF7621;
       }
       .desc-content {
-        font-size: 0.7rem !important;
-        line-height: 1.4 !important;
+        font-size: 0.8rem !important;
+        line-height: 1.6 !important;
       }
     }
     /* 當沒有 logo 時的特殊樣式 */
