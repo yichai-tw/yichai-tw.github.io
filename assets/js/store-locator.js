@@ -175,6 +175,10 @@
       if (mapFrame) mapFrame.src = activeStore.mapEmbedUrl;
 
       if (isMobile) {
+        // 紀錄目前的捲動位置
+        const oldChips = listContainer.querySelector('.store-nav-chips-mobile');
+        const scrollPos = oldChips ? oldChips.scrollLeft : 0;
+
         // 手機版：Chips + 單一詳細卡片
         const chipsHTML = `
           <div class="store-nav-chips-mobile">
@@ -183,6 +187,16 @@
         `;
         listContainer.innerHTML = chipsHTML + renderStoreCard(activeStore, true);
         
+        // 恢復捲動位置並將選中的按鈕捲動到視線內
+        const newChips = listContainer.querySelector('.store-nav-chips-mobile');
+        if (newChips) {
+          newChips.scrollLeft = scrollPos;
+          const activeChip = newChips.querySelector('.nav-chip.active');
+          if (activeChip) {
+            activeChip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }
+        }
+
         listContainer.querySelectorAll('.nav-chip').forEach(chip => {
           chip.onclick = () => { selectedStoreId = chip.dataset.id; renderUI(); };
         });
