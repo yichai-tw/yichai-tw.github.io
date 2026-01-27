@@ -25,14 +25,6 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Zen Old Mincho", "Noto Serif TC", "Microsoft JhengHei", serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f5f5f5;
-  overflow-x: hidden;
-}
-
 /* 主容器 */
 .store-locator-main {
   position: relative;
