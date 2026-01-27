@@ -78,7 +78,7 @@
           hasGrooming: store.services?.grooming === true,
           mapUrl: store.google_business_short_url || store.google_business_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`,
           mapEmbedUrl: (coordinates.latitude && coordinates.longitude)
-            ? `https://www.google.com/maps?q=${coordinates.latitude},coordinates.longitude&hl=zh-TW&z=15&output=embed`
+            ? `https://www.google.com/maps?q=${coordinates.latitude},${coordinates.longitude}&hl=zh-TW&z=15&output=embed`
             : `https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&hl=zh-TW&z=15&output=embed`
         };
       });
