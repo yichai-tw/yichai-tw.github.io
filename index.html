@@ -274,25 +274,45 @@
       background: #DF7621;
       border-radius: 10px;
     }
-    .brand-card:hover {
+    /* 品牌卡片互動效果 */
+    @media (hover: hover) {
+      .brand-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        border-color: #DF7621;
+        box-shadow: 0 15px 40px rgba(223, 118, 33, 0.15);
+      }
+      .brand-card:hover .brand-description {
+        opacity: 1;
+        visibility: visible;
+      }
+      .brand-card:hover .brand-content-wrapper {
+        opacity: 0;
+      }
+      .brand-marquee:hover .brand-marquee-content {
+        animation-play-state: paused;
+      }
+    }
+
+    /* 支援觸控與 JavaScript 控制的狀態 */
+    .brand-card.is-active {
       transform: translateY(-5px) scale(1.02);
       border-color: #DF7621;
       box-shadow: 0 15px 40px rgba(223, 118, 33, 0.15);
     }
-    .brand-card:hover .brand-description {
+    .brand-card.is-active .brand-description {
       opacity: 1;
       visibility: visible;
     }
-    .brand-card:hover .brand-content-wrapper {
+    .brand-card.is-active .brand-content-wrapper {
       opacity: 0;
     }
+    .brand-marquee.is-paused .brand-marquee-content {
+      animation-play-state: paused;
+    }
+
     @keyframes scroll {
       from { transform: translateX(0); }
       to { transform: translateX(calc(-50% - 15px)); }
-    }
-    /* 暫停動畫 */
-    .brand-marquee:hover .brand-marquee-content {
-      animation-play-state: paused;
     }
   </style>
 </head>
@@ -491,6 +511,30 @@
         // 插入兩組卡片以實現無縫捲動
         const allCardsHTML = validBrands.map(createCardHTML).join('');
         container.innerHTML = allCardsHTML + allCardsHTML;
+
+        // 加入觸控事件處理手機版「黏性 Hover」問題
+        const marquee = container.closest('.brand-marquee');
+        const cards = container.querySelectorAll('.brand-card');
+        
+        cards.forEach(card => {
+          card.addEventListener('touchstart', function() {
+            // 移除其他所有卡片的 active 狀態，確保一次只有一張顯示
+            cards.forEach(c => c.classList.remove('is-active'));
+            card.classList.add('is-active');
+            if (marquee) marquee.classList.add('is-paused');
+          }, { passive: true });
+
+          card.addEventListener('touchend', function() {
+            card.classList.remove('is-active');
+            if (marquee) marquee.classList.remove('is-paused');
+          }, { passive: true });
+
+          // 處理觸控取消的情況（例如滑動頁面時）
+          card.addEventListener('touchcancel', function() {
+            card.classList.remove('is-active');
+            if (marquee) marquee.classList.remove('is-paused');
+          }, { passive: true });
+        });
 
       } catch (error) {
         console.error('載入品牌跑馬燈失敗:', error);
