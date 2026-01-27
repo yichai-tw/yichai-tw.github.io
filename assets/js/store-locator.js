@@ -262,36 +262,36 @@
 
     if (handle) {
       const minHeight = 160;
-      const expandedHeight = Math.round(window.innerHeight * 0.5);
+      const expandedHeight = Math.round(window.innerHeight * 0.75); // 同步改為 75vh
       
-      function togglePanel() {
+      function togglePanel(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        
         const isCollapsed = panel.classList.contains('is-collapsed');
         if (isCollapsed) {
           panel.classList.remove('is-collapsed');
           panel.classList.add('is-expanded');
           panel.style.setProperty('--panel-height', `${expandedHeight}px`);
-          // 展開時，若清單未觸底，鎖定 body 防止頁面一起滑動
           updateBodyScrollLock();
         } else {
           panel.classList.remove('is-expanded');
           panel.classList.add('is-collapsed');
           panel.style.setProperty('--panel-height', `${minHeight}px`);
-          document.body.style.overflow = ''; // 收合時務必釋放鎖定
-        }
-      }
-
-      function updateBodyScrollLock() {
-        if (!list || window.innerWidth >= 1024) return;
-        
-        const isAtBottom = list.scrollHeight - list.scrollTop <= list.clientHeight + 1;
-        if (panel.classList.contains('is-expanded') && !isAtBottom) {
-          document.body.style.overflow = 'hidden';
-        } else {
           document.body.style.overflow = '';
         }
       }
 
+      // 綁定點擊事件
       handle.addEventListener('click', togglePanel);
+      // 額外綁定觸控事件以確保反應靈敏
+      handle.addEventListener('touchend', (e) => {
+        if (!panel.classList.contains('is-dragging')) {
+          togglePanel(e);
+        }
+      }, { passive: false });
       
       // 監聽清單滑動，動態決定是否釋放背景滑動
       if (list) {
