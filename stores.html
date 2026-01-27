@@ -126,36 +126,26 @@
       </div>
     </section>
 
-    <!-- 地圖與面板容器 -->
-    <section class="store-map-shell">
-      <!-- 地圖背景層 -->
-      <div class="store-map-layer">
-        <iframe id="store-map-frame" title="門市地圖" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <div class="store-map-hint">點擊門市清單可切換地圖</div>
+    <!-- 門市定位容器 -->
+    <section class="store-locator-container">
+      <!-- 1. 簡潔店名清單 (快速切換) -->
+      <div class="store-nav-chips" id="store-nav-chips">
+        <!-- 由 JS 注入店名按鈕 -->
       </div>
-      
-      <!-- 響應式面板：手機版 Bottom Sheet / PC版 Side Panel -->
-      <div class="store-panel is-collapsed" id="store-panel">
-        <!-- 手機版拖拽把手 -->
-        <button class="store-panel-handle" type="button" aria-label="展開門市清單">
-          <i class="fas fa-chevron-up store-panel-handle-icon"></i>
-          <span class="store-panel-handle-bar"></span>
-        </button>
-        
-        <div class="store-panel-inner">
-          <!-- 面板標題 -->
-          <div class="store-panel-header">
-            <h2 class="store-panel-title">門市清單</h2>
-            <button class="store-panel-toggle-btn hidden lg:block" type="button" aria-label="切換門市清單面板">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-          </div>
-          
-          <!-- 手機版預覽（收合時顯示） -->
-          <div class="store-panel-preview" id="store-preview"></div>
-          
-          <!-- 完整門市列表 -->
-          <div class="store-panel-list" id="store-list"></div>
+
+      <!-- 2. 詳細店家資訊 (互動容器) -->
+      <div class="store-detail-section">
+        <div class="store-detail-card" id="store-detail-card">
+          <!-- 由 JS 注入選中店家的詳細資訊 -->
+          <div class="store-list-loading"><i class="fas fa-spinner fa-spin"></i> 載入中...</div>
+        </div>
+      </div>
+
+      <!-- 3. 地圖 (互動容器) -->
+      <div class="store-map-section">
+        <div class="store-map-wrapper">
+          <iframe id="store-map-frame" title="門市地圖" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="store-map-hint">可縮放地圖查看精確位置</div>
         </div>
       </div>
     </section>

@@ -1,298 +1,139 @@
-/* TW Icon Fonts */
-@font-face {
-  font-family: 'TW Icon';
-  src: url('../fonts/twicon.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+/* 門市頁面新佈局樣式 */
+
+.store-locator-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.twicon {
-  font-family: 'TW Icon', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* 1. 簡潔店名清單 (Chips) */
+.store-nav-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  padding: 10px 0;
 }
 
-/* 基礎樣式 */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.nav-chip {
+  padding: 8px 20px;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 999px;
+  color: #4b5563;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
 }
 
-/* 主容器 */
-.store-locator-main {
+.nav-chip:hover {
+  border-color: #DF7621;
+  color: #DF7621;
+  background: #fff7f2;
+}
+
+.nav-chip.active {
+  background: #DF7621;
+  border-color: #DF7621;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(223, 118, 33, 0.3);
+}
+
+/* 2. 詳細店家資訊卡片 */
+.store-detail-section {
+  width: 100%;
+}
+
+.store-detail-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f3e2d3;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   position: relative;
-  min-height: 100vh;
 }
 
-/* 頁首橫幅 */
-.store-header-banner {
-  position: relative;
-  z-index: 10;
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 15px;
 }
 
-/* 地圖與面板容器 */
-.store-map-shell {
-  position: relative;
-  height: calc(100vh - 200px);
-  min-height: 500px;
-  background: #f5f5f5;
+.detail-title {
+  font-size: 1.8em;
+  font-weight: 900;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.detail-info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+@media (min-width: 768px) {
+  .detail-info-grid {
+    grid-template-columns: 1.5fr 1fr;
+  }
+}
+
+.info-item {
+  display: flex;
+  gap: 12px;
+  font-size: 1.05em;
+  margin-bottom: 10px;
+}
+
+.info-item i {
+  color: #DF7621;
+  width: 20px;
+  margin-top: 5px;
+}
+
+/* 3. 地圖容器 */
+.store-map-section {
+  width: 100%;
+}
+
+.store-map-wrapper {
+  height: 450px;
+  border-radius: 20px;
   overflow: hidden;
-}
-
-/* 地圖背景層 */
-.store-map-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 #store-map-frame {
   width: 100%;
   height: 100%;
   border: 0;
-  display: block;
 }
 
 .store-map-hint {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 8px 12px;
-  border-radius: 999px;
-  font-size: 0.85em;
-  color: #555;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-  z-index: 2;
+  bottom: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 0.8em;
   pointer-events: none;
 }
 
-/* 響應式面板 - 基礎樣式 */
-.store-panel {
-  position: absolute;
-  z-index: 20;
-  background: #fff;
-  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.store-panel-inner {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-}
-
-/* 手機版：Bottom Sheet */
-.store-panel-handle {
-  border: none;
-  background: transparent;
-  padding: 12px 0 8px;
-  cursor: pointer;
-  touch-action: manipulation; /* 更改為 manipulation 以提升滾動效能 */
-  user-select: none;
-  -webkit-user-select: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-}
-
-.store-panel-handle-icon {
-  font-size: 1.2em;
-  color: #d1d5db;
-  transition: transform 0.3s ease, color 0.2s;
-}
-
-.store-panel.is-expanded .store-panel-handle-icon {
-  transform: rotate(180deg);
-}
-
-.store-panel-handle:hover .store-panel-handle-icon {
-  color: #9ca3af;
-}
-
-.store-panel-handle-bar {
-  display: block;
-  width: 44px;
-  height: 4px;
-  margin: 0 auto;
-  background: #d1d5db;
-  border-radius: 999px;
-  transition: background 0.2s;
-}
-
-.store-panel-handle:hover .store-panel-handle-bar,
-.store-panel-handle:active .store-panel-handle-bar {
-  background: #9ca3af;
-}
-
-/* 面板標題與標籤篩選 */
-.store-panel-header {
-  padding: 16px 20px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border-bottom: 1px solid #f3f4f6;
-  flex-shrink: 0;
-}
-
-.store-panel-title {
-  font-size: 1.3em;
-  font-weight: 700;
-  color: #2c3e50;
-  margin: 0;
-}
-
-.store-filter-tags {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.filter-group-label {
-  font-size: 0.85em;
-  font-weight: 600;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.filter-group-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-}
-
-.filter-tag {
-  padding: 6px 14px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 20px;
-  background: #fff;
-  color: #6b7280;
-  font-size: 0.9em;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.filter-tag:hover {
-  border-color: #DF7621;
-  color: #DF7621;
-  background: #fff7f2;
-}
-
-.filter-tag.active {
-  background: #DF7621;
-  border-color: #DF7621;
-  color: #fff;
-}
-
-.filter-tag.active:hover {
-  background: #C65D1A;
-  border-color: #C65D1A;
-}
-
-/* 手機版預覽 */
-.store-panel-preview {
-  padding: 16px 20px;
-  border-bottom: 1px solid #f3f4f6;
-  flex-shrink: 0;
-}
-
-/* 門市列表容器 */
-.store-panel-list {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 12px 20px 20px;
-  -webkit-overflow-scrolling: touch;
-  display: block;
-  width: 100%;
-}
-
-/* 確保列表容器內的所有直接子元素都是塊級元素 */
-.store-panel-list > * {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.store-panel-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.store-panel-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.store-panel-list::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-}
-
-.store-panel-list::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-/* 門市列表項目 */
-.store-list-item {
-  background: #fff7f2;
-  border: 1px solid #f3e2d3;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 12px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.store-list-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-  border-color: #DF7621;
-}
-
-.store-list-item.active {
-  border-color: #DF7621;
-  box-shadow: 0 4px 12px rgba(223, 118, 33, 0.2);
-  background: #fffbf7;
-}
-
-.store-list-title {
-  font-size: 1.15em;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap; /* 允許標籤換行 */
-  gap: 8px;
-}
-
-/* 寵物美容標籤樣式 */
+/* 寵物美容標籤 */
 .badge-grooming {
   background: #fff3e9;
   color: #DF7621;
@@ -304,125 +145,13 @@
   align-items: center;
   gap: 4px;
   font-weight: 600;
-  vertical-align: middle;
 }
 
-.badge-grooming i {
-  font-size: 0.9em;
-}
-
-.store-list-address {
-  font-size: 0.92em;
-  color: #6b7280;
-  margin-top: 4px;
-  line-height: 1.5;
-}
-
-.store-list-status {
-  margin-top: 8px;
-  font-size: 0.92em;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.status-open {
-  color: #16a34a;
-}
-
-.status-closing {
-  color: #dc2626;
-}
-
-.status-closed {
-  color: #6b7280;
-}
-
-.status-upcoming {
-  color: #2563eb;
-}
-
-/* 營業時間顯示 */
-.store-hours-preview {
-  margin-top: 8px;
-  font-size: 0.9em;
-  color: #6b7280;
-  position: relative;
-  display: inline-block;
-}
-
-.store-hours-preview-text {
-  cursor: help;
-  text-decoration: underline;
-  text-decoration-style: dotted;
-  text-underline-offset: 3px;
-}
-
-.store-hours-tooltip {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-8px);
-  background: #1f2937;
-  color: #fff;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 0.85em;
-  min-width: 180px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s, transform 0.2s;
-  z-index: 100;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.store-hours-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: #1f2937;
-}
-
-.store-hours-preview:hover .store-hours-tooltip {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-12px);
-}
-
-.store-hours-week {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  text-align: left;
-}
-
-.store-hours-week li {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 6px 0;
-  font-size: 0.9em;
-}
-
-.store-hours-day {
-  color: #e5e7eb;
-  min-width: 50px;
-  font-weight: 500;
-}
-
-.store-hours-slot {
-  color: #e5e7eb;
-  font-weight: 500;
-}
-
-/* 手機版操作按鈕 */
+/* 操作按鈕 */
 .store-list-actions {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 .store-list-actions a {
@@ -430,475 +159,75 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 0.85em;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 10px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s;
 }
 
-.store-list-actions a.btn-phone {
+.btn-phone {
   background: #DF7621;
   color: #fff;
-  border: 1.5px solid #DF7621;
 }
 
-.store-list-actions a.btn-phone:hover {
-  background: #C65D1A;
-  border-color: #C65D1A;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(223, 118, 33, 0.25);
-}
-
-.store-list-actions a.btn-map {
+.btn-map {
   background: #fff;
   color: #DF7621;
   border: 1.5px solid #DF7621;
 }
 
-.store-list-actions a.btn-map:hover {
-  background: #fff3e9;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(223, 118, 33, 0.15);
-}
-
-/* Accordion 展開詳情（手機版） */
-.store-details-accordion {
-  margin-top: 10px;
-  border-top: 1px solid #f3e2d3;
-  padding-top: 10px;
-}
-
-.store-details-accordion summary {
-  cursor: pointer;
-  color: #DF7621;
-  font-weight: 600;
-  font-size: 0.9em;
+/* 營業時間樣式 */
+.store-hours-week {
   list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.store-hours-week li {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  user-select: none;
-  -webkit-user-select: none;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.95em;
 }
 
-.store-details-accordion summary::-webkit-details-marker {
-  display: none;
+.store-hours-day {
+  font-weight: 600;
+  color: #6b7280;
 }
 
-.store-details-accordion summary::before {
-  content: "▾";
-  font-size: 0.9em;
-  transition: transform 0.2s ease;
+.store-list-status {
+  font-weight: 700;
 }
 
-.store-details-accordion[open] summary::before {
-  transform: rotate(180deg);
-}
+.status-open { color: #16a34a; }
+.status-closed { color: #6b7280; }
 
-.store-details-content {
-  margin-top: 8px;
-  padding-left: 0;
-}
-
-/* 手機版：Bottom Sheet 樣式 */
-.store-panel {
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: var(--panel-height, 180px);
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  max-height: 50vh;
-  overscroll-behavior: contain; /* 防止滑動洩漏到背景 */
-  touch-action: pan-y;
-}
-
-.store-panel.is-expanded {
-  --panel-height: 50vh;
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
-}
-
-/* 強化清單容器的滑動穩定性 */
-.store-panel-list {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 12px 20px 40px; /* 增加底部 padding，確保最後一張卡片好滑 */
-  -webkit-overflow-scrolling: touch;
-  display: block;
-  width: 100%;
-  height: 100%;
-  overscroll-behavior-y: contain; /* 改為 contain，更嚴格地控制滑動鏈接 */
-}
-
-/* 確保面板內部的佈局緊湊，無多餘間隙 */
-.store-panel-inner {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-  background: #fff;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-}
-
-/* 手機版：面板內容切換 */
+/* 手機版微調 */
 @media (max-width: 1023px) {
-  .store-panel.is-collapsed .store-panel-header,
-  .store-panel.is-collapsed .store-panel-list {
-    display: none !important;
+  .store-locator-container {
+    padding: 15px;
   }
-
-  .store-panel.is-collapsed .store-panel-preview {
-    display: block !important;
+  .detail-title {
+    font-size: 1.5em;
   }
-
-  .store-panel.is-expanded .store-panel-preview {
-    display: none !important;
+  .store-map-wrapper {
+    height: 350px;
   }
-
-  .store-panel.is-expanded .store-panel-header {
-    display: flex !important;
+  .store-nav-chips {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    -webkit-overflow-scrolling: touch;
   }
-
-  .store-panel.is-expanded .store-panel-list {
-    display: block !important;
-  }
-}
-
-/* PC版：確保內容始終顯示，除非是 PC 特有的縮減狀態 */
-@media (min-width: 1024px) {
-  .store-panel .store-panel-header,
-  .store-panel .store-panel-list {
-    display: flex !important;
-  }
-  
-  .store-panel .store-panel-list {
-    display: block !important;
-  }
-
-  .store-panel.is-collapsed-pc .store-filter-tags,
-  .store-panel.is-collapsed-pc .store-panel-list,
-  .store-panel.is-collapsed-pc .store-panel-preview,
-  .store-panel.is-collapsed-pc .store-panel-title {
-    display: none !important;
-  }
-}
-
-/* 確保把手始終在最上方且可點擊 */
-.store-panel-handle {
-  border: none;
-  background: transparent;
-  padding: 10px 0 5px;
-  cursor: pointer;
-  touch-action: manipulation;
-  user-select: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  position: relative;
-  z-index: 30;
-}
-
-.store-panel-handle-icon {
-  font-size: 1.4em;
-  color: #DF7621; /* 使用品牌色提升提示感 */
-  margin-bottom: -5px;
-  transition: transform 0.3s ease;
-}
-
-.store-panel.is-expanded .store-panel-handle-icon {
-  transform: rotate(180deg);
-}
-
-.store-panel-handle-bar {
-  display: block;
-  width: 40px;
-  height: 4px;
-  background: #e5e7eb;
-  border-radius: 2px;
-  margin-top: 4px;
-}
-
-/* PC版：Side Panel 樣式 */
-@media (min-width: 1024px) {
-  .store-map-shell {
-    height: calc(100vh - 180px);
-    min-height: 600px;
-  }
-
-  .store-map-hint {
+  .store-nav-chips::-webkit-scrollbar {
     display: none;
   }
-
-  .store-panel {
-    top: 24px;
-    bottom: 24px;
-    left: 24px;
-    right: auto;
-    width: 420px;
-    height: auto;
-    max-height: calc(100vh - 48px);
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    --panel-height: auto;
-    /* 新增 PC 縮減狀態樣式 */
-    transition: width 0.3s ease, left 0.3s ease, transform 0.3s ease;
-  }
-
-  .store-panel.is-collapsed-pc {
-    width: 80px; /* 縮小寬度 */
-    overflow: hidden;
-  }
-
-  .store-panel.is-collapsed-pc .store-panel-inner {
-    overflow: hidden;
-  }
-  
-  .store-panel.is-collapsed-pc .store-panel-handle {
-    display: none;
-  }
-
-  .store-panel.is-collapsed-pc .store-filter-tags,
-  .store-panel.is-collapsed-pc .store-panel-list,
-  .store-panel.is-collapsed-pc .store-panel-preview {
-    display: none !important;
-  }
-
-  .store-panel.is-collapsed-pc .store-panel-header {
-    justify-content: center;
-    padding: 20px 0;
-  }
-
-  .store-panel.is-collapsed-pc .store-panel-title {
-    display: none;
-  }
-
-  .store-panel.is-collapsed-pc .store-panel-toggle-btn {
-    transform: rotate(180deg);
-  }
-
-  .store-panel-toggle-btn {
-    background: none;
-    border: none;
-    color: #DF7621;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-
-  /* PC版：地圖從側邊欄右側開始，避免左上角被遮擋 */
-  .store-map-layer {
-    left: 468px; /* 420px (側邊欄寬度) + 24px (左側間距) + 24px (右側間距) */
-    right: 24px;
-    top: 24px;
-    bottom: 24px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    transition: left 0.3s ease;
-  }
-
-  .store-map-layer.map-expanded {
-    left: 128px; /* 縮小後側邊欄寬度80px + 24px + 24px */
-  }
-
-  #store-map-frame {
-    border-radius: 20px;
-  }
-
-  .store-panel-handle {
-    display: none;
-  }
-
-  .store-panel-header {
-    padding: 20px 24px 16px;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .store-panel-title {
-    font-size: 1.4em;
-  }
-
-  .store-filter-tags {
-    gap: 12px;
-  }
-
-  .filter-group {
+  .detail-header {
+    flex-direction: column;
     gap: 10px;
-  }
-
-  .filter-group-label {
-    font-size: 0.8em;
-  }
-
-  .filter-group-tags {
-    gap: 10px;
-  }
-
-  .filter-tag {
-    padding: 8px 16px;
-    font-size: 0.9em;
-  }
-
-  .store-panel-list {
-    padding: 12px 24px 24px;
-    display: block !important;
-    flex-direction: column !important;
-  }
-
-  .store-list-item {
-    padding: 18px;
-    margin-bottom: 14px;
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    float: none !important;
-  }
-
-  .store-list-title {
-    font-size: 1.2em;
-  }
-
-  /* PC版：hover 時顯示完整營業時間 */
-  .store-hours-preview {
-    position: relative;
-  }
-
-  .store-list-actions {
-    margin-top: 12px;
-    gap: 8px;
-  }
-
-  .store-list-actions a {
-    padding: 8px 12px;
-    font-size: 0.85em;
-    gap: 5px;
-  }
-}
-
-/* 平板版調整 */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .store-panel {
-    width: 400px;
-    left: 24px;
-    right: auto;
-    border-radius: 20px;
-  }
-
-  .store-panel-handle {
-    display: none;
-  }
-
-  .store-panel.is-collapsed .store-panel-header,
-  .store-panel.is-collapsed .store-panel-list {
-    display: flex;
-  }
-
-  .store-panel.is-expanded .store-panel-list {
-    display: block;
-  }
-
-  .store-panel-preview {
-    display: none;
-  }
-}
-
-/* 手機版優化 */
-@media (max-width: 767px) {
-  .store-map-shell {
-    height: calc(100vh - 80px); /* 增加高度，減少頁尾外露 */
-    min-height: 550px;
-  }
-  
-  /* 確保地圖始終可見，面板展開時佔據更多空間 */
-  .store-panel.is-expanded {
-    --panel-height: 75vh !important; /* 增加展開高度 */
-    max-height: 85vh !important;
-  }
-
-  .store-header-banner {
-    padding: 20px 16px;
-  }
-
-  .store-header-banner h1 {
-    font-size: 1.75rem;
-  }
-
-  .store-header-banner p {
-    font-size: 1rem;
-  }
-
-  .store-list-actions {
-    gap: 6px;
-    margin-top: 10px;
-  }
-
-  .store-list-actions a {
-    padding: 8px 10px;
-    font-size: 0.8em;
-    gap: 4px;
-  }
-
-  .store-list-actions a i {
-    font-size: 0.85em;
-  }
-
-  .store-list-actions a.btn-phone {
-    border-width: 1.5px;
-  }
-
-  .store-list-actions a.btn-map {
-    border-width: 1.5px;
-  }
-
-  /* 手機版營業時間列表 */
-  .store-hours-week-mobile {
-    margin: 8px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .store-hours-week-mobile li {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 8px 0;
-    font-size: 0.9em;
-    border-bottom: 1px solid #f3f4f6;
-  }
-
-  .store-hours-week-mobile li:last-child {
-    border-bottom: none;
-  }
-
-  .store-hours-week-mobile .store-hours-day {
-    color: #1f2937;
-    font-weight: 600;
-  }
-
-  .store-hours-week-mobile .store-hours-slot {
-    color: #1f2937;
-    font-weight: 500;
-  }
-
-  .store-details-accordion {
-    margin-top: 10px;
-  }
-
-  .store-details-accordion summary {
-    font-size: 0.85em;
-  }
-
-  .store-details-content {
-    margin-top: 8px;
-    padding-left: 0;
   }
 }
 
@@ -907,41 +236,4 @@
   text-align: center;
   padding: 40px 20px;
   color: #6b7280;
-}
-
-.store-list-empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: #9ca3af;
-}
-
-.store-list-empty i {
-  font-size: 3em;
-  margin-bottom: 16px;
-  opacity: 0.5;
-}
-
-/* 動畫效果 */
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-.store-panel.is-expanded {
-  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 觸控優化 */
-@media (hover: none) and (pointer: coarse) {
-  .store-list-item:hover {
-    transform: none;
-  }
-
-  .store-list-item:active {
-    transform: scale(0.98);
-  }
 }

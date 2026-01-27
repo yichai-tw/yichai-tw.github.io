@@ -47,17 +47,10 @@
     const diff = closeAt - now;
 
     if (now < openAt) {
-      const untilOpen = openAt - now;
-      if (untilOpen <= 30 * 60 * 1000) {
-        return { text: `● 即將營業 · ${hours.open} 開門`, className: 'status-upcoming' };
-      }
-      return { text: `● 尚未營業 · ${hours.open} 開門`, className: 'status-upcoming' };
+      return { text: `● 尚未營業 · ${hours.open} 開門`, className: 'status-closed' };
     }
     if (diff <= 0) {
       return { text: `● 已打烊 · ${hours.close} 關門`, className: 'status-closed' };
-    }
-    if (diff <= 30 * 60 * 1000) {
-      return { text: `● 即將打烊 · ${hours.close} 關門`, className: 'status-closing' };
     }
     return { text: `● 營業中 · ${hours.close} 關店`, className: 'status-open' };
   }
@@ -105,13 +98,9 @@
       const weeklyHours = store.business_hours || null;
       const hours = resolveTodayHours(weeklyHours, now);
 
-      // 讀取新欄位
       const hasGrooming = store.services?.grooming === true;
       const googleBusinessUrl = store.google_business_url || '';
       const googleBusinessShortUrl = store.google_business_short_url || '';
-
-      const status = getStatus(hours, now);
-      const isOpen = status && (status.className === 'status-open' || status.className === 'status-closing');
 
       return {
         id: normalizeStoreName(store.store_name),
@@ -128,7 +117,6 @@
         hasGrooming,
         googleBusinessUrl,
         googleBusinessShortUrl,
-        isOpen,
         mapUrl: googleBusinessShortUrl || googleBusinessUrl || (fullAddress
           ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`
           : `https://www.google.com/maps?q=${lat},${lng}`),
@@ -137,76 +125,6 @@
           : `https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&hl=zh-TW&z=15&output=embed`
       };
     });
-  }
-
-  function buildStoreCard(store, isCompact, isSelected) {
-    const status = getStatus(store.hours, new Date());
-    const statusText = status ? `<div class="store-list-status ${status.className}">${status.text}</div>` : '';
-    const phoneLink = store.phoneDigits ? `tel:${store.phoneDigits}` : '';
-    const mapLink = store.mapUrl || '';
-    
-    // 美容服務標籤
-    const groomingBadge = store.hasGrooming ? `<span class="badge-grooming"><i class="fas fa-cut"></i> 寵物美容</span>` : '';
-    
-    const hoursTooltip = store.weeklyHours ? buildWeeklyHoursTooltip(store.weeklyHours) : '';
-    const mobileDetails = (isCompact || isSelected) ? '' : buildMobileStoreDetails(store.weeklyHours);
-    
-    const actions = (isSelected || isCompact) ? `
-      <div class="store-list-actions">
-        ${phoneLink ? `<a href="${phoneLink}" class="btn-phone"><i class="fas fa-phone-alt"></i> 撥打電話</a>` : ''}
-        ${mapLink ? `<a href="${mapLink}" target="_blank" rel="noopener noreferrer" class="btn-map"><i class="fas fa-map-marker-alt"></i> Google 導航</a>` : ''}
-      </div>
-    ` : '';
-
-    return `
-      <div class="store-list-item" data-store-id="${store.id}">
-        <div class="store-list-title">
-          ${store.name}
-          ${groomingBadge}
-        </div>
-        <div class="store-list-address">${store.address}</div>
-        ${statusText}
-        ${hoursTooltip}
-        ${actions}
-        ${mobileDetails}
-      </div>
-    `;
-  }
-
-  function buildWeeklyHoursTooltip(weeklyHours) {
-    if (!weeklyHours) return '';
-    const list = buildWeeklyHoursList(weeklyHours);
-    if (!list) return '';
-    const todayKey = getTodayKey(new Date());
-    const todayHours = weeklyHours[todayKey];
-    const todayDisplay = todayHours && todayHours.toUpperCase() !== 'OFF' ? todayHours : '今日休息';
-    
-    return `
-      <div class="store-hours-preview">
-        <span class="store-hours-preview-text">營業時間：${todayDisplay}</span>
-        <div class="store-hours-tooltip">
-          <ul class="store-hours-week">
-            ${list}
-          </ul>
-        </div>
-      </div>
-    `;
-  }
-
-  function buildMobileStoreDetails(weeklyHours) {
-    if (!weeklyHours) return '';
-    const hoursList = buildWeeklyHoursList(weeklyHours);
-    if (!hoursList) return '';
-    return `
-      <details class="store-details-accordion">
-        <summary>查看完整營業時間</summary>
-        <div class="store-details-content">
-          <ul class="store-hours-week-mobile">
-            ${hoursList}
-          </ul>
-        </div>
-      </details>
-    `;
   }
 
   function updateMapFrame(store) {
@@ -250,220 +168,117 @@
         distance: calculateDistance(userLat, userLng, store.lat, store.lng)
       })).sort((a, b) => {
         if (a.distance !== b.distance) return a.distance - b.distance;
-        return sortByCity(a, b);
+        return a.name.localeCompare(b.name, 'zh-TW');
       });
     }
-    return [...stores].sort(sortByCity);
-  }
-
-  function sortByCity(a, b) {
-    const cityOrder = { '台北市': 1, '新北市': 2 };
-    const orderA = cityOrder[a.city] || 999;
-    const orderB = cityOrder[b.city] || 999;
-    if (orderA !== orderB) return orderA - orderB;
-    return a.name.localeCompare(b.name, 'zh-TW');
-  }
-
-  function initPanelInteractions(panel) {
-    if (!panel) return;
-    const handle = panel.querySelector('.store-panel-handle');
-    const toggleButtonPC = panel.querySelector('.store-panel-toggle-btn');
-    const mapLayer = document.querySelector('.store-map-layer');
-    const list = document.getElementById('store-list');
-
-    if (handle) {
-      const minHeight = 160;
-      const expandedHeight = Math.round(window.innerHeight * 0.75);
-      
-      function updateBodyScrollLock() {
-        if (!list || window.innerWidth >= 1024) return;
-        
-        const scrollTop = list.scrollTop;
-        const scrollHeight = list.scrollHeight;
-        const clientHeight = list.clientHeight;
-        
-        // 判斷是否在最頂部 (容錯 2px)
-        const isAtTop = scrollTop <= 2;
-        // 判斷是否滑到最底部 (容錯 5px)
-        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
-
-        if (panel.classList.contains('is-expanded')) {
-          // 只有在「既不在頂部」也「不在底部」的清單中間時，才鎖定背景
-          if (isAtTop || isAtBottom) {
-            document.body.style.overflow = ''; // 觸及邊界，釋放背景滑動
-          } else {
-            document.body.style.overflow = 'hidden'; // 在清單內容中，鎖定背景
-          }
-        } else {
-          document.body.style.overflow = '';
-        }
-      }
-
-      function togglePanel(e) {
-        if (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        
-        const isCollapsed = panel.classList.contains('is-collapsed');
-        if (isCollapsed) {
-          panel.classList.remove('is-collapsed');
-          panel.classList.add('is-expanded');
-          panel.style.setProperty('--panel-height', `${expandedHeight}px`);
-          updateBodyScrollLock();
-        } else {
-          panel.classList.remove('is-expanded');
-          panel.classList.add('is-collapsed');
-          panel.style.setProperty('--panel-height', `${minHeight}px`);
-          document.body.style.overflow = '';
-        }
-      }
-
-      handle.addEventListener('click', togglePanel);
-      handle.addEventListener('touchend', (e) => {
-        togglePanel(e);
-      }, { passive: false });
-      
-      if (list) {
-        list.addEventListener('scroll', updateBodyScrollLock, { passive: true });
-        list.addEventListener('touchmove', updateBodyScrollLock, { passive: true });
-      }
-
-      // 只有在行動版時才預設收合
-      if (window.innerWidth < 1024) {
-        panel.classList.add('is-collapsed');
-        panel.style.setProperty('--panel-height', `${minHeight}px`);
-      } else {
-        panel.classList.remove('is-collapsed');
-        panel.style.setProperty('--panel-height', 'auto');
-      }
-    }
-
-    if (toggleButtonPC && window.innerWidth >= 1024) {
-      toggleButtonPC.addEventListener('click', () => {
-        panel.classList.toggle('is-collapsed-pc');
-        if (mapLayer) mapLayer.classList.toggle('map-expanded');
-      });
-    }
-
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 1024) {
-        panel.classList.remove('is-collapsed-pc');
-        if (mapLayer) mapLayer.classList.remove('map-expanded');
-      } else {
-        panel.classList.remove('is-collapsed', 'is-expanded');
-        panel.style.setProperty('--panel-height', 'auto');
-      }
+    return [...stores].sort((a, b) => {
+      const cityOrder = { '台北市': 1, '新北市': 2 };
+      const orderA = cityOrder[a.city] || 999;
+      const orderB = cityOrder[b.city] || 999;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.name.localeCompare(b.name, 'zh-TW');
     });
   }
 
-  function showLoading() {
-    const list = document.getElementById('store-list');
-    const preview = document.getElementById('store-preview');
-    if (list) list.innerHTML = `<div class="store-list-loading"><i class="fas fa-spinner fa-spin"></i><p>載入門市資料中...</p></div>`;
-    if (preview) preview.innerHTML = `<div class="store-list-loading"><i class="fas fa-spinner fa-spin"></i></div>`;
-  }
-
   function renderStoresPage(stores, userLat, userLng) {
-    const panel = document.getElementById('store-panel');
-    const list = document.getElementById('store-list');
-    const preview = document.getElementById('store-preview');
-    if (!panel || !list || !preview) return;
+    const navContainer = document.getElementById('store-nav-chips');
+    const detailContainer = document.getElementById('store-detail-card');
+    if (!navContainer || !detailContainer) return;
 
     const ordered = sortStoresByDistance(stores, userLat, userLng);
     let currentStore = ordered[0] || null;
 
-    function updateStoreList() {
-      if (preview && window.innerWidth < 1024 && currentStore) {
-        preview.innerHTML = buildStoreCard(currentStore, true, true);
-      } else if (preview) {
-        preview.innerHTML = '';
-      }
-      
-      list.innerHTML = ordered.map(store => {
-        const isSelected = currentStore && store.id === currentStore.id;
-        return buildStoreCard(store, false, isSelected);
-      }).join('');
-      
-      if (currentStore) {
-        const activeItem = list.querySelector(`[data-store-id="${currentStore.id}"]`);
-        if (activeItem) activeItem.classList.add('active');
-      }
-      bindStoreItemEvents();
-    }
+    function renderNav() {
+      navContainer.innerHTML = ordered.map(store => `
+        <button class="nav-chip ${currentStore?.id === store.id ? 'active' : ''}" 
+                data-store-id="${store.id}">
+          ${store.name}
+        </button>
+      `).join('');
 
-    function bindStoreItemEvents() {
-      list.querySelectorAll('.store-list-item').forEach(item => {
-        item.addEventListener('click', event => {
-          if (event.target.closest('a') || event.target.closest('details')) return;
-          const storeId = item.dataset.storeId;
-          const selected = ordered.find(store => store.id === storeId);
+      navContainer.querySelectorAll('.nav-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const selected = ordered.find(s => s.id === chip.dataset.storeId);
           if (selected) {
             currentStore = selected;
-            updateMapFrame(selected);
-            updateStoreList();
+            updateUI();
           }
         });
       });
     }
 
-    updateStoreList();
-    if (currentStore) updateMapFrame(currentStore);
-    initPanelInteractions(panel);
-  }
+    function renderDetail() {
+      if (!currentStore) return;
+      
+      const status = getStatus(currentStore.hours, new Date());
+      const groomingBadge = currentStore.hasGrooming ? `<span class="badge-grooming"><i class="fas fa-cut"></i> 寵物美容</span>` : '';
+      const phoneLink = `tel:${currentStore.phoneDigits}`;
+      const hoursList = buildWeeklyHoursList(currentStore.weeklyHours);
 
-  function renderIndexPage(stores, nearestStore) {
-    const nearestStoreContainer = document.getElementById('nearest-store-container');
-    const otherStoresContainer = document.getElementById('other-stores-container');
-    if (!nearestStoreContainer || !otherStoresContainer) return;
-    if (!nearestStore) return;
+      detailContainer.innerHTML = `
+        <div class="detail-header">
+          <div class="detail-title">
+            ${currentStore.name}
+            ${groomingBadge}
+          </div>
+          <div class="store-list-status ${status?.className || ''}">${status?.text || ''}</div>
+        </div>
+        <div class="detail-info-grid">
+          <div class="detail-main-info">
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>${currentStore.address}</div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-phone-alt"></i>
+              <a href="${phoneLink}" class="text-[#DF7621] font-bold">${currentStore.phone}</a>
+            </div>
+            <div class="store-list-actions">
+              <a href="${currentStore.mapUrl}" target="_blank" class="btn-phone"><i class="fas fa-location-arrow"></i> 開始導航</a>
+              ${currentStore.googleBusinessUrl ? `<a href="${currentStore.googleBusinessUrl}" target="_blank" class="btn-map"><i class="fab fa-google"></i> 查看評論</a>` : ''}
+            </div>
+          </div>
+          <div class="detail-hours-info">
+            <details class="store-details-accordion" open>
+              <summary style="font-weight: 600; color: #DF7621; cursor: pointer; margin-bottom: 10px;">營業時間 (點擊收合)</summary>
+              <div class="store-details-content">
+                <ul class="store-hours-week">${hoursList}</ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      `;
+    }
 
-    const mapSection = isLineBrowser() ? '<div class="mb-4 p-4 bg-gray-50 rounded-lg text-center"><p class="text-gray-600">Google 地圖不支援 LINE 瀏覽器</p></div>' : `<div class="mb-4 rounded-lg overflow-hidden" style="height: 300px;"><iframe src="${nearestStore.mapEmbedUrl}" width="100%" height="100%" style="border:0;" loading="lazy"></iframe></div>`;
+    function updateUI() {
+      renderNav();
+      renderDetail();
+      updateMapFrame(currentStore);
+    }
 
-    nearestStoreContainer.innerHTML = `
-      <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-        <h3 class="text-2xl font-bold mb-4">離您最近的門市</h3>
-        <h4 class="text-xl font-bold text-[#DF7621] mb-2">${nearestStore.name}</h4>
-        <p>${nearestStore.address}</p>
-        ${mapSection}
-      </div>
-    `;
-
-    otherStoresContainer.innerHTML = `<div class="grid grid-cols-2 md:grid-cols-5 gap-5">${stores.map(s => `<div class="bg-gray-50 p-4 rounded-lg"><h4>${s.name}</h4></div>`).join('')}</div>`;
-  }
-
-  function showError(message) {
-    const list = document.getElementById('store-list');
-    if (list) list.innerHTML = `<div class="store-list-empty"><p>${message}</p></div>`;
+    updateUI();
   }
 
   async function main() {
-    showLoading();
     try {
       const stores = await loadStoreData();
-      if (!stores || stores.length === 0) {
-        showError('目前沒有門市資料');
-        return;
-      }
+      if (!stores || stores.length === 0) return;
 
       renderStoresPage(stores, null, null);
-      renderIndexPage(stores, stores[0]);
 
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const userLat = position.coords.latitude;
             const userLng = position.coords.longitude;
-            const nearestStore = findNearestStore(stores, userLat, userLng);
             renderStoresPage(stores, userLat, userLng);
-            renderIndexPage(stores, nearestStore);
           },
           () => {},
           { enableHighAccuracy: false, timeout: 5000, maximumAge: 60000 }
         );
       }
     } catch (error) {
-      showError('載入門市資料失敗');
+      console.error('執行 main 失敗:', error);
     }
   }
 
