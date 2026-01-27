@@ -353,9 +353,9 @@
   async function main() {
     const stores = await loadStoreData();
     if (stores.length) {
-      // 嘗試從 sessionStorage 讀取快取的定位資訊
-      const cachedLat = sessionStorage.getItem('yichai_user_lat');
-      const cachedLng = sessionStorage.getItem('yichai_user_lng');
+      // 嘗試從 localStorage 讀取快取的定位資訊 (比 sessionStorage 更持久，適合 LINE)
+      const cachedLat = localStorage.getItem('yichai_user_lat');
+      const cachedLng = localStorage.getItem('yichai_user_lng');
 
       if (cachedLat && cachedLng) {
         const lat = parseFloat(cachedLat);
@@ -374,9 +374,9 @@
             const lat = p.coords.latitude;
             const lng = p.coords.longitude;
             
-            // 存入快取，供「上一步」或同工作階段內導覽使用
-            sessionStorage.setItem('yichai_user_lat', lat);
-            sessionStorage.setItem('yichai_user_lng', lng);
+            // 存入 localStorage，讓下次從 LINE 開啟也能秒讀
+            localStorage.setItem('yichai_user_lat', lat);
+            localStorage.setItem('yichai_user_lng', lng);
             
             renderStoresPage(stores, lat, lng);
             renderHomepageStores(stores, lat, lng);
