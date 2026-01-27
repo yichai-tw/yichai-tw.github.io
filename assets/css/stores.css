@@ -121,63 +121,71 @@
 }
 
 /* 手機版店名 Chips 樣式 */
-.store-nav-label {
-  font-size: 0.85em;
-  font-weight: 700;
-  color: #6b7280;
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.scroll-hint {
-  font-size: 0.8em;
-  font-weight: 500;
-  color: #9ca3af;
-  animation: pulseHint 2s infinite;
-}
-
-@keyframes pulseHint {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
 .store-nav-chips-wrapper {
   position: relative;
-  margin: 0 -10px;
+  margin: 0 -20px;
   padding: 0 10px;
 }
 
-/* 漸層遮罩提示左右還有內容 */
+/* 漸層遮罩提示左右還有內容 - 改為更細緻的陰影效果 */
 .store-nav-chips-wrapper::before,
 .store-nav-chips-wrapper::after {
   content: '';
   position: absolute;
-  top: 0;
-  bottom: 15px;
-  width: 30px;
+  top: 5px;
+  bottom: 20px;
+  width: 40px;
   z-index: 2;
   pointer-events: none;
+  transition: opacity 0.3s;
 }
 
 .store-nav-chips-wrapper::before {
   left: 0;
-  background: linear-gradient(to right, #f9fafb, transparent);
+  background: linear-gradient(to right, #f9fafb 10%, transparent);
 }
 
 .store-nav-chips-wrapper::after {
   right: 0;
-  background: linear-gradient(to left, #f9fafb, transparent);
+  background: linear-gradient(to left, #f9fafb 10%, transparent);
 }
 
 .store-nav-chips-mobile {
   display: flex;
   overflow-x: auto;
-  gap: 10px;
-  padding: 5px 15px 15px;
-  scrollbar-width: none;
+  gap: 12px;
+  padding: 5px 20px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #DF7621 transparent;
   -webkit-overflow-scrolling: touch;
+  /* 確保至少有一個項目被切掉，達成 Cut-off 效果 */
+  scroll-snap-type: x proximity;
+}
+
+/* 客製化水平捲動條（iOS 外的手機瀏覽器可見） */
+.store-nav-chips-mobile::-webkit-scrollbar {
+  height: 3px;
+  display: block;
+}
+
+.store-nav-chips-mobile::-webkit-scrollbar-thumb {
+  background: rgba(223, 118, 33, 0.3);
+  border-radius: 10px;
+}
+
+.nav-chip {
+  padding: 8px 20px;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 999px;
+  color: #4b5563;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  scroll-snap-align: start;
+  flex: 0 0 auto;
 }
 
 .store-nav-chips-mobile::-webkit-scrollbar {

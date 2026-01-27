@@ -175,23 +175,30 @@
       if (mapFrame) mapFrame.src = activeStore.mapEmbedUrl;
 
       if (isMobile) {
-        // 檢查是否需要重新渲染 Chips (如果過濾後的門市清單沒變，就只更新 active 狀態)
+        // 檢查是否需要重新渲染 Chips
         let chipsContainer = listContainer.querySelector('.store-nav-chips-mobile');
         const currentChipsIds = Array.from(chipsContainer?.querySelectorAll('.nav-chip') || []).map(c => c.dataset.id).join(',');
         const newChipsIds = filtered.map(s => s.id).join(',');
 
         if (!chipsContainer || currentChipsIds !== newChipsIds) {
           const chipsHTML = `
-            <div class="store-nav-label">快速切換門市 <span class="scroll-hint">左右滑動切換 <i class="fas fa-arrows-left-right"></i></span></div>
             <div class="store-nav-chips-wrapper">
               <div class="store-nav-chips-mobile">
                 ${filtered.map(s => `<button class="nav-chip ${selectedStoreId === s.id ? 'active' : ''}" data-id="${s.id}">${s.name}</button>`).join('')}
               </div>
             </div>
           `;
-          // 先清空再注入，但保留詳細卡片區域
           listContainer.innerHTML = chipsHTML + `<div class="active-store-detail">${renderStoreCard(activeStore, true)}</div>`;
           chipsContainer = listContainer.querySelector('.store-nav-chips-mobile');
+          
+          // 初次載入時的微幅跳動動畫提示
+          setTimeout(() => {
+            if (chipsContainer) {
+              chipsContainer.style.scrollBehavior = 'smooth';
+              chipsContainer.scrollLeft = 50;
+              setTimeout(() => { chipsContainer.scrollLeft = 0; }, 500);
+            }
+          }, 800);
         } else {
           // 只更新按鈕的 active 狀態
           chipsContainer.querySelectorAll('.nav-chip').forEach(chip => {
