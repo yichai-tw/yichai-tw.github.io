@@ -19,16 +19,6 @@
     return { open, close, rawText: todayHours };
   }
 
-  function getStatus(hours, now) {
-    if (!hours) return null;
-    if (hours.isClosedAllDay) return { text: '● 今日休息', className: 'status-closed', isOpen: false };
-    const openAt = parseTimeToDate(now, hours.open);
-    const closeAt = parseTimeToDate(now, hours.close);
-    if (now < openAt) return { text: `● 尚未營業 · ${hours.open} 開`, className: 'status-closed', isOpen: false };
-    if (now >= closeAt) return { text: `● 已打烊 · ${hours.close} 關`, className: 'status-closed', isOpen: false };
-    return { text: `● 營業中 · ${hours.close} 關`, className: 'status-open', isOpen: true };
-  }
-
   function parseTimeToDate(baseDate, timeText) {
     const [hours, minutes] = timeText.split(':').map(Number);
     const target = new Date(baseDate);
@@ -36,37 +26,57 @@
     return target;
   }
 
+  function getStatus(hours, now) {
+    if (!hours) return null;
+    if (hours.isClosedAllDay) return { text: '● 今日休息', className: 'status-closed', isOpen: false };
+    
+    try {
+      const openAt = parseTimeToDate(now, hours.open);
+      const closeAt = parseTimeToDate(now, hours.close);
+      if (now < openAt) return { text: `● 尚未營業 · ${hours.open} 開`, className: 'status-closed', isOpen: false };
+      if (now >= closeAt) return { text: `● 已打烊 · ${hours.close} 關`, className: 'status-closed', isOpen: false };
+      return { text: `● 營業中 · ${hours.close} 關`, className: 'status-open', isOpen: true };
+    } catch (e) {
+      return null;
+    }
+  }
+
   async function loadStoreData() {
-    const response = await fetch('mapping/PetStores_BranchInfo.json', { cache: 'no-store' });
-    if (!response.ok) throw new Error('Failed to load store data');
-    const data = await response.json();
-    const now = new Date();
+    try {
+      const response = await fetch('mapping/PetStores_BranchInfo.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error('Failed to load store data');
+      const data = await response.json();
+      const now = new Date();
 
-    return (data.stores || []).map(store => {
-      const city = store.location?.city?.chinese || '';
-      const district = store.location?.district?.chinese || '';
-      const fullAddress = store.location?.full_address || `${city}${district}${store.location?.address || ''}`;
-      const coordinates = store.location?.coordinates || {};
-      const weeklyHours = store.business_hours || null;
-      const hours = resolveTodayHours(weeklyHours, now);
-      const status = getStatus(hours, now);
+      return (data.stores || []).map(store => {
+        const city = store.location?.city?.chinese || '';
+        const district = store.location?.district?.chinese || '';
+        const fullAddress = store.location?.full_address || `${city}${district}${store.location?.address || ''}`;
+        const coordinates = store.location?.coordinates || {};
+        const weeklyHours = store.business_hours || null;
+        const hours = resolveTodayHours(weeklyHours, now);
+        const status = getStatus(hours, now);
 
-      return {
-        id: normalizeStoreName(store.store_name),
-        name: `${store.store_name}店`,
-        city,
-        address: fullAddress,
-        lat: coordinates.latitude,
-        lng: coordinates.longitude,
-        phone: store.contact?.supplies_phone || '',
-        weeklyHours,
-        status,
-        hasGrooming: store.services?.grooming === true,
-        mapEmbedUrl: (coordinates.latitude && coordinates.longitude)
-          ? `https://www.google.com/maps?q=${coordinates.latitude},${coordinates.longitude}&hl=zh-TW&z=15&output=embed`
-          : `https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&hl=zh-TW&z=15&output=embed`
-      };
-    });
+        return {
+          id: normalizeStoreName(store.store_name),
+          name: `${store.store_name}店`,
+          city,
+          address: fullAddress,
+          lat: coordinates.latitude,
+          lng: coordinates.longitude,
+          phone: store.contact?.supplies_phone || '',
+          weeklyHours,
+          status,
+          hasGrooming: store.services?.grooming === true,
+          mapEmbedUrl: (coordinates.latitude && coordinates.longitude)
+            ? `https://www.google.com/maps?q=${coordinates.latitude},${coordinates.longitude}&hl=zh-TW&z=15&output=embed`
+            : `https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&hl=zh-TW&z=15&output=embed`
+        };
+      });
+    } catch (err) {
+      console.error('loadStoreData error:', err);
+      return [];
+    }
   }
 
   function calculateDistance(lat1, lng1, lat2, lng2) {
@@ -86,12 +96,7 @@
     const mapFrame = document.getElementById('store-map-frame');
     if (!filterContainer || !listContainer) return;
 
-    let activeFilters = {
-      cities: [],
-      openOnly: false,
-      groomingOnly: false
-    };
-
+    let activeFilters = { cities: [], openOnly: false, groomingOnly: false };
     let selectedStoreId = null;
 
     function getFilteredStores() {
@@ -111,8 +116,9 @@
     }
 
     function renderFilters() {
+      const isAllActive = activeFilters.cities.length === 0 && !activeFilters.openOnly && !activeFilters.groomingOnly;
       const filters = [
-        { id: 'all', label: '全部', action: () => { activeFilters = { cities: [], openOnly: false, groomingOnly: false }; } },
+        { id: 'all', label: '全部', active: isAllActive, action: () => { activeFilters = { cities: [], openOnly: false, groomingOnly: false }; } },
         { id: 'open', label: '營業中', active: activeFilters.openOnly, action: () => activeFilters.openOnly = !activeFilters.openOnly },
         { id: 'grooming', label: '美容服務', active: activeFilters.groomingOnly, action: () => activeFilters.groomingOnly = !activeFilters.groomingOnly },
         { id: 'taipei', label: '台北市', active: activeFilters.cities.includes('台北市'), action: () => toggleCity('台北市') },
@@ -126,7 +132,7 @@
       }
 
       filterContainer.innerHTML = filters.map(f => `
-        <button class="filter-chip ${f.id === 'all' && activeFilters.cities.length === 0 && !activeFilters.openOnly && !activeFilters.groomingOnly ? 'active' : (f.active ? 'active' : '')}" data-filter-id="${f.id}">
+        <button class="filter-chip ${f.active ? 'active' : ''}" data-filter-id="${f.id}">
           ${f.label}
         </button>
       `).join('');
@@ -144,13 +150,15 @@
       const filtered = getFilteredStores();
       if (filtered.length === 0) {
         listContainer.innerHTML = '<div class="store-list-empty">找不到符合條件的門市</div>';
+        if (mapFrame) mapFrame.src = '';
         return;
       }
 
-      // 預設選擇第一間
-      if (!selectedStoreId || !filtered.find(s => s.id === selectedStoreId)) {
+      // 安全地設定預設選中門市
+      const currentExists = selectedStoreId && filtered.find(s => s.id === selectedStoreId);
+      if (!currentExists) {
         selectedStoreId = filtered[0].id;
-        mapFrame.src = filtered[0].mapEmbedUrl;
+        if (mapFrame) mapFrame.src = filtered[0].mapEmbedUrl;
       }
 
       listContainer.innerHTML = filtered.map(store => `
@@ -173,12 +181,12 @@
         card.onclick = () => {
           selectedStoreId = card.dataset.storeId;
           const store = filtered.find(s => s.id === selectedStoreId);
-          mapFrame.src = store.mapEmbedUrl;
-          renderList(); // 更新 active 狀態
-          
-          // 手機版自動捲動到地圖
+          if (store && mapFrame) {
+            mapFrame.src = store.mapEmbedUrl;
+          }
+          renderList(); 
           if (window.innerWidth < 1024) {
-            document.querySelector('.store-main-map').scrollIntoView({ behavior: 'smooth' });
+            document.querySelector('.store-main-map')?.scrollIntoView({ behavior: 'smooth' });
           }
         };
       });
@@ -195,6 +203,12 @@
   async function main() {
     try {
       const stores = await loadStoreData();
+      if (!stores || stores.length === 0) {
+        const listContainer = document.getElementById('store-list-container');
+        if (listContainer) listContainer.innerHTML = '<div class="store-list-empty">無法載入門市資料，請稍後再試</div>';
+        return;
+      }
+
       renderStoresPage(stores, null, null);
 
       if (navigator.geolocation) {
@@ -205,7 +219,7 @@
         );
       }
     } catch (err) {
-      console.error('Main error:', err);
+      console.error('Main execution error:', err);
     }
   }
 
