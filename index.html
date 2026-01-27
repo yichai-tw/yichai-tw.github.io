@@ -144,43 +144,109 @@
     .brand-card {
       background: #ffffff;
       border: 1px solid #f0f0f0;
-      padding: 15px 25px;
-      border-radius: 20px; /* 導圓角正方形外觀 */
+      padding: 20px;
+      border-radius: 20px;
       font-weight: 500;
       color: #666;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       white-space: nowrap;
-      transition: all 0.3s;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
       display: flex;
-      flex-direction: column; /* 垂直排列 LOGO 與文字 */
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-width: 140px;
-      aspect-ratio: 1 / 1; /* 保持正方形 */
+      min-width: 220px;
+      aspect-ratio: 1 / 1;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    /* 當沒有 logo 時的特殊樣式 */
+    .brand-card.no-logo .brand-content-wrapper {
+      transform: none !important;
+      opacity: 1 !important;
+    }
+    .brand-card.no-logo .brand-name {
+      font-size: 1.4rem; /* 無 LOGO 時放大文字 */
+      font-weight: bold;
+    }
+    .brand-content-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      transition: all 0.4s ease;
+    }
+    .brand-logo-container {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-logo-container img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
     .brand-logo-placeholder {
-      width: 60px;
-      height: 60px;
+      width: 80px;
+      height: 80px;
       background: #f8f8f8;
-      border-radius: 50%; /* LOGO 容器圓形 */
-      margin-bottom: 12px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 32px;
       color: #DF7621;
       border: 1px solid #eee;
     }
     .brand-name {
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       text-align: center;
-      line-height: 1.2;
+      line-height: 1.3;
+      color: #333;
+    }
+    .brand-description {
+      position: absolute;
+      bottom: -100%; /* 初始在下方隱藏 */
+      left: 0;
+      width: 100%;
+      height: 68%; /* 稍微增加高度 */
+      background: #ffffff;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: justify;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      white-space: normal;
+      color: #666;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      border-top: 2px solid #DF7621; /* 頂部加一條品牌橘色線，增加設計感 */
+      z-index: 10;
+      box-sizing: border-box;
+    }
+    .brand-description span {
+      display: -webkit-box;
+      -webkit-line-clamp: 6; /* 最多顯示 6 行 */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .brand-card:hover .brand-content-wrapper {
+      transform: translateY(-40%); /* 內容上移更多 */
+      opacity: 0.3; /* LOGO 變淡，突出文字 */
+    }
+    .brand-card:hover .brand-description {
+      bottom: 0; /* 簡介滑入 */
     }
     .brand-card:hover {
-      transform: translateY(-5px);
       border-color: #DF7621;
-      color: #DF7621;
-      box-shadow: 0 12px 25px rgba(223, 118, 33, 0.2);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
     }
     @keyframes scroll {
       from { transform: translateX(0); }
@@ -307,109 +373,92 @@
     </div>
     
     <div class="brand-marquee">
-      <div class="brand-marquee-content">
-        <!-- 第一組品牌 -->
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">法國皇家<br>Royal Canin</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">法米納<br>Farmina</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">優格<br>Wellness</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">怪獸部落<br>LitoMon</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">耐吉斯<br>Solution</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">韓國大吉福貓<br>Da-Gi-Fu</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">美國自然奇蹟<br>Nature's Miracle</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">Miiibo<br>貓咪寶</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">泰國喵樂<br>Meow-Joy</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">紐頓<br>Nutram</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">汪喵星球<br>DogCatStar</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">陪心寵糧<br>NuPet</div>
-        </div>
-        
-        <!-- 重複一組以實現無縫滾動 -->
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">法國皇家<br>Royal Canin</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">法米納<br>Farmina</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">優格<br>Wellness</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">怪獸部落<br>LitoMon</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">耐吉斯<br>Solution</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">韓國大吉福貓<br>Da-Gi-Fu</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">美國自然奇蹟<br>Nature's Miracle</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">Miiibo<br>貓咪寶</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">泰國喵樂<br>Meow-Joy</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">紐頓<br>Nutram</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">汪喵星球<br>DogCatStar</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-logo-placeholder">🏪</div>
-          <div class="brand-name">陪心寵糧<br>NuPet</div>
-        </div>
+      <div id="brand-marquee-container" class="brand-marquee-content">
+        <!-- 品牌卡片將透過 JavaScript 自動載入 -->
       </div>
     </div>
   </section>
+
+  <script>
+    /**
+     * 動態載入合作品牌跑馬燈
+     */
+    async function loadBrandMarquee() {
+      try {
+        console.log('開始載入品牌資料...');
+        const response = await fetch('mapping/brand_logos.json');
+        if (!response.ok) throw new Error('無法載入品牌資料 (HTTP ' + response.status + ')');
+        const brands = await response.json();
+        console.log('品牌資料載入成功:', brands);
+        
+        const container = document.getElementById('brand-marquee-container');
+        if (!container || !Array.isArray(brands)) {
+          console.error('找不到容器或資料格式錯誤');
+          return;
+        }
+
+        // 清空現有內容
+        container.innerHTML = '';
+
+        // 過濾必填欄位：必須有 id 和 brand_ch
+        const validBrands = brands.filter(b => b && b.id && b.brand_ch);
+        console.log('有效品牌數量:', validBrands.length);
+
+        if (validBrands.length === 0) {
+          const marqueeSection = container.closest('section');
+          if (marqueeSection) marqueeSection.style.display = 'none';
+          return;
+        }
+
+        // 產生卡片 HTML 的函數
+        const createCardHTML = (brand) => {
+          // 判斷是否有圖片路徑
+          const hasLogo = brand.path && 
+                          brand.path.trim() !== '' && 
+                          brand.path !== '🏪' && 
+                          !brand.path.includes('placeholder');
+          
+          let logoSection = '';
+          if (hasLogo) {
+            logoSection = `
+              <div class="brand-logo-container">
+                <img src="${brand.path}" alt="${brand.alt || brand.brand_ch}" onerror="this.closest('.brand-card').classList.add('no-logo'); this.closest('.brand-logo-container').style.display='none';">
+              </div>
+            `;
+          }
+
+          const nameSection = `
+            <div class="brand-name">${brand.brand_ch}${brand.brand_en ? '<br>' + brand.brand_en : ''}</div>
+          `;
+
+          const descSection = brand.description ? `
+            <div class="brand-description"><span>${brand.description}</span></div>
+          ` : '';
+
+          // 如果沒有 logo，加入 'no-logo' class
+          return `
+            <div class="brand-card ${!hasLogo ? 'no-logo' : ''}">
+              <div class="brand-content-wrapper">
+                ${logoSection}
+                ${nameSection}
+              </div>
+              ${descSection}
+            </div>
+          `;
+        };
+
+        // 插入兩組卡片以實現無縫捲動
+        const allCardsHTML = validBrands.map(createCardHTML).join('');
+        container.innerHTML = allCardsHTML + allCardsHTML;
+
+      } catch (error) {
+        console.error('載入品牌跑馬燈失敗:', error);
+      }
+    }
+
+    // 頁面載入後執行
+    document.addEventListener('DOMContentLoaded', loadBrandMarquee);
+  </script>
 
   <!-- 門市資訊預覽 -->
   <section class="bg-white py-20 px-5">
