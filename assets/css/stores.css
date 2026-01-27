@@ -12,10 +12,30 @@
 /* 1. 簡潔店名清單 (Chips) */
 .store-nav-chips {
   display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px 0;
+}
+
+.city-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.city-label {
+  font-size: 0.9em;
+  font-weight: 700;
+  color: #6b7280;
+  padding-left: 5px;
+  border-left: 3px solid #DF7621;
+  line-height: 1;
+}
+
+.city-chips {
+  display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: center;
-  padding: 10px 0;
 }
 
 .nav-chip {
@@ -218,12 +238,22 @@
   }
   .store-nav-chips {
     justify-content: flex-start;
-    overflow-x: auto;
+    overflow-x: hidden;
     padding-bottom: 15px;
-    -webkit-overflow-scrolling: touch;
   }
-  .store-nav-chips::-webkit-scrollbar {
+  .city-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 5px 15px 10px;
+    margin: 0 -15px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .city-chips::-webkit-scrollbar {
     display: none;
+  }
+  .nav-chip {
+    flex: 0 0 auto;
   }
   .detail-header {
     flex-direction: column;

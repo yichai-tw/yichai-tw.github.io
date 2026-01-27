@@ -189,11 +189,25 @@
     let currentStore = ordered[0] || null;
 
     function renderNav() {
-      navContainer.innerHTML = ordered.map(store => `
-        <button class="nav-chip ${currentStore?.id === store.id ? 'active' : ''}" 
-                data-store-id="${store.id}">
-          ${store.name}
-        </button>
+      const grouped = ordered.reduce((acc, store) => {
+        const city = store.city || '其他';
+        if (!acc[city]) acc[city] = [];
+        acc[city].push(store);
+        return acc;
+      }, {});
+
+      navContainer.innerHTML = Object.entries(grouped).map(([city, stores]) => `
+        <div class="city-group">
+          <div class="city-label">${city}</div>
+          <div class="city-chips">
+            ${stores.map(store => `
+              <button class="nav-chip ${currentStore?.id === store.id ? 'active' : ''}" 
+                      data-store-id="${store.id}">
+                ${store.name}
+              </button>
+            `).join('')}
+          </div>
+        </div>
       `).join('');
 
       navContainer.querySelectorAll('.nav-chip').forEach(chip => {
@@ -235,12 +249,11 @@
             </div>
             <div class="store-list-actions">
               <a href="${currentStore.mapUrl}" target="_blank" class="btn-phone"><i class="fas fa-location-arrow"></i> 開始導航</a>
-              ${currentStore.googleBusinessUrl ? `<a href="${currentStore.googleBusinessUrl}" target="_blank" class="btn-map"><i class="fab fa-google"></i> 查看評論</a>` : ''}
             </div>
           </div>
           <div class="detail-hours-info">
-            <details class="store-details-accordion" open>
-              <summary style="font-weight: 600; color: #DF7621; cursor: pointer; margin-bottom: 10px;">營業時間 (點擊收合)</summary>
+            <details class="store-details-accordion">
+              <summary style="font-weight: 600; color: #DF7621; cursor: pointer; margin-bottom: 10px;">營業時間 (點擊展開)</summary>
               <div class="store-details-content">
                 <ul class="store-hours-week">${hoursList}</ul>
               </div>
