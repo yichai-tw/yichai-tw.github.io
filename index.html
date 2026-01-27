@@ -166,32 +166,35 @@
     /* 手機版調整品牌卡片大小 */
     @media (max-width: 768px) {
       .brand-card {
-        min-width: 180px;
-        width: 180px;
-        height: 260px; /* 顯著增加高度以容納更多文字 */
-        padding: 12px;
-        aspect-ratio: auto;
+        min-width: 65vw; /* 讓寬度大約佔據 1.5 個卡片 */
+        width: 65vw;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        padding: 15px;
       }
       .brand-logo-container {
-        width: 70px !important;
-        height: 70px !important;
-        margin-bottom: 10px !important;
+        width: 100px !important;
+        height: 100px !important;
+        margin-bottom: 12px !important;
       }
       .brand-name {
-        font-size: 0.9rem !important;
+        font-size: 1.1rem !important;
       }
       .brand-description {
-        padding: 15px 12px !important;
+        padding: 20px !important;
+        display: block !important; /* 讓內容自然流動 */
+        overflow-y: auto !important; /* 整個區塊一起捲動 */
       }
       .desc-title {
-        font-size: 0.85rem !important;
-        margin-bottom: 8px !important;
-        padding-bottom: 3px !important;
-        border-bottom: 1px solid #DF7621;
+        font-size: 1.1rem !important;
+        margin-bottom: 10px !important;
+        border-bottom: 2px solid #DF7621;
+        padding-bottom: 5px !important;
       }
       .desc-content {
-        font-size: 0.8rem !important;
-        line-height: 1.6 !important;
+        font-size: 0.9rem !important;
+        line-height: 1.7 !important;
+        overflow-y: visible !important; /* 取消子元素的捲動 */
       }
     }
     /* 當沒有 logo 時的特殊樣式 */
@@ -537,25 +540,32 @@
         const marquee = container.closest('.brand-marquee');
         const cards = container.querySelectorAll('.brand-card');
         
+        const resetAllCards = () => {
+          cards.forEach(c => c.classList.remove('is-active'));
+          if (marquee) marquee.classList.remove('is-paused');
+        };
+
         cards.forEach(card => {
-          card.addEventListener('touchstart', function() {
-            // 移除其他所有卡片的 active 狀態，確保一次只有一張顯示
+          // 使用 pointerdown 代替 touchstart 以獲得更好的相容性
+          card.addEventListener('pointerdown', function(e) {
+            // 防止事件冒泡觸發其他的 reset
+            e.stopPropagation();
+            
+            // 先清除所有狀態
             cards.forEach(c => c.classList.remove('is-active'));
+            
+            // 啟動當前卡片
             card.classList.add('is-active');
             if (marquee) marquee.classList.add('is-paused');
-          }, { passive: true });
-
-          card.addEventListener('touchend', function() {
-            card.classList.remove('is-active');
-            if (marquee) marquee.classList.remove('is-paused');
-          }, { passive: true });
-
-          // 處理觸控取消的情況（例如滑動頁面時）
-          card.addEventListener('touchcancel', function() {
-            card.classList.remove('is-active');
-            if (marquee) marquee.classList.remove('is-paused');
-          }, { passive: true });
+          });
         });
+
+        // 當手指在任何地方放開（包括卡片外）都恢復捲動
+        window.addEventListener('pointerup', resetAllCards);
+        window.addEventListener('pointercancel', resetAllCards);
+        
+        // 額外處理手機滑動頁面時的情況
+        window.addEventListener('scroll', resetAllCards, { passive: true });
 
       } catch (error) {
         console.error('載入品牌跑馬燈失敗:', error);
