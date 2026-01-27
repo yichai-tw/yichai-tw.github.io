@@ -359,10 +359,11 @@
       const cachedTime = localStorage.getItem('yichai_user_loc_time');
       
       const nowTs = Date.now();
-      const isCacheValid = cachedTime && (nowTs - parseInt(cachedTime) < 30 * 60 * 1000); // 30分鐘內有效
+      // 將快取縮短至 5 分鐘，僅為了應付「按上一步」或短暫切換頁面
+      const isCacheValid = cachedTime && (nowTs - parseInt(cachedTime) < 5 * 60 * 1000); 
 
       if (isCacheValid && cachedLat && cachedLng) {
-        // 使用有效的快取先顯示，避免跳動
+        // 使用有效的短暫快取先顯示，避免跳動
         const lat = parseFloat(cachedLat);
         const lng = parseFloat(cachedLng);
         renderStoresPage(stores, lat, lng);
@@ -379,17 +380,17 @@
             const lat = p.coords.latitude;
             const lng = p.coords.longitude;
             
-            // 檢查新位置是否與快取位置有顯著差異 (例如移動超過 500 公尺)
+            // 檢查新位置是否與快取位置有差異 (縮小至 0.1km = 100公尺)
             const lastLat = cachedLat ? parseFloat(cachedLat) : null;
             const lastLng = cachedLng ? parseFloat(cachedLng) : null;
             let needsUpdate = true;
             
             if (lastLat && lastLng) {
               const moveDist = calculateDistance(lat, lng, lastLat, lastLng);
-              if (moveDist < 0.5) needsUpdate = false; // 移動小於 0.5km 就不強制重新渲染畫面
+              if (moveDist < 0.1) needsUpdate = false; // 移動小於 100m 則維持現狀，避免畫面頻繁跳動
             }
 
-            // 更新快取與時間戳
+            // 立即更新快取與時間戳
             localStorage.setItem('yichai_user_lat', lat);
             localStorage.setItem('yichai_user_lng', lng);
             localStorage.setItem('yichai_user_loc_time', Date.now().toString());
