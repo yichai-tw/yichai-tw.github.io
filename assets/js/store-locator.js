@@ -397,32 +397,10 @@
     }
   }
 
-  function filterStoresByTags(stores, activeFilters) {
-    if (!activeFilters || activeFilters.length === 0) {
-      return stores;
-    }
-    
-    let filtered = stores;
-    
-    // 縣市篩選（只能選一個，且 'all' 表示不篩選縣市）
-    const cityFilters = activeFilters.filter(f => f === 'taipei' || f === 'newtaipei' || f === 'all');
-    if (cityFilters.length > 0) {
-      const cityFilter = cityFilters[0];
-      if (cityFilter === 'taipei') {
-        filtered = filtered.filter(store => store.city === '台北市');
-      } else if (cityFilter === 'newtaipei') {
-        filtered = filtered.filter(store => store.city === '新北市');
-      } // 如果是 'all' 則不過濾城市
-    }
-    
-    return filtered;
-  }
-
   function renderStoresPage(stores, userLat, userLng) {
     const panel = document.getElementById('store-panel');
     const list = document.getElementById('store-list');
     const preview = document.getElementById('store-preview');
-    const filterTags = document.getElementById('store-filter-tags');
 
     if (!panel || !list || !preview) return false;
 
@@ -431,8 +409,6 @@
 
     // 自動選中第一筆（按 GPS 距離或城市排序後的第一筆）
     let currentStore = ordered[0] || null;
-    let activeFilters = ['all']; // 預設選中 '全部' 篩選器
-    let filteredStores = ordered;
     
     // 保存用戶位置，供篩選時使用
     const savedUserLat = userLat;
@@ -533,68 +509,13 @@
       });
     }
 
-    updateStoreList(filteredStores);
+    updateStoreList(ordered);
     // 自動顯示第一筆門市的地圖
     if (currentStore) {
       updateMapFrame(currentStore);
     }
     initPanelInteractions(panel);
-
-    // 標籤篩選功能
-    if (filterTags) {
-      const tagButtons = filterTags.querySelectorAll('.filter-tag');
-      
-      function updateFilters() {
-        // 收集所有選中的縣市標籤 (只允許單選)
-        activeFilters = Array.from(tagButtons)
-          .filter(btn => btn.classList.contains('active') && btn.dataset.group === 'city')
-          .map(btn => btn.dataset.filter);
-        
-        // 篩選門市
-        const filtered = filterStoresByTags(ordered, activeFilters);
-        // 重新排序篩選結果（保持距離或城市排序）
-        filteredStores = sortStoresByDistance(filtered, savedUserLat, savedUserLng);
-        
-        // 如果當前選中的門市不在篩選結果中，自動選中第一筆
-        if (currentStore && !filteredStores.find(s => s.id === currentStore.id)) {
-          currentStore = filteredStores[0] || null;
-          if (currentStore) {
-            updateMapFrame(currentStore);
-          }
-        }
-        // 如果沒有選中的門市，自動選中第一筆
-        else if (!currentStore && filteredStores.length > 0) {
-          currentStore = filteredStores[0];
-          updateMapFrame(currentStore);
-        }
-        
-        updateStoreList(filteredStores);
-        
-        // 更新地圖（如果選中的門市在篩選結果中）
-        if (currentStore && filteredStores.find(s => s.id === currentStore.id)) {
-          updateMapFrame(currentStore);
-        }
-      }
-      
-      tagButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const filter = button.dataset.filter;
-          const group = button.dataset.group;
-          
-          // 縣市標籤：同一組內只能選一個，切換選中狀態
-          if (group === 'city') {
-            const sameGroupButtons = Array.from(tagButtons).filter(
-              btn => btn.dataset.group === 'city'
-            );
-            sameGroupButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-          }
-          
-          // 更新篩選
-          updateFilters();
-        });
-      });
-    }
+  }
 
     return true;
   }
@@ -699,7 +620,7 @@
     }
   }
 
-  async function init() {
+  async function main() {
     // 顯示載入狀態
     showLoading();
     
@@ -718,34 +639,38 @@
 
     let userLat = null;
     let userLng = null;
-    let nearestStore = stores[0] || null;
+    let nearestStore = stores[0] || null; // 預設第一間店為最近店面
+
+    const processGeolocation = (position) => {
+      userLat = position.coords.latitude;
+      userLng = position.coords.longitude;
+      nearestStore = findNearestStore(stores, userLat, userLng) || nearestStore;
+      renderStoresPage(stores, userLat, userLng);
+      renderIndexPage(stores, nearestStore);
+    };
+
+    const geolocationError = () => {
+      console.warn('無法取得用戶位置，將依城市排序門市。');
+      renderStoresPage(stores, null, null);
+      renderIndexPage(stores, nearestStore);
+    };
 
     if (navigator.geolocation && stores.length) {
       navigator.geolocation.getCurrentPosition(
-        position => {
-          userLat = position.coords.latitude;
-          userLng = position.coords.longitude;
-          nearestStore = findNearestStore(stores, userLat, userLng) || nearestStore;
-          renderStoresPage(stores, userLat, userLng);
-          renderIndexPage(stores, nearestStore);
-        },
-        () => {
-          // 定位失敗，使用城市排序
-          renderStoresPage(stores, null, null);
-          renderIndexPage(stores, nearestStore);
-        },
+        processGeolocation,
+        geolocationError,
         { enableHighAccuracy: false, timeout: 10000, maximumAge: 0 }
       );
     } else {
-      // 不支援定位，使用城市排序
-      renderStoresPage(stores, null, null);
-      renderIndexPage(stores, nearestStore);
+      // 不支援定位或沒有門市，直接渲染頁面
+      geolocationError();
     }
   }
 
+  // 在 DOMContentLoaded 時執行主函數
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', main);
   } else {
-    init();
+    main();
   }
 })();
