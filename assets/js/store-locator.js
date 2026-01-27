@@ -353,17 +353,22 @@
   async function main() {
     const stores = await loadStoreData();
     if (stores.length) {
-      // 嘗試從 localStorage 讀取快取的定位資訊 (比 sessionStorage 更持久，適合 LINE)
+      // 讀取快取資訊
       const cachedLat = localStorage.getItem('yichai_user_lat');
       const cachedLng = localStorage.getItem('yichai_user_lng');
+      const cachedTime = localStorage.getItem('yichai_user_loc_time');
+      
+      const nowTs = Date.now();
+      const isCacheValid = cachedTime && (nowTs - parseInt(cachedTime) < 30 * 60 * 1000); // 30分鐘內有效
 
-      if (cachedLat && cachedLng) {
+      if (isCacheValid && cachedLat && cachedLng) {
+        // 使用有效的快取先顯示，避免跳動
         const lat = parseFloat(cachedLat);
         const lng = parseFloat(cachedLng);
         renderStoresPage(stores, lat, lng);
         renderHomepageStores(stores, lat, lng);
       } else {
-        // 沒有快取時，先進行預設渲染
+        // 快取過期或不存在，先進行預設渲染
         renderStoresPage(stores, null, null);
         renderHomepageStores(stores, null, null);
       }
@@ -374,12 +379,25 @@
             const lat = p.coords.latitude;
             const lng = p.coords.longitude;
             
-            // 存入 localStorage，讓下次從 LINE 開啟也能秒讀
+            // 檢查新位置是否與快取位置有顯著差異 (例如移動超過 500 公尺)
+            const lastLat = cachedLat ? parseFloat(cachedLat) : null;
+            const lastLng = cachedLng ? parseFloat(cachedLng) : null;
+            let needsUpdate = true;
+            
+            if (lastLat && lastLng) {
+              const moveDist = calculateDistance(lat, lng, lastLat, lastLng);
+              if (moveDist < 0.5) needsUpdate = false; // 移動小於 0.5km 就不強制重新渲染畫面
+            }
+
+            // 更新快取與時間戳
             localStorage.setItem('yichai_user_lat', lat);
             localStorage.setItem('yichai_user_lng', lng);
+            localStorage.setItem('yichai_user_loc_time', Date.now().toString());
             
-            renderStoresPage(stores, lat, lng);
-            renderHomepageStores(stores, lat, lng);
+            if (needsUpdate) {
+              renderStoresPage(stores, lat, lng);
+              renderHomepageStores(stores, lat, lng);
+            }
           },
           err => {
             console.warn('Geolocation failed:', err.message);
