@@ -276,9 +276,11 @@
     const otherContainer = document.getElementById('other-stores-container');
     if (!nearestContainer && !otherContainer) return;
 
+    const hasLocation = userLat && userLng;
+
     // 計算距離並排序
     let sortedStores = [...allStores];
-    if (userLat && userLng) {
+    if (hasLocation) {
       sortedStores.forEach(s => s.distance = calculateDistance(userLat, userLng, s.lat, s.lng));
       sortedStores.sort((a, b) => a.distance - b.distance);
     }
@@ -288,12 +290,19 @@
       nearestContainer.innerHTML = `
         <div class="bg-white rounded-[2rem] shadow-xl border border-gray-100 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
           <div class="p-10 md:p-12 flex flex-col justify-center border-t-8 border-[#DF7621] lg:border-t-0 lg:border-l-8 lg:border-l-[#DF7621]">
-            <div class="inline-block bg-[#DF7621] text-white px-5 py-1.5 rounded-full text-xs font-bold mb-6 w-fit uppercase tracking-widest">離您最近的門市</div>
+            <div class="inline-block bg-[#DF7621] text-white px-5 py-1.5 rounded-full text-xs font-bold mb-6 w-fit uppercase tracking-widest">
+              ${hasLocation ? '離您最近的門市' : '推薦門市'}
+            </div>
             <h3 class="text-4xl font-bold mb-6 text-gray-800">${nearest.name}</h3>
             <div class="space-y-4 text-gray-600">
               <p class="flex items-start text-base"><i class="fas fa-map-marker-alt mt-1.5 mr-4 text-[#DF7621] text-lg"></i> <span>${nearest.address}</span></p>
               <p class="flex items-center text-base"><i class="fas fa-phone-alt mr-4 text-[#DF7621] text-lg"></i> <a href="tel:${nearest.phoneDigits}" class="hover:text-[#DF7621] transition-colors font-medium">${nearest.phone}</a></p>
               <p class="flex items-center text-base"><i class="fas fa-clock mr-4 text-[#DF7621] text-lg"></i> <span>${nearest.status?.text || '載入中...'}</span></p>
+              ${!hasLocation ? `
+                <p class="text-xs text-gray-400 mt-2 flex items-center">
+                  <i class="fas fa-info-circle mr-2"></i> 允許定位權限以顯示最近門市
+                </p>
+              ` : ''}
             </div>
             <div class="mt-10 flex flex-wrap gap-4">
               <a href="${nearest.mapUrl}" target="_blank" class="bg-gray-800 text-white px-8 py-3 rounded-full font-bold hover:bg-black transition-all flex items-center shadow-lg hover:shadow-xl">
@@ -347,10 +356,17 @@
       renderStoresPage(stores, null, null);
       renderHomepageStores(stores, null, null);
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(p => {
-          renderStoresPage(stores, p.coords.latitude, p.coords.longitude);
-          renderHomepageStores(stores, p.coords.latitude, p.coords.longitude);
-        }, null, { timeout: 5000 });
+        navigator.geolocation.getCurrentPosition(
+          p => {
+            renderStoresPage(stores, p.coords.latitude, p.coords.longitude);
+            renderHomepageStores(stores, p.coords.latitude, p.coords.longitude);
+          },
+          err => {
+            console.warn('Geolocation failed:', err.message);
+            // 失敗時維持預設顯示，不需要特別處理，因為初始載入已執行過一次 null 版
+          },
+          { timeout: 7000, enableHighAccuracy: false }
+        );
       }
     }
   }
