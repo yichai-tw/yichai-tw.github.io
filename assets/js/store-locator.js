@@ -197,7 +197,7 @@
       }, {});
 
       navContainer.innerHTML = Object.entries(grouped).map(([city, stores]) => `
-        <div class="city-group">
+        <div class="city-group" data-city="${city}">
           <div class="city-label">${city}</div>
           <div class="city-chips">
             ${stores.map(store => `
@@ -209,6 +209,17 @@
           </div>
         </div>
       `).join('');
+
+      // 檢查是否溢出並添加標記
+      setTimeout(() => {
+        navContainer.querySelectorAll('.city-group').forEach(group => {
+          const chips = group.querySelector('.city-chips');
+          if (chips.scrollWidth > chips.clientWidth) {
+            group.classList.add('has-overflow');
+            chips.classList.add('has-overflow');
+          }
+        });
+      }, 100);
 
       navContainer.querySelectorAll('.nav-chip').forEach(chip => {
         chip.addEventListener('click', () => {
