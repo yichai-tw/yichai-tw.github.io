@@ -353,17 +353,36 @@
   async function main() {
     const stores = await loadStoreData();
     if (stores.length) {
-      renderStoresPage(stores, null, null);
-      renderHomepageStores(stores, null, null);
+      // 嘗試從 sessionStorage 讀取快取的定位資訊
+      const cachedLat = sessionStorage.getItem('yichai_user_lat');
+      const cachedLng = sessionStorage.getItem('yichai_user_lng');
+
+      if (cachedLat && cachedLng) {
+        const lat = parseFloat(cachedLat);
+        const lng = parseFloat(cachedLng);
+        renderStoresPage(stores, lat, lng);
+        renderHomepageStores(stores, lat, lng);
+      } else {
+        // 沒有快取時，先進行預設渲染
+        renderStoresPage(stores, null, null);
+        renderHomepageStores(stores, null, null);
+      }
+
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           p => {
-            renderStoresPage(stores, p.coords.latitude, p.coords.longitude);
-            renderHomepageStores(stores, p.coords.latitude, p.coords.longitude);
+            const lat = p.coords.latitude;
+            const lng = p.coords.longitude;
+            
+            // 存入快取，供「上一步」或同工作階段內導覽使用
+            sessionStorage.setItem('yichai_user_lat', lat);
+            sessionStorage.setItem('yichai_user_lng', lng);
+            
+            renderStoresPage(stores, lat, lng);
+            renderHomepageStores(stores, lat, lng);
           },
           err => {
             console.warn('Geolocation failed:', err.message);
-            // 失敗時維持預設顯示，不需要特別處理，因為初始載入已執行過一次 null 版
           },
           { timeout: 7000, enableHighAccuracy: false }
         );
