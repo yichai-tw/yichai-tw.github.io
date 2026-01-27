@@ -128,24 +128,32 @@
 
     <!-- 門市定位容器 -->
     <section class="store-locator-container">
-      <!-- 1. 簡潔店名清單 (快速切換) -->
-      <div class="store-nav-chips" id="store-nav-chips">
-        <!-- 由 JS 注入店名按鈕 -->
-      </div>
+      <div class="store-content-layout">
+        <!-- 左側：清單與資訊 -->
+        <div class="store-side-panel">
+          <!-- 1. 簡潔店名清單 (快速切換) -->
+          <div class="store-nav-chips" id="store-nav-chips">
+            <!-- 由 JS 注入店名按鈕 -->
+          </div>
 
-      <!-- 2. 詳細店家資訊 (互動容器) -->
-      <div class="store-detail-section">
-        <div class="store-detail-card" id="store-detail-card">
-          <!-- 由 JS 注入選中店家的詳細資訊 -->
-          <div class="store-list-loading"><i class="fas fa-spinner fa-spin"></i> 載入中...</div>
+          <!-- 2. 詳細店家資訊 (互動容器) -->
+          <div class="store-detail-section">
+            <div class="store-detail-card" id="store-detail-card">
+              <!-- 由 JS 注入選中店家的詳細資訊 -->
+              <div class="store-list-loading"><i class="fas fa-spinner fa-spin"></i> 載入中...</div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!-- 3. 地圖 (互動容器) -->
-      <div class="store-map-section">
-        <div class="store-map-wrapper">
-          <iframe id="store-map-frame" title="門市地圖" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          <div class="store-map-hint">可縮放地圖查看精確位置</div>
+        <!-- 右側：地圖 -->
+        <div class="store-main-map">
+          <!-- 3. 地圖 (互動容器) -->
+          <div class="store-map-section">
+            <div class="store-map-wrapper">
+              <iframe id="store-map-frame" title="門市地圖" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              <div class="store-map-hint">可縮放地圖查看精確位置</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
