@@ -105,7 +105,10 @@
       const weeklyHours = store.business_hours || null;
       const hours = resolveTodayHours(weeklyHours, now);
 
-      const hasGrooming = store.services?.grooming !== false;
+      // 讀取新欄位
+      const hasGrooming = store.services?.grooming === true;
+      const googleBusinessUrl = store.google_business_url || '';
+
       const status = getStatus(hours, now);
       const isOpen = status && (status.className === 'status-open' || status.className === 'status-closing');
 
@@ -122,10 +125,11 @@
         weeklyHours,
         hours,
         hasGrooming,
+        googleBusinessUrl,
         isOpen,
-        mapUrl: fullAddress
+        mapUrl: googleBusinessUrl || (fullAddress
           ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`
-          : `https://www.google.com/maps?q=${lat},${lng}`,
+          : `https://www.google.com/maps?q=${lat},${lng}`),
         mapEmbedUrl: (lat && lng)
           ? `https://www.google.com/maps?q=${lat},${lng}&hl=zh-TW&z=15&output=embed`
           : `https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&hl=zh-TW&z=15&output=embed`
@@ -139,6 +143,9 @@
     const phoneLink = store.phoneDigits ? `tel:${store.phoneDigits}` : '';
     const mapLink = store.mapUrl || '';
     
+    // 美容服務標籤
+    const groomingBadge = store.hasGrooming ? `<span class="badge-grooming"><i class="fas fa-cut"></i> 寵物美容</span>` : '';
+    
     const hoursTooltip = store.weeklyHours ? buildWeeklyHoursTooltip(store.weeklyHours) : '';
     const mobileDetails = (isCompact || isSelected) ? '' : buildMobileStoreDetails(store.weeklyHours);
     
@@ -151,7 +158,10 @@
 
     return `
       <div class="store-list-item" data-store-id="${store.id}">
-        <div class="store-list-title">${store.name}</div>
+        <div class="store-list-title">
+          ${store.name}
+          ${groomingBadge}
+        </div>
         <div class="store-list-address">${store.address}</div>
         ${statusText}
         ${hoursTooltip}
@@ -212,8 +222,7 @@
               Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
               Math.sin(dLng / 2) * Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-    return distance;
+    return R * c;
   }
 
   function findNearestStore(stores, lat, lng) {
@@ -262,23 +271,20 @@
 
     if (handle) {
       const minHeight = 160;
-      const expandedHeight = Math.round(window.innerHeight * 0.75); // 同步改為 75vh
+      const expandedHeight = Math.round(window.innerHeight * 0.75);
       
       function updateBodyScrollLock() {
         if (!list || window.innerWidth >= 1024) return;
-        
         const scrollTop = list.scrollTop;
         const scrollHeight = list.scrollHeight;
         const clientHeight = list.clientHeight;
-        
-        // 判斷是否滑到最底部 (容錯 5px)
         const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
 
         if (panel.classList.contains('is-expanded')) {
           if (isAtBottom) {
-            document.body.style.overflow = ''; // 到達底部，釋放鎖定
+            document.body.style.overflow = '';
           } else {
-            document.body.style.overflow = 'hidden'; // 未到步，鎖定背景
+            document.body.style.overflow = 'hidden';
           }
         } else {
           document.body.style.overflow = '';
@@ -305,14 +311,11 @@
         }
       }
 
-      // 綁定點擊事件
       handle.addEventListener('click', togglePanel);
-      // 額外綁定觸控事件以確保反應靈敏
       handle.addEventListener('touchend', (e) => {
         togglePanel(e);
       }, { passive: false });
       
-      // 監聽清單滑動，動態決定是否釋放背景滑動
       if (list) {
         list.addEventListener('scroll', updateBodyScrollLock, { passive: true });
         list.addEventListener('touchmove', updateBodyScrollLock, { passive: true });
@@ -429,36 +432,23 @@
         return;
       }
 
-      // 先進行預設渲染（依城市排序），讓使用者能立刻看到清單
       renderStoresPage(stores, null, null);
       renderIndexPage(stores, stores[0]);
 
-      // 接著嘗試獲取定位，若成功則更新頁面
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const userLat = position.coords.latitude;
             const userLng = position.coords.longitude;
-            console.log('取得定位成功:', userLat, userLng);
-            
             const nearestStore = findNearestStore(stores, userLat, userLng);
-            // 重新渲染，帶入定位資訊進行排序
             renderStoresPage(stores, userLat, userLng);
             renderIndexPage(stores, nearestStore);
           },
-          (error) => {
-            console.warn('地理定位失敗:', error.message);
-            // 保持預設渲染即可
-          },
-          { 
-            enableHighAccuracy: false, 
-            timeout: 5000, 
-            maximumAge: 60000 
-          }
+          () => {},
+          { enableHighAccuracy: false, timeout: 5000, maximumAge: 60000 }
         );
       }
     } catch (error) {
-      console.error('執行 main 失敗:', error);
       showError('載入門市資料失敗');
     }
   }
