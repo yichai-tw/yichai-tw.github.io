@@ -175,30 +175,47 @@
       if (mapFrame) mapFrame.src = activeStore.mapEmbedUrl;
 
       if (isMobile) {
-        // 紀錄目前的捲動位置
-        const oldChips = listContainer.querySelector('.store-nav-chips-mobile');
-        const scrollPos = oldChips ? oldChips.scrollLeft : 0;
+        // 檢查是否需要重新渲染 Chips (如果過濾後的門市清單沒變，就只更新 active 狀態)
+        let chipsContainer = listContainer.querySelector('.store-nav-chips-mobile');
+        const currentChipsIds = Array.from(chipsContainer?.querySelectorAll('.nav-chip') || []).map(c => c.dataset.id).join(',');
+        const newChipsIds = filtered.map(s => s.id).join(',');
 
-        // 手機版：Chips + 單一詳細卡片
-        const chipsHTML = `
-          <div class="store-nav-chips-mobile">
-            ${filtered.map(s => `<button class="nav-chip ${selectedStoreId === s.id ? 'active' : ''}" data-id="${s.id}">${s.name}</button>`).join('')}
-          </div>
-        `;
-        listContainer.innerHTML = chipsHTML + renderStoreCard(activeStore, true);
-        
-        // 恢復捲動位置並將選中的按鈕捲動到視線內
-        const newChips = listContainer.querySelector('.store-nav-chips-mobile');
-        if (newChips) {
-          newChips.scrollLeft = scrollPos;
-          const activeChip = newChips.querySelector('.nav-chip.active');
+        if (!chipsContainer || currentChipsIds !== newChipsIds) {
+          const chipsHTML = `
+            <div class="store-nav-label">快速切換門市 <span class="scroll-hint">左右滑動切換 <i class="fas fa-arrows-left-right"></i></span></div>
+            <div class="store-nav-chips-wrapper">
+              <div class="store-nav-chips-mobile">
+                ${filtered.map(s => `<button class="nav-chip ${selectedStoreId === s.id ? 'active' : ''}" data-id="${s.id}">${s.name}</button>`).join('')}
+              </div>
+            </div>
+          `;
+          // 先清空再注入，但保留詳細卡片區域
+          listContainer.innerHTML = chipsHTML + `<div class="active-store-detail">${renderStoreCard(activeStore, true)}</div>`;
+          chipsContainer = listContainer.querySelector('.store-nav-chips-mobile');
+        } else {
+          // 只更新按鈕的 active 狀態
+          chipsContainer.querySelectorAll('.nav-chip').forEach(chip => {
+            chip.classList.toggle('active', chip.dataset.id === selectedStoreId);
+          });
+          // 更新詳細資訊卡片內容
+          const detailWrapper = listContainer.querySelector('.active-store-detail');
+          if (detailWrapper) detailWrapper.innerHTML = renderStoreCard(activeStore, true);
+        }
+
+        // 確保選中的按鈕在視線內
+        if (chipsContainer) {
+          const activeChip = chipsContainer.querySelector('.nav-chip.active');
           if (activeChip) {
             activeChip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
           }
         }
 
         listContainer.querySelectorAll('.nav-chip').forEach(chip => {
-          chip.onclick = () => { selectedStoreId = chip.dataset.id; renderUI(); };
+          chip.onclick = () => { 
+            if (selectedStoreId === chip.dataset.id) return;
+            selectedStoreId = chip.dataset.id; 
+            renderUI(); 
+          };
         });
       } else {
         // PC 版：完整清單
