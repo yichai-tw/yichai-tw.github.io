@@ -212,7 +212,8 @@
               Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
               Math.sin(dLng / 2) * Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
+    const distance = R * c;
+    return distance;
   }
 
   function findNearestStore(stores, lat, lng) {
@@ -227,7 +228,7 @@
         nearest = store;
       }
     });
-    return nearest || stores[0];
+    return nearest;
   }
 
   function sortStoresByDistance(stores, userLat, userLng) {
@@ -385,25 +386,36 @@
         return;
       }
 
-      const processGeolocation = (position) => {
-        const userLat = position.coords.latitude;
-        const userLng = position.coords.longitude;
-        const nearestStore = findNearestStore(stores, userLat, userLng);
-        renderStoresPage(stores, userLat, userLng);
-        renderIndexPage(stores, nearestStore);
-      };
+      // 先進行預設渲染（依城市排序），讓使用者能立刻看到清單
+      renderStoresPage(stores, null, null);
+      renderIndexPage(stores, stores[0]);
 
-      const geolocationError = () => {
-        renderStoresPage(stores, null, null);
-        renderIndexPage(stores, stores[0]);
-      };
-
+      // 接著嘗試獲取定位，若成功則更新頁面
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(processGeolocation, geolocationError, { timeout: 10000 });
-      } else {
-        geolocationError();
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+            console.log('取得定位成功:', userLat, userLng);
+            
+            const nearestStore = findNearestStore(stores, userLat, userLng);
+            // 重新渲染，帶入定位資訊進行排序
+            renderStoresPage(stores, userLat, userLng);
+            renderIndexPage(stores, nearestStore);
+          },
+          (error) => {
+            console.warn('地理定位失敗:', error.message);
+            // 保持預設渲染即可
+          },
+          { 
+            enableHighAccuracy: false, 
+            timeout: 5000, 
+            maximumAge: 60000 
+          }
+        );
       }
     } catch (error) {
+      console.error('執行 main 失敗:', error);
       showError('載入門市資料失敗');
     }
   }
