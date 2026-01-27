@@ -3,10 +3,10 @@
     "id": 1,
     "filename": "royalcanin_logo.jpg",
     "path": "assets/images/brand_logo/royalcanin_logo.jpg",
-    "brand_ch": "法國皇家",
+    "brand_ch": "皇家",
     "brand_en": "Royal Canin",
-    "alt": "法國皇家 Royal Canin 寵物飼料官方 Logo",
-    "description": "全球知名的精準營養寵物食品領軍品牌，致力於針對不同犬貓品種、年齡及健康需求研發專屬配方。透過與獸醫師長期合作，確保每一顆飼料都能提供寵物所需的全面營養並守護其健康。"
+    "alt": "法國皇家 Royal Canin 精準營養寵物食品 Logo",
+    "description": "全球精準營養領導品牌，針對不同犬貓品種與年齡研發專屬的高品質配方飼料。"
   },
   {
     "id": 2,
@@ -14,8 +14,8 @@
     "path": "assets/images/brand_logo/farmina_logo.jpg",
     "brand_ch": "法米納",
     "brand_en": "Farmina",
-    "alt": "義大利法米納 Farmina 天然寵物糧 Logo",
-    "description": "來自義大利的頂級天然糧品牌，強調結合科學研究與高品質天然食材。產品堅持不含基因改造原料，並以低升糖指數配方聞名，能有效幫助寵物維持穩定血糖與健壯體態，是許多飼主的首選。"
+    "alt": "義大利法米納 Farmina 頂級無穀天然糧 Logo",
+    "description": "來自義大利的頂級天然糧，以科學研究結合低升糖指數配方，守護寵物生理健康。"
   },
   {
     "id": 3,
@@ -23,17 +23,17 @@
     "path": "assets/images/brand_logo/toma-pro_logo.jpg",
     "brand_ch": "優格",
     "brand_en": "Toma-Pro",
-    "alt": "優格 Toma-Pro 均衡配方寵物食糧 Logo",
-    "description": "專為亞太地區寵物量身打造，強調優質蛋白質與腸道健康的均衡配方。產品添加豐富的益生菌與天然抗氧化成分，能有效幫助毛孩改善消化系統並增強免疫力，提供全方位的日常營養支持。"
+    "alt": "優格 Toma-Pro 腸道健康天然寵物食品 Logo",
+    "description": "亞太區高人氣品牌，添加益生菌與優質蛋白，提供寵物最均衡的日常腸道營養支持。"
   },
   {
     "id": 4,
     "filename": "litomon_logo.jpg",
     "path": "assets/images/brand_logo/litomon_logo.jpg",
     "brand_ch": "怪獸部落",
-    "brand_en": "",
-    "alt": "台灣怪獸部落 LitoMon 寵物食品 Logo",
-    "description": "台灣在地知名品牌，以「還原野外飲食」為核心理念，追求極致肉含量與無添加食研。產品不僅深受挑嘴貓犬喜愛，更透過透明的成分標示，讓飼主能安心提供毛孩最貼近自然的營養選擇。"
+    "brand_en": "LitoMon",
+    "alt": "台灣怪獸部落 LitoMon 天然原肉與野味食品 Logo",
+    "description": "台灣在地知名品牌，以還原野外飲食為核心，提供高肉量無添加的優質主食與零食。"
   },
   {
     "id": 5,
@@ -41,44 +41,44 @@
     "path": "assets/images/brand_logo/solution_logo.jpg",
     "brand_ch": "耐吉斯",
     "brand_en": "Solution",
-    "alt": "耐吉斯 Solution 低敏無穀寵物糧 Logo",
-    "description": "專業研發的低敏無穀配方品牌，致力於解決寵物因食物引起的不適。產品精選單一肉類蛋白與超級食物，不含玉米、小麥、黃豆等易過敏原，全心守護體質敏感毛孩，讓他們吃得開心又健康。"
+    "alt": "耐吉斯 Solution 低敏無穀寵物食品 Logo",
+    "description": "專業低敏無穀配方，嚴選單一肉類蛋白，是守護敏感體質毛孩健康的首選品牌。"
   },
   {
     "id": 6,
-    "filename": "da-gi-fu_logo.jpg",
-    "path": "assets/images/brand_logo/da-gi-fu_logo.jpg",
-    "brand_ch": "韓國大吉福貓",
-    "brand_en": "",
-    "alt": "韓國大吉福貓 Da-Gi-Fu 寵物凍乾零食 Logo",
-    "description": "標榜韓國先進技術代工的人氣寵物零食品牌，精選高品質肉塊進行冷凍乾燥處理，鎖定鮮肉營養與風味。其招牌的迷你凍乾顆粒，特別適合挑食貓咪或作為獎勵訓練使用，是深受貓友推崇的機能食。"
+    "filename": "fumeow_logo.jpg",
+    "path": "assets/images/brand_logo/fumeow_logo.jpg",
+    "brand_ch": "大吉福貓",
+    "brand_en": "FuMeow",
+    "alt": "韓國大吉福貓 FuMeow 迷你凍乾零食 Logo",
+    "description": "人氣凍乾零食品牌，以韓國代工技術製作迷你肉塊凍乾，適口性極佳，適合挑嘴貓咪。"
   },
   {
     "id": 7,
     "filename": "natures-miracle_logo.jpg",
     "path": "assets/images/brand_logo/natures-miracle_logo.jpg",
-    "brand_ch": "美國自然奇蹟",
+    "brand_ch": "自然奇蹟",
     "brand_en": "Nature's Miracle",
-    "alt": "美國自然奇蹟 Nature's Miracle 環境清潔專家 Logo",
-    "description": "全球知名的寵物環境清潔專家，擁有專業的生物酵素技術，能針對寵物異味與頑固汙漬進行根源性分解。其多元的除臭與清潔噴霧產品，能有效維護飼主與寵物共同生活的居家環境衛生。"
+    "alt": "美國自然奇蹟 Nature's Miracle 寵物除臭清潔專家 Logo",
+    "description": "全球知名的寵物環境清潔專家，以酵素技術分解異味與污漬，維護居家衛生環境。"
   },
   {
     "id": 8,
     "filename": "miiibo_logo.jpg",
     "path": "assets/images/brand_logo/miiibo_logo.jpg",
     "brand_ch": "貓咪寶",
-    "brand_en": "",
-    "alt": "Miiibo 貓咪寶 智能寵物用品 Logo",
-    "description": "致力於發展智能寵物用品的專業品牌，透過科技化的飲水機、餵食機等設備，解決現代忙碌飼主照顧毛孩的痛點。品牌產品兼具簡約美學與便利功能，讓科技完美融入寵物生活，提升飼養品質。"
+    "brand_en": "Miiibo",
+    "alt": "貓咪寶 Miiibo 智能寵物家電與用品 Logo",
+    "description": "智能寵物用品品牌，提供科技化的飲水與餵食設備，解決現代忙碌飼主的照顧痛點。"
   },
   {
     "id": 9,
     "filename": "meow-joy_logo.jpg",
     "path": "assets/images/brand_logo/meow-joy_logo.jpg",
-    "brand_ch": "泰國喵樂",
-    "brand_en": "",
-    "alt": "泰國喵樂 Meow-Joy 優質貓罐頭 Logo",
-    "description": "來自泰國的優質罐頭與零食品牌，主打多樣化且豐富的口味組合，滿足每一隻挑嘴貓咪的味蕾。嚴選新鮮食材並搭配營養機能添加，不僅美味且具備極佳的適口性，是飼主增進人貓互動的良伴。"
+    "brand_ch": "喵樂",
+    "brand_en": "Meow-Joy",
+    "alt": "泰國喵樂 Meow-Joy 貓咪美味罐頭與零食 Logo",
+    "description": "泰國優質罐頭與零食品牌，口味豐富多樣且嗜口性高，是增進人貓互動的美味選擇。"
   },
   {
     "id": 10,
@@ -86,26 +86,26 @@
     "path": "assets/images/brand_logo/nutram_logo.jpg",
     "brand_ch": "紐頓",
     "brand_en": "Nutram",
-    "alt": "加拿大紐頓 Nutram 草本營養寵物糧 Logo",
-    "description": "來自加拿大的草本營養專家，研發出獨特的「草本最佳組合」配方，將天然草本與優質蛋白質完美結合。透過全面性的營養吸收理念，從內而外調理寵物體質，是追求自然整體健康飼主的理想選擇。"
+    "alt": "加拿大紐頓 Nutram 草本天然寵物食品 Logo",
+    "description": "加拿大草本營養專家，將天然草本與優質蛋白質結合，從內而外調理寵物整體體質。"
   },
   {
     "id": 11,
     "filename": "dogcatstar_logo.jpg",
     "path": "assets/images/brand_logo/dogcatstar_logo.jpg",
     "brand_ch": "汪喵星球",
-    "brand_en": "",
-    "alt": "汪喵星球 DogCatStar 高品質寵物濕食 Logo",
-    "description": "台灣指標性的生食與濕食品牌，致力於推廣高品質、低加工的餵食觀念。產品線涵蓋生食餐、主食罐及機能營養品，堅持選用人食等級食材，為毛孩提供最健康且具公信力的飲食解決方案。"
+    "brand_en": "DogCatStar",
+    "alt": "台灣汪喵星球 DogCatStar 濕食與生食餐 Logo",
+    "description": "台灣指標性濕食品牌，致力推廣低加工與生食餵養觀念，提供健康透明的飲食方案。"
   },
   {
     "id": 12,
     "filename": "nupet_logo.jpg",
     "path": "assets/images/brand_logo/nupet_logo.jpg",
     "brand_ch": "陪心寵糧",
-    "brand_en": "",
-    "alt": "陪心寵糧 NuPet 精準營養寵物食糧 Logo",
-    "description": "以精準營養為核心的台灣研發品牌，強調根據寵物的數據化資訊提供客製化或最適合的飲食建議。其產品製程透明且用料實在，致力於透過精準的比例，讓毛孩在不同的生命階段都能獲得最完善的呵護。"
+    "brand_en": "nu4PET",
+    "alt": "台灣陪心寵糧 nu4PET 客製化精準營養 Logo",
+    "description": "台灣專業營養團隊研發，強調客製化與精準營養，為在地寵物量身打造最適合的食譜。"
   },
   {
     "id": 13,
@@ -114,16 +114,16 @@
     "brand_ch": "柏萊富",
     "brand_en": "Blackwood",
     "alt": "美國柏萊富 Blackwood 低溫慢火烘焙寵糧 Logo",
-    "description": "來自美國的柏萊富天然寵糧，以獨特的低溫慢火烘焙工藝聞名，能有效保留食材原始營養並提升消化吸收率。全系列產品堅持不含玉米、小麥或黃豆，專為各年齡層犬貓設計，提供穩定且均衡的能量來源，是專業飼主長期信賴的選擇。"
+    "description": "美國特有的慢火烘焙技術，保留食材最完整的營養成分，並有效提升消化吸收率。"
   },
   {
     "id": 14,
     "filename": "monge_logo.jpg",
     "path": "assets/images/brand_logo/monge_logo.jpg",
     "brand_ch": "瑪恩吉",
-    "brand_en": "MONGE",
+    "brand_en": "Monge",
     "alt": "義大利瑪恩吉 MONGE 頂級寵物食品 Logo",
-    "description": "義大利市佔率極高的寵物食品品牌，擁有超過五十年的研發經驗，產品線涵蓋無穀糧、機能罐頭及處方糧。品牌強調選用新鮮肉類作為首要成分，並結合先進的營養科學，為毛孩提供適口性極佳且符合生物特性的飲食，全方位守護生長發育。"
+    "description": "義大利市佔第一品牌，以新鮮肉類為基底，研發出適口性極佳的各類機能型寵糧。"
   },
   {
     "id": 15,
@@ -132,7 +132,7 @@
     "brand_ch": "維特萊森",
     "brand_en": "Vetericyn",
     "alt": "美國維特萊森 Vetericyn 專業寵物護理 Logo",
-    "description": "美國寵物護理領域的領導品牌，專注於研發安全、無毒且不含抗生素或類固醇的護理產品。其獨家的技術廣泛應用於皮膚清潔、眼睛及耳朵護理，能有效幫助傷口修復並維持環境衛生，是家庭常備且深受獸醫師推崇的專業護理首選。"
+    "description": "美國專業護理品牌，提供安全無毒的皮膚與傷口護理噴霧，是家庭常備的急救好物。"
   },
   {
     "id": 16,
@@ -140,7 +140,142 @@
     "path": "assets/images/brand_logo/grandma-maes_logo.jpg",
     "brand_ch": "梅亞奶奶",
     "brand_en": "Grandma Mae's",
-    "alt": "美國梅亞奶奶 Grandma Mae's 天然寵糧 Logo",
-    "description": "秉持「像為家人準備食物」的理念，堅持選用美國當地非基因改造食材。產品採用低溫烘焙技術，避免營養成分在高溫下流失，並添加豐富的益生菌與膳食纖維，致力於提供最純淨、健康的原始風味，讓毛孩每一口都能吃到鄉村般的天然營養。"
+    "alt": "美國梅亞奶奶 Grandma Mae's 鄉村天然寵糧 Logo",
+    "description": "堅持使用非基改食材與低溫烘焙技術，提供如家常料理般純淨健康的鄉村風味寵糧。"
+  },
+  {
+    "id": 17,
+    "filename": "wealtz_logo.jpg",
+    "path": "assets/images/brand_logo/wealtz_logo.jpg",
+    "brand_ch": "維爾滋",
+    "brand_en": "Wealtz",
+    "alt": "韓國維爾滋 Wealtz 高肉量無穀寵糧 Logo",
+    "description": "韓國超高肉量無穀糧，含有豐富新鮮肉類蛋白質，滿足寵物最原始的獵食渴望。"
+  },
+  {
+    "id": 18,
+    "filename": "natural-balance_logo.jpg",
+    "path": "assets/images/brand_logo/natural-balance_logo.jpg",
+    "brand_ch": "自然平衡",
+    "brand_en": "Natural Balance",
+    "alt": "美國自然平衡 Natural Balance 低敏無穀寵糧 Logo",
+    "description": "美國知名L.I.D.限制成分配方，有效降低食物過敏風險，提供純淨且單純的營養。"
+  },
+  {
+    "id": 19,
+    "filename": "alfie_logo.jpg",
+    "path": "assets/images/brand_logo/alfie_logo.jpg",
+    "brand_ch": "艾富鮮",
+    "brand_en": "Alfie",
+    "alt": "台灣艾富鮮 Alfie 機能罐頭與寵物零食 Logo",
+    "description": "台灣在地優質品牌，主打豐富多樣的機能罐頭與美味零食，滿足毛孩挑剔的胃口。"
+  },
+  {
+    "id": 20,
+    "filename": "charm_logo.jpg",
+    "path": "assets/images/brand_logo/charm_logo.jpg",
+    "brand_ch": "野性魅力",
+    "brand_en": "CHARM",
+    "alt": "加拿大野性魅力 CHARM 原肉無穀寵糧 Logo",
+    "description": "來自加拿大的極致肉量配方，提供寵物所需的動物性蛋白，重現大自然的營養組合。"
+  },
+  {
+    "id": 21,
+    "filename": "kitty-licks_logo.jpg",
+    "path": "assets/images/brand_logo/kitty-licks_logo.jpg",
+    "brand_ch": "KittyLicks",
+    "brand_en": "KittyLicks",
+    "alt": "泰國 KittyLicks 貓咪肉泥零食 Logo",
+    "description": "泰國熱銷的貓咪肉泥零食，擁有多種豐富口味，其滑順口感與鮮味深受貓咪喜愛。"
+  },
+  {
+    "id": 22,
+    "filename": "gootoe_logo.jpg",
+    "path": "assets/images/brand_logo/gootoe_logo.jpg",
+    "brand_ch": "GooToe",
+    "brand_en": "GooToe",
+    "alt": "GooToe 寵物活力零食與潔牙骨 Logo",
+    "description": "人氣寵物零食品牌，以新鮮食材製作多樣化的肉乾與潔牙骨，是訓練獎勵的好助手。"
+  },
+  {
+    "id": 23,
+    "filename": "cat-glory_logo.jpg",
+    "path": "assets/images/brand_logo/cat-glory_logo.jpg",
+    "brand_ch": "驕傲貓",
+    "brand_en": "Cat Glory",
+    "alt": "驕傲貓 Cat Glory 頂級機能貓罐頭 Logo",
+    "description": "提供多樣化口味的主食罐與機能餐包，注重嗜口性與營養均衡，讓挑食貓也愛不釋手。"
+  },
+  {
+    "id": 24,
+    "filename": "omo_logo.jpg",
+    "path": "assets/images/brand_logo/omo_logo.jpg",
+    "brand_ch": "歐姆貓",
+    "brand_en": "OMO",
+    "alt": "台灣歐姆貓 OMO 主食罐與乳酸菌脆餅 Logo",
+    "description": "台灣精品寵食品牌，致力於開發高品質的主食罐與乳酸菌脆餅，堅持食材透明純淨。"
+  },
+  {
+    "id": 25,
+    "filename": "healthy-moment_logo.jpg",
+    "path": "assets/images/brand_logo/healthy-moment_logo.jpg",
+    "brand_ch": "關健時刻",
+    "brand_en": "Healthy Moment",
+    "alt": "關健時刻 Healthy Moment 寵物機能保健食品 Logo",
+    "description": "結合中西醫理概念，研發針對關節、皮毛等問題的機能處方罐與保健糧，守護健康。"
+  },
+  {
+    "id": 26,
+    "filename": "blop_logo.jpg",
+    "path": "assets/images/brand_logo/blop_logo.jpg",
+    "brand_ch": "BLOP 呷哺呷哺",
+    "brand_en": "BLOP",
+    "alt": "台灣 BLOP 呷哺呷哺 寵物鮮食與凍乾 Logo",
+    "description": "在地職人製作的寵物鮮食與凍乾，嚴選新鮮原肉，提供最接近食物原型的純粹美味。"
+  },
+  {
+    "id": 27,
+    "filename": "ciao_logo.jpg",
+    "path": "assets/images/brand_logo/ciao_logo.jpg",
+    "brand_ch": "CIAO",
+    "brand_en": "CIAO",
+    "alt": "日本 CIAO 啾嚕貓咪肉泥點心 Logo",
+    "description": "日本銷量第一的貓咪點心品牌，其鮮味肉泥風靡全球，是增進人貓互動的最佳良伴。"
+  },
+  {
+    "id": 28,
+    "filename": "aixia_logo.jpg",
+    "path": "assets/images/brand_logo/aixia_logo.jpg",
+    "brand_ch": "愛喜雅",
+    "brand_en": "AIXIA",
+    "alt": "日本愛喜雅 AIXIA 頂級貓罐頭專家 Logo",
+    "description": "日本頂級貓糧專家，研發出多款守護心靈與健康的高適口性罐頭，細心呵護貓咪需求。"
+  },
+  {
+    "id": 29,
+    "filename": "camo_logo.jpg",
+    "path": "assets/images/brand_logo/camo_logo.jpg",
+    "brand_ch": "卡默",
+    "brand_en": "CaMo",
+    "alt": "卡默 CaMo 寵物舒壓主食凍乾 Logo",
+    "description": "台灣新興寵物品牌，提供主食凍乾與天然肉乾，並結合情緒舒緩配方，重視身心健康。"
+  },
+  {
+    "id": 30,
+    "filename": "souffle-dog_logo.jpg",
+    "path": "assets/images/brand_logo/souffle-dog_logo.jpg",
+    "brand_ch": "舒芙狗",
+    "brand_en": "Soufflé Dog",
+    "alt": "舒芙狗 Soufflé Dog 軟式健康零食 Logo",
+    "description": "專為愛犬設計的軟式健康零食與羊奶棒棒糖，口感柔軟，適合幼犬與高齡犬食用。"
+  },
+  {
+    "id": 31,
+    "filename": "sharinger_logo.jpg",
+    "path": "assets/images/brand_logo/sharinger_logo.jpg",
+    "brand_ch": "薛丁格",
+    "brand_en": "Sharinger",
+    "alt": "薛丁格 Sharinger 專業益生菌貓砂 Logo",
+    "description": "專業益生菌貓砂品牌，雖然以貓砂聞名，但其除臭與凝結技術在寵物用品界極具口碑。"
   }
 ]
