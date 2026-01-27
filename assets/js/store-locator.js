@@ -321,8 +321,14 @@
         list.addEventListener('touchmove', updateBodyScrollLock, { passive: true });
       }
 
-      panel.classList.add('is-collapsed');
-      panel.style.setProperty('--panel-height', `${minHeight}px`);
+      // 只有在行動版時才預設收合
+      if (window.innerWidth < 1024) {
+        panel.classList.add('is-collapsed');
+        panel.style.setProperty('--panel-height', `${minHeight}px`);
+      } else {
+        panel.classList.remove('is-collapsed');
+        panel.style.setProperty('--panel-height', 'auto');
+      }
     }
 
     if (toggleButtonPC && window.innerWidth >= 1024) {

@@ -545,25 +545,47 @@
   border-top-right-radius: 20px;
 }
 
-.store-panel.is-collapsed .store-panel-header,
-.store-panel.is-collapsed .store-panel-list {
-  display: none !important;
+/* 手機版：面板內容切換 */
+@media (max-width: 1023px) {
+  .store-panel.is-collapsed .store-panel-header,
+  .store-panel.is-collapsed .store-panel-list {
+    display: none !important;
+  }
+
+  .store-panel.is-collapsed .store-panel-preview {
+    display: block !important;
+  }
+
+  .store-panel.is-expanded .store-panel-preview {
+    display: none !important;
+  }
+
+  .store-panel.is-expanded .store-panel-header {
+    display: flex !important;
+  }
+
+  .store-panel.is-expanded .store-panel-list {
+    display: block !important;
+  }
 }
 
-.store-panel.is-collapsed .store-panel-preview {
-  display: block !important;
-}
+/* PC版：確保內容始終顯示，除非是 PC 特有的縮減狀態 */
+@media (min-width: 1024px) {
+  .store-panel .store-panel-header,
+  .store-panel .store-panel-list {
+    display: flex !important;
+  }
+  
+  .store-panel .store-panel-list {
+    display: block !important;
+  }
 
-.store-panel.is-expanded .store-panel-preview {
-  display: none !important;
-}
-
-.store-panel.is-expanded .store-panel-header {
-  display: flex !important;
-}
-
-.store-panel.is-expanded .store-panel-list {
-  display: block !important;
+  .store-panel.is-collapsed-pc .store-filter-tags,
+  .store-panel.is-collapsed-pc .store-panel-list,
+  .store-panel.is-collapsed-pc .store-panel-preview,
+  .store-panel.is-collapsed-pc .store-panel-title {
+    display: none !important;
+  }
 }
 
 /* 確保把手始終在最上方且可點擊 */
