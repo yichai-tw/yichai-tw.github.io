@@ -129,19 +129,16 @@
     <!-- 門市定位容器 -->
     <section class="store-locator-container">
       <div class="store-content-layout">
-        <!-- 左側：清單與資訊 -->
+        <!-- 左側：篩選與清單 -->
         <div class="store-side-panel">
-          <!-- 1. 簡潔店名清單 (快速切換) -->
-          <div class="store-nav-chips" id="store-nav-chips">
-            <!-- 由 JS 注入店名按鈕 -->
+          <!-- 篩選列 -->
+          <div class="store-filter-bar" id="store-filter-bar">
+            <!-- 由 JS 注入篩選按鈕 -->
           </div>
 
-          <!-- 2. 詳細店家資訊 (互動容器) -->
-          <div class="store-detail-section">
-            <div class="store-detail-card" id="store-detail-card">
-              <!-- 由 JS 注入選中店家的詳細資訊 -->
-              <div class="store-list-loading"><i class="fas fa-spinner fa-spin"></i> 載入中...</div>
-            </div>
+          <!-- 門市卡片清單 -->
+          <div class="store-list-container" id="store-list-container">
+            <div class="store-list-loading"><i class="fas fa-spinner fa-spin"></i> 載入中...</div>
           </div>
         </div>
 
