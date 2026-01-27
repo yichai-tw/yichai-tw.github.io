@@ -173,10 +173,11 @@
         aspect-ratio: 1 / 1;
         padding: 15px;
       }
-      .brand-logo-container {
+      .brand-logo-container, .brand-logo-placeholder {
         width: 100px !important;
         height: 100px !important;
         margin-bottom: 12px !important;
+        border-radius: 1rem !important;
       }
       .brand-name { font-size: 1.1rem !important; }
       .brand-description { display: none !important; } /* 手機版完全隱藏簡介 */
@@ -220,11 +221,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      border-radius: 1.2rem; /* 增加圖片容器的圓角 */
+      overflow: hidden;      /* 確保圖片不超出圓角 */
+      background: #fff;      /* 增加背景色防止透明圖出錯 */
     }
     .brand-logo-container img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
+      border-radius: 1.2rem; /* 同步圖片本身的圓角 */
     }
     .brand-name {
       font-size: 1.1rem;
@@ -236,13 +241,13 @@
     /* 首字縮寫佔位圖 */
     .brand-logo-placeholder {
       display: none;
-      width: 80px;
-      height: 80px;
+      width: 110px; /* 統一大小與圖片一致 */
+      height: 110px;
       background: linear-gradient(135deg, #DF7621, #E88A3F);
       color: white;
-      font-size: 2.2rem;
+      font-size: 2.8rem; /* 字體稍微放大 */
       font-weight: 900;
-      border-radius: 1.2rem;
+      border-radius: 1.2rem; /* 統一圓角弧度 */
       align-items: center;
       justify-content: center;
       margin-bottom: 15px;
