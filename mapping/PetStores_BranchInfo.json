@@ -1,100 +1,104 @@
 {
+  "metadata": {
+    "title": "宜加寵物生活館分店資訊",
+    "description": "包含各分店的地址、聯絡方式及GPS座標資訊",
+    "version": "1.0",
+    "created_date": "2025-09-25 14:56:53",
+    "total_stores": 16
+  },
+  "store_index": {
+    "中正": {
+      "index": 0,
+      "city": "新北市",
+      "district": "新莊區"
+    },
+    "中華": {
+      "index": 1,
+      "city": "新北市",
+      "district": "新莊區"
+    },
+    "龍安": {
+      "index": 2,
+      "city": "新北市",
+      "district": "新莊區"
+    },
+    "淡水": {
+      "index": 3,
+      "city": "新北市",
+      "district": "淡水區"
+    },
+    "五股": {
+      "index": 4,
+      "city": "新北市",
+      "district": "五股區"
+    },
+    "泰山": {
+      "index": 5,
+      "city": "新北市",
+      "district": "泰山區"
+    },
+    "內湖": {
+      "index": 6,
+      "city": "台北市",
+      "district": "內湖區"
+    },
+    "九芎": {
+      "index": 7,
+      "city": "新北市",
+      "district": "蘆洲區"
+    },
+    "長榮": {
+      "index": 8,
+      "city": "新北市",
+      "district": "蘆洲區"
+    },
+    "新和": {
+      "index": 9,
+      "city": "新北市",
+      "district": "新莊區"
+    },
+    "康寧": {
+      "index": 10,
+      "city": "新北市",
+      "district": "汐止區"
+    },
+    "仁愛": {
+      "index": 11,
+      "city": "新北市",
+      "district": "三重區"
+    },
+    "明志": {
+      "index": 12,
+      "city": "新北市",
+      "district": "泰山區"
+    },
+    "中港": {
+      "index": 13,
+      "city": "新北市",
+      "district": "新莊區"
+    },
+    "成泰": {
+      "index": 14,
+      "city": "新北市",
+      "district": "五股區"
+    },
+    "北大": {
+      "index": 15,
+      "city": "新北市",
+      "district": "三峽區"
+    }
+  },
   "stores": [
-    {
-      "store_name": "內湖",
-      "location": {
-        "city": {
-          "chinese": "台北市"
-        },
-        "district": {
-          "chinese": "內湖區"
-        },
-        "address": "金龍路17號",
-        "full_address": "台北市內湖區金龍路17號",
-        "coordinates": {
-          "latitude": 25.08460893161349,
-          "longitude": 121.59463993217013
-        }
-      },
-      "contact": {
-        "supplies_phone": "02-2796-1100"
-      },
-      "business_hours": {
-        "monday": "12:00-22:00",
-        "tuesday": "12:00-22:00",
-        "wednesday": "12:00-22:00",
-        "thursday": "12:00-22:00",
-        "friday": "12:00-22:00",
-        "saturday": "11:30-22:30",
-        "sunday": "11:30-22:30"
-      }
-    },
-    {
-      "store_name": "新和",
-      "location": {
-        "city": {
-          "chinese": "新北市"
-        },
-        "district": {
-          "chinese": "新莊區"
-        },
-        "address": "中和街28號",
-        "full_address": "新北市新莊區中和街28號",
-        "coordinates": {
-          "latitude": 25.04377345957,
-          "longitude": 121.44825366083482
-        }
-      },
-      "contact": {
-        "supplies_phone": "02-2997-2211"
-      },
-      "business_hours": {
-        "monday": "11:00-22:00",
-        "tuesday": "11:00-22:00",
-        "wednesday": "11:00-22:00",
-        "thursday": "11:00-22:00",
-        "friday": "11:00-22:00",
-        "saturday": "11:00-22:00",
-        "sunday": "11:00-22:00"
-      }
-    },
-    {
-      "store_name": "中華",
-      "location": {
-        "city": {
-          "chinese": "新北市"
-        },
-        "district": {
-          "chinese": "新莊區"
-        },
-        "address": "中華路二段22-1號",
-        "full_address": "新北市新莊區中華路二段22-1號",
-        "coordinates": {
-          "latitude": 25.0448444216677,
-          "longitude": 121.453486519488
-        }
-      },
-      "contact": {
-        "supplies_phone": "02-8993-6000"
-      },
-      "business_hours": {
-        "monday": "10:30-22:30",
-        "tuesday": "10:30-22:30",
-        "wednesday": "10:30-22:30",
-        "thursday": "10:30-22:30",
-        "friday": "10:30-22:30",
-        "saturday": "10:30-22:30",
-        "sunday": "10:30-22:30"
-      }
-    },
     {
       "store_name": "中正",
       "location": {
         "city": {
-          "chinese": "新北市"
+          "chinese": "新北市",
+          "english": "New Taipei City"
         },
         "district": {
-          "chinese": "新莊區"
+          "chinese": "新莊區",
+          "english": "Xinzhuang District"
         },
         "address": "中正路380號",
         "full_address": "新北市新莊區中正路380號",
@@ -104,7 +108,8 @@
         }
       },
       "contact": {
-        "supplies_phone": "02-8991-7700"
+        "supplies_phone": "(02)8991-7700",
+        "grooming_phone": ""
       },
       "business_hours": {
         "monday": "OFF",
@@ -117,13 +122,47 @@
       }
     },
     {
+      "store_name": "中華",
+      "location": {
+        "city": {
+          "chinese": "新北市",
+          "english": "New Taipei City"
+        },
+        "district": {
+          "chinese": "新莊區",
+          "english": "Xinzhuang District"
+        },
+        "address": "中華路二段22-1號",
+        "full_address": "新北市新莊區中華路二段22-1號",
+        "coordinates": {
+          "latitude": 25.0448444216677,
+          "longitude": 121.453486519488
+        }
+      },
+      "contact": {
+        "supplies_phone": "(02)8993-6000",
+        "grooming_phone": "(02)8993-7000"
+      },
+      "business_hours": {
+        "monday": "10:30-22:30",
+        "tuesday": "10:30-22:30",
+        "wednesday": "10:30-22:30",
+        "thursday": "10:30-22:30",
+        "friday": "10:30-22:30",
+        "saturday": "10:30-22:30",
+        "sunday": "10:30-22:30"
+      }
+    },
+    {
       "store_name": "龍安",
       "location": {
         "city": {
-          "chinese": "新北市"
+          "chinese": "新北市",
+          "english": "New Taipei City"
         },
         "district": {
-          "chinese": "新莊區"
+          "chinese": "新莊區",
+          "english": "Xinzhuang District"
         },
         "address": "龍安路306號",
         "full_address": "新北市新莊區龍安路306號",
@@ -133,213 +172,8 @@
         }
       },
       "contact": {
-        "supplies_phone": "02-2202-5000"
-      },
-      "business_hours": {
-        "monday": "11:00-22:00",
-        "tuesday": "11:00-22:00",
-        "wednesday": "11:00-22:00",
-        "thursday": "11:00-22:00",
-        "friday": "11:00-22:00",
-        "saturday": "11:00-22:00",
-        "sunday": "11:00-22:00"
-      }
-    },
-    {
-      "store_name": "中港",
-      "location": {
-        "city": {
-          "chinese": "新北市"
-        },
-        "district": {
-          "chinese": "新莊區"
-        },
-        "address": "中港路430號",
-        "full_address": "新北市新莊區中港路430號",
-        "coordinates": {
-          "latitude": 25.050784883087186,
-          "longitude": 121.45204051941089
-        }
-      },
-      "contact": {
-        "supplies_phone": "02-2990-1715"
-      },
-      "business_hours": {
-        "monday": "11:00-22:00",
-        "tuesday": "11:00-22:00",
-        "wednesday": "11:00-22:00",
-        "thursday": "11:00-22:00",
-        "friday": "11:00-22:00",
-        "saturday": "11:00-22:00",
-        "sunday": "11:00-22:00"
-      }
-    },
-    {
-      "store_name": "仁愛",
-      "location": {
-        "city": {
-          "chinese": "新北市"
-        },
-        "district": {
-          "chinese": "三重區"
-        },
-        "address": "仁愛街508號",
-        "full_address": "新北市三重區仁愛街508號",
-        "coordinates": {
-          "latitude": 25.082103788280826,
-          "longitude": 121.4878785876342
-        }
-      },
-      "contact": {
-        "supplies_phone": "02-2983-2929"
-      },
-      "business_hours": {
-        "monday": "11:00-22:00",
-        "tuesday": "11:00-22:00",
-        "wednesday": "11:00-22:00",
-        "thursday": "11:00-22:00",
-        "friday": "11:00-22:00",
-        "saturday": "11:00-22:00",
-        "sunday": "11:00-22:00"
-      }
-    },
-    {
-      "store_name": "九芎",
-      "location": {
-        "city": {
-          "chinese": "新北市"
-        },
-        "district": {
-          "chinese": "蘆洲區"
-        },
-        "address": "九芎街90巷11-1號",
-        "full_address": "新北市蘆洲區九芎街90巷11-1號",
-        "coordinates": {
-          "latitude": 25.080976586918503,
-          "longitude": 121.46489604170408
-        }
-      },
-      "contact": {
-        "supplies_phone": "02-8285-7111"
-      },
-      "business_hours": {
-        "monday": "11:00-22:00",
-        "tuesday": "11:00-22:00",
-        "wednesday": "11:00-22:00",
-        "thursday": "11:00-22:00",
-        "friday": "11:00-22:00",
-        "saturday": "11:00-22:00",
-        "sunday": "11:00-22:00"
-      }
-    },
-    {
-      "store_name": "長榮",
-      "location": {
-        "city": {
-          "chinese": "新北市"
-        },
-        "district": {
-          "chinese": "蘆洲區"
-        },
-        "address": "長榮路786、788號",
-        "full_address": "新北市蘆洲區長榮路786、788號",
-        "coordinates": {
-          "latitude": 25.09277205476275,
-          "longitude": 121.46108365542734
-        }
-      },
-      "contact": {
-        "supplies_phone": "02-2282-0066"
-      },
-      "business_hours": {
-        "monday": "11:00-22:00",
-        "tuesday": "11:00-22:00",
-        "wednesday": "11:00-22:00",
-        "thursday": "11:00-22:00",
-        "friday": "11:00-22:00",
-        "saturday": "11:00-22:00",
-        "sunday": "11:00-22:00"
-      }
-    },
-    {
-      "store_name": "五股",
-      "location": {
-        "city": {
-          "chinese": "新北市"
-        },
-        "district": {
-          "chinese": "五股區"
-        },
-        "address": "成泰路一段138號",
-        "full_address": "新北市五股區成泰路一段138號",
-        "coordinates": {
-          "latitude": 25.0758952725763,
-          "longitude": 121.435053940776
-        }
-      },
-      "contact": {
-        "supplies_phone": "02-2295-2000"
-      },
-      "business_hours": {
-        "monday": "11:00-22:00",
-        "tuesday": "11:00-22:00",
-        "wednesday": "11:00-22:00",
-        "thursday": "11:00-22:00",
-        "friday": "11:00-22:00",
-        "saturday": "11:00-22:00",
-        "sunday": "11:00-22:00"
-      }
-    },
-    {
-      "store_name": "成泰",
-      "location": {
-        "city": {
-          "chinese": "新北市"
-        },
-        "district": {
-          "chinese": "五股區"
-        },
-        "address": "成泰路3段518號",
-        "full_address": "新北市五股區成泰路3段518號",
-        "coordinates": {
-          "latitude": 25.10246021872565,
-          "longitude": 121.45233081543373
-        }
-      },
-      "contact": {
-        "supplies_phone": "02-2908-0960"
-      },
-      "business_hours": {
-        "monday": "11:00-22:00",
-        "tuesday": "11:00-22:00",
-        "wednesday": "11:00-22:00",
-        "thursday": "11:00-22:00",
-        "friday": "11:00-22:00",
-        "saturday": "11:00-22:00",
-        "sunday": "11:00-22:00"
-      },
-      "services": {
-        "grooming": false
-      }
-    },
-    {
-      "store_name": "康寧",
-      "location": {
-        "city": {
-          "chinese": "新北市"
-        },
-        "district": {
-          "chinese": "汐止區"
-        },
-        "address": "康寧街378號",
-        "full_address": "新北市汐止區康寧街378號",
-        "coordinates": {
-          "latitude": 25.06766847256219,
-          "longitude": 121.62908637907044
-        }
-      },
-      "contact": {
-        "supplies_phone": "02-2693-5678"
+        "supplies_phone": "(02)2202-5000",
+        "grooming_phone": ""
       },
       "business_hours": {
         "monday": "11:00-22:00",
@@ -355,10 +189,12 @@
       "store_name": "淡水",
       "location": {
         "city": {
-          "chinese": "新北市"
+          "chinese": "新北市",
+          "english": "New Taipei City"
         },
         "district": {
-          "chinese": "淡水區"
+          "chinese": "淡水區",
+          "english": "Tamsui District"
         },
         "address": "中山路170號",
         "full_address": "新北市淡水區中山路170號",
@@ -368,26 +204,47 @@
         }
       },
       "contact": {
-        "supplies_phone": "02-2626-9555"
+        "supplies_phone": "(02)2626-9555",
+        "grooming_phone": ""
+      }
+    },
+    {
+      "store_name": "五股",
+      "location": {
+        "city": {
+          "chinese": "新北市",
+          "english": "New Taipei City"
+        },
+        "district": {
+          "chinese": "五股區",
+          "english": "Wugu District"
+        },
+        "address": "成泰路一段138號",
+        "full_address": "新北市五股區成泰路一段138號",
+        "coordinates": {
+          "latitude": 25.0758952725763,
+          "longitude": 121.435053940776
+        }
       },
-      "business_hours": {
-        "monday": "11:00-22:00",
-        "tuesday": "11:00-22:00",
-        "wednesday": "11:00-22:00",
-        "thursday": "11:00-22:00",
-        "friday": "11:00-22:00",
-        "saturday": "11:00-22:00",
-        "sunday": "11:00-22:00"
+      "contact": {
+        "supplies_phone": "(02)2295-2000",
+        "grooming_phone": ""
+      },
+      "secondary_company": {
+        "name": "怡嘉寵物生活館五股",
+        "tax_id": "93072582"
       }
     },
     {
       "store_name": "泰山",
       "location": {
         "city": {
-          "chinese": "新北市"
+          "chinese": "新北市",
+          "english": "New Taipei City"
         },
         "district": {
-          "chinese": "泰山區"
+          "chinese": "泰山區",
+          "english": "Taishan District"
         },
         "address": "明志路二段152號",
         "full_address": "新北市泰山區明志路二段152號",
@@ -397,7 +254,8 @@
         }
       },
       "contact": {
-        "supplies_phone": "02-2900-0650"
+        "supplies_phone": "(02)2900-0650",
+        "grooming_phone": ""
       },
       "business_hours": {
         "monday": "11:00-22:00",
@@ -410,13 +268,179 @@
       }
     },
     {
+      "store_name": "內湖",
+      "location": {
+        "city": {
+          "chinese": "台北市",
+          "english": "Taipei City"
+        },
+        "district": {
+          "chinese": "內湖區",
+          "english": "Neihu District"
+        },
+        "address": "金龍路17號",
+        "full_address": "台北市內湖區金龍路17號",
+        "coordinates": {
+          "latitude": 25.08460893161349,
+          "longitude": 121.59463993217013
+        }
+      },
+      "contact": {
+        "supplies_phone": "(02)2796-1100",
+        "grooming_phone": ""
+      },
+      "business_hours": {
+        "monday": "12:00-22:00",
+        "tuesday": "12:00-22:00",
+        "wednesday": "12:00-22:00",
+        "thursday": "12:00-22:00",
+        "friday": "12:00-22:00",
+        "saturday": "11:30-22:30",
+        "sunday": "11:30-22:30"
+      }
+    },
+    {
+      "store_name": "九芎",
+      "location": {
+        "city": {
+          "chinese": "新北市",
+          "english": "New Taipei City"
+        },
+        "district": {
+          "chinese": "蘆洲區",
+          "english": "Luzhou District"
+        },
+        "address": "九芎街90巷11-1號",
+        "full_address": "新北市蘆洲區九芎街90巷11-1號",
+        "coordinates": {
+          "latitude": 25.080976586918503,
+          "longitude": 121.46489604170408
+        }
+      },
+      "contact": {
+        "supplies_phone": "(02)8285-7111",
+        "grooming_phone": ""
+      }
+    },
+    {
+      "store_name": "長榮",
+      "location": {
+        "city": {
+          "chinese": "新北市",
+          "english": "New Taipei City"
+        },
+        "district": {
+          "chinese": "蘆洲區",
+          "english": "Luzhou District"
+        },
+        "address": "長榮路786、788號",
+        "full_address": "新北市蘆洲區長榮路786、788號",
+        "coordinates": {
+          "latitude": 25.09277205476275,
+          "longitude": 121.46108365542734
+        }
+      },
+      "contact": {
+        "supplies_phone": "(02)2282-0066",
+        "grooming_phone": ""
+      }
+    },
+    {
+      "store_name": "新和",
+      "location": {
+        "city": {
+          "chinese": "新北市",
+          "english": "New Taipei City"
+        },
+        "district": {
+          "chinese": "新莊區",
+          "english": "Xinzhuang District"
+        },
+        "address": "中和街28號",
+        "full_address": "新北市新莊區中和街28號",
+        "coordinates": {
+          "latitude": 25.04377345957,
+          "longitude": 121.44825366083482
+        }
+      },
+      "contact": {
+        "supplies_phone": "(02)2997-2211",
+        "grooming_phone": ""
+      },
+      "business_hours": {
+        "monday": "11:00-22:00",
+        "tuesday": "11:00-22:00",
+        "wednesday": "11:00-22:00",
+        "thursday": "11:00-22:00",
+        "friday": "11:00-22:00",
+        "saturday": "11:00-22:00",
+        "sunday": "11:00-22:00"
+      },
+      "secondary_company": {
+        "name": "怡加寵物生活館新和店",
+        "tax_id": "93072680"
+      }
+    },
+    {
+      "store_name": "康寧",
+      "location": {
+        "city": {
+          "chinese": "新北市",
+          "english": "New Taipei City"
+        },
+        "district": {
+          "chinese": "汐止區",
+          "english": "Xizhi District"
+        },
+        "address": "康寧街378號",
+        "full_address": "新北市汐止區康寧街378號",
+        "coordinates": {
+          "latitude": 25.06766847256219,
+          "longitude": 121.62908637907044
+        }
+      },
+      "contact": {
+        "supplies_phone": "(02)2693-5678",
+        "grooming_phone": ""
+      }
+    },
+    {
+      "store_name": "仁愛",
+      "location": {
+        "city": {
+          "chinese": "新北市",
+          "english": "New Taipei City"
+        },
+        "district": {
+          "chinese": "三重區",
+          "english": "Sanchong District"
+        },
+        "address": "仁愛街508號",
+        "full_address": "新北市三重區仁愛街508號",
+        "coordinates": {
+          "latitude": 25.082103788280826,
+          "longitude": 121.4878785876342
+        }
+      },
+      "contact": {
+        "supplies_phone": "(02)2983-2929",
+        "grooming_phone": ""
+      },
+      "secondary_company": {
+        "name": "儀加寵物生活館仁愛店",
+        "tax_id": "92629540"
+      }
+    },
+    {
       "store_name": "明志",
       "location": {
         "city": {
-          "chinese": "新北市"
+          "chinese": "新北市",
+          "english": "New Taipei City"
         },
         "district": {
-          "chinese": "泰山區"
+          "chinese": "泰山區",
+          "english": "Taishan District"
         },
         "address": "明志路一段409號",
         "full_address": "新北市泰山區明志路一段409號",
@@ -426,7 +450,8 @@
         }
       },
       "contact": {
-        "supplies_phone": "02-2983-0518"
+        "supplies_phone": "(02)2983-0518",
+        "grooming_phone": ""
       },
       "business_hours": {
         "monday": "12:00-22:00",
@@ -439,23 +464,26 @@
       }
     },
     {
-      "store_name": "北大",
+      "store_name": "中港",
       "location": {
         "city": {
-          "chinese": "新北市"
+          "chinese": "新北市",
+          "english": "New Taipei City"
         },
         "district": {
-          "chinese": "三峽區"
+          "chinese": "新莊區",
+          "english": "Xinzhuang District"
         },
-        "address": "三樹路202-1號",
-        "full_address": "新北市三峽區三樹路202-1號",
+        "address": "中港路430號",
+        "full_address": "新北市新莊區中港路430號",
         "coordinates": {
-          "latitude": 24.94189437221343,
-          "longitude": 121.3792083511288
+          "latitude": 25.050784883087186,
+          "longitude": 121.45204051941089
         }
       },
       "contact": {
-        "supplies_phone": "02-8672-5898"
+        "supplies_phone": "(02)2990-1715",
+        "grooming_phone": ""
       },
       "business_hours": {
         "monday": "11:00-22:00",
@@ -465,6 +493,61 @@
         "friday": "11:00-22:00",
         "saturday": "11:00-22:00",
         "sunday": "11:00-22:00"
+      }
+    },
+    {
+      "store_name": "成泰",
+      "location": {
+        "city": {
+          "chinese": "新北市",
+          "english": "New Taipei City"
+        },
+        "district": {
+          "chinese": "五股區",
+          "english": "Wugu District"
+        },
+        "address": "成泰路3段518號",
+        "full_address": "新北市五股區成泰路3段518號",
+        "coordinates": {
+          "latitude": 25.10246021872565,
+          "longitude": 121.45233081543373
+        }
+      },
+      "contact": {
+        "supplies_phone": "(02)2908-0960",
+        "grooming_phone": ""
+      },
+      "business_hours": {
+        "monday": "11:00-22:00",
+        "tuesday": "11:00-22:00",
+        "wednesday": "11:00-22:00",
+        "thursday": "11:00-22:00",
+        "friday": "11:00-22:00",
+        "saturday": "11:00-22:00",
+        "sunday": "11:00-22:00"
+      }
+    },
+    {
+      "store_name": "北大",
+      "location": {
+        "city": {
+          "chinese": "新北市",
+          "english": "New Taipei City"
+        },
+        "district": {
+          "chinese": "三峽區",
+          "english": "Sanxia District"
+        },
+        "address": "三樹路202-1號",
+        "full_address": "新北市三峽區三樹路202-1號",
+        "coordinates": {
+          "latitude": 24.94189437221343,
+          "longitude": 121.3792083511288
+        }
+      },
+      "contact": {
+        "supplies_phone": "(02)8672-5898",
+        "grooming_phone": ""
       }
     }
   ]
