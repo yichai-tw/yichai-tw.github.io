@@ -275,16 +275,22 @@
       
       function updateBodyScrollLock() {
         if (!list || window.innerWidth >= 1024) return;
+        
         const scrollTop = list.scrollTop;
         const scrollHeight = list.scrollHeight;
         const clientHeight = list.clientHeight;
+        
+        // 判斷是否在最頂部 (容錯 2px)
+        const isAtTop = scrollTop <= 2;
+        // 判斷是否滑到最底部 (容錯 5px)
         const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
 
         if (panel.classList.contains('is-expanded')) {
-          if (isAtBottom) {
-            document.body.style.overflow = '';
+          // 只有在「既不在頂部」也「不在底部」的清單中間時，才鎖定背景
+          if (isAtTop || isAtBottom) {
+            document.body.style.overflow = ''; // 觸及邊界，釋放背景滑動
           } else {
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // 在清單內容中，鎖定背景
           }
         } else {
           document.body.style.overflow = '';
