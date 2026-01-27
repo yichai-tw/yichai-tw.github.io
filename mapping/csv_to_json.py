@@ -73,7 +73,8 @@ def csv_to_json(csv_file_path, json_file_path):
                     "saturday": row['Saturday'] or "",
                     "sunday": row['Sunday'] or ""
                 },
-                "google_business_url": row.get('google_business_url', '')
+                "google_business_url": row.get('google_business_url', ''),
+                "google_business_short_url": row.get('google_business_short_url', '')
             }
             
             # 如果有舊版的次要公司資訊欄位（若 CSV 中還有保留的話）

@@ -3,7 +3,7 @@
     "title": "宜加寵物生活館分店資訊",
     "description": "包含各分店的地址、聯絡方式及GPS座標資訊",
     "version": "1.1",
-    "created_date": "2026-01-27 11:17:25",
+    "created_date": "2026-01-27 12:38:29",
     "total_stores": 16
   },
   "store_index": {
@@ -123,7 +123,8 @@
         "saturday": "11:30-22:30",
         "sunday": "11:30-22:30"
       },
-      "google_business_url": "https://maps.app.goo.gl/Wz83LaBQR6NbokpD9"
+      "google_business_url": "https://www.google.com/maps/place/%E5%AE%9C%E5%8A%A0%E5%AF%B5%E7%89%A9%E7%94%9F%E6%B4%BB%E9%A4%A8_%E5%85%A7%E6%B9%96%E5%BA%97/@25.0846883,121.5921283,17z/data=!3m2!4b1!5s0x3442aced65b0e45b:0x73477ead5e2a35db!4m6!3m5!1s0x3442aced65738857:0x4a90e5c0bb942035!8m2!3d25.0846835!4d121.5947032!16s%2Fg%2F12cnxq_83?coh=277535&entry=tts&g_ep=EgoyMDI2MDEyMS4wIPu8ASoKLDEwMDc5MjA3M0gBUAM%3D&skid=6ad15ee7-bcd8-4aaa-8a3d-a4bc27421ffd",
+      "google_business_short_url": "https://reurl.cc/laKQzv"
     },
     {
       "store_name": "中正",
@@ -159,7 +160,8 @@
         "saturday": "11:00-22:00",
         "sunday": "11:00-22:00"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "中華",
@@ -195,7 +197,8 @@
         "saturday": "10:30-22:30",
         "sunday": "10:30-22:30"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "龍安",
@@ -231,7 +234,8 @@
         "saturday": "11:00-22:00",
         "sunday": "11:00-22:00"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "淡水",
@@ -267,7 +271,8 @@
         "saturday": "11:30-22:30",
         "sunday": "11:30-22:30"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "五股",
@@ -303,7 +308,8 @@
         "saturday": "11:00-22:00",
         "sunday": "11:00-22:00"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "泰山",
@@ -339,7 +345,8 @@
         "saturday": "11:00-22:00",
         "sunday": "11:00-22:00"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "九芎",
@@ -372,10 +379,11 @@
         "wednesday": "12:00-22:00",
         "thursday": "12:00-22:00",
         "friday": "12:00-22:00",
-        "saturday": "11:30-2230",
+        "saturday": "11:30-22:30",
         "sunday": "11:30-22:30"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "長榮",
@@ -411,7 +419,8 @@
         "saturday": "11:00-23:00",
         "sunday": "11:00-23:00"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "新和",
@@ -447,7 +456,8 @@
         "saturday": "11:00-22:00",
         "sunday": "11:00-22:00"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "康寧",
@@ -483,7 +493,8 @@
         "saturday": "11:00-22:00",
         "sunday": "11:00-22:00"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "仁愛",
@@ -519,7 +530,8 @@
         "saturday": "10:00-23:00",
         "sunday": "10:00-23:00"
       },
-      "google_business_url": "https://maps.app.goo.gl/HNUtRvhouNVqPLH3A"
+      "google_business_url": "https://www.google.com/maps/place/%E5%AE%9C%E5%8A%A0%E5%AF%B5%E7%89%A9%E7%94%9F%E6%B4%BB%E9%A4%A8_%E4%BB%81%E6%84%9B%E5%BA%97/@25.0820972,121.4878774,17z/data=!3m1!4b1!4m6!3m5!1s0x3442a8d42fb85f4f:0xfcc161b5793d079b!8m2!3d25.0820972!4d121.4878774!16s%2Fg%2F11bxg2thh6?coh=277535&entry=tts&g_ep=EgoyMDI2MDEyMS4wIPu8ASoKLDEwMDc5MjA3M0gBUAM%3D&skid=e8abba27-f58f-4f21-a60b-0505015fd4dd",
+      "google_business_short_url": "https://reurl.cc/jmKW92"
     },
     {
       "store_name": "明志",
@@ -555,7 +567,8 @@
         "saturday": "11:00-22:00",
         "sunday": "11:00-22:00"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "中港",
@@ -591,7 +604,8 @@
         "saturday": "11:00-22:00",
         "sunday": "11:00-22:00"
       },
-      "google_business_url": "https://maps.app.goo.gl/PaK1ET3A6DTHPZZ2A"
+      "google_business_url": "https://www.google.com/maps/place/%E5%AE%9C%E5%8A%A0%E5%AF%B5%E7%89%A9%E7%94%9F%E6%B4%BB%E9%A4%A8_%E4%B8%AD%E6%B8%AF%E5%BA%97/@25.0507961,121.4495328,17z/data=!3m1!4b1!4m6!3m5!1s0x3442a9205f8b797d:0xc4c55c7a7b3545a2!8m2!3d25.0507913!4d121.4521077!16s%2Fg%2F11sqq76z0c?coh=277535&entry=tts&g_ep=EgoyMDI2MDEyMS4wIPu8ASoKLDEwMDc5MjA3M0gBUAM%3D&skid=b30e5e55-d8e5-4645-8c35-5aa2e0c7836e",
+      "google_business_short_url": "https://reurl.cc/XaKGAM"
     },
     {
       "store_name": "成泰",
@@ -627,7 +641,8 @@
         "saturday": "11:00-22:00",
         "sunday": "11:00-22:00"
       },
-      "google_business_url": ""
+      "google_business_url": "",
+      "google_business_short_url": ""
     },
     {
       "store_name": "北大",
@@ -655,15 +670,16 @@
         "grooming": false
       },
       "business_hours": {
-        "monday": "",
-        "tuesday": "",
-        "wednesday": "",
-        "thursday": "",
-        "friday": "",
-        "saturday": "",
-        "sunday": ""
+        "monday": "OFF",
+        "tuesday": "12:00-22:00",
+        "wednesday": "12:00-22:00",
+        "thursday": "12:00-22:00",
+        "friday": "12:00-22:00",
+        "saturday": "11:00-22:00",
+        "sunday": "11:00-22:00"
       },
-      "google_business_url": ""
+      "google_business_url": "https://www.google.com/maps/place/%E5%AE%9C%E5%8A%A0%E5%AF%B5%E7%89%A9%E7%94%9F%E6%B4%BB%E9%A4%A8-%E5%8C%97%E5%A4%A7%E5%BA%97/@24.941891,121.3767361,17z/data=!3m1!4b1!4m6!3m5!1s0x34681b2d1230b8c3:0x8d2f04b83160be8e!8m2!3d24.941891!4d121.379311!16s%2Fg%2F11vqnns5cm?coh=277535&entry=tts&g_ep=EgoyMDI2MDEyMS4wIPu8ASoKLDEwMDc5MjA3M0gBUAM%3D&skid=e9e8ee17-43dc-461c-ae88-7a095cb35a2a",
+      "google_business_short_url": "https://reurl.cc/GG2jn3"
     }
   ]
 }

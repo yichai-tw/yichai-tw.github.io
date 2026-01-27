@@ -108,6 +108,7 @@
       // 讀取新欄位
       const hasGrooming = store.services?.grooming === true;
       const googleBusinessUrl = store.google_business_url || '';
+      const googleBusinessShortUrl = store.google_business_short_url || '';
 
       const status = getStatus(hours, now);
       const isOpen = status && (status.className === 'status-open' || status.className === 'status-closing');
@@ -126,8 +127,9 @@
         hours,
         hasGrooming,
         googleBusinessUrl,
+        googleBusinessShortUrl,
         isOpen,
-        mapUrl: googleBusinessUrl || (fullAddress
+        mapUrl: googleBusinessShortUrl || googleBusinessUrl || (fullAddress
           ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`
           : `https://www.google.com/maps?q=${lat},${lng}`),
         mapEmbedUrl: (lat && lng)
