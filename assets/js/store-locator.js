@@ -288,13 +288,17 @@
       // 顯示所有門市（或前 16 間）作為小卡片展示數量
       const showStores = sortedStores.slice(1); 
       otherContainer.innerHTML = `
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-10">
-          ${showStores.map(store => `
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all hover:-translate-y-1 hover:border-[#DF7621] text-center group">
-              <h4 class="font-bold text-base text-gray-800 group-hover:text-[#DF7621] transition-colors">${store.name}</h4>
-              <p class="text-gray-500 text-[10px] mt-1 truncate">${store.city}</p>
-            </div>
-          `).join('')}
+        <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4 mt-10">
+          ${showStores.map(store => {
+            // 縮短名稱以適應小卡片：移除「宜加寵物生活館」字樣，只保留分店名
+            const shortName = store.name.replace('宜加寵物', '').replace('生活館', '').replace('店', '');
+            return `
+              <div class="bg-white p-2 md:p-4 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all hover:-translate-y-1 hover:border-[#DF7621] text-center group">
+                <h4 class="font-bold text-[13px] md:text-base text-gray-800 group-hover:text-[#DF7621] transition-colors line-clamp-1">${shortName}</h4>
+                <p class="text-gray-500 text-[9px] md:text-[10px] mt-0.5 md:mt-1 truncate">${store.city}</p>
+              </div>
+            `;
+          }).join('')}
         </div>
       `;
     }

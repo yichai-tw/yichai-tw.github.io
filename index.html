@@ -160,6 +160,34 @@
       position: relative;
       overflow: hidden;
       cursor: pointer;
+      flex-shrink: 0; /* 防止在部分瀏覽器中縮小至 0 */
+    }
+    
+    /* 手機版調整品牌卡片大小 */
+    @media (max-width: 768px) {
+      .brand-card {
+        min-width: 140px;
+        width: 140px;
+        height: 140px;
+        padding: 10px;
+        aspect-ratio: auto;
+      }
+      .brand-logo-container {
+        width: 60px !important;
+        height: 60px !important;
+        margin-bottom: 8px !important;
+      }
+      .brand-name {
+        font-size: 0.8rem !important;
+      }
+      .desc-title {
+        font-size: 0.85rem !important;
+        margin-bottom: 5px !important;
+      }
+      .desc-content {
+        font-size: 0.7rem !important;
+        line-height: 1.4 !important;
+      }
     }
     /* 當沒有 logo 時的特殊樣式 */
     .brand-card.no-logo .brand-name {
@@ -174,6 +202,9 @@
       width: 100%;
       height: 100%;
       transition: all 0.5s ease;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
     }
     .brand-logo-container {
       width: 110px;
