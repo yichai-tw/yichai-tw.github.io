@@ -506,11 +506,23 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 12px 20px 20px;
+  padding: 12px 20px 40px; /* 增加底部 padding，確保最後一張卡片好滑 */
   -webkit-overflow-scrolling: touch;
   display: block;
   width: 100%;
-  overscroll-behavior-y: auto; /* 允許在觸底後連動背景，但需配合 JS 鎖定 */
+  height: 100%;
+  overscroll-behavior-y: contain; /* 改為 contain，更嚴格地控制滑動鏈接 */
+}
+
+/* 確保面板內部的佈局緊湊，無多餘間隙 */
+.store-panel-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 .store-panel.is-collapsed .store-panel-header,

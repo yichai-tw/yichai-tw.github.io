@@ -264,6 +264,27 @@
       const minHeight = 160;
       const expandedHeight = Math.round(window.innerHeight * 0.75); // 同步改為 75vh
       
+      function updateBodyScrollLock() {
+        if (!list || window.innerWidth >= 1024) return;
+        
+        const scrollTop = list.scrollTop;
+        const scrollHeight = list.scrollHeight;
+        const clientHeight = list.clientHeight;
+        
+        // 判斷是否滑到最底部 (容錯 5px)
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
+
+        if (panel.classList.contains('is-expanded')) {
+          if (isAtBottom) {
+            document.body.style.overflow = ''; // 到達底部，釋放鎖定
+          } else {
+            document.body.style.overflow = 'hidden'; // 未到步，鎖定背景
+          }
+        } else {
+          document.body.style.overflow = '';
+        }
+      }
+
       function togglePanel(e) {
         if (e) {
           e.preventDefault();
@@ -288,14 +309,13 @@
       handle.addEventListener('click', togglePanel);
       // 額外綁定觸控事件以確保反應靈敏
       handle.addEventListener('touchend', (e) => {
-        if (!panel.classList.contains('is-dragging')) {
-          togglePanel(e);
-        }
+        togglePanel(e);
       }, { passive: false });
       
       // 監聽清單滑動，動態決定是否釋放背景滑動
       if (list) {
         list.addEventListener('scroll', updateBodyScrollLock, { passive: true });
+        list.addEventListener('touchmove', updateBodyScrollLock, { passive: true });
       }
 
       panel.classList.add('is-collapsed');
