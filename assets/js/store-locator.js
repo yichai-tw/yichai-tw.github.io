@@ -259,8 +259,8 @@
     if (nearestContainer) {
       const nearest = sortedStores[0];
       nearestContainer.innerHTML = `
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
-          <div class="p-8 md:p-10 flex flex-col justify-center">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+          <div class="p-8 md:p-10 flex flex-col justify-center border-t-4 border-[#DF7621] lg:border-t-0 lg:border-l-4 lg:border-l-[#DF7621]">
             <div class="inline-block bg-[#DF7621] text-white px-4 py-1 rounded-full text-sm font-bold mb-4 w-fit">離您最近的門市</div>
             <h3 class="text-3xl font-bold mb-4 text-gray-800">${nearest.name}</h3>
             <div class="space-y-3 text-gray-600">
@@ -290,7 +290,7 @@
       otherContainer.innerHTML = `
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-10">
           ${showStores.map(store => `
-            <div class="bg-gray-50 p-4 rounded-xl hover:shadow-md transition-all border-b-2 border-transparent hover:border-[#DF7621] text-center group">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all hover:-translate-y-1 hover:border-[#DF7621] text-center group">
               <h4 class="font-bold text-base text-gray-800 group-hover:text-[#DF7621] transition-colors">${store.name}</h4>
               <p class="text-gray-500 text-[10px] mt-1 truncate">${store.city}</p>
             </div>

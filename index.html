@@ -145,7 +145,7 @@
       background: #ffffff;
       border: 1px solid #f0f0f0;
       padding: 20px;
-      border-radius: 24px;
+      border-radius: 1rem; /* 16px, consistent with rounded-2xl */
       font-weight: 500;
       color: #666;
       box-shadow: 0 4px 20px rgba(0,0,0,0.03);
@@ -200,9 +200,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: #ffffff;
       padding: 25px 20px;
       display: flex;
       flex-direction: column;
@@ -214,13 +212,13 @@
       z-index: 20;
       box-sizing: border-box;
       white-space: normal;
+      border-top: 4px solid #DF7621; /* 統一使用頂部橘線 */
     }
     .desc-title {
       font-size: 1.1rem;
       font-weight: bold;
       color: #DF7621;
       margin-bottom: 12px;
-      border-bottom: 2px solid #DF7621;
       padding-bottom: 5px;
       width: 100%;
       flex-shrink: 0;
@@ -255,8 +253,7 @@
       visibility: visible;
     }
     .brand-card:hover .brand-content-wrapper {
-      filter: blur(2px);
-      opacity: 0.3;
+      opacity: 0;
     }
     @keyframes scroll {
       from { transform: translateX(0); }
@@ -318,22 +315,22 @@
     <h2 class="text-center text-4xl text-gray-800 mb-4">為什麼選擇宜加</h2>
     <p class="text-center text-gray-600 text-xl mb-12">專業、便利、貼心，是我們對您的承諾</p>
     <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mt-10">
-      <div class="bg-white p-4 md:p-10 rounded-2xl shadow-md text-center transition-all hover:-translate-y-1 hover:shadow-lg border-t-4 border-[#DF7621]">
+      <div class="bg-white p-4 md:p-10 rounded-2xl shadow-sm border border-gray-100 text-center transition-all hover:-translate-y-1 hover:shadow-md hover:border-[#DF7621] border-t-4 border-t-[#DF7621]">
         <div class="text-3xl md:text-5xl mb-2 md:mb-5">🏪</div>
         <h3 class="text-gray-800 mb-2 md:mb-4 text-base md:text-2xl">多間門市</h3>
         <p class="text-gray-600 text-xs md:text-base leading-relaxed hidden md:block">遍布新北市、台北市，方便您就近選購，提供最便利的服務</p>
       </div>
-      <div class="bg-white p-4 md:p-10 rounded-2xl shadow-md text-center transition-all hover:-translate-y-1 hover:shadow-lg border-t-4 border-[#DF7621]">
+      <div class="bg-white p-4 md:p-10 rounded-2xl shadow-sm border border-gray-100 text-center transition-all hover:-translate-y-1 hover:shadow-md hover:border-[#DF7621] border-t-4 border-t-[#DF7621]">
         <div class="text-3xl md:text-5xl mb-2 md:mb-5">🛒</div>
         <h3 class="text-gray-800 mb-2 md:mb-4 text-base md:text-2xl">優質商品</h3>
         <p class="text-gray-600 text-xs md:text-base leading-relaxed hidden md:block">嚴選各類寵物用品，從食品、玩具到生活用品，應有盡有</p>
       </div>
-      <div class="bg-white p-4 md:p-10 rounded-2xl shadow-md text-center transition-all hover:-translate-y-1 hover:shadow-lg border-t-4 border-[#DF7621]">
+      <div class="bg-white p-4 md:p-10 rounded-2xl shadow-sm border border-gray-100 text-center transition-all hover:-translate-y-1 hover:shadow-md hover:border-[#DF7621] border-t-4 border-t-[#DF7621]">
         <div class="text-3xl md:text-5xl mb-2 md:mb-5">💝</div>
         <h3 class="text-gray-800 mb-2 md:mb-4 text-base md:text-2xl">專業服務</h3>
         <p class="text-gray-600 text-xs md:text-base leading-relaxed hidden md:block">專業團隊提供貼心諮詢，讓您的毛孩獲得最好的照顧</p>
       </div>
-      <div class="bg-white p-4 md:p-10 rounded-2xl shadow-md text-center transition-all hover:-translate-y-1 hover:shadow-lg border-t-4 border-[#DF7621]">
+      <div class="bg-white p-4 md:p-10 rounded-2xl shadow-sm border border-gray-100 text-center transition-all hover:-translate-y-1 hover:shadow-md hover:border-[#DF7621] border-t-4 border-t-[#DF7621]">
         <div class="text-3xl md:text-5xl mb-2 md:mb-5">📞</div>
         <h3 class="text-gray-800 mb-2 md:mb-4 text-base md:text-2xl">即時服務</h3>
         <p class="text-gray-600 text-xs md:text-base leading-relaxed hidden md:block">各門市提供專線服務，隨時為您解答疑問與提供協助</p>
@@ -346,28 +343,28 @@
     <div class="max-w-7xl mx-auto">
       <h2 class="text-center text-4xl text-gray-800 mb-4">服務項目</h2>
       <p class="text-center text-gray-600 text-xl mb-12">全方位滿足您與毛孩的需求</p>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mt-10">
-        <div class="bg-white p-4 md:p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-10">
+        <div class="bg-white p-4 md:p-8 rounded-2xl text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm border border-gray-100 hover:border-[#DF7621]">
           <div class="text-3xl md:text-4xl mb-2 md:mb-4">🍖</div>
           <h4 class="text-gray-800 text-sm md:text-lg mb-2">寵物食品</h4>
         </div>
-        <div class="bg-white p-4 md:p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+        <div class="bg-white p-4 md:p-8 rounded-2xl text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm border border-gray-100 hover:border-[#DF7621]">
           <div class="text-3xl md:text-4xl mb-2 md:mb-4">🎾</div>
           <h4 class="text-gray-800 text-sm md:text-lg mb-2">玩具用品</h4>
         </div>
-        <div class="bg-white p-4 md:p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+        <div class="bg-white p-4 md:p-8 rounded-2xl text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm border border-gray-100 hover:border-[#DF7621]">
           <div class="text-3xl md:text-4xl mb-2 md:mb-4">🛏️</div>
           <h4 class="text-gray-800 text-sm md:text-lg mb-2">生活用品</h4>
         </div>
-        <div class="bg-white p-4 md:p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+        <div class="bg-white p-4 md:p-8 rounded-2xl text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm border border-gray-100 hover:border-[#DF7621]">
           <div class="text-3xl md:text-4xl mb-2 md:mb-4">💊</div>
           <h4 class="text-gray-800 text-sm md:text-lg mb-2">保健用品</h4>
         </div>
-        <div class="bg-white p-4 md:p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+        <div class="bg-white p-4 md:p-8 rounded-2xl text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm border border-gray-100 hover:border-[#DF7621]">
           <div class="text-3xl md:text-4xl mb-2 md:mb-4">🦴</div>
           <h4 class="text-gray-800 text-sm md:text-lg mb-2">零食點心</h4>
         </div>
-        <div class="bg-white p-4 md:p-8 rounded-lg text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm">
+        <div class="bg-white p-4 md:p-8 rounded-2xl text-center transition-all hover:-translate-y-1 hover:shadow-md shadow-sm border border-gray-100 hover:border-[#DF7621]">
           <div class="text-3xl md:text-4xl mb-2 md:mb-4">💬</div>
           <h4 class="text-gray-800 text-sm md:text-lg mb-2">專業諮詢</h4>
         </div>
