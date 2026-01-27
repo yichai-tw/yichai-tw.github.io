@@ -1,5 +1,8 @@
 // 門市定位與清單系統
 (function() {
+  // 瀏覽器偵測：判斷是否為 LINE 內建瀏覽器或其他不支援 iframe 地圖的環境
+  const isLineBrowser = /Line/i.test(navigator.userAgent);
+
   function normalizeStoreName(name) {
     return (name || '').replace(/店$/, '').trim();
   }
@@ -97,7 +100,6 @@
   function renderStoresPage(allStores, userLat, userLng) {
     const filterBar = document.getElementById('store-filter-bar');
     const listContainer = document.getElementById('store-list-container');
-    const mapFrame = document.getElementById('store-map-frame');
     if (!filterBar || !listContainer) return;
 
     let activeFilters = { cities: [], openOnly: false, groomingOnly: false };
@@ -164,7 +166,8 @@
 
       if (filtered.length === 0) {
         listContainer.innerHTML = '<div class="store-list-empty">找不到符合條件的門市</div>';
-        if (mapFrame) mapFrame.src = '';
+        const frame = document.getElementById('store-map-frame');
+        if (frame) frame.src = '';
         return;
       }
 
@@ -172,7 +175,31 @@
         selectedStoreId = filtered[0].id;
       }
       const activeStore = filtered.find(s => s.id === selectedStoreId) || filtered[0];
-      if (mapFrame) mapFrame.src = activeStore.mapEmbedUrl;
+      
+      const frame = document.getElementById('store-map-frame');
+      if (frame) {
+        if (isLineBrowser) {
+          // LINE 瀏覽器處理：顯示警告與替代按鈕，不使用 iframe
+          const mapWrapper = frame.parentElement;
+          if (mapWrapper) {
+            mapWrapper.innerHTML = `
+              <div class="store-map-error-placeholder">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>LINE 瀏覽器不支援直接顯示地圖<br>請點擊下方按鈕進行導覽</p>
+                <a href="${activeStore.mapUrl}" target="_blank" class="map-error-btn">
+                  <i class="fas fa-directions"></i> 開啟 Google 地圖
+                </a>
+              </div>
+            `;
+          }
+        } else {
+          frame.src = activeStore.mapEmbedUrl;
+        }
+      } else if (isLineBrowser) {
+        // 如果 iframe 已經被取代為佔位符，則更新按鈕連結
+        const placeholderBtn = document.querySelector('.map-error-btn');
+        if (placeholderBtn) placeholderBtn.href = activeStore.mapUrl;
+      }
 
       if (isMobile) {
         // 檢查是否需要重新渲染 Chips
@@ -278,7 +305,17 @@
             </div>
           </div>
           <div class="h-[300px] lg:h-auto min-h-[350px] relative">
-            <iframe width="100%" height="100%" frameborder="0" style="border:0" src="${nearest.mapEmbedUrl}" allowfullscreen></iframe>
+            ${isLineBrowser ? `
+              <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-50 p-6 text-center">
+                <i class="fas fa-map-marked-alt text-4xl text-gray-300 mb-4"></i>
+                <p class="text-gray-500 mb-4 text-sm">LINE 瀏覽器不支援顯示嵌入地圖<br>請點擊下方按鈕進行導航</p>
+                <a href="${nearest.mapUrl}" target="_blank" class="bg-[#DF7621] text-white px-6 py-2 rounded-full font-bold text-sm shadow-lg">
+                  查看完整地圖
+                </a>
+              </div>
+            ` : `
+              <iframe width="100%" height="100%" frameborder="0" style="border:0" src="${nearest.mapEmbedUrl}" allowfullscreen></iframe>
+            `}
           </div>
         </div>
       `;

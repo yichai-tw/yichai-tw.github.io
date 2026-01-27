@@ -103,3 +103,51 @@ h2 {
     margin: 0 auto;
   }
 }
+
+/* 地圖不支援佔位符 (針對 LINE 瀏覽器優化) */
+.store-map-error-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background: #F8FAFC;
+  padding: 30px;
+  text-align: center;
+  color: #64748B;
+  border-radius: var(--radius-xl);
+}
+
+.store-map-error-placeholder i {
+  font-size: 3rem;
+  color: #CBD5E1;
+  margin-bottom: 20px;
+}
+
+.store-map-error-placeholder p {
+  font-size: 1rem;
+  margin-bottom: 25px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.map-error-btn {
+  background: var(--primary-color);
+  color: white !important;
+  padding: 10px 24px;
+  border-radius: 99px;
+  font-weight: 700;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(223, 118, 33, 0.2);
+}
+
+.map-error-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(223, 118, 33, 0.3);
+}

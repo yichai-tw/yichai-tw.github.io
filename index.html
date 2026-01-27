@@ -145,12 +145,11 @@
       background: #ffffff;
       border: 1px solid #f0f0f0;
       padding: 20px;
-      border-radius: 1rem; /* 16px, consistent with rounded-2xl */
+      border-radius: 1rem;
       font-weight: 500;
       color: #666;
       box-shadow: 0 4px 20px rgba(0,0,0,0.03);
       white-space: nowrap;
-      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -159,16 +158,18 @@
       aspect-ratio: 1 / 1;
       position: relative;
       overflow: hidden;
-      cursor: pointer;
-      flex-shrink: 0; /* 防止在部分瀏覽器中縮小至 0 */
+      flex-shrink: 0;
+      transition: all 0.4s ease;
     }
     
-    /* 手機版調整品牌卡片大小 */
+    /* 手機版：移除互動，維持大小 */
     @media (max-width: 768px) {
+      .brand-marquee {
+        pointer-events: none; /* 手機版完全穿透，不干擾滾動 */
+      }
       .brand-card {
-        min-width: 65vw; /* 讓寬度大約佔據 1.5 個卡片 */
-        width: 65vw;
-        height: auto;
+        min-width: 55vw;
+        width: 55vw;
         aspect-ratio: 1 / 1;
         padding: 15px;
       }
@@ -177,31 +178,30 @@
         height: 100px !important;
         margin-bottom: 12px !important;
       }
-      .brand-name {
-        font-size: 1.1rem !important;
+      .brand-name { font-size: 1.1rem !important; }
+      .brand-description { display: none !important; } /* 手機版完全隱藏簡介 */
+    }
+
+    /* 電腦版：恢復互動效果 */
+    @media (hover: hover) {
+      .brand-card { cursor: pointer; }
+      .brand-card:hover {
+        transform: translateY(-5px);
+        border-color: #DF7621;
+        box-shadow: 0 15px 40px rgba(223, 118, 33, 0.15);
       }
-      .brand-description {
-        padding: 20px !important;
-        display: block !important; /* 讓內容自然流動 */
-        overflow-y: auto !important; /* 整個區塊一起捲動 */
+      .brand-card:hover .brand-description {
+        opacity: 1;
+        visibility: visible;
       }
-      .desc-title {
-        font-size: 1.1rem !important;
-        margin-bottom: 10px !important;
-        border-bottom: 2px solid #DF7621;
-        padding-bottom: 5px !important;
+      .brand-card:hover .brand-content-wrapper {
+        opacity: 0;
       }
-      .desc-content {
-        font-size: 0.9rem !important;
-        line-height: 1.7 !important;
-        overflow-y: visible !important; /* 取消子元素的捲動 */
+      .brand-marquee:hover .brand-marquee-content {
+        animation-play-state: paused;
       }
     }
-    /* 當沒有 logo 時的特殊樣式 */
-    .brand-card.no-logo .brand-name {
-      font-size: 1.4rem;
-      font-weight: bold;
-    }
+
     .brand-content-wrapper {
       display: flex;
       flex-direction: column;
@@ -209,10 +209,9 @@
       justify-content: center;
       width: 100%;
       height: 100%;
-      transition: all 0.5s ease;
-      flex-shrink: 0;
       position: relative;
       z-index: 1;
+      transition: opacity 0.4s ease;
     }
     .brand-logo-container {
       width: 110px;
@@ -233,6 +232,8 @@
       line-height: 1.3;
       color: #333;
     }
+
+    /* 簡介面板 (僅電腦版顯示) */
     .brand-description {
       position: absolute;
       top: 0;
@@ -251,72 +252,26 @@
       z-index: 20;
       box-sizing: border-box;
       white-space: normal;
-      border-top: 4px solid #DF7621; /* 統一使用頂部橘線 */
+      border-top: 4px solid #DF7621;
     }
     .desc-title {
       font-size: 1.1rem;
       font-weight: bold;
       color: #DF7621;
-      margin-bottom: 12px;
-      padding-bottom: 5px;
+      margin-bottom: 10px;
       width: 100%;
-      flex-shrink: 0;
     }
     .desc-content {
       font-size: 0.85rem;
-      line-height: 1.7;
+      line-height: 1.6;
       color: #444;
       overflow-y: auto;
       flex-grow: 1;
       width: 100%;
-      padding-right: 5px;
     }
     /* 自定義捲動條 */
-    .desc-content::-webkit-scrollbar {
-      width: 3px;
-    }
-    .desc-content::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-    .desc-content::-webkit-scrollbar-thumb {
-      background: #DF7621;
-      border-radius: 10px;
-    }
-    /* 品牌卡片互動效果 */
-    @media (hover: hover) {
-      .brand-card:hover {
-        transform: translateY(-5px) scale(1.02);
-        border-color: #DF7621;
-        box-shadow: 0 15px 40px rgba(223, 118, 33, 0.15);
-      }
-      .brand-card:hover .brand-description {
-        opacity: 1;
-        visibility: visible;
-      }
-      .brand-card:hover .brand-content-wrapper {
-        opacity: 0;
-      }
-      .brand-marquee:hover .brand-marquee-content {
-        animation-play-state: paused;
-      }
-    }
-
-    /* 支援觸控與 JavaScript 控制的狀態 */
-    .brand-card.is-active {
-      transform: translateY(-5px) scale(1.02);
-      border-color: #DF7621;
-      box-shadow: 0 15px 40px rgba(223, 118, 33, 0.15);
-    }
-    .brand-card.is-active .brand-description {
-      opacity: 1;
-      visibility: visible;
-    }
-    .brand-card.is-active .brand-content-wrapper {
-      opacity: 0;
-    }
-    .brand-marquee.is-paused .brand-marquee-content {
-      animation-play-state: paused;
-    }
+    .desc-content::-webkit-scrollbar { width: 3px; }
+    .desc-content::-webkit-scrollbar-thumb { background: #DF7621; border-radius: 10px; }
 
     @keyframes scroll {
       from { transform: translateX(0); }
@@ -494,40 +449,24 @@
 
         // 產生卡片 HTML 的函數
         const createCardHTML = (brand) => {
-          // 判斷是否有圖片路徑
-          const hasLogo = brand.path && 
-                          brand.path.trim() !== '' && 
-                          brand.path !== '🏪' && 
-                          !brand.path.includes('placeholder');
+          const hasLogo = brand.path && brand.path.trim() !== '' && brand.path !== '🏪';
           
-          let logoSection = '';
-          if (hasLogo) {
-            logoSection = `
-              <div class="brand-logo-container">
-                <img src="${brand.path}" alt="${brand.alt || brand.brand_ch}" onerror="this.closest('.brand-card').classList.add('no-logo'); this.closest('.brand-logo-container').style.display='none';">
-              </div>
-            `;
-          }
-
-          const nameSection = `
-            <div class="brand-name">${brand.brand_ch}${brand.brand_en ? '<br>' + brand.brand_en : ''}</div>
-          `;
-
-          const descSection = brand.description ? `
-            <div class="brand-description">
-              <div class="desc-title">${brand.brand_ch}</div>
-              <div class="desc-content">${brand.description}</div>
-            </div>
-          ` : '';
-
-          // 如果沒有 logo，加入 'no-logo' class
           return `
             <div class="brand-card ${!hasLogo ? 'no-logo' : ''}">
               <div class="brand-content-wrapper">
-                ${logoSection}
-                ${nameSection}
+                ${hasLogo ? `
+                  <div class="brand-logo-container">
+                    <img src="${brand.path}" alt="${brand.alt || brand.brand_ch}" onerror="this.closest('.brand-card').classList.add('no-logo'); this.style.display='none';">
+                  </div>
+                ` : ''}
+                <div class="brand-name">${brand.brand_ch}${brand.brand_en ? '<br>' + brand.brand_en : ''}</div>
               </div>
-              ${descSection}
+              ${brand.description ? `
+                <div class="brand-description">
+                  <div class="desc-title">${brand.brand_ch}</div>
+                  <div class="desc-content">${brand.description}</div>
+                </div>
+              ` : ''}
             </div>
           `;
         };
@@ -535,37 +474,6 @@
         // 插入兩組卡片以實現無縫捲動
         const allCardsHTML = validBrands.map(createCardHTML).join('');
         container.innerHTML = allCardsHTML + allCardsHTML;
-
-        // 加入觸控事件處理手機版「黏性 Hover」問題
-        const marquee = container.closest('.brand-marquee');
-        const cards = container.querySelectorAll('.brand-card');
-        
-        const resetAllCards = () => {
-          cards.forEach(c => c.classList.remove('is-active'));
-          if (marquee) marquee.classList.remove('is-paused');
-        };
-
-        cards.forEach(card => {
-          // 使用 pointerdown 代替 touchstart 以獲得更好的相容性
-          card.addEventListener('pointerdown', function(e) {
-            // 防止事件冒泡觸發其他的 reset
-            e.stopPropagation();
-            
-            // 先清除所有狀態
-            cards.forEach(c => c.classList.remove('is-active'));
-            
-            // 啟動當前卡片
-            card.classList.add('is-active');
-            if (marquee) marquee.classList.add('is-paused');
-          });
-        });
-
-        // 當手指在任何地方放開（包括卡片外）都恢復捲動
-        window.addEventListener('pointerup', resetAllCards);
-        window.addEventListener('pointercancel', resetAllCards);
-        
-        // 額外處理手機滑動頁面時的情況
-        window.addEventListener('scroll', resetAllCards, { passive: true });
 
       } catch (error) {
         console.error('載入品牌跑馬燈失敗:', error);
