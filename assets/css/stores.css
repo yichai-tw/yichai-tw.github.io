@@ -123,6 +123,31 @@
   margin-top: 5px;
 }
 
+/* 地址超連結樣式 */
+.address-link {
+  color: #374151;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.address-link:hover {
+  color: #DF7621;
+}
+
+.icon-inline {
+  font-size: 0.9em;
+  color: #DF7621;
+  opacity: 0.8;
+}
+
+.address-link:hover .icon-inline {
+  opacity: 1;
+}
+
 /* 3. 地圖容器 */
 .store-map-section {
   width: 100%;
@@ -165,37 +190,6 @@
   align-items: center;
   gap: 4px;
   font-weight: 600;
-}
-
-/* 操作按鈕 */
-.store-list-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.store-list-actions a {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px;
-  border-radius: 10px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-
-.btn-phone {
-  background: #DF7621;
-  color: #fff;
-}
-
-.btn-map {
-  background: #fff;
-  color: #DF7621;
-  border: 1.5px solid #DF7621;
 }
 
 /* 營業時間樣式 */

@@ -241,14 +241,14 @@
           <div class="detail-main-info">
             <div class="info-item">
               <i class="fas fa-map-marker-alt"></i>
-              <div>${currentStore.address}</div>
+              <a href="${currentStore.mapUrl}" target="_blank" class="address-link">
+                ${currentStore.address}
+                <i class="fas fa-location-arrow icon-inline"></i>
+              </a>
             </div>
             <div class="info-item">
               <i class="fas fa-phone-alt"></i>
               <a href="${phoneLink}" class="text-[#DF7621] font-bold">${currentStore.phone}</a>
-            </div>
-            <div class="store-list-actions">
-              <a href="${currentStore.mapUrl}" target="_blank" class="btn-phone"><i class="fas fa-location-arrow"></i> 開始導航</a>
             </div>
           </div>
           <div class="detail-hours-info">
