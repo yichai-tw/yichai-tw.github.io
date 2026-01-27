@@ -64,8 +64,15 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 
+  .store-map-section,
   .store-map-wrapper {
+    height: 100% !important;
+  }
+
+  #store-map-frame {
     height: 100%;
+    width: 100%;
+    border: 0;
   }
 }
 
