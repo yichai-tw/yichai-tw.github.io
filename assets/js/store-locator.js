@@ -260,24 +260,24 @@
       const nearest = sortedStores[0];
       nearestContainer.innerHTML = `
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
-          <div class="p-8 md:p-12">
-            <div class="inline-block bg-[#DF7621] text-white px-4 py-1 rounded-full text-sm font-bold mb-4">離您最近的門市</div>
+          <div class="p-8 md:p-10 flex flex-col justify-center">
+            <div class="inline-block bg-[#DF7621] text-white px-4 py-1 rounded-full text-sm font-bold mb-4 w-fit">離您最近的門市</div>
             <h3 class="text-3xl font-bold mb-4 text-gray-800">${nearest.name}</h3>
-            <div class="space-y-4 text-gray-600">
-              <p class="flex items-start"><i class="fas fa-map-marker-alt mt-1.5 mr-3 text-[#DF7621]"></i> <span>${nearest.address}</span></p>
-              <p class="flex items-center"><i class="fas fa-phone-alt mr-3 text-[#DF7621]"></i> <a href="tel:${nearest.phoneDigits}" class="hover:text-[#DF7621] transition-colors">${nearest.phone}</a></p>
-              <p class="flex items-center"><i class="fas fa-clock mr-3 text-[#DF7621]"></i> <span>${nearest.status?.text || '載入中...'}</span></p>
+            <div class="space-y-3 text-gray-600">
+              <p class="flex items-start text-sm md:text-base"><i class="fas fa-map-marker-alt mt-1 mr-3 text-[#DF7621]"></i> <span>${nearest.address}</span></p>
+              <p class="flex items-center text-sm md:text-base"><i class="fas fa-phone-alt mr-3 text-[#DF7621]"></i> <a href="tel:${nearest.phoneDigits}" class="hover:text-[#DF7621] transition-colors">${nearest.phone}</a></p>
+              <p class="flex items-center text-sm md:text-base"><i class="fas fa-clock mr-3 text-[#DF7621]"></i> <span>${nearest.status?.text || '載入中...'}</span></p>
             </div>
-            <div class="mt-8 flex flex-wrap gap-4">
-              <a href="${nearest.mapUrl}" target="_blank" class="bg-gray-800 text-white px-6 py-2 rounded-lg font-bold hover:bg-black transition-all flex items-center">
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="${nearest.mapUrl}" target="_blank" class="bg-gray-800 text-white px-5 py-2 rounded-lg font-bold hover:bg-black transition-all flex items-center text-sm">
                 <i class="fas fa-directions mr-2"></i> 導航路線
               </a>
-              <a href="tel:${nearest.phoneDigits}" class="border-2 border-[#DF7621] text-[#DF7621] px-6 py-2 rounded-lg font-bold hover:bg-[#DF7621] hover:text-white transition-all flex items-center">
+              <a href="tel:${nearest.phoneDigits}" class="border-2 border-[#DF7621] text-[#DF7621] px-5 py-2 rounded-lg font-bold hover:bg-[#DF7621] hover:text-white transition-all flex items-center text-sm">
                 <i class="fas fa-phone-alt mr-2"></i> 撥打電話
               </a>
             </div>
           </div>
-          <div class="h-[300px] lg:h-auto min-h-[300px] relative">
+          <div class="h-[250px] lg:h-auto min-h-[250px] relative">
             <iframe width="100%" height="100%" frameborder="0" style="border:0" src="${nearest.mapEmbedUrl}" allowfullscreen></iframe>
           </div>
         </div>
@@ -285,17 +285,14 @@
     }
 
     if (otherContainer) {
-      const others = sortedStores.slice(1, 5); // 顯示接下來的 4 間
+      // 顯示所有門市（或前 16 間）作為小卡片展示數量
+      const showStores = sortedStores.slice(1); 
       otherContainer.innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-          ${others.map(store => `
-            <div class="bg-gray-50 p-6 rounded-xl hover:shadow-md transition-all border-l-4 border-gray-200 hover:border-[#DF7621]">
-              <h4 class="font-bold text-xl mb-3 text-gray-800">${store.name}</h4>
-              <p class="text-gray-600 text-sm mb-4 line-clamp-2 min-h-[40px]">${store.address}</p>
-              <div class="flex justify-between items-center">
-                <span class="text-xs ${store.status?.className || ''}">${store.status?.text.split(' · ')[0] || ''}</span>
-                <a href="tel:${store.phoneDigits}" class="text-[#DF7621] text-sm font-bold"><i class="fas fa-phone-alt mr-1"></i> ${store.phone}</a>
-              </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-10">
+          ${showStores.map(store => `
+            <div class="bg-gray-50 p-4 rounded-xl hover:shadow-md transition-all border-b-2 border-transparent hover:border-[#DF7621] text-center group">
+              <h4 class="font-bold text-base text-gray-800 group-hover:text-[#DF7621] transition-colors">${store.name}</h4>
+              <p class="text-gray-500 text-[10px] mt-1 truncate">${store.city}</p>
             </div>
           `).join('')}
         </div>
