@@ -15,10 +15,14 @@
     if (!container) return;
 
     try {
+      console.log('正在載入消息資料自:', NEWS_JSON_PATH);
       const response = await fetch(NEWS_JSON_PATH);
-      if (!response.ok) throw new Error('無法載入消息資料');
+      if (!response.ok) {
+        throw new Error(`HTTP 錯誤! 狀態碼: ${response.status}`);
+      }
       
       let newsItems = await response.json();
+      console.log('消息資料載入成功:', newsItems);
 
       // 排序規則：1. 置頂優先 2. 日期新到舊
       newsItems.sort((a, b) => {
