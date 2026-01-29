@@ -1,10 +1,9 @@
 /**
- * 最新消息載入與渲染系統
+ * 最新消息載入、渲染與篩選系統
  */
 (function() {
-  // 自動判斷基礎路徑，確保在 GitHub Pages 的各種 URL 格式下都能正確找到 news.json
+  // 自動判斷基礎路徑
   const getBasePath = () => {
-    // 改回簡潔的 news 路徑
     return 'news/news.json';
   };
 
@@ -16,42 +15,53 @@
     'general': '一般公告'
   };
 
-  async function loadNews() {
+  let allNewsItems = []; // 儲存所有的消息
+  let currentFilter = 'all'; // 當前的篩選分類
+
+  async function init() {
     const container = document.getElementById('news-list-container');
+    const filterBar = document.getElementById('filter-bar');
     if (!container) return;
 
     try {
-      // 加上時間戳記防止瀏覽器快取舊的 JSON 或是錯誤的 404 紀錄
+      // 載入資料
       const fetchUrl = `${NEWS_JSON_PATH}?v=${new Date().getTime()}`;
-      console.log('正在嘗試載入消息資料:', fetchUrl);
-      
       const response = await fetch(fetchUrl);
-      if (!response.ok) {
-        throw new Error(`HTTP 錯誤! 狀態碼: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP 錯誤! 狀態碼: ${response.status}`);
       
-      let newsItems = await response.json();
-      console.log('消息資料載入成功:', newsItems);
+      allNewsItems = await response.json();
 
-      // 排序規則：1. 置頂優先 2. 日期新到舊
-      newsItems.sort((a, b) => {
-        // 先比置頂狀態 (pinned: true 優先)
-        if (a.pinned !== b.pinned) {
-          return a.pinned ? -1 : 1;
-        }
-        // 同樣置頂或同樣不置頂，則比日期 (新 -> 舊)
-        return new Date(b.date) - new Date(a.date);
-      });
+      // 預設排序
+      sortNews(allNewsItems);
 
-      if (newsItems.length === 0) {
-        container.innerHTML = '<div class="text-center py-12 text-gray-500">目前尚無公告</div>';
-        return;
+      // 渲染初始畫面
+      renderNews(allNewsItems);
+
+      // 綁定篩選按鈕事件
+      if (filterBar) {
+        const filterBtns = filterBar.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            const type = this.dataset.type;
+            
+            // 更新按鈕樣式
+            filterBtns.forEach(b => {
+              b.classList.remove('bg-[#DF7621]', 'text-white', 'border-[#DF7621]');
+              b.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+            });
+            this.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+            this.classList.add('bg-[#DF7621]', 'text-white', 'border-[#DF7621]');
+
+            // 執行篩選
+            currentFilter = type;
+            const filteredItems = type === 'all' 
+              ? allNewsItems 
+              : allNewsItems.filter(item => item.type === type);
+            
+            renderNews(filteredItems);
+          });
+        });
       }
-
-      container.innerHTML = newsItems.map(item => createNewsCard(item)).join('');
-
-      // 綁定「顯示全部」按鈕事件
-      bindToggleEvents(newsItems);
 
       // 處理 URL Hash (自動展開)
       handleUrlHash();
@@ -62,13 +72,45 @@
     }
   }
 
+  function sortNews(items) {
+    items.sort((a, b) => {
+      // 1. 置頂優先
+      if (a.pinned !== b.pinned) {
+        return a.pinned ? -1 : 1;
+      }
+      // 2. 日期新到舊
+      return new Date(b.date) - new Date(a.date);
+    });
+  }
+
+  function renderNews(items) {
+    const container = document.getElementById('news-list-container');
+    if (!container) return;
+
+    if (items.length === 0) {
+      container.innerHTML = '<div class="text-center py-24 text-gray-500 bg-white rounded-xl shadow-sm border border-gray-100">目前此分類尚無公告</div>';
+      return;
+    }
+
+    container.innerHTML = items.map(item => createNewsCard(item)).join('');
+    bindToggleEvents();
+  }
+
   function handleUrlHash() {
     const hash = window.location.hash;
     if (hash && hash.startsWith('#news-')) {
       const id = hash.replace('#news-', '');
+      
+      // 如果有 Hash，我們需要確保該消息在目前的篩選分類中
+      // 或者乾脆切換回「全部」以確保能看到該消息
+      const item = allNewsItems.find(i => i.id === id);
+      if (item && currentFilter !== 'all' && item.type !== currentFilter) {
+        const allBtn = document.querySelector('.filter-btn[data-type="all"]');
+        if (allBtn) allBtn.click();
+      }
+
       const btn = document.querySelector(`.toggle-btn[data-id="${id}"]`);
       if (btn) {
-        // 延遲一點點確保渲染完成並觸發點擊
         setTimeout(() => {
           btn.click();
           const card = document.getElementById(`news-${id}`);
@@ -116,7 +158,7 @@
     `;
   }
 
-  function bindToggleEvents(newsItems) {
+  function bindToggleEvents() {
     const buttons = document.querySelectorAll('.toggle-btn');
     buttons.forEach(btn => {
       btn.addEventListener('click', async function() {
@@ -131,7 +173,7 @@
         const isExpanding = contentDiv.classList.contains('hidden');
 
         if (isExpanding) {
-          // --- 手風琴效果：先收合所有其他的展開項目 ---
+          // --- 手風琴效果 ---
           document.querySelectorAll('.full-content:not(.hidden)').forEach(otherDiv => {
             const otherId = otherDiv.id.replace('content-', '');
             const otherBtn = document.querySelector(`.toggle-btn[data-id="${otherId}"]`);
@@ -144,49 +186,37 @@
             }
           });
 
-          // 展開當前
           contentDiv.classList.remove('hidden');
           icon.classList.add('rotate-180');
           textSpan.textContent = '收合內容';
           excerptText.classList.add('opacity-50');
 
-          // 如果還沒載入過，就 fetch 內容
           if (!contentDiv.dataset.loaded) {
             try {
               const res = await fetch(`news/${contentPath}`);
               if (!res.ok) throw new Error('無法載入公告內容');
               const text = await res.text();
               
-              // 根據副檔名判斷是否需要 Markdown 解析
               if (contentPath.endsWith('.md')) {
-                // 使用 marked 解析 Markdown (確保 marked 已載入)
                 if (window.marked) {
                   contentDiv.innerHTML = `<div class="post-content markdown-body">${marked.parse(text)}</div>`;
                 } else {
-                  // 備案：如果解析器未載入，直接顯示文字（或報錯）
                   contentDiv.innerHTML = `<div class="post-content"><pre class="whitespace-pre-wrap">${text}</pre></div>`;
                 }
               } else {
-                // 原有的 HTML 直接插入
                 contentDiv.innerHTML = text;
               }
-              
               contentDiv.dataset.loaded = "true";
             } catch (error) {
               contentDiv.innerHTML = `<div class="text-red-500 py-4">內容載入失敗</div>`;
             }
           }
-          
-          // 捲動到卡片頂部
           card.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
-          // 收合
           contentDiv.classList.add('hidden');
           icon.classList.remove('rotate-180');
           textSpan.textContent = '展開閱讀全文';
           excerptText.classList.remove('opacity-50');
-          
-          // 捲動回卡片
           card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
       });
@@ -195,8 +225,8 @@
 
   // 初始化
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadNews);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    loadNews();
+    init();
   }
 })();
