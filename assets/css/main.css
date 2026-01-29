@@ -87,7 +87,7 @@ h2 {
 .footer-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
+  gap: 30px;
 }
 
 @media (min-width: 768px) {
