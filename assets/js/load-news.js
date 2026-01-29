@@ -35,7 +35,11 @@
 
       // 排序規則：1. 置頂優先 2. 日期新到舊
       newsItems.sort((a, b) => {
-        if (a.pinned !== b.pinned) return b.pinned ? -1 : 1;
+        // 先比置頂狀態 (pinned: true 優先)
+        if (a.pinned !== b.pinned) {
+          return a.pinned ? -1 : 1;
+        }
+        // 同樣置頂或同樣不置頂，則比日期 (新 -> 舊)
         return new Date(b.date) - new Date(a.date);
       });
 
@@ -127,11 +131,24 @@
         const isExpanding = contentDiv.classList.contains('hidden');
 
         if (isExpanding) {
-          // 展開
+          // --- 手風琴效果：先收合所有其他的展開項目 ---
+          document.querySelectorAll('.full-content:not(.hidden)').forEach(otherDiv => {
+            const otherId = otherDiv.id.replace('content-', '');
+            const otherBtn = document.querySelector(`.toggle-btn[data-id="${otherId}"]`);
+            const otherCard = document.getElementById(`news-${otherId}`);
+            if (otherBtn && otherCard) {
+              otherDiv.classList.add('hidden');
+              otherBtn.querySelector('i').classList.remove('rotate-180');
+              otherBtn.querySelector('span').textContent = '展開閱讀全文';
+              otherCard.querySelector('.excerpt-text').classList.remove('opacity-50');
+            }
+          });
+
+          // 展開當前
           contentDiv.classList.remove('hidden');
           icon.classList.add('rotate-180');
           textSpan.textContent = '收合內容';
-          excerptText.classList.add('opacity-50'); // 摘要變淡
+          excerptText.classList.add('opacity-50');
 
           // 如果還沒載入過，就 fetch 內容
           if (!contentDiv.dataset.loaded) {
