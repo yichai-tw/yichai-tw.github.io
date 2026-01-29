@@ -361,7 +361,11 @@
         if (news.length > 0) {
           // 找出置頂或最新的一則
           const latest = news.sort((a, b) => {
-            if (a.pinned !== b.pinned) return b.pinned ? -1 : 1;
+            // 先比置頂狀態 (pinned: true 優先)
+            if (a.pinned !== b.pinned) {
+              return a.pinned ? -1 : 1;
+            }
+            // 同樣置頂或同樣不置頂，則比日期 (新 -> 舊)
             return new Date(b.date) - new Date(a.date);
           })[0];
           
