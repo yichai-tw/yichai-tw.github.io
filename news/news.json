@@ -6,7 +6,8 @@
     "date": "2026-01-29",
     "pinned": true,
     "excerpt": "2026 春節期間各門市營業時間有所調整，除夕全門市營業至 18:00，初一至初四部分門市正常營業，請各位毛爸媽留意時間喔！",
-    "content": "posts/2026-01-29_2026-cny.md"
+    "content": "posts/2026-01-29_2026-cny.md",
+    "autoExpand": true
   },
   {
     "id": "website-update",
@@ -15,6 +16,7 @@
     "date": "2026-01-28",
     "pinned": false,
     "excerpt": "為了提供更好的服務，我們優化了最新消息的呈現方式，現在您可以更方便地瀏覽各項重要資訊。",
-    "content": "posts/2026-01-28_website-update.md"
+    "content": "posts/2026-01-28_website-update.md",
+    "autoExpand": false
   }
 ]

@@ -2,11 +2,7 @@
  * 最新消息載入、渲染與篩選系統
  */
 (function() {
-  // 自動判斷基礎路徑
-  const getBasePath = () => {
-    return 'news/news.json';
-  };
-
+  const getBasePath = () => 'news/news.json';
   const NEWS_JSON_PATH = getBasePath();
   const TYPE_LABELS = {
     'operation': '營運公告',
@@ -15,8 +11,8 @@
     'general': '一般公告'
   };
 
-  let allNewsItems = []; // 儲存所有的消息
-  let currentFilter = 'all'; // 當前的篩選分類
+  let allNewsItems = []; 
+  let currentFilter = 'all';
 
   async function init() {
     const container = document.getElementById('news-list-container');
@@ -24,27 +20,19 @@
     if (!container) return;
 
     try {
-      // 載入資料
       const fetchUrl = `${NEWS_JSON_PATH}?v=${new Date().getTime()}`;
       const response = await fetch(fetchUrl);
       if (!response.ok) throw new Error(`HTTP 錯誤! 狀態碼: ${response.status}`);
       
       allNewsItems = await response.json();
-
-      // 預設排序
       sortNews(allNewsItems);
-
-      // 渲染初始畫面
       renderNews(allNewsItems);
 
-      // 綁定篩選按鈕事件
       if (filterBar) {
         const filterBtns = filterBar.querySelectorAll('.filter-btn');
         filterBtns.forEach(btn => {
           btn.addEventListener('click', function() {
             const type = this.dataset.type;
-            
-            // 更新按鈕樣式
             filterBtns.forEach(b => {
               b.classList.remove('bg-[#DF7621]', 'text-white', 'border-[#DF7621]');
               b.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
@@ -52,22 +40,18 @@
             this.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
             this.classList.add('bg-[#DF7621]', 'text-white', 'border-[#DF7621]');
 
-            // 執行篩選
             currentFilter = type;
             const filteredItems = type === 'all' 
               ? allNewsItems 
-              : allNewsItems.filter(item => {
-                  const itemType = item.type || 'general';
-                  return itemType === type;
-                });
+              : allNewsItems.filter(item => (item.type || 'general') === type);
             
             renderNews(filteredItems);
           });
         });
       }
 
-      // 處理 URL Hash (自動展開)
-      handleUrlHash();
+      // 執行三種模式的展開邏輯
+      checkInitialExpansion();
 
     } catch (error) {
       console.error('載入最新消息失敗:', error);
@@ -75,13 +59,59 @@
     }
   }
 
+  /**
+   * 核心邏輯：處理三種展開模式
+   * 優先權：1. 超連結 Hash > 2. 預設第一則 > 3. JSON 參數
+   */
+  function checkInitialExpansion() {
+    if (allNewsItems.length === 0) return;
+
+    const hash = window.location.hash;
+    let targetId = null;
+
+    // 模式 2: 超連結優先 (Hash 存在且匹配某則消息)
+    if (hash && hash.startsWith('#news-')) {
+      const id = hash.replace('#news-', '');
+      if (allNewsItems.some(item => item.id === id)) {
+        targetId = id;
+      }
+    }
+
+    // 模式 1: 預設第一則 (若模式 2 未命中且列表不為空)
+    if (!targetId && allNewsItems.length > 0) {
+      targetId = allNewsItems[0].id;
+    }
+
+    // 模式 3: JSON 參數 (若以上皆未命中，則尋找 JSON 中 autoExpand: true 的項)
+    // 註：依目前邏輯模式 1 必會命中 targetId，此處為結構完整性保留
+    if (!targetId) {
+      const manualExpandItem = allNewsItems.find(item => item.autoExpand === true);
+      if (manualExpandItem) targetId = manualExpandItem.id;
+    }
+
+    if (targetId) {
+      // 確保目標消息在目前的篩選分類中（若不在則切換回全部）
+      const item = allNewsItems.find(i => i.id === targetId);
+      if (item && currentFilter !== 'all' && (item.type || 'general') !== currentFilter) {
+        const allBtn = document.querySelector('.filter-btn[data-type="all"]');
+        if (allBtn) allBtn.click();
+      }
+
+      // 執行展開
+      setTimeout(() => {
+        const btn = document.querySelector(`.toggle-btn[data-id="${targetId}"]`);
+        if (btn) {
+          btn.click();
+          const card = document.getElementById(`news-${targetId}`);
+          if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    }
+  }
+
   function sortNews(items) {
     items.sort((a, b) => {
-      // 1. 置頂優先
-      if (a.pinned !== b.pinned) {
-        return a.pinned ? -1 : 1;
-      }
-      // 2. 日期新到舊
+      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
       return new Date(b.date) - new Date(a.date);
     });
   }
@@ -89,41 +119,12 @@
   function renderNews(items) {
     const container = document.getElementById('news-list-container');
     if (!container) return;
-
     if (items.length === 0) {
       container.innerHTML = '<div class="text-center py-24 text-gray-500 bg-white rounded-xl shadow-sm border border-gray-100">目前此分類尚無公告</div>';
       return;
     }
-
     container.innerHTML = items.map(item => createNewsCard(item)).join('');
     bindToggleEvents();
-  }
-
-  function handleUrlHash() {
-    const hash = window.location.hash;
-    if (hash && hash.startsWith('#news-')) {
-      const id = hash.replace('#news-', '');
-      
-      // 如果有 Hash，我們需要確保該消息在目前的篩選分類中
-      // 或者乾脆切換回「全部」以確保能看到該消息
-      const item = allNewsItems.find(i => i.id === id);
-      if (item) {
-        const itemType = item.type || 'general';
-        if (currentFilter !== 'all' && itemType !== currentFilter) {
-          const allBtn = document.querySelector('.filter-btn[data-type="all"]');
-          if (allBtn) allBtn.click();
-        }
-      }
-
-      const btn = document.querySelector(`.toggle-btn[data-id="${id}"]`);
-      if (btn) {
-        setTimeout(() => {
-          btn.click();
-          const card = document.getElementById(`news-${id}`);
-          if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
-      }
-    }
   }
 
   function createNewsCard(item) {
@@ -139,21 +140,15 @@
             <span class="badge-${typeClass} px-2 py-0.5 rounded text-xs font-medium">${typeLabel}</span>
             <time class="text-gray-400 text-sm ml-auto">${item.date}</time>
           </div>
-          
           <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">${item.title}</h3>
-          
           <div class="excerpt-container">
-            <p class="text-gray-600 leading-relaxed excerpt-text">
-              ${item.excerpt}
-            </p>
+            <p class="text-gray-600 leading-relaxed excerpt-text">${item.excerpt}</p>
           </div>
-          
           <div class="full-content hidden mt-6 pt-6 border-t border-gray-100" id="content-${item.id}">
             <div class="flex justify-center py-8">
               <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#DF7621]"></div>
             </div>
           </div>
-          
           <div class="mt-6 flex justify-center">
             <button class="toggle-btn flex items-center gap-2 text-[#DF7621] font-bold hover:text-[#C65D1A] transition-colors" data-id="${item.id}" data-content="${item.content}">
               <span>展開閱讀全文</span>
@@ -180,7 +175,6 @@
         const isExpanding = contentDiv.classList.contains('hidden');
 
         if (isExpanding) {
-          // --- 手風琴效果 ---
           document.querySelectorAll('.full-content:not(.hidden)').forEach(otherDiv => {
             const otherId = otherDiv.id.replace('content-', '');
             const otherBtn = document.querySelector(`.toggle-btn[data-id="${otherId}"]`);
@@ -203,7 +197,6 @@
               const res = await fetch(`news/${contentPath}`);
               if (!res.ok) throw new Error('無法載入公告內容');
               const text = await res.text();
-              
               if (contentPath.endsWith('.md')) {
                 if (window.marked) {
                   contentDiv.innerHTML = `<div class="post-content markdown-body">${marked.parse(text)}</div>`;
@@ -230,7 +223,6 @@
     });
   }
 
-  // 初始化
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
