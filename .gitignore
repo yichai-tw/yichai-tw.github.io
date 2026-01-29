@@ -113,7 +113,7 @@ ENV/
 # 允許追蹤的 JSON 檔案（明確指定）
 !mapping/PetStores_BranchInfo.json
 !mapping/brand_logos.json
-!news-data/news.json
+!news/news.json
 
 # 專案特定排除
 content/              # 原始資料目錄（人只改這裡，不追蹤）
