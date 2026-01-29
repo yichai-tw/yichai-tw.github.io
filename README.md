@@ -31,7 +31,11 @@ official-site/
 │       └── store-locator.js # GPS 門市定位系統
 ├── config/                # 設定檔案目錄
 ├── content/               # 原始資料目錄（不追蹤）
-├── mapping/               # 資料對應檔案（不追蹤）
+    ├── news/                  # 最新消息系統
+    │   ├── news.json          # 消息索引資料 (核心設定)
+    │   └── posts/             # 公告內容 (Markdown 格式)
+    │       └── YYYY-MM-DD_*.md
+    ├── mapping/               # 資料對應檔案
 │   └── PetStores_BranchInfo.json
 ├── tools/                 # 工具腳本
 │   └── project_tree_generator.py
@@ -88,6 +92,13 @@ official-site/
 - 響應式卡片式佈局
 - CSS 模組化（使用 `assets/css/stores.css`）
 
+### 最新消息頁 (news.html)
+
+- **部落格卡片式公告系統**：動態載入、分類篩選、置頂功能
+- **Markdown 支援**：公告內容使用 `.md` 格式，維護簡易
+- **智慧展開邏輯**：支援 URL 錨點自動展開指定消息
+- **響應式設計**：手機版自動隱私摘要，點擊展開全文
+
 ### 聯絡我們頁 (contact.html)
 
 - 線上諮詢表單（使用 EmailJS 串接 Gmail）
@@ -130,6 +141,43 @@ official-site/
 - 與其他頁面一致的設計風格
 
 ## 🛠️ 開發說明
+
+### 最新消息系統維護 (News System)
+
+本站使用 JSON 驅動的部落格公告系統，維護人員只需編輯 `news/` 目錄下的檔案：
+
+#### 1. 新增公告步驟
+1.  **撰寫內容**：在 `news/posts/` 下建立 `.md` 檔案（建議命名：`YYYY-MM-DD_標題.md`）。
+2.  **更新索引**：編輯 `news/news.json`，在陣列最前方加入新消息物件。
+
+#### 2. `news.json` 參數說明
+| 參數 | 說明 | 範例 |
+| :--- | :--- | :--- |
+| `id` | 唯一識別碼（用於超連結） | `"2026-cny"` |
+| `title` | 公告標題 | `"2026 春節營業公告"` |
+| `type` | 分類（`operation`, `event`, `system`, `general`） | `"operation"` |
+| `date` | 發布日期（YYYY-MM-DD） | `"2026-01-29"` |
+| `pinned` | 是否置頂（`true` / `false`） | `true` |
+| `excerpt` | 列表顯示的簡短摘要 | `"春節期間營業時間調整..."` |
+| `content` | 內容檔案路徑（相對於 news 目錄） | `"posts/2026-01-29_cny.md"` |
+| `autoExpand`| 是否預設展開（非必填） | `true` |
+
+*註：`type` 若空白則預設為 `general`（一般公告）。*
+
+#### 3. 分類 (Type) 對照表
+- `operation`: 營運公告（藍色）
+- `event`: 活動公告（橘黃色）
+- `system`: 系統通知（灰色）
+- `general`: 一般公告（綠色）
+
+#### 4. 公告超連結 (Deep Linking)
+若要從外部（如 LINE、FB）或首頁直接連結到特定公告並**自動展開**，請在網址後加上 `#news-{id}`：
+- 範例：`https://yichai-tw.github.io/news.html#news-2026-cny`
+
+#### 5. 展開邏輯優先級
+1. 網址帶有 `#news-id` 參數（強制跳轉並展開該則）。
+2. 排序後的第一則消息（預設自動展開）。
+3. JSON 中的 `autoExpand: true` 設定。
 
 ### 內容管理
 
@@ -255,7 +303,7 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 - ✅ 手機版側邊欄導航選單（自動高亮當前頁面、連結正常導航）
 - ✅ 優化的手機版頁首設計（緊湊、不占版面）
 - ✅ JavaScript 模組化（共用功能統一管理）
-- ✅ PC 版最大寬度限制（1920px），避免超寬螢幕失真
+- ✅ 響應式佈局優化（支援 21:9 超寬螢幕，背景全寬延伸）
 - ✅ 響應式按鈕設計（手機版文字較小，避免換行）
 - ✅ 手機版卡片兩欄布局優化
 - ✅ Google Search Console 網域驗證（已通過驗證）
