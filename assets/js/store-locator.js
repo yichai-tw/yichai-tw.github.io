@@ -11,7 +11,26 @@
     return ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'][date.getDay()];
   }
 
-  function resolveTodayHours(weeklyHours, now) {
+  function resolveTodayHours(weeklyHours, specialHours, now) {
+    // 優先檢查特別營業時間 (如春節)
+    if (specialHours && specialHours.length > 0) {
+      const month = now.getMonth() + 1;
+      const date = now.getDate();
+      const todayStr = `${month}/${date}`;
+      
+      const special = specialHours.find(sh => sh.date === todayStr);
+      if (special) {
+        if (special.hours === '公休') return { isClosedAllDay: true, rawText: '公休' };
+        if (special.hours.includes('-') || special.hours.includes('~')) {
+          const parts = special.hours.replace('~', '-').split('-');
+          if (parts.length === 2) {
+            return { open: parts[0].trim(), close: parts[1].trim(), rawText: special.hours };
+          }
+        }
+        // 如果是「恢復正常營業」或其他文字，則回退到一般營業時間
+      }
+    }
+
     if (!weeklyHours) return null;
     const todayKey = getTodayKey(now);
     const todayHours = weeklyHours[todayKey];
@@ -41,19 +60,27 @@
     } catch (e) { return null; }
   }
 
-  function buildWeeklyHoursList(weeklyHours) {
+  function buildWeeklyHoursList(weeklyHours, specialHours) {
     const order = [
       { key: 'monday', label: '週一' }, { key: 'tuesday', label: '週二' },
       { key: 'wednesday', label: '週三' }, { key: 'thursday', label: '週四' },
       { key: 'friday', label: '週五' }, { key: 'saturday', label: '週六' },
       { key: 'sunday', label: '週日' }
     ];
-    return order.map(({ key, label }) => {
+    let html = order.map(({ key, label }) => {
       const value = weeklyHours?.[key];
       if (!value) return null;
       const display = value.toUpperCase() === 'OFF' ? '休息' : value;
       return `<li><span class="store-hours-day">${label}</span><span class="store-hours-slot">${display}</span></li>`;
     }).filter(Boolean).join('');
+
+    if (specialHours && specialHours.length > 0) {
+      html += `<li class="special-hours-divider mt-2 pt-2 border-t border-dashed border-gray-200 font-bold text-[#DF7621]">【春節特別營業時間】</li>`;
+      specialHours.forEach(sh => {
+        html += `<li class="special-hours-item text-[#DF7621]"><span class="store-hours-day">${sh.date} (${sh.note})</span><span class="store-hours-slot">${sh.hours}</span></li>`;
+      });
+    }
+    return html;
   }
 
   async function loadStoreData() {
@@ -66,7 +93,8 @@
         const coordinates = store.location?.coordinates || {};
         const fullAddress = store.location?.full_address || `${city}${store.location?.address || ''}`;
         const weeklyHours = store.business_hours || null;
-        const hours = resolveTodayHours(weeklyHours, now);
+        const specialHours = store.special_hours || null;
+        const hours = resolveTodayHours(weeklyHours, specialHours, now);
         return {
           id: normalizeStoreName(store.store_name),
           name: `${store.store_name}店`,
@@ -77,6 +105,7 @@
           phone: store.contact?.supplies_phone || '',
           phoneDigits: (store.contact?.supplies_phone || '').replace(/[^\d]/g, ''),
           weeklyHours,
+          specialHours,
           status: getStatus(hours, now),
           hasGrooming: store.services?.grooming === true,
           mapUrl: store.google_business_short_url || store.google_business_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`,
@@ -137,7 +166,7 @@
     }
 
     function renderStoreCard(store, isActive) {
-      const hoursList = buildWeeklyHoursList(store.weeklyHours);
+      const hoursList = buildWeeklyHoursList(store.weeklyHours, store.specialHours);
       return `
         <div class="store-card ${isActive ? 'active' : ''}" data-id="${store.id}">
           <div class="card-header">

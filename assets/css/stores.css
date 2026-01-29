@@ -266,6 +266,27 @@
   font-weight: 600;
 }
 
+/* 春節特別營業時間樣式 */
+.special-hours-divider {
+  font-size: 0.9em;
+  letter-spacing: 1px;
+}
+
+.special-hours-item {
+  background: #fff8f1;
+  margin: 2px -5px;
+  padding: 4px 5px !important;
+  border-radius: 4px;
+}
+
+.special-hours-item .store-hours-day {
+  color: #c2410c;
+}
+
+.special-hours-item .store-hours-slot {
+  font-weight: 700;
+}
+
 /* 手機版微調 */
 @media (max-width: 1023px) {
   .store-locator-container {
