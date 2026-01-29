@@ -354,7 +354,7 @@
       if (!previewContainer) return;
 
       try {
-        const response = await fetch('news/news.json');
+        const response = await fetch('news-data/news.json');
         if (!response.ok) throw new Error('無法載入消息');
         const news = await response.json();
         

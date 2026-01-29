@@ -4,9 +4,8 @@
 (function() {
   // 自動判斷基礎路徑，確保在 GitHub Pages 的各種 URL 格式下都能正確找到 news.json
   const getBasePath = () => {
-    const loc = window.location;
-    // 如果是在根目錄或 news.html，路徑應該是相對當前目錄的 news/
-    return 'news/news.json';
+    // 改用明確的 news-data 路徑，避免與 news.html 衝突
+    return 'news-data/news.json';
   };
 
   const NEWS_JSON_PATH = getBasePath();
@@ -137,7 +136,7 @@
           // 如果還沒載入過，就 fetch 內容
           if (!contentDiv.dataset.loaded) {
             try {
-              const res = await fetch(`news/${contentPath}`);
+              const res = await fetch(`news-data/${contentPath}`);
               if (!res.ok) throw new Error('無法載入公告內容');
               const html = await res.text();
               contentDiv.innerHTML = html;
