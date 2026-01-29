@@ -2,7 +2,14 @@
  * 最新消息載入與渲染系統
  */
 (function() {
-  const NEWS_JSON_PATH = 'news/news.json';
+  // 自動判斷基礎路徑，確保在 GitHub Pages 的各種 URL 格式下都能正確找到 news.json
+  const getBasePath = () => {
+    const loc = window.location;
+    // 如果是在根目錄或 news.html，路徑應該是相對當前目錄的 news/
+    return 'news/news.json';
+  };
+
+  const NEWS_JSON_PATH = getBasePath();
   const TYPE_LABELS = {
     'operation': '營運公告',
     'event': '活動公告',
@@ -15,8 +22,11 @@
     if (!container) return;
 
     try {
-      console.log('正在載入消息資料自:', NEWS_JSON_PATH);
-      const response = await fetch(NEWS_JSON_PATH);
+      // 加上時間戳記防止瀏覽器快取舊的 JSON 或是錯誤的 404 紀錄
+      const fetchUrl = `${NEWS_JSON_PATH}?v=${new Date().getTime()}`;
+      console.log('正在嘗試載入消息資料:', fetchUrl);
+      
+      const response = await fetch(fetchUrl);
       if (!response.ok) {
         throw new Error(`HTTP 錯誤! 狀態碼: ${response.status}`);
       }
