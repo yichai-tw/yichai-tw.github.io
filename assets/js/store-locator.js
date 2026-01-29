@@ -320,7 +320,7 @@
         <div class="bg-white rounded-[2rem] shadow-xl border border-gray-100 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
           <div class="p-10 md:p-12 flex flex-col justify-center border-t-8 border-[#DF7621] lg:border-t-0 lg:border-l-8 lg:border-l-[#DF7621]">
             <div class="inline-block bg-[#DF7621] text-white px-5 py-1.5 rounded-full text-xs font-bold mb-6 w-fit uppercase tracking-widest">
-              ${hasLocation ? '離您最近的門市' : '推薦門市'}
+              ${hasLocation ? '離您最近的門市' : '<i class="fas fa-location-arrow animate-pulse mr-1"></i> 正在尋找最近門市...'}
             </div>
             <h3 class="text-4xl font-bold mb-6 text-gray-800">${nearest.name}</h3>
             <div class="space-y-4 text-gray-600">
@@ -388,8 +388,8 @@
       const cachedTime = localStorage.getItem('yichai_user_loc_time');
       
       const nowTs = Date.now();
-      // 將快取縮短至 5 分鐘，僅為了應付「按上一步」或短暫切換頁面
-      const isCacheValid = cachedTime && (nowTs - parseInt(cachedTime) < 5 * 60 * 1000); 
+      // 延長快取至 7 天 (與 README 文件一致)，避免使用者每次進來都要重新等待定位
+      const isCacheValid = cachedTime && (nowTs - parseInt(cachedTime) < 7 * 24 * 60 * 60 * 1000); 
 
       if (isCacheValid && cachedLat && cachedLng) {
         // 使用有效的短暫快取先顯示，避免跳動
@@ -431,8 +431,13 @@
           },
           err => {
             console.warn('Geolocation failed:', err.message);
+            // 定位失敗時，若有舊快取(不論多久)也拿來用，總比顯示預設的內湖店好
+            if (cachedLat && cachedLng) {
+              renderStoresPage(stores, parseFloat(cachedLat), parseFloat(cachedLng));
+              renderHomepageStores(stores, parseFloat(cachedLat), parseFloat(cachedLng));
+            }
           },
-          { timeout: 7000, enableHighAccuracy: false }
+          { timeout: 10000, enableHighAccuracy: false }
         );
       }
     }
