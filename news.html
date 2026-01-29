@@ -71,10 +71,18 @@
       color: #4B5563;
     }
     .post-content.markdown-body h3 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #1F2937;
-      margin: 1.5rem 0 1rem;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #C2410C;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .post-content.markdown-body h3::before {
+      content: "\f073"; /* FontAwesome Calendar icon */
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
     }
     .post-content.markdown-body p {
       margin-bottom: 1rem;
@@ -88,46 +96,29 @@
       margin-bottom: 0.5rem;
     }
     .post-content.markdown-body strong {
-      color: #111827;
-      font-weight: 700;
-    }
-
-    /* 公告圖片與總結區塊樣式 */
-    .notice-img-container {
-      margin-bottom: 25px;
-      border-radius: 1rem;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .notice-img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .summary-box {
-      background: #FFF8F1;
-      border-left: 5px solid #DF7621;
-      padding: 20px;
-      border-radius: 0.5rem;
-      margin-bottom: 25px;
-    }
-    .summary-title {
-      font-weight: 800;
-      color: #C2410C;
-      font-size: 1.15rem;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .summary-text {
-      color: #431407;
-      line-height: 1.7;
-      font-weight: 500;
-    }
-    .summary-highlight {
       color: #DF7621;
       font-weight: 700;
+    }
+    .post-content.markdown-body blockquote {
+      background: #FFF8F1;
+      border-left: 5px solid #DF7621;
+      padding: 15px 20px;
+      border-radius: 0.5rem;
+      color: #431407;
+      margin: 1.5rem 0;
+    }
+    .post-content.markdown-body blockquote p {
+      margin-bottom: 0;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    .post-content.markdown-body img {
+      width: 100%;
+      height: auto;
+      border-radius: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-top: 1rem;
+      display: block;
     }
   </style>
 </head>
