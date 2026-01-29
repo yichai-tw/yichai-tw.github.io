@@ -56,7 +56,10 @@
             currentFilter = type;
             const filteredItems = type === 'all' 
               ? allNewsItems 
-              : allNewsItems.filter(item => item.type === type);
+              : allNewsItems.filter(item => {
+                  const itemType = item.type || 'general';
+                  return itemType === type;
+                });
             
             renderNews(filteredItems);
           });
@@ -104,9 +107,12 @@
       // 如果有 Hash，我們需要確保該消息在目前的篩選分類中
       // 或者乾脆切換回「全部」以確保能看到該消息
       const item = allNewsItems.find(i => i.id === id);
-      if (item && currentFilter !== 'all' && item.type !== currentFilter) {
-        const allBtn = document.querySelector('.filter-btn[data-type="all"]');
-        if (allBtn) allBtn.click();
+      if (item) {
+        const itemType = item.type || 'general';
+        if (currentFilter !== 'all' && itemType !== currentFilter) {
+          const allBtn = document.querySelector('.filter-btn[data-type="all"]');
+          if (allBtn) allBtn.click();
+        }
       }
 
       const btn = document.querySelector(`.toggle-btn[data-id="${id}"]`);
@@ -121,7 +127,8 @@
   }
 
   function createNewsCard(item) {
-    const typeLabel = TYPE_LABELS[item.type] || '公告';
+    const typeLabel = TYPE_LABELS[item.type] || '一般公告';
+    const typeClass = item.type || 'general';
     const pinnedBadge = item.pinned ? `<span class="bg-red-50 text-red-600 border border-red-200 px-2 py-0.5 rounded text-xs font-bold mr-2"><i class="fas fa-thumbtack mr-1"></i>置頂</span>` : '';
     
     return `
@@ -129,7 +136,7 @@
         <div class="p-6 md:p-8">
           <div class="flex flex-wrap items-center gap-2 mb-4">
             ${pinnedBadge}
-            <span class="badge-${item.type} px-2 py-0.5 rounded text-xs font-medium">${typeLabel}</span>
+            <span class="badge-${typeClass} px-2 py-0.5 rounded text-xs font-medium">${typeLabel}</span>
             <time class="text-gray-400 text-sm ml-auto">${item.date}</time>
           </div>
           
