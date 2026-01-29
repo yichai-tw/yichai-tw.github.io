@@ -96,14 +96,6 @@ h2 {
   }
 }
 
-/* PC 版寬度限制 */
-@media (min-width: 1024px) {
-  body {
-    max-width: 1920px;
-    margin: 0 auto;
-  }
-}
-
 /* 地圖不支援佔位符 (針對 LINE 瀏覽器優化) */
 .store-map-error-placeholder {
   display: flex;
