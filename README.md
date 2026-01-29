@@ -14,22 +14,22 @@
 📁 official-site
 ├── 📂 assets
 │   ├── 📂 components        # 共用組件
-│   │   ├── 🌐 header.html    # 共用頁首組件
-│   │   └── 🌐 footer.html    # 共用頁尾組件
+│   │   ├── 🌐 footer.html    # 共用頁尾組件
+│   │   └── 🌐 header.html    # 共用頁首組件
 │   ├── 📂 css               # CSS 樣式檔案
 │   │   ├── 🎨 main.css       # 通用自訂樣式
 │   │   └── 🎨 stores.css     # 門市資訊頁專用樣式
 │   ├── 📂 fonts             # 字體檔案
-│   │   ├── 📄 twicon.otf     # TW Icon Fonts 字體
 │   │   ├── 🎯 twicon.dart    # TW Icon 字元對照表
+│   │   ├── 📄 twicon.otf     # TW Icon Fonts 字體
 │   │   └── 📝 twicon_license.md  # 字體版權資訊
 │   ├── 📂 images            # 圖片資源
 │   │   ├── 📂 brand_logo     # 品牌 Logo
 │   │   ├── 🖼️ 2026_cny_operation_notice.webp
 │   │   └── 🖼️ yichai-petshop-logo.png
 │   └── 📂 js                # JavaScript 檔案
-│       ├── 🟨 load-header.js # 動態載入頁首腳本
 │       ├── 🟨 load-footer.js # 動態載入頁尾腳本
+│       ├── 🟨 load-header.js # 動態載入頁首腳本
 │       ├── 🟨 load-news.js   # 最新消息載入腳本
 │       └── 🟨 store-locator.js # GPS 門市定位系統
 ├── 📂 mapping               # 資料對應檔案
@@ -150,10 +150,12 @@
 本站使用 JSON 驅動的部落格公告系統，維護人員只需編輯 `news/` 目錄下的檔案：
 
 #### 1. 新增公告步驟
-1.  **撰寫內容**：在 `news/posts/` 下建立 `.md` 檔案（建議命名：`YYYY-MM-DD_標題.md`）。
-2.  **更新索引**：編輯 `news/news.json`，在陣列最前方加入新消息物件。
+
+1. **撰寫內容**：在 `news/posts/` 下建立 `.md` 檔案（建議命名：`YYYY-MM-DD_標題.md`）。
+2. **更新索引**：編輯 `news/news.json`，在陣列最前方加入新消息物件。
 
 #### 2. `news.json` 參數說明
+
 | 參數 | 說明 | 範例 |
 | :--- | :--- | :--- |
 | `id` | 唯一識別碼（用於超連結） | `"2026-cny"` |
@@ -163,21 +165,25 @@
 | `pinned` | 是否置頂（`true` / `false`） | `true` |
 | `excerpt` | 列表顯示的簡短摘要 | `"春節期間營業時間調整..."` |
 | `content` | 內容檔案路徑（相對於 news 目錄） | `"posts/2026-01-29_cny.md"` |
-| `autoExpand`| 是否預設展開（非必填） | `true` |
+| `autoExpand` | 是否預設展開（非必填） | `true` |
 
 *註：`type` 若空白則預設為 `general`（一般公告）。*
 
 #### 3. 分類 (Type) 對照表
+
 - `operation`: 營運公告（藍色）
 - `event`: 活動公告（橘黃色）
 - `system`: 系統通知（灰色）
 - `general`: 一般公告（綠色）
 
 #### 4. 公告超連結 (Deep Linking)
+
 若要從外部（如 LINE、FB）或首頁直接連結到特定公告並**自動展開**，請在網址後加上 `#news-{id}`：
+
 - 範例：`https://yichai-tw.github.io/news.html#news-2026-cny`
 
 #### 5. 展開邏輯優先級
+
 1. 網址帶有 `#news-id` 參數（強制跳轉並展開該則）。
 2. 排序後的第一則消息（預設自動展開）。
 3. JSON 中的 `autoExpand: true` 設定。
