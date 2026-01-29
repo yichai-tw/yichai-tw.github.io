@@ -155,8 +155,22 @@
             try {
               const res = await fetch(`news/${contentPath}`);
               if (!res.ok) throw new Error('無法載入公告內容');
-              const html = await res.text();
-              contentDiv.innerHTML = html;
+              const text = await res.text();
+              
+              // 根據副檔名判斷是否需要 Markdown 解析
+              if (contentPath.endsWith('.md')) {
+                // 使用 marked 解析 Markdown (確保 marked 已載入)
+                if (window.marked) {
+                  contentDiv.innerHTML = `<div class="post-content markdown-body">${marked.parse(text)}</div>`;
+                } else {
+                  // 備案：如果解析器未載入，直接顯示文字（或報錯）
+                  contentDiv.innerHTML = `<div class="post-content"><pre class="whitespace-pre-wrap">${text}</pre></div>`;
+                }
+              } else {
+                // 原有的 HTML 直接插入
+                contentDiv.innerHTML = text;
+              }
+              
               contentDiv.dataset.loaded = "true";
             } catch (error) {
               contentDiv.innerHTML = `<div class="text-red-500 py-4">內容載入失敗</div>`;

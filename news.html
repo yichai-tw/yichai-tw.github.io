@@ -64,6 +64,71 @@
     .news-card.pinned {
       border-left: 6px solid #DF7621;
     }
+
+    /* 公告內容通用樣式 (Markdown 渲染後使用) */
+    .post-content.markdown-body {
+      line-height: 1.8;
+      color: #4B5563;
+    }
+    .post-content.markdown-body h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1F2937;
+      margin: 1.5rem 0 1rem;
+    }
+    .post-content.markdown-body p {
+      margin-bottom: 1rem;
+    }
+    .post-content.markdown-body ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .post-content.markdown-body li {
+      margin-bottom: 0.5rem;
+    }
+    .post-content.markdown-body strong {
+      color: #111827;
+      font-weight: 700;
+    }
+
+    /* 公告圖片與總結區塊樣式 */
+    .notice-img-container {
+      margin-bottom: 25px;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .notice-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .summary-box {
+      background: #FFF8F1;
+      border-left: 5px solid #DF7621;
+      padding: 20px;
+      border-radius: 0.5rem;
+      margin-bottom: 25px;
+    }
+    .summary-title {
+      font-weight: 800;
+      color: #C2410C;
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .summary-text {
+      color: #431407;
+      line-height: 1.7;
+      font-weight: 500;
+    }
+    .summary-highlight {
+      color: #DF7621;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-[#2C3E50]">
@@ -102,6 +167,9 @@
   
   <!-- 載入通用頁尾 -->
   <script src="assets/js/load-footer.js"></script>
+  
+  <!-- Markdown 解析器 -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   
   <!-- 載入消息列表邏輯 -->
   <script src="assets/js/load-news.js"></script>
