@@ -99,6 +99,8 @@ function highlightCurrentPage() {
     pageName = 'stores';
   } else if (currentPage.includes('contact')) {
     pageName = 'contact';
+  } else if (currentPage.includes('news')) {
+    pageName = 'news';
   }
   
   // 高亮桌面版導航連結

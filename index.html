@@ -328,6 +328,59 @@
     </div>
   </section>
 
+  <!-- 最新消息預覽區 -->
+  <section class="bg-white py-12 px-5 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4 w-full md:w-auto">
+        <span class="bg-[#DF7621] text-white px-3 py-1 rounded text-sm font-bold whitespace-nowrap">最新消息</span>
+        <div id="latest-news-preview" class="flex-1 min-w-0">
+          <div class="animate-pulse flex space-x-4">
+            <div class="h-4 bg-gray-200 rounded w-64"></div>
+          </div>
+        </div>
+      </div>
+      <a href="news.html" class="text-[#DF7621] font-bold flex items-center gap-2 hover:translate-x-1 transition-transform whitespace-nowrap">
+        查看更多消息 <i class="fas fa-arrow-right text-sm"></i>
+      </a>
+    </div>
+  </section>
+
+  <script>
+    /**
+     * 首頁動態載入最新消息預覽
+     */
+    async function loadLatestNewsPreview() {
+      const previewContainer = document.getElementById('latest-news-preview');
+      if (!previewContainer) return;
+
+      try {
+        const response = await fetch('news/news.json');
+        if (!response.ok) throw new Error('無法載入消息');
+        const news = await response.json();
+        
+        if (news.length > 0) {
+          // 找出置頂或最新的一則
+          const latest = news.sort((a, b) => {
+            if (a.pinned !== b.pinned) return b.pinned ? -1 : 1;
+            return new Date(b.date) - new Date(a.date);
+          })[0];
+          
+          previewContainer.innerHTML = `
+            <a href="news.html#news-${latest.id}" class="text-gray-700 hover:text-[#DF7621] transition-colors line-clamp-1 font-medium text-lg">
+              ${latest.title}
+            </a>
+          `;
+        } else {
+          previewContainer.innerHTML = '<span class="text-gray-400">目前尚無公告</span>';
+        }
+      } catch (error) {
+        console.error('載入首頁消息預覽失敗:', error);
+        previewContainer.innerHTML = '<span class="text-gray-400">暫無公告</span>';
+      }
+    }
+    document.addEventListener('DOMContentLoaded', loadLatestNewsPreview);
+  </script>
+
   <!-- 品牌故事區 -->
   <section class="bg-white py-24 px-5">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">

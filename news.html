@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>最新消息｜宜加寵物生活館｜官方網站</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="宜加寵物生活館最新消息與公告。包含門市活動、節慶營業時間調整、新產品上市等資訊。">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yichai-tw.github.io/news.html">
+  <meta property="og:title" content="最新消息｜宜加寵物生活館">
+  <meta property="og:description" content="宜加寵物生活館最新消息與公告。">
+  <meta property="og:image" content="https://yichai-tw.github.io/assets/images/yichai-petshop-logo.png">
+  
+  <!-- Google Fonts - Zen Old Mincho -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    /* 強制套用 Zen Old Mincho 字體 */
+    * {
+      font-family: "Zen Old Mincho", "Noto Serif TC", "Microsoft JhengHei", serif !important;
+    }
+
+    /* 麵包屑樣式 */
+    .breadcrumb {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      color: #666;
+      font-size: 0.95rem;
+    }
+    .breadcrumb a:hover {
+      color: #DF7621;
+    }
+
+    /* 摘要文字截斷 */
+    .excerpt-text {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transition: opacity 0.3s;
+    }
+
+    /* 分類標籤樣式 */
+    .badge-operation { background-color: #E0F2FE; color: #0369A1; } /* 藍色 */
+    .badge-event { background-color: #FEF3C7; color: #92400E; }     /* 橘黃色 */
+    .badge-system { background-color: #F3F4F6; color: #374151; }    /* 灰色 */
+    .badge-general { background-color: #F0FDF4; color: #166534; }   /* 綠色 */
+    
+    /* 置頂卡片特殊樣式 */
+    .news-card.pinned {
+      border-left: 6px solid #DF7621;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-[#2C3E50]">
+  <!-- 頁首容器 -->
+  <div id="header-container"></div>
+
+  <main class="py-16 px-5 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+      <!-- 麵包屑 -->
+      <nav class="breadcrumb">
+        <a href="index.html">首頁</a>
+        <span>/</span>
+        <span class="text-gray-400">最新消息</span>
+      </nav>
+
+      <header class="mb-12 text-center">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">最新消息</h1>
+        <p class="text-gray-500">掌握宜加寵物的第一手活動資訊與重要公告</p>
+      </header>
+
+      <!-- 消息列表容器 -->
+      <div id="news-list-container">
+        <!-- 由 JavaScript 動態生成卡片 -->
+        <div class="flex justify-center py-20">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#DF7621]"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 頁尾容器 -->
+  <div id="footer-container"></div>
+  
+  <!-- 載入通用頁首 -->
+  <script src="assets/js/load-header.js"></script>
+  
+  <!-- 載入通用頁尾 -->
+  <script src="assets/js/load-footer.js"></script>
+  
+  <!-- 載入消息列表邏輯 -->
+  <script src="assets/js/load-news.js"></script>
+</body>
+</html>
