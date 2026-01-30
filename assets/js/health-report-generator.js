@@ -12,9 +12,9 @@ class PetHealthReportGenerator {
         this.canvas.width = 1080;
         this.canvas.height = 1080 * (4 / 3); // 1440
         
-        // 繪圖參數：淡淡框線、雙欄、區塊內留白與標題／內文間距
-        this.padding = 48;
-        this.innerPadding = 28;   // 區塊內左右留白，文字不貼邊
+        // 繪圖參數：縮小左右邊距以減少右側留白、區塊內留白與標題／內文間距
+        this.padding = 32;
+        this.innerPadding = 24;   // 區塊內左右留白，文字不貼邊
         this.titleToContent = 24; // 標題與內文間距（加大以提升可讀性）
         this.sectionGap = 18;     // 區塊間距
         this.lineHeight = 30;     // 內文行高（統一加大）
@@ -46,9 +46,9 @@ class PetHealthReportGenerator {
         this.drawBackground();
         this.drawHeader();
         
-        let currentY = 182;
+        let currentY = 208;
 
-        // 1. 人類年齡＋生命階段（淺暖色卡、嚴格左右半寬、不貼頂）
+        // 1. 人類年齡＋生命階段（淺暖色卡、嚴格左右半寬、明顯不貼頂）
         this.drawAgeAndStageRow(currentY);
         currentY += 172 + this.sectionGap;
 
@@ -158,8 +158,8 @@ class PetHealthReportGenerator {
     /** 年齡＋生命階段：一張卡、嚴格左右半寬、中間分隔線，無右側留白 */
     drawAgeAndStageRow(y) {
         const rowHeight = 172;
-        const cardInner = 36;
-        const cardTop = 40;
+        const cardInner = 32;
+        const cardTop = 44;
         const titleToContentGap = 32;
         const lineH = this.lineHeight;
         const halfW = this.contentWidth / 2;
