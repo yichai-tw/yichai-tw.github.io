@@ -90,11 +90,11 @@ class PetHealthCalculator {
             // 狗狗依體型計算
             humanAge = this.calculateDogHumanAge(totalYears, dogSize, currentStage);
         } else if (petType === 'cat') {
-            humanAge = this.calculateCatHumanAge(totalYears, ageMonths, currentStage);
+            humanAge = this.calculateCatHumanAge(totalYears, currentStage);
         } else if (petType === 'rabbit') {
-            humanAge = this.calculateRabbitHumanAge(totalYears, ageMonths, currentStage);
+            humanAge = this.calculateRabbitHumanAge(totalYears, currentStage);
         } else if (petType === 'hamster') {
-            humanAge = this.calculateHamsterHumanAge(totalYears, ageMonths, currentStage);
+            humanAge = this.calculateHamsterHumanAge(totalYears, currentStage);
         }
 
         return {
@@ -112,24 +112,22 @@ class PetHealthCalculator {
     /**
      * 計算貓的人類年齡
      */
-    calculateCatHumanAge(years, months, stage) {
-        const totalMonths = years * 12 + months;
-        
-        if (years < 1) {
+    calculateCatHumanAge(totalYears, stage) {
+        if (totalYears < 1) {
             // 幼年期：每月 1.5 歲
-            return totalMonths * 1.5;
-        } else if (years < 2) {
+            return (totalYears * 12) * 1.5;
+        } else if (totalYears < 2) {
             // 青少年期：15 + (年 - 1) * 9
-            return 15 + ((totalMonths - 12) / 12) * 9;
-        } else if (years < 7) {
+            return 15 + (totalYears - 1) * 9;
+        } else if (totalYears < 7) {
             // 成年期：24 + (年 - 2) * 4
-            return 24 + (years - 2) * 4;
-        } else if (years < 11) {
+            return 24 + (totalYears - 2) * 4;
+        } else if (totalYears < 11) {
             // 熟齡期：44 + (年 - 7) * 4
-            return 44 + (years - 7) * 4;
+            return 44 + (totalYears - 7) * 4;
         } else {
             // 老年期：60 + (年 - 11) * 3
-            return 60 + (years - 11) * 3;
+            return 60 + (totalYears - 11) * 3;
         }
     }
 
@@ -169,48 +167,44 @@ class PetHealthCalculator {
     /**
      * 計算兔子的人類年齡
      */
-    calculateRabbitHumanAge(years, months, stage) {
-        const totalMonths = years * 12 + months;
-
-        if (years < 0.5) {
+    calculateRabbitHumanAge(totalYears, stage) {
+        if (totalYears < 0.5) {
             // 幼年期：每月 2 歲
-            return totalMonths * 2;
-        } else if (years < 1) {
+            return (totalYears * 12) * 2;
+        } else if (totalYears < 1) {
             // 青少年期：12 + (年 - 0.5) * 16
-            return 12 + ((totalMonths - 6) / 12) * 16;
-        } else if (years < 5) {
+            return 12 + (totalYears - 0.5) * 16;
+        } else if (totalYears < 5) {
             // 成年期：28 + (年 - 1) * 6
-            return 28 + (years - 1) * 6;
-        } else if (years < 8) {
+            return 28 + (totalYears - 1) * 6;
+        } else if (totalYears < 8) {
             // 熟齡期：52 + (年 - 5) * 5
-            return 52 + (years - 5) * 5;
+            return 52 + (totalYears - 5) * 5;
         } else {
             // 老年期：67 + (年 - 8) * 4
-            return 67 + (years - 8) * 4;
+            return 67 + (totalYears - 8) * 4;
         }
     }
 
     /**
      * 計算倉鼠的人類年齡
      */
-    calculateHamsterHumanAge(years, months, stage) {
-        const totalMonths = years * 12 + months;
-
-        if (years < 0.25) {
+    calculateHamsterHumanAge(totalYears, stage) {
+        if (totalYears < 0.25) {
             // 幼年期：每月 3 歲
-            return totalMonths * 3;
-        } else if (years < 0.5) {
+            return (totalYears * 12) * 3;
+        } else if (totalYears < 0.5) {
             // 青少年期：9 + (年 - 0.25) * 28
-            return 9 + ((totalMonths - 3) / 12) * 28;
-        } else if (years < 1.5) {
+            return 9 + (totalYears - 0.25) * 28;
+        } else if (totalYears < 1.5) {
             // 成年期：16 + (年 - 0.5) * 20
-            return 16 + (years - 0.5) * 20;
-        } else if (years < 2) {
+            return 16 + (totalYears - 0.5) * 20;
+        } else if (totalYears < 2) {
             // 熟齡期：36 + (年 - 1.5) * 24
-            return 36 + (years - 1.5) * 24;
+            return 36 + (totalYears - 1.5) * 24;
         } else {
             // 老年期：48 + (年 - 2) * 20
-            return 48 + (years - 2) * 20;
+            return 48 + (totalYears - 2) * 20;
         }
     }
 
@@ -519,7 +513,8 @@ class PetHealthCalculator {
 }
 
 // 全域實例（頁面載入時自動建立）
-const healthCalculator = new PetHealthCalculator();
+var healthCalculator = new PetHealthCalculator();
+window.healthCalculator = healthCalculator;
 
 // 等待 DOM 載入完成後初始化
 document.addEventListener('DOMContentLoaded', () => {

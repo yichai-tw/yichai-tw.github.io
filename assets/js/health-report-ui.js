@@ -250,22 +250,24 @@ document.addEventListener('DOMContentLoaded', () => {
             showLoading();
             
             try {
-                // 確保計算器已初始化
-                if (!window.healthCalculator) {
-                    throw new Error('健康計算器尚未就緒，請重新整理頁面。');
+                // 更加魯棒的檢查
+                const calculator = window.healthCalculator || (typeof healthCalculator !== 'undefined' ? healthCalculator : null);
+                
+                if (!calculator) {
+                    throw new Error('健康計算器模組尚未載入完成。');
                 }
 
                 // 等待計算器載入資料 (如果還沒載完)
-                if (!healthCalculator.guidelines) {
-                    await healthCalculator.loadGuidelines();
+                if (!calculator.guidelines) {
+                    await calculator.loadGuidelines();
                 }
 
-                if (!healthCalculator.guidelines) {
-                    throw new Error('無法載入健康指引資料，請檢查網路連線。');
+                if (!calculator.guidelines) {
+                    throw new Error('無法從伺服器取得健康指引資料。');
                 }
                 
                 console.log('正在生成報告資料...', formData);
-                const reportData = healthCalculator.generateHealthReport(formData);
+                const reportData = calculator.generateHealthReport(formData);
                 
                 console.log('正在產生報告圖片...');
                 const generator = new PetHealthReportGenerator(reportData);
