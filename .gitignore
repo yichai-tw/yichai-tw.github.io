@@ -114,6 +114,7 @@ ENV/
 !mapping/PetStores_BranchInfo.json
 !mapping/brand_logos.json
 !news/news.json
+!data/health-guidelines.json
 
 # 專案特定排除
 content/              # 原始資料目錄（人只改這裡，不追蹤）
