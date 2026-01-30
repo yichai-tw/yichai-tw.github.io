@@ -20,6 +20,46 @@
         "ideal": "維持目前飲食與活動習慣",
         "heavy": "可稍減零食、增加活動時間",
         "very_heavy": "建議減少零食、增加互動與散步，有疑慮可諮詢獸醫"
+      },
+      "bodyShapeLevel": {
+        "very_thin": 1,
+        "thin": 2,
+        "ideal": 3,
+        "heavy": 4,
+        "very_heavy": 5
+      },
+      "bodyShapePraise": {
+        "very_thin": "一起幫毛孩朝理想體態邁進吧！",
+        "thin": "持續關心體態，毛孩會更健康～",
+        "ideal": "維持得真好！毛孩體態很理想，飼主超棒～",
+        "heavy": "有在注意體態很棒，繼續保持關心～",
+        "very_heavy": "願意了解體態狀況很棒，可以慢慢一起調整～"
+      },
+      "sexOptions": {
+        "male": { "label": "公" },
+        "female": { "label": "母" }
+      },
+      "sexMerModifier": {
+        "male": 1,
+        "female": 0.95
+      }
+    },
+    "sexHealthFocus": {
+      "cat": {
+        "male": "公貓泌尿道阻塞風險較高，請注意飲水與如廁狀況；結紮後注意體重控制。",
+        "female": "母貓建議適齡結紮以降低乳腺腫瘤等風險；結紮後注意體重控制。"
+      },
+      "dog": {
+        "male": "公狗未絕育易有前列腺增生，建議絕育；注意泌尿道與體重。",
+        "female": "母狗未絕育易有子宮蓄膿、乳腺腫瘤，建議適齡絕育。"
+      },
+      "rabbit": {
+        "male": "公兔可考慮絕育以減少噴尿與攻擊行為。",
+        "female": "母兔可考慮絕育以降低子宮病變風險。"
+      },
+      "hamster": {
+        "male": "黃金鼠公鼠腫瘤較多見，留意皮膚與淋巴結；侏儒鼠注意糖尿病。",
+        "female": "侏儒鼠母鼠糖尿病好發，規律餵食、觀察飲水量。"
       }
     },
     "cat": {
@@ -145,7 +185,16 @@
           "max": 5,
           "unit": "kg"
         }
-      }
+      },
+      "commonConditions": [
+        { "id": "kidney", "label": "慢性腎病（貓頭號殺手）", "dietaryNote": "依獸醫指示低磷飲食、濕食與飲水，定期血檢", "tip": "7歲以上建議每年血檢尿檢，飲水充足" },
+        { "id": "fiv", "label": "貓愛滋（FIV）", "dietaryNote": "維持營養、避免生食，依獸醫建議選擇飼料", "tip": "避免與其他貓打架、減少緊迫、室內飼養" },
+        { "id": "diabetes", "label": "糖尿病", "dietaryNote": "依獸醫指示控制碳水與餵食時間", "tip": "規律餵食、監測血糖與體重" },
+        { "id": "hyperthyroid", "label": "甲狀腺亢進", "dietaryNote": "依獸醫指示飲食與用藥（碘限制等）", "tip": "定期複檢甲狀腺與心腎" },
+        { "id": "flutd", "label": "泌尿道／結石（公貓易阻塞）", "dietaryNote": "依獸醫建議處方或低鎂飲食，鼓勵飲水與濕食", "tip": "多喝水、留意如廁，公貓阻塞為急症" },
+        { "id": "heart", "label": "心臟病", "dietaryNote": "依獸醫建議低鈉或處方飲食", "tip": "定期心臟檢查，留意咳嗽與喘" },
+        { "id": "arthritis", "label": "關節炎（熟齡貓常見）", "dietaryNote": "控制體重減輕負擔，可搭配關節保健", "tip": "6歲以上好發，防滑、軟墊" }
+      ]
     },
     "dog": {
       "name": "狗狗",
@@ -310,7 +359,15 @@
         "medium": { "min": 10, "max": 25, "unit": "kg" },
         "large": { "min": 25, "max": 40, "unit": "kg" },
         "giant": { "min": 40, "max": 70, "unit": "kg" }
-      }
+      },
+      "commonConditions": [
+        { "id": "kidney", "label": "慢性腎病", "dietaryNote": "依獸醫指示低磷飲食並注意飲水", "tip": "定期追蹤腎指數與血壓" },
+        { "id": "heart", "label": "心臟病（小型犬瓣膜、大型犬心肌）", "dietaryNote": "依獸醫建議低鈉或處方飲食", "tip": "留意久咳、喘、舌頭發紫，按時服藥" },
+        { "id": "arthritis", "label": "關節炎／髖關節發育不良", "dietaryNote": "控制體重、關節保健配方，依獸醫指示", "tip": "大型犬髖關節好發，防滑、適度活動" },
+        { "id": "diabetes", "label": "糖尿病", "dietaryNote": "依獸醫指示控制碳水與餵食時間", "tip": "規律餵食、監測血糖" },
+        { "id": "trachea", "label": "氣管塌陷（小型犬好發）", "dietaryNote": "維持理想體重，避免項圈拉扯", "tip": "吉娃娃、瑪爾濟斯、博美等好發，減少激動" },
+        { "id": "skin", "label": "皮膚／過敏", "dietaryNote": "依獸醫建議排除過敏原或處方飼料", "tip": "留意搔癢、脫毛、皮屑" }
+      ]
     },
     "rabbit": {
       "name": "兔子",
@@ -439,7 +496,14 @@
           "unit": "kg",
           "note": "依品種差異大，荷蘭侏儒兔約 1kg，紐西蘭兔可達 5kg"
         }
-      }
+      },
+      "commonConditions": [
+        { "id": "teeth", "label": "咬合不正／牙齒過長（兔最常見）", "dietaryNote": "無限量提摩西草磨牙，依獸醫建議草料與飼料", "tip": "荷蘭侏儒兔等短顎品種風險高，定期檢查" },
+        { "id": "gi_stasis", "label": "腸胃停滯／毛球症", "dietaryNote": "高纖維牧草、充足飲水，依獸醫指示", "tip": "食慾下降、排便減少為警訊，盡速就醫" },
+        { "id": "bladder", "label": "泌尿道／結石", "dietaryNote": "依獸醫建議低鈣或處方飲食，每日飲水50–100ml/kg", "tip": "多喝水、留意排尿量" },
+        { "id": "ecuniculi", "label": "歪頭症／E. cuniculi", "dietaryNote": "依獸醫指示用藥與支持照護", "tip": "神經症狀、白內障等，及早治療" },
+        { "id": "pasteurella", "label": "巴斯德桿菌／呼吸道", "dietaryNote": "維持營養與食慾，依獸醫用藥", "tip": "打噴嚏、鼻分泌物、肺炎，環境通風" }
+      ]
     },
     "hamster": {
       "name": "倉鼠",
@@ -580,7 +644,13 @@
           "unit": "g",
           "note": "黃金鼠約 120-200g，侏儒鼠約 30-50g"
         }
-      }
+      },
+      "commonConditions": [
+        { "id": "wet_tail", "label": "濕尾（幼鼠／黃金鼠，緊迫性腹瀉）", "dietaryNote": "就醫抗生素與補液，減少緊迫與環境變動", "tip": "幼鼠多見，腹瀉、嗜睡為警訊，盡速就醫" },
+        { "id": "diabetes", "label": "糖尿病（侏儒鼠好發）", "dietaryNote": "依獸醫指示控制糖分與餵食，避免高糖點心", "tip": "坎貝爾／一線鼠好發，規律餵食、觀察飲水量" },
+        { "id": "tumor", "label": "腫瘤／淋巴瘤（經獸醫診斷）", "dietaryNote": "依獸醫建議維持營養與食慾", "tip": "黃金鼠公鼠黑色素瘤較多，侏儒鼠淋巴瘤常見" },
+        { "id": "diarrhea", "label": "腹瀉／Tyzzer或寄生蟲", "dietaryNote": "就醫診治，維持飲水與易消化食物", "tip": "成鼠腹瀉可能為細菌或寄生蟲，勿拖延" }
+      ]
     },
     "metadata": {
       "version": "1.2.0",

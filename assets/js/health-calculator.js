@@ -267,9 +267,10 @@ class PetHealthCalculator {
      * @param {string} dogSize - 狗的體型（僅狗需要）
      * @param {string} activityLevel - 運動量選項（very_low / low / moderate / high / very_high）
      * @param {string} bodyShape - 體型選項（very_thin / thin / ideal / heavy / very_heavy）
+     * @param {string} sex - 性別（male / female），影響犬貓參考熱量
      * @returns {Object} { dailyCaloriesMin, dailyCaloriesMax, foodAmountMin, foodAmountMax, waterIntakeMin, waterIntakeMax }
      */
-    calculateNutritionRanges(petType, weight, dogSize, activityLevel, bodyShape) {
+    calculateNutritionRanges(petType, weight, dogSize, activityLevel, bodyShape, sex) {
         if (!this.guidelines || !this.guidelines[petType] || !weight || weight <= 0) {
             return {
                 dailyCaloriesMin: 0, dailyCaloriesMax: 0,
@@ -282,11 +283,12 @@ class PetHealthCalculator {
         const common = this.guidelines.common || {};
         const activityMult = (ng.activityMultipliers && activityLevel) ? (ng.activityMultipliers[activityLevel] || 1.2) : 1.2;
         const bodyMult = (ng.bodyShapeMultipliers && bodyShape) ? (ng.bodyShapeMultipliers[bodyShape] || 1) : 1;
+        const sexMult = (common.sexMerModifier && sex) ? (common.sexMerModifier[sex] || 1) : 1;
         const kcalPer100g = ng.foodCaloriesPer100gDefault || 350;
 
         if (petType === 'cat' || (petType === 'dog' && dogSize)) {
             const RER = this.calculateRER(weight);
-            const MER = RER * activityMult * bodyMult;
+            const MER = RER * activityMult * bodyMult * sexMult;
             const dailyCaloriesMin = Math.round(MER * 0.85);
             const dailyCaloriesMax = Math.round(MER * 1.15);
             const foodAmountMin = Math.round((dailyCaloriesMin / kcalPer100g) * 100);
@@ -342,15 +344,37 @@ class PetHealthCalculator {
      */
     getBodyShapeAndAdvice(bodyShape, activityLevel) {
         const common = this.guidelines && this.guidelines.common;
-        if (!common) return { bodyShapeLabel: '', activityLabel: '', advice: '' };
+        if (!common) return { bodyShapeLabel: '', activityLabel: '', advice: '', bodyShapeLevel: 3, praise: '' };
         const bodyOpt = common.bodyShapeOptions && bodyShape ? common.bodyShapeOptions[bodyShape] : null;
         const activityOpt = common.activityLevelOptions && activityLevel ? common.activityLevelOptions[activityLevel] : null;
         const advice = (common.bodyShapeAdvice && bodyShape) ? common.bodyShapeAdvice[bodyShape] : '';
+        const bodyShapeLevel = (common.bodyShapeLevel && bodyShape) ? common.bodyShapeLevel[bodyShape] : 3;
+        const praise = (common.bodyShapePraise && bodyShape) ? common.bodyShapePraise[bodyShape] : '';
         return {
             bodyShapeLabel: bodyOpt ? bodyOpt.label : '',
             activityLabel: activityOpt ? activityOpt.label : '',
-            advice: advice || '維持均衡飲食與適度活動。'
+            advice: advice || '維持均衡飲食與適度活動。',
+            bodyShapeLevel: bodyShapeLevel,
+            praise: praise || ''
         };
+    }
+
+    /**
+     * 依勾選的健康狀況取得飲食與照護建議（常見疾病會影響建議）
+     * @param {string} petType - 動物種類
+     * @param {string[]} conditionIds - 勾選的狀況 id 陣列
+     * @returns {Object} { dietaryNotes: string[], tips: string[], labels: string[] }
+     */
+    getConditionAdvice(petType, conditionIds) {
+        if (!this.guidelines || !this.guidelines[petType]) {
+            return { dietaryNotes: [], tips: [], labels: [] };
+        }
+        const conditions = this.guidelines[petType].commonConditions || [];
+        const selected = conditions.filter(c => conditionIds.indexOf(c.id) !== -1);
+        const dietaryNotes = selected.map(c => c.dietaryNote).filter(Boolean);
+        const tips = selected.map(c => c.tip ? `🏥 ${c.label}：${c.tip}` : null).filter(Boolean);
+        const labels = selected.map(c => c.label);
+        return { dietaryNotes, tips, labels };
     }
 
     /**
@@ -424,9 +448,10 @@ class PetHealthCalculator {
             throw new Error('健康指引資料尚未載入，請稍後再試。');
         }
 
-        const { petType, petName, birthdate, ageYears, ageMonths, weight, dogSize, hamsterBreed, activityLevel, bodyShape } = petData;
+        const { petType, petName, birthdate, ageYears, ageMonths, weight, sex, dogSize, hamsterBreed, activityLevel, bodyShape, healthConditions } = petData;
         const actLevel = activityLevel || 'moderate';
         const bShape = bodyShape || 'ideal';
+        const conditionIds = Array.isArray(healthConditions) ? healthConditions : [];
 
         if (!this.guidelines[petType]) {
             throw new Error(`不支援的寵物種類: ${petType}`);
@@ -463,24 +488,38 @@ class PetHealthCalculator {
         // 取得生命階段資訊
         const stageInfo = this.getStageInfo(petType, humanAgeData.stage);
 
-        // 計算營養需求區間（熱量、乾糧、飲水皆為區間）
+        // 計算營養需求區間（綜合品種、年齡、體重、體型、性別；熱量、乾糧、飲水皆為區間）
         const nutritionRanges = weight
-            ? this.calculateNutritionRanges(petType, weight, dogSize, actLevel, bShape)
+            ? this.calculateNutritionRanges(petType, weight, dogSize, actLevel, bShape, sex || 'male')
             : { dailyCaloriesMin: 0, dailyCaloriesMax: 0, foodAmountMin: 0, foodAmountMax: 0, waterIntakeMin: 0, waterIntakeMax: 0 };
 
-        // 體型與運動量（飼主自選形容，不顯示 BCS）
+        // 體型與運動量（飼主自選形容，不顯示 BCS；提供客觀化參考等級 1–5；3 顆愛心以上稱讚飼主）
         const bodyShapeAdvice = this.getBodyShapeAndAdvice(bShape, actLevel);
         const bodyCondition = {
             bodyShape: bShape,
             bodyShapeLabel: bodyShapeAdvice.bodyShapeLabel,
+            bodyShapeLevel: bodyShapeAdvice.bodyShapeLevel,
             activityLevel: actLevel,
             activityLabel: bodyShapeAdvice.activityLabel,
-            advice: bodyShapeAdvice.advice
+            advice: bodyShapeAdvice.advice,
+            praise: bodyShapeAdvice.praise
         };
 
-        // 產生報告
+        // 健康狀況對飲食與提醒的影響（常見疾病，會納入建議）
+        const conditionAdvice = this.getConditionAdvice(petType, conditionIds);
+        const stageTips = this.getHealthTips(petType, humanAgeData.stage) || [];
+        // 性別健康關注（公／母各有不同建議，納入健康提醒第一條）
+        const sexFocus = (this.guidelines.sexHealthFocus && this.guidelines.sexHealthFocus[petType] && sex)
+            ? this.guidelines.sexHealthFocus[petType][sex]
+            : '';
+        const healthTipsMerged = (sexFocus ? ['👤 ' + sexFocus] : []).concat(conditionAdvice.tips, stageTips);
+
+        // 產生報告（綜合品種、年齡、體重、體型、性別，若有勾選健康狀況則納入建議）
         const breedName = (petType === 'hamster' && hamsterBreed) ? 
             ` (${this.guidelines.hamster.breeds[hamsterBreed].label})` : '';
+        const sexLabel = (this.guidelines.common && this.guidelines.common.sexOptions && sex) 
+            ? this.guidelines.common.sexOptions[sex].label 
+            : (sex === 'female' ? '母' : '公');
 
         return {
             petInfo: {
@@ -488,7 +527,9 @@ class PetHealthCalculator {
                 typeName: (this.guidelines[petType].name || '毛孩') + breedName,
                 emoji: this.guidelines[petType].emoji || '🐾',
                 name: petName || '毛孩',
-                age: age
+                age: age,
+                sex: sex || 'male',
+                sexLabel: sexLabel
             },
             humanAge: {
                 age: humanAgeData.humanAge,
@@ -512,7 +553,9 @@ class PetHealthCalculator {
                 unit: weight >= 1 ? 'kg' : 'g'
             },
             bodyCondition: bodyCondition,
-            healthTips: this.getHealthTips(petType, humanAgeData.stage) || [],
+            conditionAdvice: conditionAdvice,
+            sexHealthFocus: sexFocus,
+            healthTips: healthTipsMerged,
             generatedDate: new Date().toLocaleDateString('zh-TW', {
                 year: 'numeric',
                 month: 'long',

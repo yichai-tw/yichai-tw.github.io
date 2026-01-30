@@ -6,7 +6,7 @@
     
     <!-- SEO Meta Tags -->
     <title>一鍵毛孩健康小幫手 | 宜加寵物生活館</title>
-    <meta name="description" content="宜加寵物生活館為寵物飼料用品連鎖專賣。本工具為趣味小工具，輸入寵物資料即可生成年齡換算、體況評估與飲食建議。">
+    <meta name="description" content="宜加寵物生活館為寵物飼料用品連鎖專賣。本工具為趣味小工具，輸入寵物資料即可生成年齡換算、健康度參考與飲食建議。">
     <meta name="keywords" content="寵物健康,貓狗年齡,寵物體況,飼養建議,寵物健檢,宜加寵物">
     <meta name="author" content="宜加寵物生活館">
     
@@ -141,7 +141,7 @@
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-3xl md:text-5xl font-bold mb-4">🐾 一鍵毛孩健康小幫手</h1>
             <p class="text-lg md:text-xl mb-2">輸入基本資料，30 秒拿到專屬健康報告</p>
-            <p class="text-sm md:text-base opacity-90">年齡換算 • 體況評估 • 飲食建議 • 健康提醒</p>
+            <p class="text-sm md:text-base opacity-90">年齡換算 • 健康度參考 • 飲食建議 • 健康提醒</p>
             <p class="text-xs opacity-80 mt-2">宜加寵物生活館｜寵物飼料用品連鎖專賣 · 本工具為趣味參考，不取代獸醫建議</p>
         </div>
     </section>
@@ -280,6 +280,23 @@
                     </div>
                 </div>
 
+                <!-- 性別 -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        👤 性別
+                    </label>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="sex" value="male" class="text-orange-500" checked>
+                            <span>公</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="sex" value="female" class="text-orange-500">
+                            <span>母</span>
+                        </label>
+                    </div>
+                </div>
+
                 <!-- 體重 -->
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">
@@ -408,6 +425,17 @@
                     </div>
                 </div>
 
+                <!-- 健康狀況（可多選，選填） -->
+                <div id="healthConditionsSection">
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        🏥 是否經獸醫診斷有以下狀況？（選填，可多選）
+                    </label>
+                    <p class="text-sm text-gray-500 mb-2">若有勾選，報告會納入對應飲食與照護提醒</p>
+                    <div id="healthConditionsList" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <!-- 依物種動態載入，由 JS 填入 -->
+                    </div>
+                </div>
+
                 <!-- 體型（飼主依形容選擇，非專業評分） -->
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">
@@ -520,24 +548,24 @@
                     </div>
                 </div>
                 <div class="flex items-start gap-3">
-                    <span class="text-2xl">⚖️</span>
+                    <span class="text-2xl">♥</span>
                     <div>
-                        <h4 class="font-semibold text-gray-800">體況評估</h4>
-                        <p class="text-sm text-gray-600">BCS 評分與理想體重建議</p>
+                        <h4 class="font-semibold text-gray-800">健康度參考</h4>
+                        <p class="text-sm text-gray-600">綜合品種、年齡、體重、體型、性別計算，以 5 級愛心呈現並有對應建議與稱讚</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-3">
                     <span class="text-2xl">🍲</span>
                     <div>
                         <h4 class="font-semibold text-gray-800">飲食建議</h4>
-                        <p class="text-sm text-gray-600">每日熱量、乾糧克數與飲水量</p>
+                        <p class="text-sm text-gray-600">每日熱量、乾糧與飲水參考區間</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-3">
                     <span class="text-2xl">💊</span>
                     <div>
                         <h4 class="font-semibold text-gray-800">健康提醒</h4>
-                        <p class="text-sm text-gray-600">依生命階段提供重點保健建議</p>
+                        <p class="text-sm text-gray-600">依生命階段與勾選的健康狀況（如腎病、愛滋貓等）提供重點保健建議</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-3">
@@ -606,7 +634,7 @@
         "price": "0",
         "priceCurrency": "TWD"
       },
-      "description": "免費的寵物健康報告生成工具，提供年齡換算、體況評估、飲食建議與健康提醒。",
+      "description": "免費的寵物健康報告生成工具，提供年齡換算、健康度參考、飲食建議與健康提醒。",
       "provider": {
         "@type": "Organization",
         "name": "宜加寵物生活館",

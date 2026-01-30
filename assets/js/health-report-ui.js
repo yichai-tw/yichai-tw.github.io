@@ -62,7 +62,35 @@ function goToStep2() {
     document.getElementById('step2').style.display = 'block';
     updateStepIndicator(2);
     currentStep = 2;
+    updateHealthConditionsList();
+    setTimeout(updateHealthConditionsList, 800);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/**
+ * 依物種載入健康狀況選項（常見疾病，可多選）
+ */
+function updateHealthConditionsList() {
+    const container = document.getElementById('healthConditionsList');
+    if (!container) return;
+    const calc = window.healthCalculator;
+    const guidelines = calc && calc.guidelines;
+    const petType = selectedPetType;
+    if (!petType || !guidelines || !guidelines[petType]) {
+        container.innerHTML = '<p class="text-sm text-gray-500 col-span-2">此物種暫無勾選項目</p>';
+        return;
+    }
+    const conditions = guidelines[petType].commonConditions || [];
+    if (conditions.length === 0) {
+        container.innerHTML = '<p class="text-sm text-gray-500 col-span-2">此物種暫無勾選項目</p>';
+        return;
+    }
+    container.innerHTML = conditions.map(c => `
+        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+            <input type="checkbox" name="healthCondition" value="${c.id}" class="text-orange-500 rounded">
+            <span>${c.label}</span>
+        </label>
+    `).join('');
 }
 
 /**
@@ -174,6 +202,7 @@ function collectFormData() {
     const weight = parseFloat(document.getElementById('weight').value);
     const weightUnit = document.getElementById('weightUnit').value;
     
+    const healthConditions = Array.from(document.querySelectorAll('input[name="healthCondition"]:checked')).map(c => c.value);
     return {
         petType: selectedPetType,
         petName: document.getElementById('petName').value || null,
@@ -184,12 +213,14 @@ function collectFormData() {
         ageMonths: ageInputType === 'age' ? 
             parseInt(document.getElementById('ageMonths').value) || 0 : null,
         weight: weight ? (weightUnit === 'g' ? weight / 1000 : weight) : null,
+        sex: document.querySelector('input[name="sex"]:checked')?.value || 'male',
         dogSize: selectedPetType === 'dog' ? 
             document.querySelector('input[name="dogSize"]:checked')?.value : null,
         hamsterBreed: selectedPetType === 'hamster' ?
             document.querySelector('input[name="hamsterBreed"]:checked')?.value : null,
         activityLevel: document.querySelector('input[name="activityLevel"]:checked')?.value || 'moderate',
-        bodyShape: document.querySelector('input[name="bodyShape"]:checked')?.value || 'ideal'
+        bodyShape: document.querySelector('input[name="bodyShape"]:checked')?.value || 'ideal',
+        healthConditions: healthConditions
     };
 }
 
