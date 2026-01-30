@@ -189,11 +189,36 @@ class PetHealthReportGenerator {
         }
     }
 
+    /**
+     * 將長文字依最大寬度換行，回傳多行陣列
+     */
+    wrapText(text, maxWidth) {
+        const ctx = this.ctx;
+        const lines = [];
+        const chars = Array.from(text);
+        let current = '';
+        for (let i = 0; i < chars.length; i++) {
+            const test = current + chars[i];
+            const metrics = ctx.measureText(test);
+            if (metrics.width > maxWidth && current.length > 0) {
+                lines.push(current);
+                current = chars[i];
+            } else {
+                current = test;
+            }
+        }
+        if (current) lines.push(current);
+        return lines;
+    }
+
     drawHealthTipsCard(y) {
         const height = 320;
         this.drawRoundedCard(this.padding, y, this.canvas.width - this.padding * 2, height, this.cardRadius, this.colors.cardBg);
         
         const contentX = this.padding + 40;
+        const maxTextWidth = this.canvas.width - this.padding * 2 - 80;
+        const lineHeight = 28;
+        const gapBetweenTips = 8;
         let contentY = y + 70;
         
         this.ctx.textAlign = 'left';
@@ -204,11 +229,15 @@ class PetHealthReportGenerator {
         this.ctx.font = '26px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         
-        contentY += 60;
+        contentY += 52;
         const tips = this.data.healthTips.slice(0, 4);
         tips.forEach(tip => {
-            this.ctx.fillText(tip, contentX, contentY);
-            contentY += 50;
+            const lines = this.wrapText(tip, maxTextWidth);
+            lines.forEach(line => {
+                this.ctx.fillText(line, contentX, contentY);
+                contentY += lineHeight;
+            });
+            contentY += gapBetweenTips;
         });
     }
 

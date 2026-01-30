@@ -107,14 +107,10 @@ ENV/
 *.sqlite3
 *.db-journal
 
-# JSON 檔案 (預設全部排除，只有明確允許的才追蹤)
-*.json
-
-# 允許追蹤的 JSON 檔案（明確指定）
-!mapping/PetStores_BranchInfo.json
-!mapping/brand_logos.json
-!news/news.json
-!data/health-guidelines.json
+# JSON：預設皆追蹤，僅排除本機／敏感用途
+*.local.json
+*.secret.json
+.env*.json
 
 # 專案特定排除
 content/              # 原始資料目錄（人只改這裡，不追蹤）
