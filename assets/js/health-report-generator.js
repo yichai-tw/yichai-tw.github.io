@@ -192,6 +192,8 @@ class PetHealthReportGenerator {
         const contentX = this.padding;
         const contentY = y + 24;
         const nut = this.data.nutrition;
+        const cond = this.data.conditionAdvice;
+        const hasConditionNotes = cond && cond.dietaryNotes && cond.dietaryNotes.length > 0;
         const lineHeight = 36;
         const maxWidth = this.canvas.width - this.padding * 2 - 40;
 
