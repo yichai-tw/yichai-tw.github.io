@@ -1,11 +1,152 @@
 /**
  * 寵物健康報告 UI 控制器 (Pet Health Report UI Controller)
- * 用途：處理表單互動、步驟切換與報告生成觸發
+ * 用途：處理表單互動、步驟切換與報告生成觸發、表單記憶（瀏覽器保留一天）
  */
 
 let selectedPetType = null;
 let currentStep = 1;
 let generatedReport = null;
+
+// 表單記憶：存在 localStorage，保留一天
+const STORAGE_KEY = 'yichai_health_report_form';
+const TTL_MS = 24 * 60 * 60 * 1000; // 1 天
+
+function saveFormToStorage(data) {
+    try {
+        const payload = { ...data, savedAt: Date.now() };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    } catch (e) {
+        console.warn('無法寫入表單記憶', e);
+    }
+}
+
+function getStoredFormData() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        const data = JSON.parse(raw);
+        if (!data.savedAt || (Date.now() - data.savedAt > TTL_MS)) return null;
+        return data;
+    } catch (e) {
+        return null;
+    }
+}
+
+function clearStorageOnly() {
+    try {
+        localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+        console.warn('無法清除儲存', e);
+    }
+}
+
+/**
+ * 一鍵清除所有紀錄：清除 localStorage 儲存並將表單還原為預設
+ */
+function clearAllStoredAndForm() {
+    clearStorageOnly();
+    const petNameEl = document.getElementById('petName');
+    if (petNameEl) petNameEl.value = '';
+    const birth = document.querySelector('input[name="ageInputType"][value="birthdate"]');
+    if (birth) birth.checked = true;
+    const birthInput = document.getElementById('birthdate');
+    if (birthInput) birthInput.value = '';
+    const y = document.getElementById('ageYears');
+    const m = document.getElementById('ageMonths');
+    if (y) y.value = '';
+    if (m) m.value = '';
+    document.getElementById('birthdateInput').style.display = 'block';
+    document.getElementById('ageInput').style.display = 'none';
+    toggleAgeInput();
+    const weightEl = document.getElementById('weight');
+    const unitEl = document.getElementById('weightUnit');
+    if (weightEl) weightEl.value = '';
+    if (unitEl) unitEl.value = selectedPetType === 'hamster' ? 'g' : 'kg';
+    const sexMale = document.querySelector('input[name="sex"][value="male"]');
+    if (sexMale) sexMale.checked = true;
+    const neuteredNo = document.querySelector('input[name="neutered"][value="no"]');
+    if (neuteredNo) neuteredNo.checked = true;
+    const actMod = document.querySelector('input[name="activityLevel"][value="moderate"]');
+    if (actMod) actMod.checked = true;
+    const shapeIdeal = document.querySelector('input[name="bodyShape"][value="ideal"]');
+    if (shapeIdeal) shapeIdeal.checked = true;
+    if (selectedPetType === 'dog') {
+        const small = document.querySelector('input[name="dogSize"][value="small"]');
+        if (small) small.checked = true;
+    }
+    if (selectedPetType === 'hamster') {
+        const syrian = document.querySelector('input[name="hamsterBreed"][value="syrian"]');
+        if (syrian) syrian.checked = true;
+    }
+    const noneCb = document.getElementById('healthConditionNone');
+    if (noneCb) noneCb.checked = true;
+    document.querySelectorAll('input[name="healthCondition"]').forEach(cb => {
+        if (cb.id !== 'healthConditionNone') cb.checked = false;
+    });
+}
+
+function applyRestoredFormData(data) {
+    if (!data) return;
+    const petNameEl = document.getElementById('petName');
+    if (petNameEl) petNameEl.value = data.petName || '';
+    // 年齡
+    if (data.birthdate) {
+        const birth = document.querySelector('input[name="ageInputType"][value="birthdate"]');
+        if (birth) birth.checked = true;
+        const birthInput = document.getElementById('birthdate');
+        if (birthInput) birthInput.value = data.birthdate;
+        document.getElementById('birthdateInput').style.display = 'block';
+        document.getElementById('ageInput').style.display = 'none';
+    } else {
+        const age = document.querySelector('input[name="ageInputType"][value="age"]');
+        if (age) age.checked = true;
+        const y = document.getElementById('ageYears');
+        const m = document.getElementById('ageMonths');
+        if (y) y.value = data.ageYears != null ? data.ageYears : '';
+        if (m) m.value = data.ageMonths != null ? data.ageMonths : '';
+        document.getElementById('birthdateInput').style.display = 'none';
+        document.getElementById('ageInput').style.display = 'block';
+    }
+    toggleAgeInput();
+    // 體重：存的是 kg，倉鼠顯示為 g
+    const weightEl = document.getElementById('weight');
+    const unitEl = document.getElementById('weightUnit');
+    if (weightEl && unitEl) {
+        if (data.petType === 'hamster' && data.weight != null) {
+            weightEl.value = Math.round(data.weight * 1000);
+            unitEl.value = 'g';
+        } else if (data.weight != null) {
+            weightEl.value = data.weight;
+            unitEl.value = 'kg';
+        }
+    }
+    // 性別、結紮、運動量、體型
+    const sexRadio = document.querySelector(`input[name="sex"][value="${data.sex || 'male'}"]`);
+    if (sexRadio) sexRadio.checked = true;
+    const neuteredRadio = document.querySelector(`input[name="neutered"][value="${data.neutered ? 'yes' : 'no'}"]`);
+    if (neuteredRadio) neuteredRadio.checked = true;
+    const actRadio = document.querySelector(`input[name="activityLevel"][value="${data.activityLevel || 'moderate'}"]`);
+    if (actRadio) actRadio.checked = true;
+    const shapeRadio = document.querySelector(`input[name="bodyShape"][value="${data.bodyShape || 'ideal'}"]`);
+    if (shapeRadio) shapeRadio.checked = true;
+    if (data.petType === 'dog' && data.dogSize) {
+        const dogRadio = document.querySelector(`input[name="dogSize"][value="${data.dogSize}"]`);
+        if (dogRadio) dogRadio.checked = true;
+    }
+    if (data.petType === 'hamster' && data.hamsterBreed) {
+        const hamRadio = document.querySelector(`input[name="hamsterBreed"][value="${data.hamsterBreed}"]`);
+        if (hamRadio) hamRadio.checked = true;
+    }
+    // 健康狀況：需等動態選項渲染後再勾選
+    const ids = Array.isArray(data.healthConditions) ? data.healthConditions : [];
+    const noneCb = document.getElementById('healthConditionNone');
+    if (noneCb) noneCb.checked = ids.length === 0;
+    document.querySelectorAll('input[name="healthCondition"]').forEach(cb => {
+        if (cb.id === 'healthConditionNone') return;
+        cb.checked = ids.indexOf(cb.value) !== -1;
+    });
+}
+
 
 /**
  * 選擇動物種類
@@ -71,6 +212,11 @@ function goToStep2() {
     updateHealthConditionsList();
     setTimeout(updateHealthConditionsList, 800);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 一天內有儲存記錄時自動還原（同寵物種類才套用，延遲以等健康狀況選項載入）
+    setTimeout(function autoRestore() {
+        const stored = getStoredFormData();
+        if (stored && stored.petType === selectedPetType) applyRestoredFormData(stored);
+    }, 1000);
 }
 
 /**
@@ -345,6 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!validateForm()) return;
             
             const formData = collectFormData();
+            saveFormToStorage(formData);  // 存在瀏覽器，保留一天
             showLoading();
             
             try {

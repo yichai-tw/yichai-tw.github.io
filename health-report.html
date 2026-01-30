@@ -235,9 +235,16 @@
 
         <!-- Step 2: 輸入寵物資料 -->
         <div id="step2" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8" style="display: none;">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-                請輸入寵物資料
-            </h2>
+            <div class="flex flex-wrap items-center justify-center gap-4 mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 text-center">
+                    請輸入寵物資料
+                </h2>
+                <button type="button" id="clearStoredBtn" onclick="clearAllStoredAndForm()" 
+                        class="text-sm text-gray-500 hover:text-gray-700 border border-gray-300 hover:border-gray-400 rounded-lg px-3 py-1.5 transition"
+                        title="清除瀏覽器儲存的輸入紀錄並清空表單">
+                    🗑️ 一鍵清除所有紀錄
+                </button>
+            </div>
             
             <form id="petDataForm" class="space-y-6">
                 <!-- 寵物名稱（選填） -->
