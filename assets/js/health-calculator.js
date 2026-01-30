@@ -340,7 +340,60 @@ class PetHealthCalculator {
     }
 
     /**
-     * 取得體型／運動量標籤與建議（不用 BCS，避免像專業醫學工具）
+     * 取得該物種／體型的理想體重區間（kg），供計算體態分數
+     */
+    getIdealWeightRange(petType, dogSize, hamsterBreed) {
+        const g = this.guidelines && this.guidelines[petType];
+        if (!g || !g.idealWeight) return null;
+        const iw = g.idealWeight;
+        if (petType === 'dog' && dogSize && iw[dogSize]) {
+            const r = iw[dogSize];
+            return { min: r.min, max: r.max };
+        }
+        if (iw.general) {
+            const r = iw.general;
+            const unit = (r.unit || 'kg').toLowerCase();
+            const toKg = unit === 'g' ? 0.001 : 1;
+            return { min: r.min * toKg, max: r.max * toKg };
+        }
+        return null;
+    }
+
+    /**
+     * 依體重與理想區間計算體態分數 1–5（理想=5，過輕/過重遞減）
+     */
+    computeBodyScore(weightKg, idealMin, idealMax) {
+        if (weightKg == null || weightKg <= 0 || idealMin == null || idealMax == null) return 3;
+        const mid = (idealMin + idealMax) / 2;
+        const ratio = weightKg / mid;
+        if (ratio >= 0.95 && ratio <= 1.05) return 5;
+        if (ratio >= 0.9 && ratio < 0.95) return 4;
+        if (ratio > 1.05 && ratio <= 1.1) return 4;
+        if (ratio >= 0.85 && ratio < 0.9) return 3;
+        if (ratio > 1.1 && ratio <= 1.15) return 3;
+        if (ratio >= 0.8 && ratio < 0.85) return 2;
+        if (ratio > 1.15 && ratio <= 1.2) return 2;
+        return 1;
+    }
+
+    /**
+     * 活動量對應分數 1–5（非常活潑=5）
+     */
+    getActivityScore(activityLevel) {
+        const map = { very_low: 1, low: 2, moderate: 3, high: 4, very_high: 5 };
+        return map[activityLevel] != null ? map[activityLevel] : 3;
+    }
+
+    /**
+     * 寵物幸福度綜合指數 1–5（體態分與活動分平均，四捨五入）
+     */
+    computeWellnessScore(bodyScore, activityScore) {
+        const raw = (bodyScore + activityScore) / 2;
+        return Math.max(1, Math.min(5, Math.round(raw)));
+    }
+
+    /**
+     * 取得體型／運動量標籤與建議（保留供營養計算與建議文案；幸福度改由計算產生）
      */
     getBodyShapeAndAdvice(bodyShape, activityLevel) {
         const common = this.guidelines && this.guidelines.common;
@@ -356,6 +409,22 @@ class PetHealthCalculator {
             advice: advice || '維持均衡飲食與適度活動。',
             bodyShapeLevel: bodyShapeLevel,
             praise: praise || ''
+        };
+    }
+
+    /**
+     * 依幸福度等級 1–5 取得稱讚與建議（用於報告）
+     */
+    getWellnessPraiseAndAdvice(wellnessLevel) {
+        const common = this.guidelines && this.guidelines.common;
+        if (!common || !common.bodyShapePraise || !common.bodyShapeAdvice) {
+            return { praise: '', advice: '維持均衡飲食與適度活動。' };
+        }
+        const levelToKey = { 1: 'very_thin', 2: 'thin', 3: 'ideal', 4: 'heavy', 5: 'very_heavy' };
+        const key = levelToKey[Math.max(1, Math.min(5, wellnessLevel))] || 'ideal';
+        return {
+            praise: common.bodyShapePraise[key] || '',
+            advice: common.bodyShapeAdvice[key] || '維持均衡飲食與適度活動。'
         };
     }
 
@@ -493,16 +562,26 @@ class PetHealthCalculator {
             ? this.calculateNutritionRanges(petType, weight, dogSize, actLevel, bShape, sex || 'male')
             : { dailyCaloriesMin: 0, dailyCaloriesMax: 0, foodAmountMin: 0, foodAmountMax: 0, waterIntakeMin: 0, waterIntakeMax: 0 };
 
-        // 體型與運動量（飼主自選形容，不顯示 BCS；提供客觀化參考等級 1–5；3 顆愛心以上稱讚飼主）
+        // 寵物幸福度綜合指數：依體重與理想體重計算體態分、活動量對應活動分，合併為 1–5 愛心
+        const idealRange = this.getIdealWeightRange(petType, dogSize, hamsterBreed);
+        const weightKg = weight != null ? (weight < 1 ? weight : weight) : null;
+        const bodyScore = idealRange && weightKg != null
+            ? this.computeBodyScore(weightKg, idealRange.min, idealRange.max)
+            : 3;
+        const activityScore = this.getActivityScore(actLevel);
+        const wellnessScore = this.computeWellnessScore(bodyScore, activityScore);
+        const wellnessPraise = this.getWellnessPraiseAndAdvice(wellnessScore);
         const bodyShapeAdvice = this.getBodyShapeAndAdvice(bShape, actLevel);
         const bodyCondition = {
             bodyShape: bShape,
             bodyShapeLabel: bodyShapeAdvice.bodyShapeLabel,
-            bodyShapeLevel: bodyShapeAdvice.bodyShapeLevel,
             activityLevel: actLevel,
             activityLabel: bodyShapeAdvice.activityLabel,
-            advice: bodyShapeAdvice.advice,
-            praise: bodyShapeAdvice.praise
+            bodyScore,
+            activityScore,
+            wellnessScore,
+            advice: wellnessPraise.advice,
+            praise: wellnessPraise.praise
         };
 
         // 健康狀況對飲食與提醒的影響（常見疾病，會納入建議）
