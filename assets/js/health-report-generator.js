@@ -248,24 +248,25 @@ class PetHealthReportGenerator {
         }
         const activityLabels = ['', '很少動', '偶爾動', '適中', '活潑', '非常活潑'];
         const activityLabel = activityLabels[Math.min(5, Math.max(1, actScore))] || '適中';
+        const segW = 28;
+        const segGap = 6;
+        const barTotalW = 5 * segW + 4 * segGap;
+        const barY = drawY - 16;
+        const barX = this.padding + w - this.innerPadding - barTotalW;
         this.ctx.font = '20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.ctx.fillText(`運動量`, contentX, drawY);
         this.ctx.font = 'bold 24px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
         this.ctx.fillText(` ${activityLabel}`, contentX + 72, drawY);
-        drawY += lineH;
-        const barX = contentX + 72;
-        const barY = drawY - 18;
-        const segW = 28;
-        const segGap = 6;
         for (let i = 0; i < 5; i++) {
             const sx = barX + i * (segW + segGap);
             this.ctx.fillStyle = i < actScore ? this.colors.brandOrange : 'rgba(0,0,0,0.1)';
-            this.ctx.fillRect(sx, barY, segW, 22);
+            this.ctx.fillRect(sx, barY, segW, 20);
         }
+        drawY += lineH;
         if (actScore <= 2) {
-            drawY += 28;
+            drawY += 8;
             this.ctx.font = '18px "Noto Sans TC"';
             this.ctx.fillStyle = this.colors.textLight;
             this.ctx.fillText('可適度增加日常活動，有助維持體態與活力～', contentX, drawY);
@@ -393,13 +394,11 @@ class PetHealthReportGenerator {
     async drawFooter(footerY) {
         const y = footerY != null ? footerY : 1200;
         this.drawSectionDivider(y);
-        const contentStart = y + 18;
+        const contentStart = y + 24;
+        const qrSize = 120;
+        const qrX = this.canvas.width - this.padding - qrSize;
         
-        // 繪製 QR Code（連結至官網首頁，可查門市、最新消息與健康小幫手）
-        const qrUrl = 'https://yichai-tw.github.io/';
-        await this.drawQRCode(qrUrl, this.canvas.width - this.padding - 130, contentStart, 130);
-        
-        // 門市資訊
+        // 門市資訊（左側，預留 QR 右側空間，避免覆蓋）
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 30px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
@@ -407,14 +406,19 @@ class PetHealthReportGenerator {
         
         this.ctx.font = '24px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textLight;
-        this.ctx.fillText('專業、用心、愛毛孩，全台多間門市為您服務', this.padding, contentStart + 80);
-        this.ctx.fillText('官網、門市與更多健康資訊請掃描 QR Code', this.padding, contentStart + 118);
+        const maxTextW = qrX - this.padding - 24;
+        this.ctx.fillText('專業、用心、愛毛孩，全台多間門市為您服務', this.padding, contentStart + 78);
+        this.ctx.fillText('官網、門市與更多健康資訊請掃描 QR Code', this.padding, contentStart + 114);
         
-        // 免責聲明（版面底部，固定距畫布底 20px）
+        // 繪製 QR Code（右側，不與文字重疊）
+        const qrUrl = 'https://yichai-tw.github.io/';
+        await this.drawQRCode(qrUrl, qrX, contentStart, qrSize);
+        
+        // 免責聲明（固定距畫布底 40px，與頁尾區隔、不觸底）
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 20px "Noto Sans TC"';
         this.ctx.fillStyle = '#999999';
-        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, this.canvas.height - 22);
+        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, this.canvas.height - 40);
     }
 
     drawTextWithShadow(text, x, y, fontSize, color, weight = 'normal') {
