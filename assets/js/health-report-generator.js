@@ -52,10 +52,13 @@ class PetHealthReportGenerator {
         this.drawAgeAndStageRow(currentY);
         currentY += 172 + this.sectionGap;
 
-        // 2. 體型與活動參考（藍底白字＋白泡泡綠字＋活動條）
+        // 2. 體型與活動參考（白底淡框＋泡泡框＋活動條；低活動時有溫馨提示）
         if (this.data.bodyCondition) {
+            const bc = this.data.bodyCondition;
+            const actScore = bc.activityScore != null ? bc.activityScore : 3;
+            const bodyBlockH = (actScore <= 2 && bc.praise) ? 278 : (actScore <= 2 ? 258 : 230);
             this.drawBodyConditionBlock(currentY);
-            currentY += 230 + this.sectionGap;
+            currentY += bodyBlockH + this.sectionGap;
         }
 
         // 3. 飲食建議（全寬淡框）
@@ -200,7 +203,8 @@ class PetHealthReportGenerator {
         const bc = this.data.bodyCondition;
         if (!bc) return;
         const w = this.contentWidth;
-        const h = 230;
+        const actScore = bc.activityScore != null ? bc.activityScore : 3;
+        const h = (actScore <= 2 && bc.praise) ? 278 : (actScore <= 2 ? 258 : 230);
         const lineH = this.lineHeight;
         const contentX = this.padding + this.innerPadding;
         const innerW = w - this.innerPadding * 2;
@@ -216,7 +220,6 @@ class PetHealthReportGenerator {
         this.ctx.fillText(bc.advice || '維持目前飲食與活動習慣', contentX, drawY);
         drawY += lineH + this.titleToContent;
         const bodyScore = bc.bodyScore != null ? bc.bodyScore : 3;
-        const actScore = bc.activityScore != null ? bc.activityScore : 3;
         const bodyH = '♥'.repeat(bodyScore) + '♡'.repeat(5 - bodyScore);
         this.ctx.font = '20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
@@ -260,6 +263,12 @@ class PetHealthReportGenerator {
             const sx = barX + i * (segW + segGap);
             this.ctx.fillStyle = i < actScore ? this.colors.brandOrange : 'rgba(0,0,0,0.1)';
             this.ctx.fillRect(sx, barY, segW, 22);
+        }
+        if (actScore <= 2) {
+            drawY += 28;
+            this.ctx.font = '18px "Noto Sans TC"';
+            this.ctx.fillStyle = this.colors.textLight;
+            this.ctx.fillText('可適度增加日常活動，有助維持體態與活力～', contentX, drawY);
         }
     }
 
