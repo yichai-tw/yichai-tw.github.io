@@ -46,11 +46,11 @@ class PetHealthReportGenerator {
         this.drawBackground();
         this.drawHeader();
         
-        let currentY = 156;
+        let currentY = 182;
 
-        // 1. 人類年齡＋生命階段（淺暖色卡、雙欄）
+        // 1. 人類年齡＋生命階段（淺暖色卡、嚴格左右半寬、不貼頂）
         this.drawAgeAndStageRow(currentY);
-        currentY += 168 + this.sectionGap;
+        currentY += 172 + this.sectionGap;
 
         // 2. 體型與活動參考（藍底白字＋白泡泡綠字＋活動條）
         if (this.data.bodyCondition) {
@@ -155,27 +155,35 @@ class PetHealthReportGenerator {
         this.ctx.restore();
     }
 
-    /** 年齡＋生命階段合併為一張淺暖色卡，內部分雙欄 */
+    /** 年齡＋生命階段：一張卡、嚴格左右半寬、中間分隔線，無右側留白 */
     drawAgeAndStageRow(y) {
-        const rowHeight = 168;
-        const cardInner = 38;
-        const cardTop = 36;
+        const rowHeight = 172;
+        const cardInner = 36;
+        const cardTop = 40;
         const titleToContentGap = 32;
         const lineH = this.lineHeight;
-        const midX = this.padding + this.contentWidth / 2;
+        const halfW = this.contentWidth / 2;
+        const midX = this.padding + halfW;
         this.drawTintedCard(this.padding, y, this.contentWidth, rowHeight, this.colors.ageCardFill);
+        this.ctx.strokeStyle = this.colors.divider;
+        this.ctx.lineWidth = 1;
+        this.ctx.beginPath();
+        this.ctx.moveTo(midX, y + 16);
+        this.ctx.lineTo(midX, y + rowHeight - 16);
+        this.ctx.stroke();
+        const leftX = this.padding + cardInner;
+        const leftMaxW = halfW - cardInner - 12;
+        const rightX = midX + 12;
+        const rightMaxW = halfW - 12 - cardInner;
+        const titleY = y + cardTop;
+        const contentY = titleY + titleToContentGap;
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 26px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        const leftX = this.padding + cardInner;
-        const rightX = midX + 12;
-        const maxW = this.colWidth - cardInner;
-        const titleY = y + cardTop;
-        const contentY = titleY + titleToContentGap;
         this.ctx.fillText(`${this.data.petInfo.emoji} 相當於人類 ${this.data.humanAge.age} 歲`, leftX, titleY);
         this.ctx.font = '24px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.wrapText(this.data.humanAge.comparison, maxW).forEach((line, i) => {
+        this.wrapText(this.data.humanAge.comparison, leftMaxW).forEach((line, i) => {
             this.ctx.fillText(line, leftX, contentY + i * lineH);
         });
         this.ctx.font = 'bold 26px "Noto Sans TC"';
@@ -183,7 +191,9 @@ class PetHealthReportGenerator {
         this.ctx.fillText(`📋 目前生命階段：${this.data.humanAge.stage}`, rightX, titleY);
         this.ctx.font = '24px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.ctx.fillText(`建議健檢頻率：${this.data.stageInfo.checkupFrequency}`, rightX, contentY);
+        this.wrapText(`建議健檢頻率：${this.data.stageInfo.checkupFrequency}`, rightMaxW).forEach((line, i) => {
+            this.ctx.fillText(line, rightX, contentY + i * lineH);
+        });
     }
 
     drawBodyConditionBlock(y) {
