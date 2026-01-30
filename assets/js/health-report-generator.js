@@ -47,9 +47,9 @@ class PetHealthReportGenerator {
             currentY += 220;
         }
 
-        // 4. 飲食建議卡片
+        // 4. 飲食建議卡片（依開發指引：每日熱量區間、乾糧約、飲水、免責說明）
         this.drawNutritionCard(currentY);
-        currentY += 220;
+        currentY += 250;
 
         // 5. 健康提醒卡片
         this.drawHealthTipsCard(currentY);
@@ -153,39 +153,55 @@ class PetHealthReportGenerator {
         
         const contentX = this.padding + 40;
         const contentY = y + 70;
-        const bcs = this.data.bodyCondition;
+        const bc = this.data.bodyCondition;
+        if (!bc) return;
         
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 36px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(`⚖️ 體況評估：${bcs.description} (BCS ${bcs.score}/9)`, contentX, contentY);
+        this.ctx.fillText(`📐 體型與活動參考`, contentX, contentY);
         
         this.ctx.font = '28px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.ctx.fillText(`建議：${bcs.advice}`, contentX, contentY + 60);
+        this.ctx.fillText(`體型：${bc.bodyShapeLabel || '標準'}　運動量：${bc.activityLabel || '適中'}`, contentX, contentY + 52);
+        const adviceLines = this.wrapText(`建議：${bc.advice || '維持均衡飲食與適度活動。'}`, this.canvas.width - this.padding * 2 - 80);
+        adviceLines.forEach((line, i) => {
+            this.ctx.fillText(line, contentX, contentY + 52 + 40 + i * 36);
+        });
     }
 
     drawNutritionCard(y) {
-        const height = 180;
+        const height = 250;
         this.drawRoundedCard(this.padding, y, this.canvas.width - this.padding * 2, height, this.cardRadius, this.colors.cardBg);
         
         const contentX = this.padding + 40;
         const contentY = y + 70;
         const nut = this.data.nutrition;
-        
+        const lineHeight = 44;
+        const maxWidth = this.canvas.width - this.padding * 2 - 80;
+
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 36px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(`🍲 每日飲食建議`, contentX, contentY);
-        
+        this.ctx.fillText(`🍲 飲食建議`, contentX, contentY);
+
         this.ctx.font = '28px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        
-        if (nut.dailyCalories > 0) {
-            const text = `熱量：${nut.dailyCalories} kcal | 乾糧：約 ${nut.foodAmount} g | 飲水：${nut.waterIntake} ml`;
-            this.ctx.fillText(text, contentX, contentY + 60);
+
+        const hasNutrition = (nut.dailyCaloriesMin > 0 || nut.dailyCaloriesMax > 0);
+        if (hasNutrition) {
+            const calMin = nut.dailyCaloriesMin;
+            const calMax = nut.dailyCaloriesMax;
+            const line1 = `每日熱量：${calMin}–${calMax} kcal（參考區間，非專業工具無法提供精確數值）`;
+            const lines1 = this.wrapText(line1, maxWidth);
+            lines1.forEach((line, i) => {
+                this.ctx.fillText(line, contentX, contentY + 52 + i * lineHeight);
+            });
+            const line1Count = lines1.length;
+            this.ctx.fillText(`乾糧約：${nut.foodAmountMin}–${nut.foodAmountMax} g`, contentX, contentY + 52 + line1Count * lineHeight + lineHeight);
+            this.ctx.fillText(`飲水：${nut.waterIntakeMin}–${nut.waterIntakeMax} ml`, contentX, contentY + 52 + line1Count * lineHeight + lineHeight * 2);
         } else {
-            this.ctx.fillText('請填寫體重以獲得精確建議', contentX, contentY + 60);
+            this.ctx.fillText('請填寫體重以獲得飲食建議', contentX, contentY + 52);
         }
     }
 
@@ -242,8 +258,8 @@ class PetHealthReportGenerator {
     }
 
     async drawFooter() {
-        // 健康提醒卡片結束於 y=1100+360=1460，頁尾從其下方開始，避免重疊
-        const y = 1480;
+        // 健康提醒卡片高度 360，頁尾從其下方開始（220+220+220+220+250+360=1490），避免重疊
+        const y = 1520;
         
         // 繪製 QR Code（連結至官網首頁，可查門市、最新消息與健康小幫手）
         const qrUrl = 'https://yichai-tw.github.io/';
@@ -260,11 +276,11 @@ class PetHealthReportGenerator {
         this.ctx.fillText('專業、用心、愛毛孩，全台多間門市為您服務', this.padding, y + 85);
         this.ctx.fillText('官網、門市與更多健康資訊請掃描 QR Code', this.padding, y + 130);
         
-        // 免責聲明
+        // 免責聲明（canvas 高度 1700，置於底部上方）
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 20px "Noto Sans TC"';
         this.ctx.fillStyle = '#999999';
-        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, 1640);
+        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, 1680);
     }
 
     drawRoundedCard(x, y, width, height, radius, fillColor) {
@@ -310,19 +326,29 @@ class PetHealthReportGenerator {
                 correctLevel: QRCode.CorrectLevel.H
             });
             
-            // 等待 QRCode 生成
+            // 等待 QRCode 生成（qrcode.js 可能輸出 <img> 或 <canvas>，韋瓦第等瀏覽器常為 canvas）
             let attempts = 0;
-            let qrImg = null;
+            let dataUrl = null;
             
             while (attempts < 10) {
-                qrImg = qrContainer.querySelector('img');
-                if (qrImg && qrImg.src && qrImg.src.startsWith('data:image')) break;
+                const qrImg = qrContainer.querySelector('img');
+                const qrCanvas = qrContainer.querySelector('canvas');
+                if (qrImg && qrImg.src && qrImg.src.startsWith('data:image')) {
+                    dataUrl = qrImg.src;
+                    break;
+                }
+                if (qrCanvas && qrCanvas.width > 0) {
+                    try {
+                        dataUrl = qrCanvas.toDataURL('image/png');
+                        if (dataUrl) break;
+                    } catch (e) { /* 忽略 toDataURL 失敗 */ }
+                }
                 await new Promise(resolve => setTimeout(resolve, 100));
                 attempts++;
             }
             
-            if (qrImg && qrImg.src) {
-                const img = await this.loadImage(qrImg.src);
+            if (dataUrl) {
+                const img = await this.loadImage(dataUrl);
                 this.ctx.drawImage(img, x, y, size, size);
             }
         } catch (e) {

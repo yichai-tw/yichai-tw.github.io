@@ -113,6 +113,7 @@ ENV/
 .env*.json
 
 # 專案特定排除
+image/                # 暫存／未納管圖片，不追蹤
 content/              # 原始資料目錄（人只改這裡，不追蹤）
 tools/project_tree_generator.py
 project_structure.txt

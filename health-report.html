@@ -146,6 +146,23 @@
         </div>
     </section>
 
+    <!-- LINE 瀏覽器提醒（偵測到時顯示） -->
+    <div id="lineBrowserNotice" class="hidden container mx-auto px-4 -mt-4 mb-4 max-w-4xl">
+        <div class="bg-amber-50 border border-amber-300 rounded-xl p-4 flex items-start gap-3 shadow-sm">
+            <span class="text-2xl flex-shrink-0">📱</span>
+            <div class="flex-1 min-w-0">
+                <p class="font-semibold text-amber-900">您正在使用 LINE 內建瀏覽器</p>
+                <p class="text-sm text-amber-800 mt-1">
+                    「分享到 LINE」與「下載 PNG」可能無法正常使用。建議點選右上角 <strong>⋯</strong> → <strong>在瀏覽器中開啟</strong>，或複製網址到 Chrome、Safari 等瀏覽器使用。
+                </p>
+            </div>
+            <button type="button" onclick="document.getElementById('lineBrowserNotice').classList.add('hidden')" 
+                    class="flex-shrink-0 text-amber-600 hover:text-amber-800 p-1" aria-label="關閉提醒">
+                ✕
+            </button>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
         
@@ -361,6 +378,66 @@
                     </div>
                 </div>
 
+                <!-- 運動量（飼主依形容選擇） -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        🏃 平常運動量
+                    </label>
+                    <p class="text-sm text-gray-500 mb-2">請依毛孩平常活動情況選擇</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+                            <input type="radio" name="activityLevel" value="very_low" class="text-orange-500">
+                            <span><strong>很少動</strong> — 多半在睡覺或靜態</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+                            <input type="radio" name="activityLevel" value="low" class="text-orange-500">
+                            <span><strong>偶爾動</strong> — 室內走動、短暫玩耍</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+                            <input type="radio" name="activityLevel" value="moderate" class="text-orange-500" checked>
+                            <span><strong>適中</strong> — 每日有散步或固定活動</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+                            <input type="radio" name="activityLevel" value="high" class="text-orange-500">
+                            <span><strong>愛動</strong> — 常跑跳、長時間玩耍</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+                            <input type="radio" name="activityLevel" value="very_high" class="text-orange-500">
+                            <span><strong>非常活潑</strong> — 幾乎停不下來</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 體型（飼主依形容選擇，非專業評分） -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        📐 看起來的體型
+                    </label>
+                    <p class="text-sm text-gray-500 mb-2">請依目視或觸摸肋骨、腰身選擇最接近的描述</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+                            <input type="radio" name="bodyShape" value="very_thin" class="text-orange-500">
+                            <span><strong>很瘦</strong> — 肋骨明顯、腰身極凹</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+                            <input type="radio" name="bodyShape" value="thin" class="text-orange-500">
+                            <span><strong>偏瘦</strong> — 摸得到肋骨、腰身明顯</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+                            <input type="radio" name="bodyShape" value="ideal" class="text-orange-500" checked>
+                            <span><strong>標準</strong> — 摸得到肋骨有薄脂肪、有腰身</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+                            <input type="radio" name="bodyShape" value="heavy" class="text-orange-500">
+                            <span><strong>偏胖</strong> — 摸不太到肋骨、腰身不明顯</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+                            <input type="radio" name="bodyShape" value="very_heavy" class="text-orange-500">
+                            <span><strong>很胖</strong> — 摸不到肋骨、無腰身</span>
+                        </label>
+                    </div>
+                </div>
+
                 <!-- 按鈕區 -->
                 <div class="flex gap-4 pt-4">
                     <button type="button" onclick="backToStep1()" 
@@ -389,6 +466,13 @@
                 <canvas id="reportCanvas" class="border border-gray-200 rounded-lg shadow-md max-w-full" 
                         style="width: 100%; max-width: 540px; height: auto;">
                 </canvas>
+            </div>
+
+            <!-- LINE 內建瀏覽器時再次提醒 -->
+            <div id="lineBrowserNoticeReport" class="hidden mb-4">
+                <div class="bg-amber-50 border border-amber-300 rounded-lg px-4 py-3 text-sm text-amber-800">
+                    <strong>📱 使用 LINE 內建瀏覽器？</strong> 分享與下載圖片可能無法使用，請改用「在瀏覽器中開啟」或其它瀏覽器。
+                </div>
             </div>
 
             <!-- 操作按鈕 -->
@@ -486,6 +570,20 @@
 
     <!-- Footer Component Placeholder -->
     <div id="footer-container"></div>
+
+    <!-- LINE 內建瀏覽器偵測 -->
+    <script>
+        (function () {
+            var ua = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+            var isLineBrowser = /Line\/|LINE\//i.test(ua) || (ua.indexOf('Line') !== -1 && /Android|iPhone|iPad/i.test(ua));
+            if (isLineBrowser) {
+                var topNotice = document.getElementById('lineBrowserNotice');
+                var reportNotice = document.getElementById('lineBrowserNoticeReport');
+                if (topNotice) topNotice.classList.remove('hidden');
+                if (reportNotice) reportNotice.classList.remove('hidden');
+            }
+        })();
+    </script>
 
     <!-- Load Components -->
     <script src="assets/js/load-header.js"></script>

@@ -8,13 +8,16 @@
 class PetHealthCalculator {
     constructor() {
         this.guidelines = null;
+        this._loadPromise = null;
         this.loadGuidelines();
     }
 
     /**
-     * 載入健康指引資料庫
+     * 載入健康指引資料庫（重複呼叫會回傳同一 Promise，避免 race condition）
      */
     async loadGuidelines() {
+        if (this._loadPromise) return this._loadPromise;
+        this._loadPromise = (async () => {
         try {
             // 根據當前網頁路徑自動判斷資料夾位置
             const isGitHubPages = window.location.hostname.includes('github.io');
@@ -41,6 +44,8 @@ class PetHealthCalculator {
                 console.error('❌ 備用路徑也失敗:', altError);
             }
         }
+        })();
+        return this._loadPromise;
     }
 
     /**
@@ -248,139 +253,103 @@ class PetHealthCalculator {
     }
 
     /**
-     * 計算每日熱量需求 (Daily Calorie Requirement)
+     * RER（靜態能量需求）= 70 × 體重(kg)^0.75，適用犬貓
+     */
+    calculateRER(weightKg) {
+        return 70 * Math.pow(weightKg, 0.75);
+    }
+
+    /**
+     * 計算營養需求區間（熱量、乾糧、飲水皆為區間）
+     * 犬貓：RER × 活動係數 × 體型係數，再給 ±15% 區間；飲水依 ml/kg 區間
      * @param {string} petType - 動物種類
      * @param {number} weight - 體重（公斤）
      * @param {string} dogSize - 狗的體型（僅狗需要）
-     * @returns {number} 每日熱量（kcal）
+     * @param {string} activityLevel - 運動量選項（very_low / low / moderate / high / very_high）
+     * @param {string} bodyShape - 體型選項（very_thin / thin / ideal / heavy / very_heavy）
+     * @returns {Object} { dailyCaloriesMin, dailyCaloriesMax, foodAmountMin, foodAmountMax, waterIntakeMin, waterIntakeMax }
      */
-    calculateDailyCalories(petType, weight, dogSize = null) {
-        if (!this.guidelines || !this.guidelines[petType]) {
-            return 0;
-        }
-
-        const nutrition = this.guidelines[petType].nutritionGuidelines;
-
-        if (petType === 'cat') {
-            // 貓：體重 * 70 * 0.8
-            return Math.round(weight * 70 * 0.8);
-        } else if (petType === 'dog' && dogSize) {
-            // 狗：依體型計算
-            const multipliers = {
-                'small': 110,
-                'medium': 95,
-                'large': 80,
-                'giant': 70
+    calculateNutritionRanges(petType, weight, dogSize, activityLevel, bodyShape) {
+        if (!this.guidelines || !this.guidelines[petType] || !weight || weight <= 0) {
+            return {
+                dailyCaloriesMin: 0, dailyCaloriesMax: 0,
+                foodAmountMin: 0, foodAmountMax: 0,
+                waterIntakeMin: 0, waterIntakeMax: 0
             };
-            return Math.round(weight * (multipliers[dogSize] || 95));
-        } else if (petType === 'rabbit') {
-            // 兔子：體重 * 100
-            return Math.round(weight * 100);
-        } else if (petType === 'hamster') {
-            // 倉鼠：固定 30-45 kcal
-            return 40; // 取中間值
         }
 
-        return 0;
-    }
+        const ng = this.guidelines[petType].nutritionGuidelines;
+        const common = this.guidelines.common || {};
+        const activityMult = (ng.activityMultipliers && activityLevel) ? (ng.activityMultipliers[activityLevel] || 1.2) : 1.2;
+        const bodyMult = (ng.bodyShapeMultipliers && bodyShape) ? (ng.bodyShapeMultipliers[bodyShape] || 1) : 1;
+        const kcalPer100g = ng.foodCaloriesPer100gDefault || 350;
 
-    /**
-     * 計算每日飲水量 (Daily Water Intake)
-     * @param {string} petType - 動物種類
-     * @param {number} weight - 體重（公斤）
-     * @returns {number} 每日飲水量（ml）
-     */
-    calculateWaterIntake(petType, weight) {
-        if (!this.guidelines || !this.guidelines[petType]) {
-            return 0;
+        if (petType === 'cat' || (petType === 'dog' && dogSize)) {
+            const RER = this.calculateRER(weight);
+            const MER = RER * activityMult * bodyMult;
+            const dailyCaloriesMin = Math.round(MER * 0.85);
+            const dailyCaloriesMax = Math.round(MER * 1.15);
+            const foodAmountMin = Math.round((dailyCaloriesMin / kcalPer100g) * 100);
+            const foodAmountMax = Math.round((dailyCaloriesMax / kcalPer100g) * 100);
+            const waterMlMin = ng.waterMlPerKgMin ? Math.round(weight * ng.waterMlPerKgMin) : 0;
+            const waterMlMax = ng.waterMlPerKgMax ? Math.round(weight * ng.waterMlPerKgMax) : 0;
+            return {
+                dailyCaloriesMin, dailyCaloriesMax,
+                foodAmountMin, foodAmountMax,
+                waterIntakeMin: waterMlMin, waterIntakeMax: waterMlMax
+            };
         }
 
-        if (petType === 'cat') {
-            // 貓：體重 * 50 ml
-            return Math.round(weight * 50);
-        } else if (petType === 'dog') {
-            // 狗：體重 * 60 ml
-            return Math.round(weight * 60);
-        } else if (petType === 'rabbit') {
-            // 兔子：體重 * 100 ml
-            return Math.round(weight * 100);
-        } else if (petType === 'hamster') {
-            // 倉鼠：10-20 ml
-            return 15; // 取中間值
+        if (petType === 'rabbit') {
+            const calMin = (ng.caloriesPerKgMin || 80) * weight;
+            const calMax = (ng.caloriesPerKgMax || 120) * weight;
+            const dailyCaloriesMin = Math.round(calMin);
+            const dailyCaloriesMax = Math.round(calMax);
+            const foodAmountMin = Math.round((calMin / kcalPer100g) * 100);
+            const foodAmountMax = Math.round((calMax / kcalPer100g) * 100);
+            const waterMlMin = ng.waterMlPerKgMin ? Math.round(weight * ng.waterMlPerKgMin) : 0;
+            const waterMlMax = ng.waterMlPerKgMax ? Math.round(weight * ng.waterMlPerKgMax) : 0;
+            return {
+                dailyCaloriesMin, dailyCaloriesMax,
+                foodAmountMin, foodAmountMax,
+                waterIntakeMin: waterMlMin, waterIntakeMax: waterMlMax
+            };
         }
 
-        return 0;
-    }
-
-    /**
-     * 計算建議乾糧份量（克）
-     * @param {number} calories - 每日熱量需求
-     * @param {number} foodCaloriesPer100g - 飼料每 100g 熱量（預設 350 kcal/100g）
-     * @returns {number} 建議乾糧克數
-     */
-    calculateFoodAmount(calories, foodCaloriesPer100g = 350) {
-        return Math.round((calories / foodCaloriesPer100g) * 100);
-    }
-
-    /**
-     * 評估體況評分 (Body Condition Score, BCS)
-     * 簡化版：依據理想體重範圍評估
-     * @param {string} petType - 動物種類
-     * @param {number} weight - 當前體重（公斤）
-     * @param {string} dogSize - 狗的體型（僅狗需要）
-     * @returns {Object} { score: 評分, category: 類別, advice: 建議 }
-     */
-    evaluateBCS(petType, weight, dogSize = null) {
-        if (!this.guidelines || !this.guidelines[petType]) {
-            return null;
+        if (petType === 'hamster') {
+            const dailyCaloriesMin = ng.dailyCaloriesMin || 30;
+            const dailyCaloriesMax = ng.dailyCaloriesMax || 45;
+            const foodAmountMin = ng.foodGramsMin || 10;
+            const foodAmountMax = ng.foodGramsMax || 15;
+            const waterIntakeMin = ng.waterMlMin || 10;
+            const waterIntakeMax = ng.waterMlMax || 20;
+            return {
+                dailyCaloriesMin, dailyCaloriesMax,
+                foodAmountMin, foodAmountMax,
+                waterIntakeMin, waterIntakeMax
+            };
         }
-
-        let idealWeight = this.guidelines[petType].idealWeight;
-        
-        // 狗狗依體型取得理想體重
-        if (petType === 'dog' && dogSize) {
-            idealWeight = idealWeight[dogSize] || idealWeight.general;
-        } else if (idealWeight.general) {
-            idealWeight = idealWeight.general;
-        }
-
-        const minWeight = idealWeight.min;
-        const maxWeight = idealWeight.max;
-        const midWeight = (minWeight + maxWeight) / 2;
-
-        let bcsCategory = null;
-        let score = 5; // 預設理想
-
-        // 簡化判斷邏輯
-        if (weight < minWeight * 0.85) {
-            bcsCategory = 'underweight';
-            score = 2;
-        } else if (weight < minWeight) {
-            bcsCategory = 'underweight';
-            score = 3;
-        } else if (weight >= minWeight && weight <= maxWeight) {
-            bcsCategory = 'ideal';
-            score = weight < midWeight ? 4 : 5;
-        } else if (weight <= maxWeight * 1.15) {
-            bcsCategory = 'overweight';
-            score = 6;
-        } else if (weight <= maxWeight * 1.3) {
-            bcsCategory = 'overweight';
-            score = 7;
-        } else {
-            bcsCategory = 'obese';
-            score = 8;
-        }
-
-        const bcsInfo = this.guidelines[petType].bcsGuidelines[bcsCategory];
 
         return {
-            score: score,
-            category: bcsCategory,
-            description: bcsInfo.description,
-            advice: bcsInfo.advice,
-            idealRange: `${minWeight}-${maxWeight} ${idealWeight.unit}`,
-            currentWeight: weight
+            dailyCaloriesMin: 0, dailyCaloriesMax: 0,
+            foodAmountMin: 0, foodAmountMax: 0,
+            waterIntakeMin: 0, waterIntakeMax: 0
+        };
+    }
+
+    /**
+     * 取得體型／運動量標籤與建議（不用 BCS，避免像專業醫學工具）
+     */
+    getBodyShapeAndAdvice(bodyShape, activityLevel) {
+        const common = this.guidelines && this.guidelines.common;
+        if (!common) return { bodyShapeLabel: '', activityLabel: '', advice: '' };
+        const bodyOpt = common.bodyShapeOptions && bodyShape ? common.bodyShapeOptions[bodyShape] : null;
+        const activityOpt = common.activityLevelOptions && activityLevel ? common.activityLevelOptions[activityLevel] : null;
+        const advice = (common.bodyShapeAdvice && bodyShape) ? common.bodyShapeAdvice[bodyShape] : '';
+        return {
+            bodyShapeLabel: bodyOpt ? bodyOpt.label : '',
+            activityLabel: activityOpt ? activityOpt.label : '',
+            advice: advice || '維持均衡飲食與適度活動。'
         };
     }
 
@@ -455,7 +424,9 @@ class PetHealthCalculator {
             throw new Error('健康指引資料尚未載入，請稍後再試。');
         }
 
-        const { petType, petName, birthdate, ageYears, ageMonths, weight, dogSize, hamsterBreed } = petData;
+        const { petType, petName, birthdate, ageYears, ageMonths, weight, dogSize, hamsterBreed, activityLevel, bodyShape } = petData;
+        const actLevel = activityLevel || 'moderate';
+        const bShape = bodyShape || 'ideal';
 
         if (!this.guidelines[petType]) {
             throw new Error(`不支援的寵物種類: ${petType}`);
@@ -492,13 +463,20 @@ class PetHealthCalculator {
         // 取得生命階段資訊
         const stageInfo = this.getStageInfo(petType, humanAgeData.stage);
 
-        // 計算營養需求
-        const dailyCalories = weight ? this.calculateDailyCalories(petType, weight, dogSize) : 0;
-        const waterIntake = weight ? this.calculateWaterIntake(petType, weight) : 0;
-        const foodAmount = dailyCalories ? this.calculateFoodAmount(dailyCalories) : 0;
+        // 計算營養需求區間（熱量、乾糧、飲水皆為區間）
+        const nutritionRanges = weight
+            ? this.calculateNutritionRanges(petType, weight, dogSize, actLevel, bShape)
+            : { dailyCaloriesMin: 0, dailyCaloriesMax: 0, foodAmountMin: 0, foodAmountMax: 0, waterIntakeMin: 0, waterIntakeMax: 0 };
 
-        // 評估體況
-        const bcsEvaluation = weight ? this.evaluateBCS(petType, weight, dogSize) : null;
+        // 體型與運動量（飼主自選形容，不顯示 BCS）
+        const bodyShapeAdvice = this.getBodyShapeAndAdvice(bShape, actLevel);
+        const bodyCondition = {
+            bodyShape: bShape,
+            bodyShapeLabel: bodyShapeAdvice.bodyShapeLabel,
+            activityLevel: actLevel,
+            activityLabel: bodyShapeAdvice.activityLabel,
+            advice: bodyShapeAdvice.advice
+        };
 
         // 產生報告
         const breedName = (petType === 'hamster' && hamsterBreed) ? 
@@ -525,12 +503,15 @@ class PetHealthCalculator {
                 comparison: stageInfo ? stageInfo.comparison : ''
             },
             nutrition: {
-                dailyCalories: dailyCalories,
-                waterIntake: waterIntake,
-                foodAmount: foodAmount,
+                dailyCaloriesMin: nutritionRanges.dailyCaloriesMin,
+                dailyCaloriesMax: nutritionRanges.dailyCaloriesMax,
+                foodAmountMin: nutritionRanges.foodAmountMin,
+                foodAmountMax: nutritionRanges.foodAmountMax,
+                waterIntakeMin: nutritionRanges.waterIntakeMin,
+                waterIntakeMax: nutritionRanges.waterIntakeMax,
                 unit: weight >= 1 ? 'kg' : 'g'
             },
-            bodyCondition: bcsEvaluation,
+            bodyCondition: bodyCondition,
             healthTips: this.getHealthTips(petType, humanAgeData.stage) || [],
             generatedDate: new Date().toLocaleDateString('zh-TW', {
                 year: 'numeric',

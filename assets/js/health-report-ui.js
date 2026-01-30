@@ -187,7 +187,9 @@ function collectFormData() {
         dogSize: selectedPetType === 'dog' ? 
             document.querySelector('input[name="dogSize"]:checked')?.value : null,
         hamsterBreed: selectedPetType === 'hamster' ?
-            document.querySelector('input[name="hamsterBreed"]:checked')?.value : null
+            document.querySelector('input[name="hamsterBreed"]:checked')?.value : null,
+        activityLevel: document.querySelector('input[name="activityLevel"]:checked')?.value || 'moderate',
+        bodyShape: document.querySelector('input[name="bodyShape"]:checked')?.value || 'ideal'
     };
 }
 

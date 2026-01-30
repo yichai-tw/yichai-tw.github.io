@@ -1,4 +1,27 @@
 {
+    "common": {
+      "activityLevelOptions": {
+        "very_low": { "label": "很少動", "description": "多半在睡覺或靜態" },
+        "low": { "label": "偶爾動", "description": "室內走動、短暫玩耍" },
+        "moderate": { "label": "適中", "description": "每日有散步或固定活動" },
+        "high": { "label": "愛動", "description": "常跑跳、長時間玩耍" },
+        "very_high": { "label": "非常活潑", "description": "幾乎停不下來" }
+      },
+      "bodyShapeOptions": {
+        "very_thin": { "label": "很瘦", "description": "肋骨明顯、腰身極凹" },
+        "thin": { "label": "偏瘦", "description": "摸得到肋骨、腰身明顯" },
+        "ideal": { "label": "標準", "description": "摸得到肋骨有薄脂肪、有腰身" },
+        "heavy": { "label": "偏胖", "description": "摸不太到肋骨、腰身不明顯" },
+        "very_heavy": { "label": "很胖", "description": "摸不到肋骨、無腰身" }
+      },
+      "bodyShapeAdvice": {
+        "very_thin": "可依食慾適量增加飲食，觀察體重變化",
+        "thin": "維持均衡飲食，可稍多一點熱量",
+        "ideal": "維持目前飲食與活動習慣",
+        "heavy": "可稍減零食、增加活動時間",
+        "very_heavy": "建議減少零食、增加互動與散步，有疑慮可諮詢獸醫"
+      }
+    },
     "cat": {
       "name": "貓咪",
       "emoji": "🐱",
@@ -102,15 +125,12 @@
         }
       },
       "nutritionGuidelines": {
-        "dailyCalories": {
-          "formula": "weight(kg) * 70 * 0.8",
-          "description": "成貓每日基礎熱量需求（RER）"
-        },
-        "waterIntake": {
-          "formula": "weight(kg) * 50",
-          "unit": "ml",
-          "description": "每日建議飲水量"
-        },
+        "rerFormula": "70 * weight(kg)^0.75",
+        "activityMultipliers": { "very_low": 1.0, "low": 1.1, "moderate": 1.2, "high": 1.35, "very_high": 1.5 },
+        "bodyShapeMultipliers": { "very_thin": 1.1, "thin": 1.05, "ideal": 1, "heavy": 0.95, "very_heavy": 0.9 },
+        "waterMlPerKgMin": 40,
+        "waterMlPerKgMax": 60,
+        "foodCaloriesPer100gDefault": 350,
         "feedingFrequency": {
           "幼年期": "每日 3-4 餐",
           "青少年期": "每日 2-3 餐",
@@ -124,28 +144,6 @@
           "min": 3,
           "max": 5,
           "unit": "kg"
-        }
-      },
-      "bcsGuidelines": {
-        "underweight": {
-          "range": [1, 3],
-          "description": "過瘦",
-          "advice": "增加飲食份量，可選擇高熱量食物"
-        },
-        "ideal": {
-          "range": [4, 5],
-          "description": "理想",
-          "advice": "維持目前飲食與運動習慣"
-        },
-        "overweight": {
-          "range": [6, 7],
-          "description": "過重",
-          "advice": "減少零食，增加互動遊戲時間"
-        },
-        "obese": {
-          "range": [8, 9],
-          "description": "肥胖",
-          "advice": "建議至獸醫院諮詢減重計畫"
         }
       }
     },
@@ -293,18 +291,12 @@
         }
       },
       "nutritionGuidelines": {
-        "dailyCalories": {
-          "small": "weight(kg) * 110",
-          "medium": "weight(kg) * 95",
-          "large": "weight(kg) * 80",
-          "giant": "weight(kg) * 70",
-          "description": "每日基礎熱量需求（依體型）"
-        },
-        "waterIntake": {
-          "formula": "weight(kg) * 60",
-          "unit": "ml",
-          "description": "每日建議飲水量"
-        },
+        "rerFormula": "70 * weight(kg)^0.75",
+        "activityMultipliers": { "very_low": 1.2, "low": 1.35, "moderate": 1.6, "high": 1.8, "very_high": 2.0 },
+        "bodyShapeMultipliers": { "very_thin": 1.1, "thin": 1.05, "ideal": 1, "heavy": 0.95, "very_heavy": 0.9 },
+        "waterMlPerKgMin": 60,
+        "waterMlPerKgMax": 80,
+        "foodCaloriesPer100gDefault": 350,
         "feedingFrequency": {
           "幼年期": "每日 3-4 餐",
           "青少年期": "每日 2-3 餐",
@@ -318,28 +310,6 @@
         "medium": { "min": 10, "max": 25, "unit": "kg" },
         "large": { "min": 25, "max": 40, "unit": "kg" },
         "giant": { "min": 40, "max": 70, "unit": "kg" }
-      },
-      "bcsGuidelines": {
-        "underweight": {
-          "range": [1, 3],
-          "description": "過瘦",
-          "advice": "增加飲食份量與營養密度"
-        },
-        "ideal": {
-          "range": [4, 5],
-          "description": "理想",
-          "advice": "維持目前飲食與運動習慣"
-        },
-        "overweight": {
-          "range": [6, 7],
-          "description": "過重",
-          "advice": "減少零食，增加運動量"
-        },
-        "obese": {
-          "range": [8, 9],
-          "description": "肥胖",
-          "advice": "建議至獸醫院諮詢減重計畫"
-        }
       }
     },
     "rabbit": {
@@ -445,15 +415,11 @@
         }
       },
       "nutritionGuidelines": {
-        "dailyCalories": {
-          "formula": "weight(kg) * 100",
-          "description": "每日基礎熱量需求"
-        },
-        "waterIntake": {
-          "formula": "weight(kg) * 100",
-          "unit": "ml",
-          "description": "每日建議飲水量"
-        },
+        "caloriesPerKgMin": 80,
+        "caloriesPerKgMax": 120,
+        "waterMlPerKgMin": 80,
+        "waterMlPerKgMax": 100,
+        "foodCaloriesPer100gDefault": 300,
         "hayIntake": {
           "description": "無限量供應提摩西草（成兔）",
           "pellets": "每日飼料量：體重 2% (20-40g/kg)"
@@ -472,28 +438,6 @@
           "max": 3.5,
           "unit": "kg",
           "note": "依品種差異大，荷蘭侏儒兔約 1kg，紐西蘭兔可達 5kg"
-        }
-      },
-      "bcsGuidelines": {
-        "underweight": {
-          "range": [1, 3],
-          "description": "過瘦",
-          "advice": "增加飼料份量與營養密度"
-        },
-        "ideal": {
-          "range": [4, 5],
-          "description": "理想",
-          "advice": "維持目前飲食與運動習慣"
-        },
-        "overweight": {
-          "range": [6, 7],
-          "description": "過重",
-          "advice": "減少飼料與零食，增加活動時間"
-        },
-        "obese": {
-          "range": [8, 9],
-          "description": "肥胖",
-          "advice": "建議至獸醫院諮詢減重計畫"
         }
       }
     },
@@ -615,14 +559,12 @@
         }
       },
       "nutritionGuidelines": {
-        "dailyCalories": {
-          "formula": "10-15 克飼料/天（約 30-45 kcal）",
-          "description": "每日基礎熱量需求"
-        },
-        "waterIntake": {
-          "description": "每日更換新鮮飲水（約 10-20ml）",
-          "unit": "ml"
-        },
+        "dailyCaloriesMin": 30,
+        "dailyCaloriesMax": 45,
+        "waterMlMin": 10,
+        "waterMlMax": 20,
+        "foodGramsMin": 10,
+        "foodGramsMax": 15,
         "feedingFrequency": {
           "幼年期": "每日 1 次（晚間餵食）",
           "青年期": "每日 1 次",
@@ -638,40 +580,22 @@
           "unit": "g",
           "note": "黃金鼠約 120-200g，侏儒鼠約 30-50g"
         }
-      },
-      "bcsGuidelines": {
-        "underweight": {
-          "range": [1, 3],
-          "description": "過瘦",
-          "advice": "增加飲食份量與營養密度"
-        },
-        "ideal": {
-          "range": [4, 5],
-          "description": "理想",
-          "advice": "維持目前飲食習慣"
-        },
-        "overweight": {
-          "range": [6, 7],
-          "description": "過重",
-          "advice": "減少種子與堅果，增加蔬菜比例"
-        },
-        "obese": {
-          "range": [8, 9],
-          "description": "肥胖",
-          "advice": "諮詢獸醫，調整飲食計畫"
-        }
       }
     },
     "metadata": {
-      "version": "1.1.0",
-      "lastUpdated": "2026-01-30",
+      "version": "1.2.0",
+      "lastUpdated": "2026-01-31",
       "disclaimer": "本資料僅供參考，不能取代專業獸醫診斷。如有健康疑慮，請儘速就醫。",
       "sources": [
-        "ADW (Animal Diversity Web) Captivity Data",
-        "Merck Veterinary Manual",
-        "Mammalian Species (Phodopus sungorus)",
-        "愛鼠協會 (Taiwan Hamster Rescue Association)",
-        "台灣特寵專科醫院臨床資料"
-      ]
+        "WSAVA Global Nutrition Guidelines (犬貓營養)",
+        "Pet Nutrition Alliance / AAHA - RER = 70×體重^0.75, MER 活動係數",
+        "Purina Institute - Maintenance Energy Requirement (MER) 計算",
+        "Hills Pet - 犬貓每日飲水量建議 (犬 60–80 ml/kg, 貓 40–60 ml/kg)",
+        "Merck Veterinary Manual - 兔、倉鼠生理與飼養",
+        "ADW (Animal Diversity Web) - 倉鼠物種資料",
+        "愛鼠協會 (台灣) - 倉鼠照護建議",
+        "台灣常見飼養環境與單位 (公斤、毫升、kcal)"
+      ],
+      "note": "熱量與飲水為參考區間，個體差異大，實際請依獸醫或營養師建議調整。"
     }
   }
