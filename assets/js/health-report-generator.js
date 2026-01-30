@@ -9,7 +9,7 @@ class PetHealthReportGenerator {
         this.canvas = document.getElementById('reportCanvas') || document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.canvas.width = 1080;
-        this.canvas.height = 1440;
+        this.canvas.height = 1700;
         
         // 繪圖參數
         this.padding = 60;
@@ -212,13 +212,13 @@ class PetHealthReportGenerator {
     }
 
     drawHealthTipsCard(y) {
-        const height = 320;
+        const height = 360;
         this.drawRoundedCard(this.padding, y, this.canvas.width - this.padding * 2, height, this.cardRadius, this.colors.cardBg);
         
         const contentX = this.padding + 40;
         const maxTextWidth = this.canvas.width - this.padding * 2 - 80;
-        const lineHeight = 28;
-        const gapBetweenTips = 8;
+        const lineHeight = 32;
+        const gapBetweenTips = 12;
         let contentY = y + 70;
         
         this.ctx.textAlign = 'left';
@@ -229,7 +229,7 @@ class PetHealthReportGenerator {
         this.ctx.font = '26px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         
-        contentY += 52;
+        contentY += 54;
         const tips = this.data.healthTips.slice(0, 4);
         tips.forEach(tip => {
             const lines = this.wrapText(tip, maxTextWidth);
@@ -242,7 +242,8 @@ class PetHealthReportGenerator {
     }
 
     async drawFooter() {
-        const y = 1250;
+        // 健康提醒卡片結束於 y=1100+360=1460，頁尾從其下方開始，避免重疊
+        const y = 1480;
         
         // 繪製 QR Code
         const qrUrl = 'https://yichai-tw.github.io/health-report.html';
@@ -263,7 +264,7 @@ class PetHealthReportGenerator {
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 20px "Noto Sans TC"';
         this.ctx.fillStyle = '#999999';
-        this.ctx.fillText('※ 本報告僅供參考，不能取代專業獸醫診斷。如有健康疑慮，請儘速就醫。', this.canvas.width / 2, 1410);
+        this.ctx.fillText('※ 本報告僅供參考，不能取代專業獸醫診斷。如有健康疑慮，請儘速就醫。', this.canvas.width / 2, 1640);
     }
 
     drawRoundedCard(x, y, width, height, radius, fillColor) {

@@ -281,15 +281,19 @@
 
                 <!-- 狗專用：體型選擇 -->
                 <div id="dogSizeSection" style="display: none;">
-                    <label class="block text-gray-700 font-semibold mb-3">
+                    <label class="block text-gray-700 font-semibold mb-2">
                         📏 體型（狗狗專用）
                     </label>
+                    <p class="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-3">
+                        💡 請依<strong>成犬體型或品種</strong>選擇；幼犬請選長大後的預期體型（不依目前體重選）。
+                    </p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                         <label class="cursor-pointer">
                             <input type="radio" name="dogSize" value="small" class="hidden peer">
                             <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
                                 <p class="font-semibold">小型犬</p>
                                 <p class="text-xs text-gray-500">&lt; 10 kg</p>
+                                <p class="text-xs text-gray-400 mt-1">例：吉娃娃、瑪爾濟斯、貴賓、博美</p>
                             </div>
                         </label>
                         <label class="cursor-pointer">
@@ -297,6 +301,7 @@
                             <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
                                 <p class="font-semibold">中型犬</p>
                                 <p class="text-xs text-gray-500">10-25 kg</p>
+                                <p class="text-xs text-gray-400 mt-1">例：哈士奇、柴犬、邊境、柯基、米格魯</p>
                             </div>
                         </label>
                         <label class="cursor-pointer">
@@ -304,6 +309,7 @@
                             <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
                                 <p class="font-semibold">大型犬</p>
                                 <p class="text-xs text-gray-500">25-40 kg</p>
+                                <p class="text-xs text-gray-400 mt-1">例：黃金、拉布拉多、德國牧羊犬</p>
                             </div>
                         </label>
                         <label class="cursor-pointer">
@@ -311,6 +317,7 @@
                             <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
                                 <p class="font-semibold">巨型犬</p>
                                 <p class="text-xs text-gray-500">&gt; 40 kg</p>
+                                <p class="text-xs text-gray-400 mt-1">例：大白熊、聖伯納、大丹犬、伯恩山</p>
                             </div>
                         </label>
                     </div>
