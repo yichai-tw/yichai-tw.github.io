@@ -98,7 +98,7 @@ class PetHealthReportGenerator {
 
         // 標題
         this.ctx.textAlign = 'left';
-        this.drawTextWithShadow('一鍵毛孩健康快報', 170, 105, 48, this.colors.brandOrange, 'bold');
+        this.drawTextWithShadow('一鍵毛孩健康小幫手', 170, 105, 48, this.colors.brandOrange, 'bold');
         
         // 生成日期
         this.ctx.font = '24px "Noto Sans TC"';

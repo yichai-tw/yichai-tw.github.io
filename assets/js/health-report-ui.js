@@ -196,7 +196,7 @@ async function shareReport() {
         
         if (navigator.share && navigator.canShare({ files: [file] })) {
             await navigator.share({
-                title: '毛孩健康快報',
+                title: '毛孩健康小幫手',
                 text: '我剛生成了寵物的健康報告！',
                 files: [file]
             });
@@ -221,7 +221,7 @@ async function downloadReport() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `寵物健康快報_${new Date().toLocaleDateString().replace(/\//g, '-')}.png`;
+    a.download = `毛孩健康小幫手_${new Date().toLocaleDateString().replace(/\//g, '-')}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

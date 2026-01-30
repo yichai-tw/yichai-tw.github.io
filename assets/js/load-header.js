@@ -101,6 +101,8 @@ function highlightCurrentPage() {
     pageName = 'contact';
   } else if (currentPage.includes('news')) {
     pageName = 'news';
+  } else if (currentPage.includes('health-report')) {
+    pageName = 'health-report';
   }
   
   // 高亮桌面版導航連結

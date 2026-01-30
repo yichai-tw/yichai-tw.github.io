@@ -1,5 +1,15 @@
 [
   {
+    "id": "health-helper",
+    "title": "全新功能：毛孩健康小幫手正式上線！",
+    "type": "system",
+    "date": "2026-01-30",
+    "pinned": false,
+    "excerpt": "想要知道毛孩換算人類年齡是幾歲嗎？現在宜加推出「毛孩健康小幫手」，30 秒內為您生成專屬健康報告，包含飲食與照護建議。",
+    "content": "posts/2026-01-30_health-helper.md",
+    "autoExpand": false
+  },
+  {
     "id": "2026-cny",
     "title": "2026 宜加寵物 春節營業公告",
     "type": "operation",
