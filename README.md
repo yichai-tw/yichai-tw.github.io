@@ -13,7 +13,7 @@
 ```text
 📁 official-site
 ├── 📂 assets
-│   ├── 📂 components        # 共用組件
+│   ├── 📂 components        # 共用組件 (頁首、頁尾)
 │   │   ├── 🌐 footer.html    # 共用頁尾組件
 │   │   └── 🌐 header.html    # 共用頁首組件
 │   ├── 📂 css               # CSS 樣式檔案
@@ -29,19 +29,19 @@
 │   │   └── 🖼️ yichai-petshop-logo.png
 │   └── 📂 js                # JavaScript 檔案
 │       ├── 🟨 load-footer.js # 動態載入頁尾腳本
-│       ├── 🟨 load-header.js # 動態載入頁首腳本
+│       ├── 🟨 load-header.js # 動態載入頁首腳本 (含導航高亮)
 │       ├── 🟨 load-news.js   # 最新消息載入腳本
 │       ├── 🟨 store-locator.js # GPS 門市定位系統
-│       ├── 🟨 health-calculator.js # 寵物健康計算核心
+│       ├── 🟨 health-calculator.js # 寵物健康計算核心 (含品種邏輯)
 │       ├── 🟨 health-report-generator.js # Canvas 報告生成器
-│       └── 🟨 health-report-ui.js # 健康報告 UI 控制
+│       └── 🟨 health-report-ui.js # 健康報告 UI 控制與表單驗證
 ├── 📂 mapping               # 資料對應檔案
 │   ├── 📊 PetStores_BranchInfo.csv
 │   ├── 📋 PetStores_BranchInfo.json
 │   ├── 📋 brand_logos.json
 │   └── 🐍 csv_to_json.py
-├── 📂 data                  # 系統資料
-│   └── 📋 health-guidelines.json # 健康指引資料庫
+├── 📂 data                  # 系統資料庫
+│   └── 📋 health-guidelines.json # 健康指引與年齡換算資料庫
 ├── 📂 news                  # 最新消息系統
 │   ├── 📂 posts             # 公告內容 (Markdown 格式)
 │   │   └── 📝 YYYY-MM-DD_*.md
@@ -71,238 +71,85 @@
    cd yichai-tw.github.io
    ```
 
-2. 直接在瀏覽器開啟 `index.html` 即可預覽
+2. 直接在瀏覽器開啟 `index.html` 即可預覽。
 
 ### 部署到 GitHub Pages
 
-1. 將變更推送到 `main` 分支
-2. GitHub Pages 會自動部署
-3. 網站將在幾分鐘內更新
+1. 將變更推送到 `main` 分支。
+2. GitHub Pages 會自動觸發 GitHub Actions 進行部署。
+3. 網站將在幾分鐘內更新完成。
 
 ## 📝 頁面說明
 
 ### 首頁 (index.html)
 
-- 公司介紹與品牌形象
-- 服務特色展示
-- **GPS 定位門市系統**：自動定位使用者位置，推薦最近的門市並顯示地圖
-- 門市資訊預覽（16間門市，顯示「XX市XX區」格式）
-- 品牌故事與服務項目
-- 使用 Tailwind CSS 框架
-- 響應式設計：手機版卡片兩欄顯示，PC 版多欄顯示
+- 公司介紹與品牌形象。
+- **GPS 定位門市系統**：自動定位使用者位置，推薦最近門市並整合 Google 地圖。
+- 門市資訊預覽（16間門市）。
+- 品牌合作跑馬燈：動態載入 `brand_logos.json` 展示品牌合作夥伴。
+- 響應式設計：支援各種行動裝置與寬螢幕。
 
 ### 門市資訊頁 (stores.html)
 
-- 全台 16 間門市完整資訊
-- 各門市地址、聯絡電話與 Google 地圖
-- 依城市分類（台北市、新北市）
-- 使用 TW Icon Fonts 顯示城市圖示
-- 地圖延遲載入優化
-- 響應式卡片式佈局
-- CSS 模組化（使用 `assets/css/stores.css`）
+- 全台 16 間門市完整資訊（地址、電話、營業時間、地圖）。
+- 依城市分類（台北市、新北市），並使用 TW Icon Fonts。
+- 地圖延遲載入優化，提升首屏載入速度。
 
 ### 最新消息頁 (news.html)
 
-- **部落格卡片式公告系統**：動態載入、分類篩選、置頂功能
-- **Markdown 支援**：公告內容使用 `.md` 格式，維護簡易
-- **智慧展開邏輯**：支援 URL 錨點自動展開指定消息
-- **響應式設計**：手機版自動隱私摘要，點擊展開全文
+- **部落格卡片式公告系統**：動態載入 JSON 消息，支援分類篩選與置頂功能。
+- **Markdown 支援**：公告內容維護簡易，具備高度擴充性。
+- **智慧導航**：支援網址錨點 (#news-id) 自動跳轉並展開特定公告。
 
 ### 毛孩健康小幫手 (health-report.html)
 
-- **專屬健康報告生成**：30 秒快速計算毛孩健康數據
-- **核心功能**：
-  - **人類年齡換算**：依種類與體型精確計算等值人類年齡
-  - **生命階段分析**：提供不同階段的照護要點與健檢頻率
-  - **營養需求計算**：自動計算每日所需熱量、乾糧克數與飲水量
-  - **體況評估 (BCS)**：簡易 BCS 評分與理想體重建議
-- **視覺化呈現**：使用 **Canvas API** 動態繪製 1080×1440 高品質報告圖卡
-- **便捷分享**：整合 Web Share API，支援一鍵分享至 LINE/FB 或下載 PNG 圖片
+- **一鍵式健康評估**：30 秒內快速分析毛孩健康數據。
+- **精準計算模型**：
+  - **人類年齡換算**：依據物種（貓、狗、兔、倉鼠）與體型精確計算。
+  - **倉鼠品種細分**：特別支援 **黃金鼠、三線鼠、一線鼠、老公公鼠**，依其壽命特性調整成長曲線。
+  - **營養需求計算**：自動精算每日所需熱量 (kcal)、乾糧建議量 (g) 及飲水量 (ml)。
+  - **體況評估 (BCS)**：透過當前體重提供 BCS 評分與理想體重建議。
+- **靈活輸入設計**：允許直接輸入月份（如 19 個月），特別適合小型動物或幼年成長期。
+- **Canvas 動態圖卡生成**：使用瀏覽器 Canvas API 繪製 1080×1440 高清報告圖卡，包含陰影效果、圓角設計與 QR Code。
+- **便捷分享與下載**：整合 Web Share API，支援一鍵分享至 LINE/FB 或下載 PNG 圖片保存。
 
 ### 聯絡我們頁 (contact.html)
 
-- 線上諮詢表單（使用 EmailJS 串接 Gmail）
-- 完整的表單驗證功能：
-  - Email 格式驗證
-  - 電話格式驗證
-  - 欄位混淆檢查（防止 Email 填到電話欄位，或電話填到 Email 欄位）
-  - 必填欄位檢查
-  - 聯絡方式二選一驗證（電話或 Email 至少填寫一項）
-  - **隱私權政策同意勾選驗證**（必須勾選才能送出表單）
-- Email 與 LINE 聯絡方式
-- 門市選擇下拉選單（16 間門市）
-- 即時錯誤提示與成功訊息
-
-### 隱私權政策頁 (privacy.html)
-
-- 完整的隱私權保護政策說明
-- 包含七大章節：
-  - 隱私權保護政策的適用範圍
-  - 資料的蒐集與使用方式
-  - 資料之保護
-  - 網站對外的相關連結
-  - Cookie 之使用
-  - **第三方服務揭露**（EmailJS、LINE 官方帳號、Google Maps）
-  - 隱私權保護政策之修正
-- 與其他頁面一致的設計風格
-
-### 使用條款頁 (terms.html)
-
-- 完整的網站使用條款說明
-- 包含八大章節：
-  - 網站使用規範
-  - 使用者責任
-  - 服務內容與變更
-  - 第三方服務
-  - 免責聲明
-  - 智慧財產權
-  - 使用條款之修正
-  - 準據法與管轄法院
-- 與其他頁面一致的設計風格
+- **EmailJS 整合**：無需後端，直接從前端安全發送郵件至管理後台。
+- 嚴謹的表單驗證機制：Email/電話格式檢查、防混淆機制、聯絡資訊二選一。
+- 完整隱私權政策同意機制。
 
 ## 🛠️ 開發說明
 
-### 最新消息系統維護 (News System)
+### 技術特色與優化
 
-本站使用 JSON 驅動的部落格公告系統，維護人員只需編輯 `news/` 目錄下的檔案：
+1. **GitHub Pages 路徑相容性優化**：
+   - 實作了動態路徑解析邏輯，自動偵測 GitHub Pages 子目錄環境，解決 JSON 資料在不同網址格式下失效的問題。
+2. **靜態資源版本控制**：
+   - 關鍵 JavaScript 檔案與 CSS 透過 Query String (如 `?v=20260130`) 進行版本控制，強制清除客戶端快取，確保功能更新即時生效。
+3. **防禦性編程**：
+   - 核心計算器具備強大的載入重試與 null 檢查機制，在資料異常或網路延遲時能提供友好的錯誤提示。
+4. **組件化管理**：
+   - 頁首、頁尾完全組件化，透過 `load-header.js` 等腳本動態載入，大幅降低維護成本。
 
-#### 1. 新增公告步驟
+### 內容管理 (最新消息)
 
-1. **撰寫內容**：在 `news/posts/` 下建立 `.md` 檔案（建議命名：`YYYY-MM-DD_標題.md`）。
-2. **更新索引**：編輯 `news/news.json`，在陣列最前方加入新消息物件。
-
-#### 2. `news.json` 參數說明
-
-| 參數 | 說明 | 範例 |
-| :--- | :--- | :--- |
-| `id` | 唯一識別碼（用於超連結） | `"2026-cny"` |
-| `title` | 公告標題 | `"2026 春節營業公告"` |
-| `type` | 分類（`operation`, `event`, `system`, `general`） | `"operation"` |
-| `date` | 發布日期（YYYY-MM-DD） | `"2026-01-29"` |
-| `pinned` | 是否置頂（`true` / `false`） | `true` |
-| `excerpt` | 列表顯示的簡短摘要 | `"春節期間營業時間調整..."` |
-| `content` | 內容檔案路徑（相對於 news 目錄） | `"posts/2026-01-29_cny.md"` |
-| `autoExpand` | 是否預設展開（非必填） | `true` |
-
-*註：`type` 若空白則預設為 `general`（一般公告）。*
-
-#### 3. 分類 (Type) 對照表
-
-- `operation`: 營運公告（藍色）
-- `event`: 活動公告（橘黃色）
-- `system`: 系統通知（灰色）
-- `general`: 一般公告（綠色）
-
-#### 4. 公告超連結 (Deep Linking)
-
-若要從外部（如 LINE、FB）或首頁直接連結到特定公告並**自動展開**，請在網址後加上 `#news-{id}`：
-
-- 範例：`https://yichai-tw.github.io/news.html#news-2026-cny`
-
-#### 5. 展開邏輯優先級
-
-1. 網址帶有 `#news-id` 參數（強制跳轉並展開該則）。
-2. 排序後的第一則消息（預設自動展開）。
-3. JSON 中的 `autoExpand: true` 設定。
-
-### 內容管理
-
-- **直接編輯**：直接編輯 HTML 檔案（`index.html`、`stores.html`、`contact.html` 等）
-
-### 樣式設計
-
-- **Tailwind CSS**：使用 Tailwind CSS CDN 進行快速開發（首頁使用）
-- **自訂樣式**：
-  - `assets/css/main.css` - 通用自訂樣式
-  - `assets/css/stores.css` - 門市資訊頁專用樣式
-- **響應式設計**：支援手機、平板、桌面裝置
-- **品牌主色**：`#DF7621`（橙色）
-- **TW Icon Fonts**：使用台灣圖示字體（台北市、新北市圖示）
-
-### 導航系統
-
-- **共用頁首組件**：所有頁面統一使用 `assets/components/header.html`
-- **桌面版**：水平導航列，顯示所有連結
-- **手機版**：緊湊的頁首設計，使用側邊欄選單
-  - 漢堡選單按鈕（右上角）
-  - 從右側滑出的側邊欄選單
-  - 背景遮罩效果
-  - 平滑動畫過渡
-  - 自動高亮當前頁面連結
-
-### SEO 優化
-
-- 完整的 Meta Tags（description, keywords, author）
-- Open Graph 標籤（Facebook、LinkedIn 等）
-- Twitter Card 標籤
-- Schema.org 結構化資料（JSON-LD）
-  - Store / Organization 結構化資料
-  - ContactPage 結構化資料
-  - PrivacyPolicy 結構化資料
-  - TermsOfService 結構化資料
-  - **BreadcrumbList 結構化資料**（全站主要頁面）
-- 語義化 HTML 標籤
-- Canonical URLs
-- **Google Search Console**：已通過網域驗證，可監控網站收錄狀態
-
-### 圖片資源
-
-- Logo 位置：`assets/images/yichai-petshop-logo.png`
-- 其他圖片請放置在 `assets/images/` 目錄
-
-### 共用組件系統
-
-- **頁首組件**：`assets/components/header.html` - 通用頁首組件（包含導航列與手機版選單）
-- **頁尾組件**：`assets/components/footer.html` - 通用頁尾組件（包含快速連結與聯絡資訊）
-- **載入腳本**：
-  - `assets/js/load-header.js` - 動態載入頁首的 JavaScript（包含手機版選單功能與當前頁面高亮）
-  - `assets/js/load-footer.js` - 動態載入頁尾的 JavaScript
-- **優勢**：所有頁面統一使用共用頁首與頁尾組件，修改一次即可同步到所有頁面，便於維護和更新
-
-### GPS 門市定位系統
-
-- **定位功能**：使用瀏覽器 Geolocation API 自動獲取使用者位置
-- **高精度定位**：優先使用 GPS 衛星定位，精度可達 5–10 公尺
-- **分層定位策略**：
-  - 第一層：高精度 GPS 定位（15 秒超時）
-  - 第二層：低精度網路/WiFi 定位（自動降級，10 秒超時）
-  - 第三層：使用 7 天內的緩存位置
-- **智能推薦**：使用 Haversine 公式計算距離，自動推薦最近的門市
-- **位置緩存**：7 天緩存期限（符合國際標準規範），減少重新授權頻率
-- **地圖整合**：最近門市顯示 Google Maps 嵌入地圖
-- **距離顯示**：顯示門市與使用者的距離（公里）
-- **快速操作**：提供 Google 導航和撥打電話按鈕
-- **容錯處理**：定位失敗時顯示所有門市的簡短資訊卡片
-- **精度記錄**：記錄定位精度資訊，用於調試 and 優化
-- **腳本位置**：`assets/js/store-locator.js`
+1. **新增公告**：在 `news/posts/` 下建立 `.md` 檔案，並在 `news/news.json` 頂部加入索引。
+2. **參數說明**：
+   - `id`: 唯一識別碼（用於錨點連結）。
+   - `pinned`: 設定為 `true` 則該公告將始終位於列表最上方。
+   - `type`: 分類標籤 (`operation`, `event`, `system`, `general`)。
 
 ## 📋 注意事項
 
 ### Git 排除規則
-
-以下檔案/目錄不會被追蹤：
-
-- `content/` - 原始資料目錄
-- `tools/project_tree_generator.py` - 工具腳本
-- `project_structure.txt` - 專案結構檔案
-- 所有 `.json` 檔案（除非明確指定）
-- 環境變數、機密檔案等
-
-詳細規則請參考 `.gitignore`
-
-### Jekyll 設定
-
-- 專案使用 `.nojekyll` 檔案禁用 Jekyll 處理
-- 所有 HTML 檔案直接提供，無需編譯
+- `tools/project_tree_generator.py`: 工具腳本不納入正式部署。
+- `data/`: 包含系統核心指引資料庫，請謹慎修改。
 
 ## 🔗 相關連結
 
 - [GitHub 倉庫](https://github.com/yichai-tw/yichai-tw.github.io)
 - [官方網站](https://yichai-tw.github.io/)
-- [門市資訊](https://yichai-tw.github.io/stores.html)
-- [聯絡我們](https://yichai-tw.github.io/contact.html)
-- [隱私權政策](https://yichai-tw.github.io/privacy.html)
-- [使用條款](https://yichai-tw.github.io/terms.html)
 - [LINE 官方帳號](https://lin.ee/79ysbfnm)
 
 ## 📄 授權
@@ -310,32 +157,4 @@
 Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 
 ---
-
 **最後更新**：2026年1月30日
-
-## 📌 技術特色
-
-- ✅ 純靜態 HTML，無需後端伺服器
-- ✅ Tailwind CSS 響應式設計
-- ✅ CSS 模組化設計（樣式檔案分離）
-- ✅ 共用組件系統（頁首與頁尾統一管理，動態載入）
-- ✅ **GPS 門市定位系統**（高精度定位、分層定位策略、7天緩存、智能推薦、地圖整合）
-- ✅ **毛孩健康小幫手**（Canvas 動態繪圖、Web Share API、自動化健康評估算法）
-- ✅ SEO 優化（Meta Tags、Open Graph、結構化資料）
-- ✅ 地圖延遲載入優化
-- ✅ **EmailJS 表單整合**（串接 Gmail，無需後端伺服器）
-- ✅ 完整的表單驗證功能（Email/電話格式驗證、欄位混淆檢查）
-- ✅ 16 間門市完整資訊
-- ✅ TW Icon Fonts 台灣圖示字體
-- ✅ 手機版側邊欄導航選單（自動高亮當前頁面、連結正常導航）
-- ✅ 優化的手機版頁首設計（緊湊、不占版面）
-- ✅ JavaScript 模組化（共用功能統一管理）
-- ✅ 響應式佈局優化（支援 21:9 超寬螢幕，背景全寬延伸）
-- ✅ 響應式按鈕設計（手機版文字較小，避免換行）
-- ✅ 手機版卡片兩欄布局優化
-- ✅ Google Search Console 網域驗證（已通過驗證）
-- ✅ Google Fonts Zen Old Mincho 字體（全站統一使用）
-- ✅ **Breadcrumb 結構化資料**（BreadcrumbList，符合 Google 官方規範）
-- ✅ **隱私權政策頁面**（包含第三方服務揭露說明）
-- ✅ **使用條款頁面**（完整的網站使用規範）
-- ✅ **LINE 瀏覽器優化**（偵測 LINE 內建瀏覽器，隱藏 Google Maps iframe，顯示提示訊息）
