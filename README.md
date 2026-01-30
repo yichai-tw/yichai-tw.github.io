@@ -31,12 +31,17 @@
 │       ├── 🟨 load-footer.js # 動態載入頁尾腳本
 │       ├── 🟨 load-header.js # 動態載入頁首腳本
 │       ├── 🟨 load-news.js   # 最新消息載入腳本
-│       └── 🟨 store-locator.js # GPS 門市定位系統
+│       ├── 🟨 store-locator.js # GPS 門市定位系統
+│       ├── 🟨 health-calculator.js # 寵物健康計算核心
+│       ├── 🟨 health-report-generator.js # Canvas 報告生成器
+│       └── 🟨 health-report-ui.js # 健康報告 UI 控制
 ├── 📂 mapping               # 資料對應檔案
 │   ├── 📊 PetStores_BranchInfo.csv
 │   ├── 📋 PetStores_BranchInfo.json
 │   ├── 📋 brand_logos.json
 │   └── 🐍 csv_to_json.py
+├── 📂 data                  # 系統資料
+│   └── 📋 health-guidelines.json # 健康指引資料庫
 ├── 📂 news                  # 最新消息系統
 │   ├── 📂 posts             # 公告內容 (Markdown 格式)
 │   │   └── 📝 YYYY-MM-DD_*.md
@@ -46,6 +51,7 @@
 ├── 🌐 index.html            # 首頁
 ├── 🌐 news.html             # 最新消息頁
 ├── 🌐 stores.html           # 門市資訊頁
+├── 🌐 health-report.html    # 毛孩健康小幫手頁
 ├── 🌐 contact.html          # 聯絡我們頁
 ├── 🌐 privacy.html          # 隱私權政策頁
 ├── 🌐 terms.html            # 使用條款頁
@@ -101,6 +107,17 @@
 - **Markdown 支援**：公告內容使用 `.md` 格式，維護簡易
 - **智慧展開邏輯**：支援 URL 錨點自動展開指定消息
 - **響應式設計**：手機版自動隱私摘要，點擊展開全文
+
+### 毛孩健康小幫手 (health-report.html)
+
+- **專屬健康報告生成**：30 秒快速計算毛孩健康數據
+- **核心功能**：
+  - **人類年齡換算**：依種類與體型精確計算等值人類年齡
+  - **生命階段分析**：提供不同階段的照護要點與健檢頻率
+  - **營養需求計算**：自動計算每日所需熱量、乾糧克數與飲水量
+  - **體況評估 (BCS)**：簡易 BCS 評分與理想體重建議
+- **視覺化呈現**：使用 **Canvas API** 動態繪製 1080×1440 高品質報告圖卡
+- **便捷分享**：整合 Web Share API，支援一鍵分享至 LINE/FB 或下載 PNG 圖片
 
 ### 聯絡我們頁 (contact.html)
 
@@ -294,7 +311,7 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 
 ---
 
-**最後更新**：2026年1月
+**最後更新**：2026年1月30日
 
 ## 📌 技術特色
 
@@ -303,6 +320,7 @@ Copyright © 1999–2026 宜加寵物生活館. All rights reserved.
 - ✅ CSS 模組化設計（樣式檔案分離）
 - ✅ 共用組件系統（頁首與頁尾統一管理，動態載入）
 - ✅ **GPS 門市定位系統**（高精度定位、分層定位策略、7天緩存、智能推薦、地圖整合）
+- ✅ **毛孩健康小幫手**（Canvas 動態繪圖、Web Share API、自動化健康評估算法）
 - ✅ SEO 優化（Meta Tags、Open Graph、結構化資料）
 - ✅ 地圖延遲載入優化
 - ✅ **EmailJS 表單整合**（串接 Gmail，無需後端伺服器）
