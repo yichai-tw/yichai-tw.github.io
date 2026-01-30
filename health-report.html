@@ -316,6 +316,43 @@
                     </div>
                 </div>
 
+                <!-- 倉鼠專用：品種選擇 -->
+                <div id="hamsterBreedSection" style="display: none;">
+                    <label class="block text-gray-700 font-semibold mb-3">
+                        🐹 品種（倉鼠專用）
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="hamsterBreed" value="syrian" class="hidden peer">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
+                                <p class="font-semibold">黃金鼠</p>
+                                <p class="text-xs text-gray-500">敘利亞倉鼠</p>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="hamsterBreed" value="winter_white" class="hidden peer">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
+                                <p class="font-semibold">三線鼠</p>
+                                <p class="text-xs text-gray-500">冬白/侏儒鼠</p>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="hamsterBreed" value="campbell" class="hidden peer">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
+                                <p class="font-semibold">一線鼠</p>
+                                <p class="text-xs text-gray-500">坎貝爾</p>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="hamsterBreed" value="roborovski" class="hidden peer">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
+                                <p class="font-semibold">老公公鼠</p>
+                                <p class="text-xs text-gray-500">最長壽品種</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
                 <!-- 按鈕區 -->
                 <div class="flex gap-4 pt-4">
                     <button type="button" onclick="backToStep1()" 

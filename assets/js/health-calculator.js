@@ -57,9 +57,10 @@ class PetHealthCalculator {
      * @param {number} ageYears - 年齡（年）
      * @param {number} ageMonths - 年齡（月）
      * @param {string} dogSize - 狗的體型 (small/medium/large/giant)，僅狗需要
+     * @param {string} hamsterBreed - 倉鼠品種，僅倉鼠需要
      * @returns {Object} { humanAge: 人類年齡, stage: 生命階段, description: 描述 }
      */
-    calculateHumanAge(petType, ageYears, ageMonths = 0, dogSize = null) {
+    calculateHumanAge(petType, ageYears, ageMonths = 0, dogSize = null, hamsterBreed = null) {
         if (!this.guidelines || !this.guidelines[petType]) {
             console.error('無法取得指引資料');
             return null;
@@ -94,7 +95,7 @@ class PetHealthCalculator {
         } else if (petType === 'rabbit') {
             humanAge = this.calculateRabbitHumanAge(totalYears, currentStage);
         } else if (petType === 'hamster') {
-            humanAge = this.calculateHamsterHumanAge(totalYears, currentStage);
+            humanAge = this.calculateHamsterHumanAge(totalYears, currentStage, hamsterBreed);
         }
 
         return {
@@ -189,23 +190,36 @@ class PetHealthCalculator {
     /**
      * 計算倉鼠的人類年齡
      */
-    calculateHamsterHumanAge(totalYears, stage) {
+    calculateHamsterHumanAge(totalYears, stage, breed = null) {
+        let baseAge = 0;
+        
         if (totalYears < 0.25) {
             // 幼年期：每月 3 歲
-            return (totalYears * 12) * 3;
+            baseAge = (totalYears * 12) * 3;
         } else if (totalYears < 0.5) {
             // 青少年期：9 + (年 - 0.25) * 28
-            return 9 + (totalYears - 0.25) * 28;
+            baseAge = 9 + (totalYears - 0.25) * 28;
         } else if (totalYears < 1.5) {
             // 成年期：16 + (年 - 0.5) * 20
-            return 16 + (totalYears - 0.5) * 20;
+            baseAge = 16 + (totalYears - 0.5) * 20;
         } else if (totalYears < 2) {
             // 熟齡期：36 + (年 - 1.5) * 24
-            return 36 + (totalYears - 1.5) * 24;
+            baseAge = 36 + (totalYears - 1.5) * 24;
         } else {
             // 老年期：48 + (年 - 2) * 20
-            return 48 + (totalYears - 2) * 20;
+            baseAge = 48 + (totalYears - 2) * 20;
         }
+
+        // 根據品種調整倍率
+        const breedMultipliers = {
+            'syrian': 1.0,        // 黃金鼠 (基準)
+            'winter_white': 1.2,  // 侏儒鼠壽命較短，老得快
+            'campbell': 1.2,
+            'roborovski': 0.8     // 老公公鼠最長壽，老得慢
+        };
+
+        const multiplier = (breed && breedMultipliers[breed]) ? breedMultipliers[breed] : 1.0;
+        return baseAge * multiplier;
     }
 
     /**
@@ -430,7 +444,7 @@ class PetHealthCalculator {
             throw new Error('健康指引資料尚未載入，請稍後再試。');
         }
 
-        const { petType, petName, birthdate, ageYears, ageMonths, weight, dogSize } = petData;
+        const { petType, petName, birthdate, ageYears, ageMonths, weight, dogSize, hamsterBreed } = petData;
 
         if (!this.guidelines[petType]) {
             throw new Error(`不支援的寵物種類: ${petType}`);
@@ -456,7 +470,8 @@ class PetHealthCalculator {
             petType, 
             age.years, 
             age.months, 
-            dogSize
+            dogSize,
+            hamsterBreed
         );
 
         if (!humanAgeData) {
@@ -475,10 +490,13 @@ class PetHealthCalculator {
         const bcsEvaluation = weight ? this.evaluateBCS(petType, weight, dogSize) : null;
 
         // 產生報告
+        const breedName = (petType === 'hamster' && hamsterBreed) ? 
+            ` (${this.guidelines.hamster.breeds[hamsterBreed].label})` : '';
+
         return {
             petInfo: {
                 type: petType,
-                typeName: this.guidelines[petType].name || '毛孩',
+                typeName: (this.guidelines[petType].name || '毛孩') + breedName,
                 emoji: this.guidelines[petType].emoji || '🐾',
                 name: petName || '毛孩',
                 age: age

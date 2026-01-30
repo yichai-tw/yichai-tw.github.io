@@ -26,6 +26,24 @@ function selectPetType(petType) {
     document.getElementById('dogSizeSection').style.display = 
         petType === 'dog' ? 'block' : 'none';
     
+    // 顯示/隱藏倉鼠品種選項
+    const hamsterSection = document.getElementById('hamsterBreedSection');
+    if (hamsterSection) {
+        hamsterSection.style.display = petType === 'hamster' ? 'block' : 'none';
+    }
+
+    // 更新年齡輸入提示
+    const ageHint = document.querySelector('#ageInput p');
+    if (ageHint) {
+        if (petType === 'hamster') {
+            ageHint.textContent = '小提醒：倉鼠壽命較短，建議精確填寫月份（例如 18 個月）';
+            ageHint.classList.add('text-orange-600', 'font-semibold');
+        } else {
+            ageHint.textContent = '例：2 年 6 個月，或直接填 19 個月';
+            ageHint.classList.remove('text-orange-600', 'font-semibold');
+        }
+    }
+    
     // 自動跳轉到步驟 2
     setTimeout(() => goToStep2(), 500);
 }
@@ -129,6 +147,15 @@ function validateForm() {
             return false;
         }
     }
+
+    // 倉鼠必須選擇品種
+    if (selectedPetType === 'hamster') {
+        const hamsterBreed = document.querySelector('input[name="hamsterBreed"]:checked');
+        if (!hamsterBreed) {
+            alert('請選擇倉鼠品種');
+            return false;
+        }
+    }
     
     return true;
 }
@@ -152,7 +179,9 @@ function collectFormData() {
             parseInt(document.getElementById('ageMonths').value) || 0 : null,
         weight: weight ? (weightUnit === 'g' ? weight / 1000 : weight) : null,
         dogSize: selectedPetType === 'dog' ? 
-            document.querySelector('input[name="dogSize"]:checked')?.value : null
+            document.querySelector('input[name="dogSize"]:checked')?.value : null,
+        hamsterBreed: selectedPetType === 'hamster' ?
+            document.querySelector('input[name="hamsterBreed"]:checked')?.value : null
     };
 }
 
