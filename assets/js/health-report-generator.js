@@ -33,6 +33,7 @@ class PetHealthReportGenerator {
             footerDark: '#2C3E50',
             textDark: '#2C3E50',
             textLight: '#64748B',
+            bodyText: '#475569',  /* 內文用較深灰，確保任何螢幕都看得見 */
             onDarkText: '#FFFFFF',
             divider: 'rgba(0,0,0,0.06)',
             frameStroke: 'rgba(0,0,0,0.08)',
@@ -228,7 +229,7 @@ class PetHealthReportGenerator {
         this.ctx.font = '26px "Noto Sans TC"';
         this.ctx.fillText('歲', leftX + halfW / 2, y + 138);
         this.ctx.font = '20px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textLight;
+        this.ctx.fillStyle = this.colors.bodyText;
         this.wrapText(this.data.humanAge.comparison, halfW - inner * 2).slice(0, 2).forEach((line, i) => {
             this.ctx.fillText(line, leftX + halfW / 2, y + 162 + i * 24);
         });
@@ -238,7 +239,7 @@ class PetHealthReportGenerator {
         this.ctx.fillStyle = this.colors.brandOrange;
         this.ctx.fillText(`📋 ${this.data.humanAge.stage}`, rightX + halfW / 2, y + 72);
         this.ctx.font = '20px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textLight;
+        this.ctx.fillStyle = this.colors.bodyText;
         this.ctx.fillText('目前生命階段', rightX + halfW / 2, y + 108);
         const boxPad = 14;
         const boxW = halfW - inner * 2;
@@ -285,27 +286,29 @@ class PetHealthReportGenerator {
         this.drawTintedCard(rightX, cardsY, halfW, cardsH, this.colors.speechBubbleFill);
 
         let drawY = cardsY + 28;
-        this.ctx.font = '18px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textLight;
+        this.ctx.font = 'bold 20px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.textDark;
         this.ctx.fillText('體型參考', leftX + inner, drawY);
-        drawY += 24;
+        drawY += 26;
         const bodyH = '♥'.repeat(bodyScore) + '♡'.repeat(5 - bodyScore);
         this.ctx.font = '28px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
         this.ctx.fillText(bodyH, leftX + inner, drawY);
+        const bodyLabel = (bc.bodyShapeLabel && bc.bodyShapeLabel.trim()) ? ` (${bc.bodyShapeLabel.trim()})` : ' (標準)';
+        const heartW = this.ctx.measureText(bodyH).width;
         this.ctx.font = '20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.ctx.fillText(' (標準)', leftX + inner + 140, drawY);
+        this.ctx.fillText(bodyLabel, leftX + inner + heartW + 10, drawY);
         drawY += lineH + 10;
-        this.ctx.font = '17px "Noto Sans TC"';
+        this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.wrapText(bc.praise || bc.advice || '持續關心體態更健康', halfW - inner * 2).forEach((line, i) => {
             this.ctx.fillText(line, leftX + inner, drawY + i * lineH);
         });
 
         drawY = cardsY + 28;
-        this.ctx.font = '18px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textLight;
+        this.ctx.font = 'bold 20px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.textDark;
         this.ctx.fillText('運動量', rightX + inner, drawY);
         drawY += 26;
         const activityLabels = ['', '很少動', '偶爾動', '適中', '活潑', '非常活潑'];
@@ -326,11 +329,11 @@ class PetHealthReportGenerator {
         const barY = drawY;
         for (let i = 0; i < 5; i++) {
             const sx = barX + i * (segW + segGap);
-            this.ctx.fillStyle = i < actScore ? this.colors.brandOrange : 'rgba(0,0,0,0.1)';
+            this.ctx.fillStyle = i < actScore ? this.colors.brandOrange : 'rgba(0,0,0,0.12)';
             this.ctx.fillRect(sx, barY, segW, 16);
         }
-        drawY += 24;
-        this.ctx.font = '17px "Noto Sans TC"';
+        drawY += 26;
+        this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.ctx.fillText(actScore <= 2 ? '可適度增加日常活動' : '維持目前活動習慣', rightX + inner, drawY);
         this.ctx.restore();
@@ -373,15 +376,15 @@ class PetHealthReportGenerator {
             this.ctx.fillText(`${nut.dailyCaloriesMin}–${nut.dailyCaloriesMax}`, cx1, cardY + 62);
             this.ctx.fillText(`${nut.foodAmountMin}–${nut.foodAmountMax}`, cx2, cardY + 62);
             this.ctx.fillText(`${nut.waterIntakeMin}–${nut.waterIntakeMax}`, cx3, cardY + 62);
-            this.ctx.font = '16px "Noto Sans TC"';
-            this.ctx.fillStyle = this.colors.textLight;
+            this.ctx.font = '17px "Noto Sans TC"';
+            this.ctx.fillStyle = this.colors.textDark;
             this.ctx.fillText('kcal/日', cx1, cardY + 86);
             this.ctx.fillText('乾糧 g', cx2, cardY + 86);
             this.ctx.fillText('飲水 ml', cx3, cardY + 86);
             drawY = cardY + cardH + 18;
             this.ctx.textAlign = 'left';
             this.ctx.font = '18px "Noto Sans TC"';
-            this.ctx.fillStyle = this.colors.textLight;
+            this.ctx.fillStyle = this.colors.bodyText;
             this.wrapText('以上區間已依品種、年齡、體重、體型、性別綜合計算。', maxWidth).forEach((line) => {
                 this.ctx.fillText(line, contentX, drawY);
                 drawY += lineH - 2;
@@ -448,7 +451,7 @@ class PetHealthReportGenerator {
         this.ctx.fillStyle = this.colors.brandOrange;
         this.ctx.fillText(`🏥 健康提醒`, this.padding + this.innerPadding, tipY);
         tipY += 30 + this.titleToContent;
-        this.ctx.font = '20px "Noto Sans TC"';
+        this.ctx.font = '21px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         const tips = this.data.healthTips.slice(0, 4);
         tips.forEach(tip => {
@@ -495,7 +498,7 @@ class PetHealthReportGenerator {
         this.ctx.restore();
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 20px "Noto Sans TC"';
-        this.ctx.fillStyle = '#999999';
+        this.ctx.fillStyle = '#555555';
         this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, this.canvas.height - 36);
     }
 
