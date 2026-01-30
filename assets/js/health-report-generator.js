@@ -261,6 +261,11 @@ class PetHealthReportGenerator {
     }
 
     async drawQRCode(url, x, y, size) {
+        if (typeof QRCode === 'undefined') {
+            console.warn('QRCode library 尚未載入，跳過 QR Code 繪製');
+            return;
+        }
+
         const qrContainer = document.createElement('div');
         qrContainer.style.display = 'none';
         document.body.appendChild(qrContainer);
@@ -271,13 +276,21 @@ class PetHealthReportGenerator {
                 width: size,
                 height: size,
                 colorDark: '#000000',
-                colorLight: '#ffffff'
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
             });
             
-            // 等待 QRCode 生成 (它是非同步的)
-            await new Promise(resolve => setTimeout(resolve, 300));
+            // 等待 QRCode 生成
+            let attempts = 0;
+            let qrImg = null;
             
-            const qrImg = qrContainer.querySelector('img');
+            while (attempts < 10) {
+                qrImg = qrContainer.querySelector('img');
+                if (qrImg && qrImg.src && qrImg.src.startsWith('data:image')) break;
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            
             if (qrImg && qrImg.src) {
                 const img = await this.loadImage(qrImg.src);
                 this.ctx.drawImage(img, x, y, size, size);

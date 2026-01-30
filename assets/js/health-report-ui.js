@@ -250,20 +250,32 @@ document.addEventListener('DOMContentLoaded', () => {
             showLoading();
             
             try {
+                // 確保計算器已初始化
+                if (!window.healthCalculator) {
+                    throw new Error('健康計算器尚未就緒，請重新整理頁面。');
+                }
+
                 // 等待計算器載入資料 (如果還沒載完)
                 if (!healthCalculator.guidelines) {
                     await healthCalculator.loadGuidelines();
                 }
+
+                if (!healthCalculator.guidelines) {
+                    throw new Error('無法載入健康指引資料，請檢查網路連線。');
+                }
                 
+                console.log('正在生成報告資料...', formData);
                 const reportData = healthCalculator.generateHealthReport(formData);
+                
+                console.log('正在產生報告圖片...');
                 const generator = new PetHealthReportGenerator(reportData);
                 await generator.generate();
                 
                 generatedReport = generator;
                 showReport();
             } catch (error) {
-                console.error('生成報告失敗:', error);
-                alert('報告生成失敗，請檢查輸入資料後重試。');
+                console.error('生成報告失敗，詳細錯誤資訊：', error);
+                alert(`報告生成失敗：${error.message}\n請檢查輸入資料或重新整理頁面再試。`);
             } finally {
                 hideLoading();
             }

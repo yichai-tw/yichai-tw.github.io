@@ -432,18 +432,28 @@ class PetHealthCalculator {
      * @returns {Object} 完整報告資料
      */
     generateHealthReport(petData) {
+        if (!this.guidelines) {
+            throw new Error('健康指引資料尚未載入，請稍後再試。');
+        }
+
         const { petType, petName, birthdate, ageYears, ageMonths, weight, dogSize } = petData;
+
+        if (!this.guidelines[petType]) {
+            throw new Error(`不支援的寵物種類: ${petType}`);
+        }
 
         // 計算年齡
         let age;
         if (birthdate) {
             age = this.calculateAge(birthdate);
         } else {
+            const years = parseInt(ageYears) || 0;
+            const months = parseInt(ageMonths) || 0;
             age = {
-                years: ageYears || 0,
-                months: ageMonths || 0,
-                totalMonths: (ageYears || 0) * 12 + (ageMonths || 0),
-                decimal: parseFloat(((ageYears || 0) + (ageMonths || 0) / 12).toFixed(2))
+                years: years,
+                months: months,
+                totalMonths: years * 12 + months,
+                decimal: parseFloat((years + months / 12).toFixed(2))
             };
         }
 
@@ -454,6 +464,10 @@ class PetHealthCalculator {
             age.months, 
             dogSize
         );
+
+        if (!humanAgeData) {
+            throw new Error('無法計算人類等值年齡資料。');
+        }
 
         // 取得生命階段資訊
         const stageInfo = this.getStageInfo(petType, humanAgeData.stage);
@@ -470,8 +484,8 @@ class PetHealthCalculator {
         return {
             petInfo: {
                 type: petType,
-                typeName: this.guidelines[petType].name,
-                emoji: this.guidelines[petType].emoji,
+                typeName: this.guidelines[petType].name || '毛孩',
+                emoji: this.guidelines[petType].emoji || '🐾',
                 name: petName || '毛孩',
                 age: age
             },
@@ -484,7 +498,7 @@ class PetHealthCalculator {
             stageInfo: {
                 ageRange: stageInfo ? `${stageInfo.ageRange[0]}-${stageInfo.ageRange[1]} 歲` : '',
                 humanAge: stageInfo ? stageInfo.humanAge : '',
-                checkupFrequency: stageInfo ? stageInfo.checkupFrequency : '',
+                checkupFrequency: stageInfo ? stageInfo.checkupFrequency : '每年一次',
                 comparison: stageInfo ? stageInfo.comparison : ''
             },
             nutrition: {
@@ -494,7 +508,7 @@ class PetHealthCalculator {
                 unit: weight >= 1 ? 'kg' : 'g'
             },
             bodyCondition: bcsEvaluation,
-            healthTips: this.getHealthTips(petType, humanAgeData.stage),
+            healthTips: this.getHealthTips(petType, humanAgeData.stage) || [],
             generatedDate: new Date().toLocaleDateString('zh-TW', {
                 year: 'numeric',
                 month: 'long',
