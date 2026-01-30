@@ -22,6 +22,12 @@ function selectPetType(petType) {
     // 更新體重提示
     updateWeightHint(petType);
     
+    // 倉鼠預設體重單位為公克，其餘為公斤
+    const weightUnitSelect = document.getElementById('weightUnit');
+    if (weightUnitSelect) {
+        weightUnitSelect.value = petType === 'hamster' ? 'g' : 'kg';
+    }
+    
     // 顯示/隱藏狗狗體型選項
     document.getElementById('dogSizeSection').style.display = 
         petType === 'dog' ? 'block' : 'none';

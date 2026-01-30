@@ -245,8 +245,8 @@ class PetHealthReportGenerator {
         // 健康提醒卡片結束於 y=1100+360=1460，頁尾從其下方開始，避免重疊
         const y = 1480;
         
-        // 繪製 QR Code
-        const qrUrl = 'https://yichai-tw.github.io/health-report.html';
+        // 繪製 QR Code（連結至官網首頁，可查門市、最新消息與健康小幫手）
+        const qrUrl = 'https://yichai-tw.github.io/';
         await this.drawQRCode(qrUrl, this.canvas.width - this.padding - 150, y, 150);
         
         // 門市資訊
@@ -258,13 +258,13 @@ class PetHealthReportGenerator {
         this.ctx.font = '24px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textLight;
         this.ctx.fillText('專業、用心、愛毛孩，全台多間門市為您服務', this.padding, y + 85);
-        this.ctx.fillText('更多健康資訊請掃描 QR Code', this.padding, y + 130);
+        this.ctx.fillText('官網、門市與更多健康資訊請掃描 QR Code', this.padding, y + 130);
         
         // 免責聲明
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 20px "Noto Sans TC"';
         this.ctx.fillStyle = '#999999';
-        this.ctx.fillText('※ 本報告僅供參考，不能取代專業獸醫診斷。如有健康疑慮，請儘速就醫。', this.canvas.width / 2, 1640);
+        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, 1640);
     }
 
     drawRoundedCard(x, y, width, height, radius, fillColor) {
