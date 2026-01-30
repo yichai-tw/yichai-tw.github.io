@@ -289,7 +289,7 @@ class PetHealthReportGenerator {
         this.ctx.font = 'bold 20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.ctx.fillText('體型參考', leftX + inner, drawY);
-        drawY += 26;
+        drawY += 32;
         const bodyH = '♥'.repeat(bodyScore) + '♡'.repeat(5 - bodyScore);
         this.ctx.font = '28px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
@@ -310,19 +310,21 @@ class PetHealthReportGenerator {
         this.ctx.font = 'bold 20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.ctx.fillText('運動量', rightX + inner, drawY);
-        drawY += 26;
-        const activityLabels = ['', '很少動', '偶爾動', '適中', '活潑', '非常活潑'];
+        drawY += 30;
+        const activityLabels = ['', '很少', '偶爾動', '適中', '活潑', '非常活潑'];
         const activityLabel = activityLabels[Math.min(5, Math.max(1, actScore))] || '適中';
         this.ctx.save();
         this.ctx.fillStyle = this.colors.brandOrange;
         this.ctx.beginPath();
-        this.ctx.roundRect(rightX + inner, drawY - 12, 90, 28, 14);
+        this.ctx.roundRect(rightX + inner, drawY - 12, 88, 28, 14);
         this.ctx.fill();
         this.ctx.restore();
-        this.ctx.font = 'bold 18px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.onDarkText;
-        this.ctx.fillText(activityLabel, rightX + inner + 45, drawY + 6);
-        drawY += 40;
+        this.ctx.font = 'bold 19px "Noto Sans TC"';
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(activityLabel, rightX + inner + 44, drawY + 6);
+        this.ctx.textAlign = 'left';
+        drawY += 44;
         const segW = 24;
         const segGap = 6;
         const barX = rightX + inner;
@@ -332,7 +334,7 @@ class PetHealthReportGenerator {
             this.ctx.fillStyle = i < actScore ? this.colors.brandOrange : 'rgba(0,0,0,0.12)';
             this.ctx.fillRect(sx, barY, segW, 16);
         }
-        drawY += 26;
+        drawY += 36;
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.ctx.fillText(actScore <= 2 ? '可適度增加日常活動' : '維持目前活動習慣', rightX + inner, drawY);
@@ -479,14 +481,15 @@ class PetHealthReportGenerator {
         this.ctx.restore();
         const contentStart = y + 32;
         const qrSize = 108;
-        const qrX = this.canvas.width - this.padding - qrSize - 8;
-        const textMaxW = qrX - this.padding - 24;
+        const qrGap = 32;
+        const qrX = this.canvas.width - this.padding - qrSize - qrGap;
+        const textMaxW = qrX - this.padding - qrGap;
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 28px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.onDarkText;
         this.ctx.fillText('🏥 宜加寵物生活館', this.padding, contentStart + 38);
         this.ctx.font = '20px "Noto Sans TC"';
-        this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        this.ctx.fillStyle = 'rgba(255,255,255,0.95)';
         this.wrapText('專業、用心、愛毛孩，全台多門市為您服務', textMaxW).forEach((line, i) => {
             this.ctx.fillText(line, this.padding, contentStart + 72 + i * 28);
         });
