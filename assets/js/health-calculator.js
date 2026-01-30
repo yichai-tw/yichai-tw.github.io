@@ -16,11 +16,30 @@ class PetHealthCalculator {
      */
     async loadGuidelines() {
         try {
-            const response = await fetch('data/health-guidelines.json');
+            // 根據當前網頁路徑自動判斷資料夾位置
+            const isGitHubPages = window.location.hostname.includes('github.io');
+            const basePath = isGitHubPages ? window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) : '';
+            const jsonUrl = `${window.location.origin}${basePath}data/health-guidelines.json`;
+            
+            console.log('正在從以下網址載入指引資料：', jsonUrl);
+            const response = await fetch(jsonUrl);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
             this.guidelines = await response.json();
             console.log('✅ 健康指引資料載入成功');
         } catch (error) {
-            console.error('❌ 載入健康指引失敗:', error);
+            console.error('❌ 載入健康指引失敗，嘗試使用備用路徑:', error);
+            // 備用路徑嘗試
+            try {
+                const altResponse = await fetch('data/health-guidelines.json');
+                this.guidelines = await altResponse.json();
+                console.log('✅ 使用備用路徑載入成功');
+            } catch (altError) {
+                console.error('❌ 備用路徑也失敗:', altError);
+            }
         }
     }
 
