@@ -38,6 +38,12 @@ function selectPetType(petType) {
         hamsterSection.style.display = petType === 'hamster' ? 'block' : 'none';
     }
 
+    // 顯示/隱藏結紮選項（倉鼠一般不結紮，不顯示）
+    const neuteredSection = document.getElementById('neuteredSection');
+    if (neuteredSection) {
+        neuteredSection.style.display = petType === 'hamster' ? 'none' : 'block';
+    }
+
     // 更新年齡輸入提示
     const ageHint = document.querySelector('#ageInput p');
     if (ageHint) {
@@ -81,16 +87,37 @@ function updateHealthConditionsList() {
         return;
     }
     const conditions = guidelines[petType].commonConditions || [];
-    if (conditions.length === 0) {
-        container.innerHTML = '<p class="text-sm text-gray-500 col-span-2">此物種暫無勾選項目</p>';
-        return;
-    }
-    container.innerHTML = conditions.map(c => `
-        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-            <input type="checkbox" name="healthCondition" value="${c.id}" class="text-orange-500 rounded">
+    const noneId = 'health_condition_none';
+    const noneLabel = '沒有任何狀況';
+    const optionsHtml = conditions.map(c => `
+        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50 health-condition-option">
+            <input type="checkbox" name="healthCondition" value="${c.id}" class="text-orange-500 rounded health-condition-cb">
             <span>${c.label}</span>
         </label>
     `).join('');
+    container.innerHTML = `
+        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50 col-span-2" id="healthConditionNoneWrap">
+            <input type="checkbox" name="healthCondition" value="${noneId}" id="healthConditionNone" class="text-orange-500 rounded">
+            <span>${noneLabel}</span>
+        </label>
+        ${optionsHtml}
+    `;
+    const noneCb = document.getElementById('healthConditionNone');
+    const otherCbs = container.querySelectorAll('.health-condition-cb');
+    if (noneCb) {
+        noneCb.addEventListener('change', function () {
+            if (this.checked) {
+                otherCbs.forEach(cb => { cb.checked = false; });
+            }
+        });
+    }
+    otherCbs.forEach(cb => {
+        cb.addEventListener('change', function () {
+            if (this.checked && noneCb) {
+                noneCb.checked = false;
+            }
+        });
+    });
 }
 
 /**
@@ -202,7 +229,9 @@ function collectFormData() {
     const weight = parseFloat(document.getElementById('weight').value);
     const weightUnit = document.getElementById('weightUnit').value;
     
-    const healthConditions = Array.from(document.querySelectorAll('input[name="healthCondition"]:checked')).map(c => c.value);
+    const healthConditionsRaw = Array.from(document.querySelectorAll('input[name="healthCondition"]:checked')).map(c => c.value);
+    const healthConditions = healthConditionsRaw.filter(v => v && v !== 'health_condition_none');
+    const neutered = document.querySelector('input[name="neutered"]:checked')?.value === 'yes';
     return {
         petType: selectedPetType,
         petName: document.getElementById('petName').value || null,
@@ -220,7 +249,8 @@ function collectFormData() {
             document.querySelector('input[name="hamsterBreed"]:checked')?.value : null,
         activityLevel: document.querySelector('input[name="activityLevel"]:checked')?.value || 'moderate',
         bodyShape: document.querySelector('input[name="bodyShape"]:checked')?.value || 'ideal',
-        healthConditions: healthConditions
+        healthConditions: healthConditions,
+        neutered: neutered
     };
 }
 

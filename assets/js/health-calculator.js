@@ -448,7 +448,7 @@ class PetHealthCalculator {
             throw new Error('健康指引資料尚未載入，請稍後再試。');
         }
 
-        const { petType, petName, birthdate, ageYears, ageMonths, weight, sex, dogSize, hamsterBreed, activityLevel, bodyShape, healthConditions } = petData;
+        const { petType, petName, birthdate, ageYears, ageMonths, weight, sex, neutered, dogSize, hamsterBreed, activityLevel, bodyShape, healthConditions } = petData;
         const actLevel = activityLevel || 'moderate';
         const bShape = bodyShape || 'ideal';
         const conditionIds = Array.isArray(healthConditions) ? healthConditions : [];
@@ -508,10 +508,13 @@ class PetHealthCalculator {
         // 健康狀況對飲食與提醒的影響（常見疾病，會納入建議）
         const conditionAdvice = this.getConditionAdvice(petType, conditionIds);
         const stageTips = this.getHealthTips(petType, humanAgeData.stage) || [];
-        // 性別健康關注（公／母各有不同建議，納入健康提醒第一條）
-        const sexFocus = (this.guidelines.sexHealthFocus && this.guidelines.sexHealthFocus[petType] && sex)
-            ? this.guidelines.sexHealthFocus[petType][sex]
-            : '';
+        // 性別／結紮健康關注（已結紮顯示結紮後建議，未結紮顯示性別建議；納入健康提醒第一條）
+        let sexFocus = '';
+        if (neutered && this.guidelines.neuteredFocus && this.guidelines.neuteredFocus[petType]) {
+            sexFocus = this.guidelines.neuteredFocus[petType];
+        } else if (this.guidelines.sexHealthFocus && this.guidelines.sexHealthFocus[petType] && sex) {
+            sexFocus = this.guidelines.sexHealthFocus[petType][sex];
+        }
         const healthTipsMerged = (sexFocus ? ['👤 ' + sexFocus] : []).concat(conditionAdvice.tips, stageTips);
 
         // 產生報告（綜合品種、年齡、體重、體型、性別，若有勾選健康狀況則納入建議）

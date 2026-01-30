@@ -12,9 +12,10 @@ class PetHealthReportGenerator {
         this.canvas.width = 1080;
         this.canvas.height = 1080 * (4 / 3); // 1440
         
-        // 繪圖參數
+        // 繪圖參數（卡片間留隙，避免重疊）
         this.padding = 60;
         this.cardRadius = 30;
+        this.cardGap = 12;
         this.colors = {
             backgroundStart: '#FFF9F0',
             backgroundEnd: '#F0F8FF',
@@ -31,33 +32,35 @@ class PetHealthReportGenerator {
         this.drawBackground();
         this.drawHeader();
         
-        // 3:4 直式版面：起始高度略縮，卡片高度壓縮以納入一屏
+        // 3:4 直式版面：卡片間加 cardGap，避免卡片與頁尾重疊
         let currentY = 168;
 
         // 1. 人類年齡卡片
         this.drawAgeCard(currentY);
-        currentY += 152;
+        currentY += 152 + this.cardGap;
 
         // 2. 生命階段卡片
         this.drawStageCard(currentY);
-        currentY += 152;
+        currentY += 152 + this.cardGap;
 
         // 3. 體型與活動參考卡片（愛心 5 等級、3 顆以上稱讚飼主）
         if (this.data.bodyCondition) {
             this.drawBodyConditionCard(currentY);
-            currentY += 200;
+            currentY += 200 + this.cardGap;
         }
 
         // 4. 飲食建議卡片（若有勾選健康狀況則含照護提醒，高度動態）
         this.drawNutritionCard(currentY);
         const nutritionCardHeight = (this.data.conditionAdvice && this.data.conditionAdvice.dietaryNotes && this.data.conditionAdvice.dietaryNotes.length > 0) ? 268 : 212;
-        currentY += nutritionCardHeight;
+        currentY += nutritionCardHeight + this.cardGap;
 
         // 5. 健康提醒卡片
+        const healthTipsCardHeight = 260;
         this.drawHealthTipsCard(currentY);
-        
-        // 6. 底部資訊
-        await this.drawFooter();
+        currentY += healthTipsCardHeight + this.cardGap;
+
+        // 6. 底部資訊（依上方卡片結束位置繪製，不重疊）
+        await this.drawFooter(currentY);
         
         return this.canvas;
     }
@@ -307,9 +310,9 @@ class PetHealthReportGenerator {
         });
     }
 
-    async drawFooter() {
-        // 3:4 版面（高度 1440），頁尾自健康提醒卡片下方開始（體型卡含稱讚高度 200）
-        const y = 1180;
+    async drawFooter(footerY) {
+        // 頁尾自最後一張卡片下方開始，避免與健康提醒卡片重疊
+        const y = footerY != null ? footerY : 1200;
         
         // 繪製 QR Code（連結至官網首頁，可查門市、最新消息與健康小幫手）
         const qrUrl = 'https://yichai-tw.github.io/';
@@ -326,11 +329,11 @@ class PetHealthReportGenerator {
         this.ctx.fillText('專業、用心、愛毛孩，全台多間門市為您服務', this.padding, y + 72);
         this.ctx.fillText('官網、門市與更多健康資訊請掃描 QR Code', this.padding, y + 108);
         
-        // 免責聲明（3:4 版面底部）
+        // 免責聲明（版面底部，固定距畫布底 20px）
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 18px "Noto Sans TC"';
         this.ctx.fillStyle = '#999999';
-        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, 1420);
+        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, this.canvas.height - 20);
     }
 
     drawRoundedCard(x, y, width, height, radius, fillColor) {

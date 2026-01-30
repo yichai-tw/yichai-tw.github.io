@@ -123,6 +123,16 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* 報告包含哪些內容：圖示固定寬度、文字左對齊不歪斜 */
+        .report-features-grid .report-feature-icon {
+            width: 2rem;
+            min-width: 2rem;
+            text-align: center;
+        }
+        .report-features-grid .flex.items-start {
+            align-items: flex-start;
+        }
+
         /* 響應式調整 */
         @media (max-width: 640px) {
             .pet-button {
@@ -293,6 +303,24 @@
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="radio" name="sex" value="female" class="text-orange-500">
                             <span>母</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 是否結紮（影響健康建議；倉鼠不結紮故不顯示） -->
+                <div id="neuteredSection">
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        ✂️ 是否已結紮／絕育
+                    </label>
+                    <p class="text-sm text-gray-500 mb-2">此選項會影響報告中的健康提醒建議</p>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="neutered" value="no" class="text-orange-500" checked>
+                            <span>未結紮</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="neutered" value="yes" class="text-orange-500">
+                            <span>已結紮</span>
                         </label>
                     </div>
                 </div>
@@ -527,50 +555,50 @@
             </div>
         </div>
 
-        <!-- 功能說明區 -->
+        <!-- 功能說明區（圖示固定寬度、文字左對齊） -->
         <div class="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl p-6 md:p-8 mb-8">
             <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">
                 📋 報告包含哪些內容？
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 report-features-grid">
                 <div class="flex items-start gap-3">
-                    <span class="text-2xl">🎂</span>
-                    <div>
+                    <span class="report-feature-icon flex-shrink-0 w-8 text-center text-2xl" aria-hidden="true">🎂</span>
+                    <div class="min-w-0 flex-1">
                         <h4 class="font-semibold text-gray-800">人類等值年齡</h4>
                         <p class="text-sm text-gray-600">換算成人類年齡，更好理解毛孩的生命階段</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-3">
-                    <span class="text-2xl">📊</span>
-                    <div>
+                    <span class="report-feature-icon flex-shrink-0 w-8 text-center text-2xl" aria-hidden="true">📊</span>
+                    <div class="min-w-0 flex-1">
                         <h4 class="font-semibold text-gray-800">生命階段分析</h4>
                         <p class="text-sm text-gray-600">了解目前處於幼年、成年或熟齡期</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-3">
-                    <span class="text-2xl">♥</span>
-                    <div>
+                    <span class="report-feature-icon flex-shrink-0 w-8 text-center text-2xl" aria-hidden="true">♥</span>
+                    <div class="min-w-0 flex-1">
                         <h4 class="font-semibold text-gray-800">健康度參考</h4>
                         <p class="text-sm text-gray-600">綜合品種、年齡、體重、體型、性別計算，以 5 級愛心呈現並有對應建議與稱讚</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-3">
-                    <span class="text-2xl">🍲</span>
-                    <div>
+                    <span class="report-feature-icon flex-shrink-0 w-8 text-center text-2xl" aria-hidden="true">🍲</span>
+                    <div class="min-w-0 flex-1">
                         <h4 class="font-semibold text-gray-800">飲食建議</h4>
                         <p class="text-sm text-gray-600">每日熱量、乾糧與飲水參考區間</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-3">
-                    <span class="text-2xl">💊</span>
-                    <div>
+                    <span class="report-feature-icon flex-shrink-0 w-8 text-center text-2xl" aria-hidden="true">💊</span>
+                    <div class="min-w-0 flex-1">
                         <h4 class="font-semibold text-gray-800">健康提醒</h4>
                         <p class="text-sm text-gray-600">依生命階段與勾選的健康狀況（如腎病、愛滋貓等）提供重點保健建議</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-3">
-                    <span class="text-2xl">🏥</span>
-                    <div>
+                    <span class="report-feature-icon flex-shrink-0 w-8 text-center text-2xl" aria-hidden="true">🏥</span>
+                    <div class="min-w-0 flex-1">
                         <h4 class="font-semibold text-gray-800">健檢頻率</h4>
                         <p class="text-sm text-gray-600">建議的例行健康檢查間隔</p>
                     </div>
