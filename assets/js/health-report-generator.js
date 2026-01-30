@@ -59,7 +59,7 @@ class PetHealthReportGenerator {
         // 2. 體型與活動參考（標題＋左右兩欄：體型｜運動量）
         if (this.data.bodyCondition) {
             this.drawBodyConditionBlock(currentY);
-            currentY += 240 + this.sectionGap;
+            currentY += 248 + this.sectionGap;
         }
 
         // 3. 飲食建議（三張小卡橫排＋照護框）
@@ -263,10 +263,10 @@ class PetHealthReportGenerator {
     drawBodyConditionBlock(y) {
         const bc = this.data.bodyCondition;
         if (!bc) return;
-        const sectionH = 240;
-        const titleH = 48;
+        const sectionH = 248;
+        const titleH = 52;
         const cardsY = y + titleH;
-        const cardsH = 188;
+        const cardsH = 192;
         const halfW = (this.contentWidth - this.colGap) / 2;
         const leftX = this.padding;
         const rightX = this.padding + halfW + this.colGap;
@@ -275,20 +275,20 @@ class PetHealthReportGenerator {
         const inner = 24;
         const lineH = 26;
 
+        this.ctx.save();
         this.drawTintedCard(this.padding, y, this.contentWidth, sectionH, '#FFFFFF');
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 26px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(`⚖️ 體型與活動`, this.padding + this.innerPadding, y + 32);
+        this.ctx.fillText(`⚖️ 體型與活動`, this.padding + this.innerPadding, y + 34);
         this.drawTintedCard(leftX, cardsY, halfW, cardsH, this.colors.speechBubbleFill);
         this.drawTintedCard(rightX, cardsY, halfW, cardsH, this.colors.speechBubbleFill);
 
-        let drawY = y + 28;
-        this.ctx.textAlign = 'left';
+        let drawY = cardsY + 28;
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textLight;
         this.ctx.fillText('體型參考', leftX + inner, drawY);
-        drawY += 22;
+        drawY += 24;
         const bodyH = '♥'.repeat(bodyScore) + '♡'.repeat(5 - bodyScore);
         this.ctx.font = '28px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
@@ -296,44 +296,44 @@ class PetHealthReportGenerator {
         this.ctx.font = '20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.ctx.fillText(' (標準)', leftX + inner + 140, drawY);
-        drawY += lineH + 8;
+        drawY += lineH + 10;
         this.ctx.font = '17px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.wrapText(bc.praise || bc.advice || '持續關心體態更健康', halfW - inner * 2).forEach((line, i) => {
             this.ctx.fillText(line, leftX + inner, drawY + i * lineH);
         });
 
-        drawY = y + 28;
+        drawY = cardsY + 28;
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textLight;
         this.ctx.fillText('運動量', rightX + inner, drawY);
-        drawY += 22;
+        drawY += 26;
         const activityLabels = ['', '很少動', '偶爾動', '適中', '活潑', '非常活潑'];
         const activityLabel = activityLabels[Math.min(5, Math.max(1, actScore))] || '適中';
         this.ctx.save();
         this.ctx.fillStyle = this.colors.brandOrange;
         this.ctx.beginPath();
-        this.ctx.roundRect(rightX + inner, drawY - 12, 88, 28, 14);
+        this.ctx.roundRect(rightX + inner, drawY - 12, 90, 28, 14);
         this.ctx.fill();
         this.ctx.restore();
         this.ctx.font = 'bold 18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.onDarkText;
-        this.ctx.fillText(activityLabel, rightX + inner + 44, drawY + 6);
-        drawY += 38;
+        this.ctx.fillText(activityLabel, rightX + inner + 45, drawY + 6);
+        drawY += 40;
         const segW = 24;
-        const segGap = 5;
-        const barTotalW = 5 * segW + 4 * segGap;
+        const segGap = 6;
         const barX = rightX + inner;
-        const barY = drawY - 14;
+        const barY = drawY;
         for (let i = 0; i < 5; i++) {
             const sx = barX + i * (segW + segGap);
             this.ctx.fillStyle = i < actScore ? this.colors.brandOrange : 'rgba(0,0,0,0.1)';
             this.ctx.fillRect(sx, barY, segW, 16);
         }
-        drawY += 28;
+        drawY += 24;
         this.ctx.font = '17px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.ctx.fillText(actScore <= 2 ? '可適度增加日常活動' : '維持目前活動習慣', rightX + inner, drawY);
+        this.ctx.restore();
     }
 
     drawNutritionBlock(y) {
@@ -438,15 +438,16 @@ class PetHealthReportGenerator {
         const lineH = this.lineHeight;
         const gapBetweenTips = 10;
         const leftBorderW = 6;
+        this.ctx.save();
         this.drawTintedCard(this.padding, y, this.contentWidth, h, '#FFFFFF');
         const contentX = this.padding + this.innerPadding + leftBorderW + 12;
         const maxTextWidth = this.contentWidth - this.innerPadding * 2 - leftBorderW - 24;
-        let tipY = y + 32;
+        let tipY = y + 34;
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 26px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
         this.ctx.fillText(`🏥 健康提醒`, this.padding + this.innerPadding, tipY);
-        tipY += 28 + this.titleToContent;
+        tipY += 30 + this.titleToContent;
         this.ctx.font = '20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         const tips = this.data.healthTips.slice(0, 4);
@@ -454,42 +455,48 @@ class PetHealthReportGenerator {
             const rowY = tipY;
             const lines = this.wrapText(tip, maxTextWidth);
             const rowH = Math.max(44, lines.length * lineH + 16);
-            this.ctx.save();
             this.ctx.fillStyle = this.colors.brandOrange;
             this.ctx.fillRect(this.padding + this.innerPadding, rowY - 12, leftBorderW, rowH);
-            this.ctx.restore();
+            this.ctx.fillStyle = this.colors.textDark;
             lines.forEach(line => {
                 this.ctx.fillText(line, contentX, tipY);
                 tipY += lineH;
             });
             tipY += gapBetweenTips;
         });
+        this.ctx.restore();
     }
 
     async drawFooter(footerY) {
         const y = footerY != null ? footerY : 1200;
-        const footerH = 140;
+        const footerH = 150;
         this.ctx.save();
         this.ctx.fillStyle = this.colors.footerDark;
         this.ctx.fillRect(0, y, this.canvas.width, footerH);
         this.ctx.restore();
-        const contentStart = y + 28;
-        const qrSize = 110;
-        const qrX = this.canvas.width - this.padding - qrSize;
+        const contentStart = y + 32;
+        const qrSize = 108;
+        const qrX = this.canvas.width - this.padding - qrSize - 8;
+        const textMaxW = qrX - this.padding - 24;
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 28px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.onDarkText;
-        this.ctx.fillText('🏥 宜加寵物生活館', this.padding, contentStart + 36);
+        this.ctx.fillText('🏥 宜加寵物生活館', this.padding, contentStart + 38);
         this.ctx.font = '20px "Noto Sans TC"';
         this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
-        this.ctx.fillText('專業、用心、愛毛孩，全台多門市為您服務', this.padding, contentStart + 72);
-        this.ctx.fillText('官網、門市與更多健康資訊請掃描 QR Code', this.padding, contentStart + 104);
+        this.wrapText('專業、用心、愛毛孩，全台多門市為您服務', textMaxW).forEach((line, i) => {
+            this.ctx.fillText(line, this.padding, contentStart + 72 + i * 28);
+        });
+        this.wrapText('官網、門市與更多健康資訊請掃描 QR Code', textMaxW).forEach((line, i) => {
+            this.ctx.fillText(line, this.padding, contentStart + 108 + i * 28);
+        });
         const qrUrl = 'https://yichai-tw.github.io/';
         await this.drawQRCode(qrUrl, qrX, contentStart, qrSize);
+        this.ctx.restore();
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 20px "Noto Sans TC"';
         this.ctx.fillStyle = '#999999';
-        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, this.canvas.height - 40);
+        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, this.canvas.height - 36);
     }
 
     drawTextWithShadow(text, x, y, fontSize, color, weight = 'normal') {
