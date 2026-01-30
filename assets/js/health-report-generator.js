@@ -33,11 +33,11 @@ class PetHealthReportGenerator {
             divider: 'rgba(0,0,0,0.06)',
             frameStroke: 'rgba(0,0,0,0.08)',
             frameFill: 'rgba(255,255,255,0.5)',
-            // 人類年齡／生命階段專用：左卡暖色、右卡冷色
-            ageCardFill: 'rgba(255,243,230,0.85)',
-            ageCardAccent: '#DF7621',
+            // 參考圖：年齡/階段與飲食用淺橘、健康提醒用淺藍
+            ageCardFill: 'rgba(255,243,230,0.9)',
             stageCardFill: 'rgba(230,245,255,0.9)',
-            stageCardAccent: '#2E7D9A'
+            dietHighlightFill: 'rgba(223,118,33,0.12)',
+            speechBubbleFill: 'rgba(255,243,230,0.7)'
         };
     }
 
@@ -51,17 +51,17 @@ class PetHealthReportGenerator {
 
         // 1. 人類年齡（左）＋ 生命階段（右）同一列
         this.drawAgeAndStageRow(currentY);
-        currentY += 152 + this.sectionGap;
+        currentY += 168 + this.sectionGap;
 
-        // 2. 體型與活動參考（全寬淡框）
+        // 2. 體型與活動參考（白底淡框＋活動條＋泡泡框）
         if (this.data.bodyCondition) {
             this.drawBodyConditionBlock(currentY);
-            currentY += 200 + this.sectionGap;
+            currentY += 220 + this.sectionGap;
         }
 
         // 3. 飲食建議（全寬淡框）
         this.drawNutritionBlock(currentY);
-        const nutritionHeight = (this.data.conditionAdvice && this.data.conditionAdvice.dietaryNotes && this.data.conditionAdvice.dietaryNotes.length > 0) ? 280 : 220;
+        const nutritionHeight = (this.data.conditionAdvice && this.data.conditionAdvice.dietaryNotes && this.data.conditionAdvice.dietaryNotes.length > 0) ? 300 : 220;
         currentY += nutritionHeight + this.sectionGap;
 
         // 4. 健康提醒（全寬淡框）
@@ -150,41 +150,36 @@ class PetHealthReportGenerator {
         this.ctx.restore();
     }
 
-    /**
-     * 繪製「人類年齡／生命階段」專用卡片：底色＋左側色條，與其他區塊視覺區隔
-     */
-    drawSpecialInfoCard(x, y, w, h, fillStyle, accentColor) {
-        const radius = this.colRadius;
-        const barWidth = 6;
+    /** 參考圖：單一底色卡片（無色條），用於年齡/階段、飲食、健康提醒 */
+    drawTintedCard(x, y, w, h, fillStyle) {
         this.ctx.save();
         this.ctx.beginPath();
-        this.ctx.roundRect(x, y, w, h, radius);
+        this.ctx.roundRect(x, y, w, h, this.colRadius);
         this.ctx.fillStyle = fillStyle;
         this.ctx.fill();
         this.ctx.strokeStyle = 'rgba(0,0,0,0.06)';
         this.ctx.lineWidth = 1;
         this.ctx.stroke();
-        this.ctx.fillStyle = accentColor;
-        this.ctx.beginPath();
-        this.ctx.roundRect(x + 10, y + 10, barWidth, h - 20, 3);
-        this.ctx.fill();
         this.ctx.restore();
     }
 
+    /** 參考圖：年齡＋生命階段合併為一張淺橘卡，內部分雙欄 */
     drawAgeAndStageRow(y) {
-        const rowHeight = 152;
-        const inner = this.innerPadding;
+        const rowHeight = 168;
+        const cardInner = 38;
+        const cardTop = 36;
+        const titleToContentGap = 32;
         const lineH = this.lineHeight;
-        this.drawSpecialInfoCard(this.leftColX, y, this.colWidth, rowHeight, this.colors.ageCardFill, this.colors.ageCardAccent);
-        this.drawSpecialInfoCard(this.rightColX, y, this.colWidth, rowHeight, this.colors.stageCardFill, this.colors.stageCardAccent);
+        const midX = this.padding + this.contentWidth / 2;
+        this.drawTintedCard(this.padding, y, this.contentWidth, rowHeight, this.colors.ageCardFill);
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 26px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        const leftX = this.leftColX + inner;
-        const rightX = this.rightColX + inner;
-        const maxW = this.colWidth - inner * 2;
-        const titleY = y + 30;
-        const contentY = titleY + this.titleToContent;
+        const leftX = this.padding + cardInner;
+        const rightX = midX + 12;
+        const maxW = this.colWidth - cardInner;
+        const titleY = y + cardTop;
+        const contentY = titleY + titleToContentGap;
         this.ctx.fillText(`${this.data.petInfo.emoji} 相當於人類 ${this.data.humanAge.age} 歲`, leftX, titleY);
         this.ctx.font = '24px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
@@ -203,36 +198,56 @@ class PetHealthReportGenerator {
         const bc = this.data.bodyCondition;
         if (!bc) return;
         const w = this.contentWidth;
-        const h = 200;
+        const h = 220;
         const lineH = this.lineHeight;
-        this.drawFaintFrame(this.padding, y, w, h);
         const contentX = this.padding + this.innerPadding;
         const innerW = w - this.innerPadding * 2;
+        this.drawFaintFrame(this.padding, y, w, h);
         let drawY = y + 30;
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 26px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(`💝 寵物幸福度`, contentX, drawY);
+        this.ctx.fillStyle = this.colors.textDark;
+        this.ctx.fillText(`📐 體型與活動參考`, contentX, drawY);
         drawY += 28 + this.titleToContent;
-        const wellnessLevel = bc.wellnessScore != null ? Math.max(1, Math.min(5, bc.wellnessScore)) : 3;
-        const heartsStr = '♥'.repeat(wellnessLevel) + '♡'.repeat(5 - wellnessLevel);
+        const bodyScore = bc.bodyScore != null ? bc.bodyScore : 3;
+        const actScore = bc.activityScore != null ? bc.activityScore : 3;
+        const bodyH = '♥'.repeat(bodyScore) + '♡'.repeat(5 - bodyScore);
         this.ctx.font = '24px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.ctx.fillText(heartsStr, contentX, drawY);
+        this.ctx.fillText(`體型參考：${bodyH}`, contentX, drawY);
         drawY += lineH;
         this.ctx.font = '20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textLight;
-        const bodyH = '♥'.repeat(bc.bodyScore != null ? bc.bodyScore : 3) + '♡'.repeat(5 - (bc.bodyScore != null ? bc.bodyScore : 3));
-        const actH = '♥'.repeat(bc.activityScore != null ? bc.activityScore : 3) + '♡'.repeat(5 - (bc.activityScore != null ? bc.activityScore : 3));
-        this.ctx.fillText(`依體態與活動量綜合計算　體態 ${bodyH}　活動 ${actH}`, contentX, drawY);
-        drawY += lineH;
-        if (bc.praise) {
-            this.ctx.fillStyle = this.colors.brandOrange;
-            this.ctx.font = '22px "Noto Sans TC"';
-            this.ctx.fillText(`💬 ${bc.praise}`, contentX, drawY);
-            drawY += lineH;
+        this.ctx.fillText(`運動量：`, contentX, drawY);
+        const barX = contentX + 80;
+        const barY = drawY - 14;
+        const segW = 28;
+        const segGap = 6;
+        for (let i = 0; i < 5; i++) {
+            const sx = barX + i * (segW + segGap);
+            this.ctx.fillStyle = i < actScore ? this.colors.textDark : 'rgba(0,0,0,0.12)';
+            this.ctx.fillRect(sx, barY, segW, 20);
         }
-        this.ctx.font = '24px "Noto Sans TC"';
+        drawY += lineH + 8;
+        if (bc.praise) {
+            const bubblePad = 12;
+            this.ctx.font = '22px "Noto Sans TC"';
+            const bubbleW = Math.min(innerW, 420);
+            const bubbleH = 36;
+            this.ctx.save();
+            this.ctx.fillStyle = this.colors.speechBubbleFill;
+            this.ctx.beginPath();
+            this.ctx.roundRect(contentX, drawY - 22, bubbleW, bubbleH, 10);
+            this.ctx.fill();
+            this.ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+            this.ctx.lineWidth = 1;
+            this.ctx.stroke();
+            this.ctx.restore();
+            this.ctx.fillStyle = this.colors.brandOrange;
+            this.ctx.fillText(`💬 ${bc.praise}`, contentX + bubblePad, drawY);
+            drawY += bubbleH + 6;
+        }
+        this.ctx.font = '22px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.wrapText(`建議：${bc.advice || '維持均衡飲食與適度活動。'}`, innerW).forEach((line) => {
             this.ctx.fillText(line, contentX, drawY);
@@ -244,9 +259,9 @@ class PetHealthReportGenerator {
         const nut = this.data.nutrition;
         const cond = this.data.conditionAdvice;
         const hasConditionNotes = cond && cond.dietaryNotes && cond.dietaryNotes.length > 0;
-        const baseH = hasConditionNotes ? 280 : 220;
+        const baseH = hasConditionNotes ? 300 : 220;
         const lineH = this.lineHeight;
-        this.drawFaintFrame(this.padding, y, this.contentWidth, baseH);
+        this.drawTintedCard(this.padding, y, this.contentWidth, baseH, this.colors.ageCardFill);
         const contentX = this.padding + this.innerPadding;
         const maxWidth = this.contentWidth - this.innerPadding * 2;
         let drawY = y + 30;
@@ -278,16 +293,36 @@ class PetHealthReportGenerator {
             drawY += lineH;
         }
         if (hasConditionNotes) {
-            drawY += 10;
+            drawY += 12;
             this.ctx.font = 'bold 22px "Noto Sans TC"';
             this.ctx.fillStyle = this.colors.brandOrange;
             this.ctx.fillText('🏥 依您勾選的健康狀況，飲食與照護提醒：', contentX, drawY);
-            drawY += lineH;
+            drawY += lineH + 6;
+            const boxPad = 14;
+            const boxW = maxWidth;
+            this.ctx.font = '22px "Noto Sans TC"';
+            let boxH = 0;
+            cond.dietaryNotes.forEach((note) => {
+                const lines = this.wrapText(`· ${note}`, boxW - boxPad * 2);
+                boxH += lines.length * lineH;
+            });
+            boxH += boxPad * 2;
+            const boxY = drawY - 4;
+            this.ctx.save();
+            this.ctx.fillStyle = this.colors.dietHighlightFill;
+            this.ctx.beginPath();
+            this.ctx.roundRect(contentX, boxY, boxW, boxH, 10);
+            this.ctx.fill();
+            this.ctx.strokeStyle = 'rgba(223,118,33,0.2)';
+            this.ctx.lineWidth = 1;
+            this.ctx.stroke();
+            this.ctx.restore();
             this.ctx.font = '22px "Noto Sans TC"';
             this.ctx.fillStyle = this.colors.textDark;
+            drawY = boxY + boxPad + 22;
             cond.dietaryNotes.forEach((note) => {
-                this.wrapText(`· ${note}`, maxWidth).forEach((line) => {
-                    this.ctx.fillText(line, contentX, drawY);
+                this.wrapText(`· ${note}`, boxW - boxPad * 2).forEach((line) => {
+                    this.ctx.fillText(line, contentX + boxPad, drawY);
                     drawY += lineH;
                 });
             });
@@ -320,7 +355,7 @@ class PetHealthReportGenerator {
         const h = 268;
         const lineH = this.lineHeight;
         const gapBetweenTips = 12;
-        this.drawFaintFrame(this.padding, y, this.contentWidth, h);
+        this.drawTintedCard(this.padding, y, this.contentWidth, h, this.colors.stageCardFill);
         const contentX = this.padding + this.innerPadding;
         const maxTextWidth = this.contentWidth - this.innerPadding * 2;
         let tipY = y + 30;
