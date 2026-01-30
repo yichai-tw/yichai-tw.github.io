@@ -207,38 +207,30 @@ class PetHealthCalculator {
     }
 
     /**
-     * 計算倉鼠的人類年齡
+     * 計算倉鼠的人類年齡 (使用線性映射模型：0-性成熟 -> 0-15, 性成熟-壽命中位 -> 15-80)
      */
-    calculateHamsterHumanAge(totalYears, stage, breed = null) {
-        let baseAge = 0;
-        
-        if (totalYears < 0.25) {
-            // 幼年期：每月 3 歲
-            baseAge = (totalYears * 12) * 3;
-        } else if (totalYears < 0.5) {
-            // 青少年期：9 + (年 - 0.25) * 28
-            baseAge = 9 + (totalYears - 0.25) * 28;
-        } else if (totalYears < 1.5) {
-            // 成年期：16 + (年 - 0.5) * 20
-            baseAge = 16 + (totalYears - 0.5) * 20;
-        } else if (totalYears < 2) {
-            // 熟齡期：36 + (年 - 1.5) * 24
-            baseAge = 36 + (totalYears - 1.5) * 24;
-        } else {
-            // 老年期：48 + (年 - 2) * 20
-            baseAge = 48 + (totalYears - 2) * 20;
+    calculateHamsterHumanAge(totalYears, stage, breedKey = null) {
+        if (!this.guidelines || !this.guidelines.hamster || !this.guidelines.hamster.breeds) {
+            return totalYears * 25; // 降級方案
         }
 
-        // 根據品種調整倍率
-        const breedMultipliers = {
-            'syrian': 1.0,        // 黃金鼠 (基準)
-            'winter_white': 1.2,  // 侏儒鼠壽命較短，老得快
-            'campbell': 1.2,
-            'roborovski': 0.8     // 老公公鼠最長壽，老得慢
-        };
+        const breed = this.guidelines.hamster.breeds[breedKey] || this.guidelines.hamster.breeds['syrian'];
+        const totalMonths = totalYears * 12;
+        
+        // 取得品種特定參數 (單位：月)
+        const sm = breed.sexualMaturity; // 性成熟點 (月)
+        const ml = breed.medianLifespan; // 壽命中位點 (月)
 
-        const multiplier = (breed && breedMultipliers[breed]) ? breedMultipliers[breed] : 1.0;
-        return baseAge * multiplier;
+        if (totalMonths <= sm) {
+            // 0 -> sm 映射到 0 -> 15 歲
+            return (totalMonths / sm) * 15;
+        } else if (totalMonths <= ml) {
+            // sm -> ml 映射到 15 -> 80 歲
+            return 15 + ((totalMonths - sm) / (ml - sm)) * (80 - 15);
+        } else {
+            // 超過壽命中位點，進入高齡期 (每增加 1 個月約增加人類 2.5 歲)
+            return 80 + (totalMonths - ml) * 2.5;
+        }
     }
 
     /**
