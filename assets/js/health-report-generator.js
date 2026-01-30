@@ -28,16 +28,20 @@ class PetHealthReportGenerator {
             backgroundStart: '#FFF9F0',
             backgroundEnd: '#F0F8FF',
             brandOrange: '#DF7621',
+            headerOrangeStart: '#FF6B35',
+            headerOrangeEnd: '#FF8E53',
+            footerDark: '#2C3E50',
             textDark: '#2C3E50',
             textLight: '#64748B',
+            onDarkText: '#FFFFFF',
             divider: 'rgba(0,0,0,0.06)',
             frameStroke: 'rgba(0,0,0,0.08)',
             frameFill: 'rgba(255,255,255,0.7)',
-            // 與網頁一致：淺底、橘點綴、深色內文
             ageCardFill: 'rgba(253,249,246,0.95)',
             stageCardFill: 'rgba(241,245,249,0.9)',
             dietHighlightFill: 'rgba(223,118,33,0.08)',
-            speechBubbleFill: 'rgba(253,249,246,0.95)'
+            speechBubbleFill: 'rgba(253,249,246,0.95)',
+            statHighlightFill: 'rgba(255,243,224,0.95)'
         };
     }
 
@@ -46,24 +50,23 @@ class PetHealthReportGenerator {
         this.drawBackground();
         this.drawHeader();
         
-        let currentY = 208;
+        let currentY = 228;
 
-        // 1. 人類年齡＋生命階段（淺暖色卡、嚴格左右半寬、明顯不貼頂）
+        // 1. 人類年齡＋生命階段（兩張獨立卡、數字突出、右欄高亮框）
         this.drawAgeAndStageRow(currentY);
-        currentY += 172 + this.sectionGap;
+        currentY += 188 + this.sectionGap;
 
-        // 2. 體型與活動參考（白底淡框＋泡泡框＋活動條；低活動時有溫馨提示）
+        // 2. 體型與活動參考（標題＋左右兩欄：體型｜運動量）
         if (this.data.bodyCondition) {
-            const bc = this.data.bodyCondition;
-            const actScore = bc.activityScore != null ? bc.activityScore : 3;
-            const bodyBlockH = (actScore <= 2 && bc.praise) ? 278 : (actScore <= 2 ? 258 : 230);
             this.drawBodyConditionBlock(currentY);
-            currentY += bodyBlockH + this.sectionGap;
+            currentY += 240 + this.sectionGap;
         }
 
-        // 3. 飲食建議（全寬淡框）
+        // 3. 飲食建議（三張小卡橫排＋照護框）
         this.drawNutritionBlock(currentY);
-        const nutritionHeight = (this.data.conditionAdvice && this.data.conditionAdvice.dietaryNotes && this.data.conditionAdvice.dietaryNotes.length > 0) ? 300 : 220;
+        const hasCondNotes = this.data.conditionAdvice && this.data.conditionAdvice.dietaryNotes && this.data.conditionAdvice.dietaryNotes.length > 0;
+        const hasNut = (this.data.nutrition.dailyCaloriesMin > 0 || this.data.nutrition.dailyCaloriesMax > 0);
+        const nutritionHeight = hasCondNotes ? 280 : (hasNut ? 220 : 200);
         currentY += nutritionHeight + this.sectionGap;
 
         // 4. 健康提醒（全寬淡框）
@@ -108,20 +111,66 @@ class PetHealthReportGenerator {
     }
 
     drawHeader() {
+        const headerH = 200;
+        const g = this.ctx.createLinearGradient(0, 0, 0, headerH);
+        g.addColorStop(0, this.colors.headerOrangeStart);
+        g.addColorStop(1, this.colors.headerOrangeEnd);
+        this.ctx.fillStyle = g;
+        this.ctx.fillRect(0, 0, this.canvas.width, headerH);
+
+        const leftX = this.padding + 8;
         if (this.logo) {
-            this.ctx.drawImage(this.logo, this.padding, 36, 88, 88);
+            this.ctx.drawImage(this.logo, leftX, 44, 80, 80);
+        } else {
+            this.ctx.save();
+            this.ctx.fillStyle = 'rgba(255,255,255,0.95)';
+            this.ctx.beginPath();
+            this.ctx.arc(leftX + 40, 84, 40, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.font = '40px "Noto Sans TC"';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillStyle = this.colors.brandOrange;
+            this.ctx.fillText(this.data.petInfo.emoji || '🐱', leftX + 40, 94);
+            this.ctx.restore();
         }
         this.ctx.textAlign = 'left';
-        this.drawTextWithShadow('一鍵毛孩健康小幫手', 158, 88, 42, this.colors.brandOrange, 'bold');
-        this.ctx.font = '24px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textLight;
-        this.ctx.fillText(`生成日期：${this.data.generatedDate}`, 158, 124);
+        this.ctx.font = 'bold 36px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.onDarkText;
+        this.ctx.fillText('一鍵毛孩健康小幫手', leftX + 96, 88);
+        this.ctx.font = '22px "Noto Sans TC"';
+        this.ctx.fillStyle = 'rgba(255,255,255,0.95)';
+        this.ctx.fillText(this.data.generatedDate, leftX + 96, 122);
+
         const sexLabel = this.data.petInfo.sexLabel || '';
-        const petTitle = `${this.data.petInfo.emoji} ${this.data.petInfo.name} 的專屬報告${sexLabel ? ` · ${sexLabel}` : ''}`;
-        this.ctx.textAlign = 'right';
+        const petMeta = sexLabel ? `${sexLabel} · ${this.data.generatedDate}` : this.data.generatedDate;
+        const cardW = 340;
+        const cardH = 100;
+        const cardX = this.canvas.width - this.padding - cardW;
+        const cardY = 50;
+        this.ctx.save();
+        this.ctx.fillStyle = 'rgba(255,255,255,0.25)';
+        this.ctx.beginPath();
+        this.ctx.roundRect(cardX, cardY, cardW, cardH, 20);
+        this.ctx.fill();
+        this.ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+        this.ctx.lineWidth = 1;
+        this.ctx.stroke();
+        this.ctx.restore();
+        this.ctx.fillStyle = 'rgba(255,255,255,0.95)';
+        this.ctx.beginPath();
+        this.ctx.arc(cardX + 52, cardY + 50, 40, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.font = '38px "Noto Sans TC"';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillStyle = this.colors.brandOrange;
+        this.ctx.fillText(this.data.petInfo.emoji || '🐱', cardX + 52, cardY + 58);
+        this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 28px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textDark;
-        this.ctx.fillText(petTitle, this.canvas.width - this.padding, 108);
+        this.ctx.fillStyle = this.colors.onDarkText;
+        this.ctx.fillText(`${this.data.petInfo.name} 的專屬報告`, cardX + 100, cardY + 42);
+        this.ctx.font = '20px "Noto Sans TC"';
+        this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        this.ctx.fillText(petMeta, cardX + 100, cardY + 72);
     }
 
     drawSectionDivider(y) {
@@ -158,189 +207,207 @@ class PetHealthReportGenerator {
         this.ctx.restore();
     }
 
-    /** 年齡＋生命階段：一張卡、嚴格左右半寬、中間分隔線，無右側留白 */
+    /** 年齡＋生命階段：兩張獨立卡、數字突出、右卡高亮框（參考 HTML 版） */
     drawAgeAndStageRow(y) {
-        const rowHeight = 172;
-        const cardInner = 32;
-        const cardTop = 44;
-        const titleToContentGap = 32;
-        const lineH = this.lineHeight;
-        const halfW = this.contentWidth / 2;
-        const midX = this.padding + halfW;
-        this.drawTintedCard(this.padding, y, this.contentWidth, rowHeight, this.colors.ageCardFill);
-        this.ctx.strokeStyle = this.colors.divider;
-        this.ctx.lineWidth = 1;
+        const rowHeight = 188;
+        const halfW = (this.contentWidth - this.colGap) / 2;
+        const leftX = this.padding;
+        const rightX = this.padding + halfW + this.colGap;
+        const inner = 28;
+        const cardTop = 36;
+
+        this.drawTintedCard(leftX, y, halfW, rowHeight, '#FFFFFF');
+        this.drawTintedCard(rightX, y, halfW, rowHeight, '#FFFFFF');
+
+        this.ctx.textAlign = 'center';
+        this.ctx.font = '48px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.brandOrange;
+        this.ctx.fillText(this.data.petInfo.emoji || '🐱', leftX + halfW / 2, y + 52);
+        this.ctx.font = 'bold 56px "Noto Sans TC"';
+        this.ctx.fillText(`${this.data.humanAge.age}`, leftX + halfW / 2, y + 108);
+        this.ctx.font = '26px "Noto Sans TC"';
+        this.ctx.fillText('歲', leftX + halfW / 2, y + 138);
+        this.ctx.font = '20px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.textLight;
+        this.wrapText(this.data.humanAge.comparison, halfW - inner * 2).slice(0, 2).forEach((line, i) => {
+            this.ctx.fillText(line, leftX + halfW / 2, y + 162 + i * 24);
+        });
+
+        this.ctx.textAlign = 'center';
+        this.ctx.font = '44px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.brandOrange;
+        this.ctx.fillText(`📋 ${this.data.humanAge.stage}`, rightX + halfW / 2, y + 72);
+        this.ctx.font = '20px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.textLight;
+        this.ctx.fillText('目前生命階段', rightX + halfW / 2, y + 108);
+        const boxPad = 14;
+        const boxW = halfW - inner * 2;
+        const boxH = 44;
+        const boxY = y + 124;
+        const boxX = rightX + inner;
+        this.ctx.save();
+        this.ctx.fillStyle = this.colors.statHighlightFill;
         this.ctx.beginPath();
-        this.ctx.moveTo(midX, y + 16);
-        this.ctx.lineTo(midX, y + rowHeight - 16);
+        this.ctx.roundRect(boxX, boxY, boxW, boxH, 12);
+        this.ctx.fill();
+        this.ctx.strokeStyle = 'rgba(223,118,33,0.15)';
+        this.ctx.lineWidth = 1;
         this.ctx.stroke();
-        const leftX = this.padding + cardInner;
-        const leftMaxW = halfW - cardInner - 12;
-        const rightX = midX + 12;
-        const rightMaxW = halfW - 12 - cardInner;
-        const titleY = y + cardTop;
-        const contentY = titleY + titleToContentGap;
-        this.ctx.textAlign = 'left';
-        this.ctx.font = 'bold 26px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(`${this.data.petInfo.emoji} 相當於人類 ${this.data.humanAge.age} 歲`, leftX, titleY);
-        this.ctx.font = '24px "Noto Sans TC"';
+        this.ctx.restore();
+        this.ctx.font = 'bold 20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.wrapText(this.data.humanAge.comparison, leftMaxW).forEach((line, i) => {
-            this.ctx.fillText(line, leftX, contentY + i * lineH);
-        });
-        this.ctx.font = 'bold 26px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(`📋 目前生命階段：${this.data.humanAge.stage}`, rightX, titleY);
-        this.ctx.font = '24px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textDark;
-        this.wrapText(`建議健檢頻率：${this.data.stageInfo.checkupFrequency}`, rightMaxW).forEach((line, i) => {
-            this.ctx.fillText(line, rightX, contentY + i * lineH);
-        });
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(this.data.stageInfo.checkupFrequency, rightX + halfW / 2, boxY + 28);
     }
 
     drawBodyConditionBlock(y) {
         const bc = this.data.bodyCondition;
         if (!bc) return;
-        const w = this.contentWidth;
+        const sectionH = 240;
+        const titleH = 48;
+        const cardsY = y + titleH;
+        const cardsH = 188;
+        const halfW = (this.contentWidth - this.colGap) / 2;
+        const leftX = this.padding;
+        const rightX = this.padding + halfW + this.colGap;
         const actScore = bc.activityScore != null ? bc.activityScore : 3;
-        const h = (actScore <= 2 && bc.praise) ? 278 : (actScore <= 2 ? 258 : 230);
-        const lineH = this.lineHeight;
-        const contentX = this.padding + this.innerPadding;
-        const innerW = w - this.innerPadding * 2;
-        this.drawFaintFrame(this.padding, y, w, h);
-        let drawY = y + 32;
+        const bodyScore = bc.bodyScore != null ? bc.bodyScore : 3;
+        const inner = 24;
+        const lineH = 26;
+
+        this.drawTintedCard(this.padding, y, this.contentWidth, sectionH, '#FFFFFF');
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 26px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(`體型與活動參考`, contentX, drawY);
-        drawY += 26;
-        this.ctx.font = '20px "Noto Sans TC"';
+        this.ctx.fillText(`⚖️ 體型與活動`, this.padding + this.innerPadding, y + 32);
+        this.drawTintedCard(leftX, cardsY, halfW, cardsH, this.colors.speechBubbleFill);
+        this.drawTintedCard(rightX, cardsY, halfW, cardsH, this.colors.speechBubbleFill);
+
+        let drawY = y + 28;
+        this.ctx.textAlign = 'left';
+        this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textLight;
-        this.ctx.fillText(bc.advice || '維持目前飲食與活動習慣', contentX, drawY);
-        drawY += lineH + this.titleToContent;
-        const bodyScore = bc.bodyScore != null ? bc.bodyScore : 3;
+        this.ctx.fillText('體型參考', leftX + inner, drawY);
+        drawY += 22;
         const bodyH = '♥'.repeat(bodyScore) + '♡'.repeat(5 - bodyScore);
+        this.ctx.font = '28px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.brandOrange;
+        this.ctx.fillText(bodyH, leftX + inner, drawY);
         this.ctx.font = '20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.ctx.fillText(`體型參考`, contentX, drawY);
-        this.ctx.font = '24px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(` ${bodyH} (標準)`, contentX + 72, drawY);
-        drawY += lineH + 6;
-        if (bc.praise) {
-            const bubblePad = 14;
-            this.ctx.font = '22px "Noto Sans TC"';
-            const bubbleW = Math.min(innerW, 440);
-            const bubbleH = 40;
-            this.ctx.save();
-            this.ctx.fillStyle = this.colors.speechBubbleFill;
-            this.ctx.beginPath();
-            this.ctx.roundRect(contentX, drawY - 24, bubbleW, bubbleH, 12);
-            this.ctx.fill();
-            this.ctx.strokeStyle = this.colors.frameStroke;
-            this.ctx.lineWidth = 1;
-            this.ctx.stroke();
-            this.ctx.restore();
-            this.ctx.fillStyle = this.colors.brandOrange;
-            this.ctx.fillText(`💬 ${bc.praise}`, contentX + bubblePad, drawY + 4);
-            drawY += bubbleH + 10;
-        }
+        this.ctx.fillText(' (標準)', leftX + inner + 140, drawY);
+        drawY += lineH + 8;
+        this.ctx.font = '17px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.textDark;
+        this.wrapText(bc.praise || bc.advice || '持續關心體態更健康', halfW - inner * 2).forEach((line, i) => {
+            this.ctx.fillText(line, leftX + inner, drawY + i * lineH);
+        });
+
+        drawY = y + 28;
+        this.ctx.font = '18px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.textLight;
+        this.ctx.fillText('運動量', rightX + inner, drawY);
+        drawY += 22;
         const activityLabels = ['', '很少動', '偶爾動', '適中', '活潑', '非常活潑'];
         const activityLabel = activityLabels[Math.min(5, Math.max(1, actScore))] || '適中';
-        const segW = 28;
-        const segGap = 6;
-        const barTotalW = 5 * segW + 4 * segGap;
-        const barY = drawY - 16;
-        const barX = this.padding + w - this.innerPadding - barTotalW;
-        this.ctx.font = '20px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textDark;
-        this.ctx.fillText(`運動量`, contentX, drawY);
-        this.ctx.font = 'bold 24px "Noto Sans TC"';
+        this.ctx.save();
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(` ${activityLabel}`, contentX + 72, drawY);
+        this.ctx.beginPath();
+        this.ctx.roundRect(rightX + inner, drawY - 12, 88, 28, 14);
+        this.ctx.fill();
+        this.ctx.restore();
+        this.ctx.font = 'bold 18px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.onDarkText;
+        this.ctx.fillText(activityLabel, rightX + inner + 44, drawY + 6);
+        drawY += 38;
+        const segW = 24;
+        const segGap = 5;
+        const barTotalW = 5 * segW + 4 * segGap;
+        const barX = rightX + inner;
+        const barY = drawY - 14;
         for (let i = 0; i < 5; i++) {
             const sx = barX + i * (segW + segGap);
             this.ctx.fillStyle = i < actScore ? this.colors.brandOrange : 'rgba(0,0,0,0.1)';
-            this.ctx.fillRect(sx, barY, segW, 20);
+            this.ctx.fillRect(sx, barY, segW, 16);
         }
-        drawY += lineH;
-        if (actScore <= 2) {
-            drawY += 8;
-            this.ctx.font = '18px "Noto Sans TC"';
-            this.ctx.fillStyle = this.colors.textLight;
-            this.ctx.fillText('可適度增加日常活動，有助維持體態與活力～', contentX, drawY);
-        }
+        drawY += 28;
+        this.ctx.font = '17px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.textDark;
+        this.ctx.fillText(actScore <= 2 ? '可適度增加日常活動' : '維持目前活動習慣', rightX + inner, drawY);
     }
 
     drawNutritionBlock(y) {
         const nut = this.data.nutrition;
         const cond = this.data.conditionAdvice;
         const hasConditionNotes = cond && cond.dietaryNotes && cond.dietaryNotes.length > 0;
-        const baseH = hasConditionNotes ? 300 : 220;
+        const hasNutrition = (nut.dailyCaloriesMin > 0 || nut.dailyCaloriesMax > 0);
         const lineH = this.lineHeight;
-        this.drawTintedCard(this.padding, y, this.contentWidth, baseH, this.colors.ageCardFill);
+        const cardGap = 14;
+        const cardW = (this.contentWidth - cardGap * 2) / 3;
+        const cardH = 100;
+        const baseH = hasConditionNotes ? 280 : (hasNutrition ? 220 : 200);
+        this.drawTintedCard(this.padding, y, this.contentWidth, baseH, '#FFFFFF');
         const contentX = this.padding + this.innerPadding;
         const maxWidth = this.contentWidth - this.innerPadding * 2;
-        let drawY = y + 32;
+        let drawY = y + 28;
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 26px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(`飲食建議`, contentX, drawY);
-        drawY += 28 + this.titleToContent;
-        this.ctx.font = '24px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textDark;
-        const hasNutrition = (nut.dailyCaloriesMin > 0 || nut.dailyCaloriesMax > 0);
+        this.ctx.fillText(`🍽️ 飲食建議`, contentX, drawY);
+        drawY += 36;
         if (hasNutrition) {
-            const calMin = nut.dailyCaloriesMin;
-            const calMax = nut.dailyCaloriesMax;
-            this.ctx.fillText(`每日熱量：${calMin}–${calMax} kcal（參考區間）`, contentX, drawY);
-            drawY += lineH;
-            this.ctx.fillText(`乾糧約：${nut.foodAmountMin}–${nut.foodAmountMax} g　飲水：${nut.waterIntakeMin}–${nut.waterIntakeMax} ml`, contentX, drawY);
-            drawY += lineH + 8;
-            this.ctx.font = '20px "Noto Sans TC"';
+            const cx1 = this.padding + cardGap + cardW / 2;
+            const cx2 = this.padding + cardGap + cardW + cardGap + cardW / 2;
+            const cx3 = this.padding + cardGap * 2 + cardW * 2 + cardW / 2;
+            const cardY = drawY;
+            this.drawTintedCard(this.padding + cardGap, cardY, cardW, cardH, 'rgba(227,242,253,0.8)');
+            this.drawTintedCard(this.padding + cardGap + cardW + cardGap, cardY, cardW, cardH, 'rgba(227,242,253,0.8)');
+            this.drawTintedCard(this.padding + cardGap * 2 + cardW * 2, cardY, cardW, cardH, 'rgba(227,242,253,0.8)');
+            this.ctx.textAlign = 'center';
+            this.ctx.font = '32px "Noto Sans TC"';
+            this.ctx.fillText('🔥', cx1, cardY + 32);
+            this.ctx.fillText('🥩', cx2, cardY + 32);
+            this.ctx.fillText('💧', cx3, cardY + 32);
+            this.ctx.font = 'bold 26px "Noto Sans TC"';
+            this.ctx.fillStyle = this.colors.textDark;
+            this.ctx.fillText(`${nut.dailyCaloriesMin}–${nut.dailyCaloriesMax}`, cx1, cardY + 62);
+            this.ctx.fillText(`${nut.foodAmountMin}–${nut.foodAmountMax}`, cx2, cardY + 62);
+            this.ctx.fillText(`${nut.waterIntakeMin}–${nut.waterIntakeMax}`, cx3, cardY + 62);
+            this.ctx.font = '16px "Noto Sans TC"';
+            this.ctx.fillStyle = this.colors.textLight;
+            this.ctx.fillText('kcal/日', cx1, cardY + 86);
+            this.ctx.fillText('乾糧 g', cx2, cardY + 86);
+            this.ctx.fillText('飲水 ml', cx3, cardY + 86);
+            drawY = cardY + cardH + 18;
+            this.ctx.textAlign = 'left';
+            this.ctx.font = '18px "Noto Sans TC"';
             this.ctx.fillStyle = this.colors.textLight;
             this.wrapText('以上區間已依品種、年齡、體重、體型、性別綜合計算。', maxWidth).forEach((line) => {
                 this.ctx.fillText(line, contentX, drawY);
                 drawY += lineH - 2;
             });
         } else {
+            this.ctx.font = '22px "Noto Sans TC"';
+            this.ctx.fillStyle = this.colors.textDark;
             this.ctx.fillText('請填寫體重以獲得飲食建議', contentX, drawY);
-            drawY += lineH;
+            drawY += lineH + 18;
         }
         if (hasConditionNotes) {
-            drawY += 14;
-            this.ctx.font = 'bold 22px "Noto Sans TC"';
-            this.ctx.fillStyle = this.colors.brandOrange;
-            this.ctx.fillText(`▲ 依您勾選的健康狀況，飲食與照護提醒：`, contentX, drawY);
-            drawY += lineH + 6;
-            const boxPad = 14;
-            const boxW = maxWidth;
-            this.ctx.font = '22px "Noto Sans TC"';
-            let boxH = 0;
-            cond.dietaryNotes.forEach((note) => {
-                const lines = this.wrapText(`· ${note}`, boxW - boxPad * 2);
-                boxH += lines.length * lineH;
-            });
-            boxH += boxPad * 2;
-            const boxY = drawY - 4;
+            drawY += 12;
             this.ctx.save();
             this.ctx.fillStyle = this.colors.dietHighlightFill;
             this.ctx.beginPath();
-            this.ctx.roundRect(contentX, boxY, boxW, boxH, 10);
+            this.ctx.roundRect(contentX, drawY - 2, maxWidth, 52, 12);
             this.ctx.fill();
-            this.ctx.strokeStyle = 'rgba(223,118,33,0.2)';
+            this.ctx.strokeStyle = 'rgba(247,183,49,0.5)';
             this.ctx.lineWidth = 1;
             this.ctx.stroke();
             this.ctx.restore();
+            this.ctx.font = 'bold 18px "Noto Sans TC"';
             this.ctx.fillStyle = this.colors.textDark;
-            drawY = boxY + boxPad + 22;
-            cond.dietaryNotes.forEach((note) => {
-                this.wrapText(`· ${note}`, boxW - boxPad * 2).forEach((line) => {
-                    this.ctx.fillText(line, contentX + boxPad, drawY);
-                    drawY += lineH;
-                });
-            });
+            this.ctx.fillText('⚠️ 健康狀況提醒：', contentX + 14, drawY + 18);
+            this.ctx.font = '18px "Noto Sans TC"';
+            this.ctx.fillText(cond.dietaryNotes[0] || '', contentX + 14, drawY + 42);
         }
     }
 
@@ -369,21 +436,29 @@ class PetHealthReportGenerator {
     drawHealthTipsBlock(y) {
         const h = 268;
         const lineH = this.lineHeight;
-        const gapBetweenTips = 12;
-        this.drawTintedCard(this.padding, y, this.contentWidth, h, this.colors.stageCardFill);
-        const contentX = this.padding + this.innerPadding;
-        const maxTextWidth = this.contentWidth - this.innerPadding * 2;
+        const gapBetweenTips = 10;
+        const leftBorderW = 6;
+        this.drawTintedCard(this.padding, y, this.contentWidth, h, '#FFFFFF');
+        const contentX = this.padding + this.innerPadding + leftBorderW + 12;
+        const maxTextWidth = this.contentWidth - this.innerPadding * 2 - leftBorderW - 24;
         let tipY = y + 32;
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 26px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(`健康提醒`, contentX, tipY);
+        this.ctx.fillText(`🏥 健康提醒`, this.padding + this.innerPadding, tipY);
         tipY += 28 + this.titleToContent;
-        this.ctx.font = '22px "Noto Sans TC"';
+        this.ctx.font = '20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         const tips = this.data.healthTips.slice(0, 4);
         tips.forEach(tip => {
-            this.wrapText(tip, maxTextWidth).forEach(line => {
+            const rowY = tipY;
+            const lines = this.wrapText(tip, maxTextWidth);
+            const rowH = Math.max(44, lines.length * lineH + 16);
+            this.ctx.save();
+            this.ctx.fillStyle = this.colors.brandOrange;
+            this.ctx.fillRect(this.padding + this.innerPadding, rowY - 12, leftBorderW, rowH);
+            this.ctx.restore();
+            lines.forEach(line => {
                 this.ctx.fillText(line, contentX, tipY);
                 tipY += lineH;
             });
@@ -393,28 +468,24 @@ class PetHealthReportGenerator {
 
     async drawFooter(footerY) {
         const y = footerY != null ? footerY : 1200;
-        this.drawSectionDivider(y);
-        const contentStart = y + 24;
-        const qrSize = 120;
+        const footerH = 140;
+        this.ctx.save();
+        this.ctx.fillStyle = this.colors.footerDark;
+        this.ctx.fillRect(0, y, this.canvas.width, footerH);
+        this.ctx.restore();
+        const contentStart = y + 28;
+        const qrSize = 110;
         const qrX = this.canvas.width - this.padding - qrSize;
-        
-        // 門市資訊（左側，預留 QR 右側空間，避免覆蓋）
         this.ctx.textAlign = 'left';
-        this.ctx.font = 'bold 30px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText('📍 宜加寵物生活館', this.padding, contentStart + 40);
-        
-        this.ctx.font = '24px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textLight;
-        const maxTextW = qrX - this.padding - 24;
-        this.ctx.fillText('專業、用心、愛毛孩，全台多間門市為您服務', this.padding, contentStart + 78);
-        this.ctx.fillText('官網、門市與更多健康資訊請掃描 QR Code', this.padding, contentStart + 114);
-        
-        // 繪製 QR Code（右側，不與文字重疊）
+        this.ctx.font = 'bold 28px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.onDarkText;
+        this.ctx.fillText('🏥 宜加寵物生活館', this.padding, contentStart + 36);
+        this.ctx.font = '20px "Noto Sans TC"';
+        this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        this.ctx.fillText('專業、用心、愛毛孩，全台多門市為您服務', this.padding, contentStart + 72);
+        this.ctx.fillText('官網、門市與更多健康資訊請掃描 QR Code', this.padding, contentStart + 104);
         const qrUrl = 'https://yichai-tw.github.io/';
         await this.drawQRCode(qrUrl, qrX, contentStart, qrSize);
-        
-        // 免責聲明（固定距畫布底 40px，與頁尾區隔、不觸底）
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 20px "Noto Sans TC"';
         this.ctx.fillStyle = '#999999';
