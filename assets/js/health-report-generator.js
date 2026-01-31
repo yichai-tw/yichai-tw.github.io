@@ -524,11 +524,22 @@ class PetHealthReportGenerator {
         });
         const qrUrl = 'https://yichai-tw.github.io/';
         await this.drawQRCode(qrUrl, qrX, contentStart, qrSize);
+        const warningHeight = 48;
+        const warningMargin = 18;
+        const warningY = Math.min(this.canvas.height - warningHeight - warningMargin, y + footerH - warningHeight - 8);
+        this.ctx.save();
+        this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        this.ctx.strokeStyle = 'rgba(223,118,33,0.15)';
+        this.ctx.lineWidth = 1;
+        this.ctx.beginPath();
+        this.ctx.roundRect(this.padding, warningY, this.canvas.width - this.padding * 2, warningHeight, 20);
+        this.ctx.fill();
+        this.ctx.stroke();
+        this.ctx.restore();
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 20px "Noto Sans TC"';
         this.ctx.fillStyle = '#555555';
-        const disclaimerY = this.canvas.height - 28;
-        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, disclaimerY);
+        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, warningY + warningHeight / 2 + 8);
     }
 
     drawTextWithShadow(text, x, y, fontSize, color, weight = 'normal') {
