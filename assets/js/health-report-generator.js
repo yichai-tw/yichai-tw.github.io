@@ -188,7 +188,7 @@ class PetHealthReportGenerator {
         const metaText = metaParts.length ? metaParts.join(' · ') : '';
         const metaLines = metaText ? this.wrapText(metaText, cardW - 120) : [];
         metaLines.forEach((line, idx) => {
-            this.ctx.fillText(line, cardX + 100, cardY + 66 + nameLines.length * 28 + idx * 22);
+            this.ctx.fillText(line, cardX + 100, cardY + 56 + nameLines.length * 28 + idx * 22);
         });
     }
 
