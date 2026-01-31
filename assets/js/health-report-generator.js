@@ -136,6 +136,10 @@ class PetHealthReportGenerator {
             this.ctx.restore();
         }
         this.ctx.textAlign = 'left';
+        const cardW = 340;
+        const cardH = 100;
+        const cardX = this.canvas.width - this.padding - cardW;
+        const cardY = 35;
         this.ctx.font = 'bold 36px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.onDarkText;
         this.ctx.fillText('一鍵毛孩健康小幫手', leftX + 96, 92);
@@ -146,10 +150,6 @@ class PetHealthReportGenerator {
 
         const sexLabel = this.data.petInfo.sexLabel || '';
         const petMeta = sexLabel ? `${sexLabel} · ${this.data.generatedDate}` : this.data.generatedDate;
-        const cardW = 340;
-        const cardH = 100;
-        const cardX = this.canvas.width - this.padding - cardW;
-        const cardY = 35;
         this.ctx.save();
         this.ctx.fillStyle = 'rgba(255,255,255,0.25)';
         this.ctx.beginPath();
