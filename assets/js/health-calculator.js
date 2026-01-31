@@ -619,7 +619,12 @@ class PetHealthCalculator {
                 age: humanAgeData.humanAge,
                 stage: humanAgeData.stage,
                 stageDescription: humanAgeData.description,
-                comparison: this.generateAgeComparison(humanAgeData.humanAge, humanAgeData.stage)
+                comparison: this.generateAgeComparison(humanAgeData.humanAge, humanAgeData.stage),
+                petAge: {
+                    years: age.years,
+                    months: age.months,
+                    total: age.totalMonths
+                }
             },
             stageInfo: {
                 ageRange: stageInfo ? `${stageInfo.ageRange[0]}-${stageInfo.ageRange[1]} 歲` : '',
