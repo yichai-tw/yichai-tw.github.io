@@ -16,7 +16,7 @@ class PetHealthReportGenerator {
         this.padding = 32;
         this.innerPadding = 24;   // 區塊內左右留白，文字不貼邊
         this.titleToContent = 24; // 標題與內文間距（加大以提升可讀性）
-        this.sectionGap = 18;     // 區塊間距
+        this.sectionGap = 12;     // 區塊間距
         this.lineHeight = 30;     // 內文行高（統一加大）
         this.colRadius = 16;
         this.contentWidth = this.canvas.width - this.padding * 2;  // 960
@@ -113,7 +113,7 @@ class PetHealthReportGenerator {
     }
 
     drawHeader() {
-        const headerH = 200;
+        const headerH = 180;
         const g = this.ctx.createLinearGradient(0, 0, 0, headerH);
         g.addColorStop(0, this.colors.headerOrangeStart);
         g.addColorStop(1, this.colors.headerOrangeEnd);
@@ -138,17 +138,18 @@ class PetHealthReportGenerator {
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 36px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.onDarkText;
-        this.ctx.fillText('一鍵毛孩健康小幫手', leftX + 96, 88);
+        this.ctx.fillText('一鍵毛孩健康小幫手', leftX + 96, 92);
         this.ctx.font = '22px "Noto Sans TC"';
         this.ctx.fillStyle = 'rgba(255,255,255,0.95)';
-        this.ctx.fillText(this.data.generatedDate, leftX + 96, 122);
+        // only show generatedDate on panel, not below title
+        this.ctx.fillText(this.data.generatedDate, cardX + 100, cardY + 72);
 
         const sexLabel = this.data.petInfo.sexLabel || '';
         const petMeta = sexLabel ? `${sexLabel} · ${this.data.generatedDate}` : this.data.generatedDate;
         const cardW = 340;
         const cardH = 100;
         const cardX = this.canvas.width - this.padding - cardW;
-        const cardY = 50;
+        const cardY = 35;
         this.ctx.save();
         this.ctx.fillStyle = 'rgba(255,255,255,0.25)';
         this.ctx.beginPath();
@@ -509,12 +510,12 @@ class PetHealthReportGenerator {
         const columnPadding = 14;
         const qrSize = 110;
         const qrColumnWidth = qrSize + columnPadding * 2;
+        const qrX = this.canvas.width - this.padding - qrColumnWidth;
         const remainingWidth = this.contentWidth - qrColumnWidth - columnGap;
         const warningWidth = Math.round(remainingWidth * 0.48);
         const ctaWidth = remainingWidth - warningWidth;
         const warningX = this.padding;
         const ctaX = warningX + warningWidth + columnGap;
-        const qrX = ctaX + ctaWidth + columnGap;
         const columnY = contentStart;
         const columnH = footerH - 30;
         this.ctx.strokeStyle = 'rgba(44,62,80,0.12)';
