@@ -491,7 +491,7 @@ class PetHealthReportGenerator {
 
     async drawFooter(footerY) {
         const y = footerY != null ? footerY : 1200;
-        const footerH = 170;
+        const footerH = 190;
         this.ctx.save();
         this.ctx.fillStyle = this.colors.footerLight;
         this.ctx.fillRect(0, y, this.canvas.width, footerH);
@@ -502,42 +502,48 @@ class PetHealthReportGenerator {
         this.ctx.lineTo(this.canvas.width, y);
         this.ctx.stroke();
         this.ctx.restore();
-        const contentStart = y + 26;
-        const cardGap = 20;
-        const cardWidth = (this.contentWidth - cardGap * 2) / 3;
+        const contentStart = y + 28;
+        const columnGap = 2;
+        const columnWidth = (this.contentWidth - columnGap * 2) / 3;
         const warningX = this.padding;
-        const ctaX = warningX + cardWidth + cardGap;
-        const qrCardX = ctaX + cardWidth + cardGap;
-        const cardY = contentStart;
-        const cardH = footerH - 32;
-        this.drawTintedCard(warningX, cardY, cardWidth, cardH, 'rgba(255,255,255,0.9)');
-        this.drawTintedCard(ctaX, cardY, cardWidth, cardH, 'rgba(255,255,255,0.9)');
-        this.drawTintedCard(qrCardX, cardY, cardWidth, cardH, 'rgba(255,255,255,0.9)');
+        const ctaX = warningX + columnWidth + columnGap;
+        const qrX = ctaX + columnWidth + columnGap;
+        const columnY = contentStart;
+        const columnH = footerH - 36;
+        this.ctx.strokeStyle = 'rgba(44,62,80,0.12)';
+        this.ctx.lineWidth = 1;
+        this.ctx.beginPath();
+        this.ctx.moveTo(warningX + columnWidth + columnGap / 2, columnY + 8);
+        this.ctx.lineTo(warningX + columnWidth + columnGap / 2, columnY + columnH - 8);
+        this.ctx.moveTo(ctaX + columnWidth + columnGap / 2, columnY + 8);
+        this.ctx.lineTo(ctaX + columnWidth + columnGap / 2, columnY + columnH - 8);
+        this.ctx.stroke();
+        const columnPadding = 14;
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText('警語', warningX + 16, cardY + 34);
-        this.ctx.font = 'italic 18px "Noto Sans TC"';
+        this.ctx.fillText('警語', warningX + columnPadding, columnY + 42);
+        this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.wrapText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', cardWidth - 32).forEach((line, i) => {
-            this.ctx.fillText(line, warningX + 16, cardY + 60 + i * 24);
+        this.wrapText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', columnWidth - columnPadding * 2).forEach((line, i) => {
+            this.ctx.fillText(line, warningX + columnPadding, columnY + 72 + i * 22);
         });
         this.ctx.font = 'bold 18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText('宜加寵物生活館', ctaX + 16, cardY + 34);
+        this.ctx.fillText('宜加寵物生活館', ctaX + columnPadding, columnY + 42);
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.wrapText('專業、用心、愛毛孩，全台多門市為您服務。官網、門市與健康小幫手請掃描 QR Code。', cardWidth - 32).forEach((line, i) => {
-            this.ctx.fillText(line, ctaX + 16, cardY + 60 + i * 24);
+        this.wrapText('專業、用心、愛毛孩，全台多門市為您服務。官網、門市與健康小幫手請掃描 QR Code。', columnWidth - columnPadding * 2).forEach((line, i) => {
+            this.ctx.fillText(line, ctaX + columnPadding, columnY + 72 + i * 22);
         });
         const qrUrl = 'https://yichai-tw.github.io/';
-        const qrSize = 108;
-        const qrMarginTop = 20;
-        await this.drawQRCode(qrUrl, qrCardX + (cardWidth - qrSize) / 2, cardY + qrMarginTop, qrSize);
+        const qrSize = 120;
+        const qrMarginTop = 18;
+        await this.drawQRCode(qrUrl, qrX + (columnWidth - qrSize) / 2, columnY + qrMarginTop, qrSize);
         this.ctx.textAlign = 'center';
-        this.ctx.font = '14px "Noto Sans TC"';
+        this.ctx.font = '15px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.ctx.fillText('掃描獲取更多健康資訊', qrCardX + cardWidth / 2, cardY + qrMarginTop + qrSize + 24);
+        this.ctx.fillText('掃描獲取更多健康資訊', qrX + columnWidth / 2, columnY + qrMarginTop + qrSize + 28);
     }
 
     drawTextWithShadow(text, x, y, fontSize, color, weight = 'normal') {
