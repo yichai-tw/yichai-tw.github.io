@@ -237,14 +237,14 @@ function updateHealthConditionsList() {
     const noneLabel = '沒有任何狀況';
     const optionsHtml = conditions.map(c => `
         <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50 health-condition-option">
-            <input type="checkbox" name="healthCondition" value="${c.id}" class="text-orange-500 rounded health-condition-cb">
-            <span>${c.label}</span>
+            <input type="checkbox" name="healthCondition" value="${c.id}" class="text-orange-500 rounded health-condition-cb flex-shrink-0">
+            <span class="whitespace-nowrap">${c.label}</span>
         </label>
     `).join('');
     container.innerHTML = `
-        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50 col-span-2" id="healthConditionNoneWrap">
-            <input type="checkbox" name="healthCondition" value="${noneId}" id="healthConditionNone" class="text-orange-500 rounded">
-            <span>${noneLabel}</span>
+        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50 col-span-full" id="healthConditionNoneWrap">
+            <input type="checkbox" name="healthCondition" value="${noneId}" id="healthConditionNone" class="text-orange-500 rounded flex-shrink-0">
+            <span class="whitespace-nowrap">${noneLabel}</span>
         </label>
         ${optionsHtml}
     `;
