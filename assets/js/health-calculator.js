@@ -602,6 +602,7 @@ class PetHealthCalculator {
         const sexLabel = (this.guidelines.common && this.guidelines.common.sexOptions && sex) 
             ? this.guidelines.common.sexOptions[sex].label 
             : (sex === 'female' ? '母' : '公');
+        const neuteredLabel = neutered ? '已結紮' : '未結紮';
 
         return {
             petInfo: {
@@ -611,7 +612,8 @@ class PetHealthCalculator {
                 name: petName || '毛孩',
                 age: age,
                 sex: sex || 'male',
-                sexLabel: sexLabel
+                sexLabel: sexLabel,
+                neuteredLabel: neuteredLabel
             },
             humanAge: {
                 age: humanAgeData.humanAge,

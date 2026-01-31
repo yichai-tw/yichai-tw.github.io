@@ -176,17 +176,17 @@ class PetHealthReportGenerator {
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 28px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.onDarkText;
-        this.ctx.fillText(`${this.data.petInfo.name} 的專屬報告`, cardX + 100, cardY + 42);
-        this.ctx.font = '20px "Noto Sans TC"';
+        const nameLines = this.wrapText(`${this.data.petInfo.name} 的專屬報告`, cardW - 120);
+        nameLines.forEach((line, idx) => {
+            this.ctx.fillText(line, cardX + 100, cardY + 42 + idx * 32);
+        });
+        this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
-        const petAge = this.data.humanAge && this.data.humanAge.petAge;
-        const ageParts = [];
-        if (petAge) {
-            if (petAge.years) ageParts.push(`${petAge.years}歲`);
-            if (petAge.months) ageParts.push(`${petAge.months}個月`);
-        }
-        const ageText = ageParts.length ? ageParts.join('') : this.data.generatedDate;
-        this.ctx.fillText(ageText, cardX + 100, cardY + 72);
+        const metaParts = [];
+        if (sexLabel) metaParts.push(sexLabel);
+        if (this.data.petInfo.neuteredLabel) metaParts.push(this.data.petInfo.neuteredLabel);
+        const metaText = metaParts.length ? metaParts.join(' · ') : this.data.generatedDate;
+        this.ctx.fillText(metaText, cardX + 100, cardY + 70 + nameLines.length * 32);
     }
 
     drawSectionDivider(y) {
