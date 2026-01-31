@@ -137,7 +137,7 @@ class PetHealthReportGenerator {
         }
         this.ctx.textAlign = 'left';
         const cardW = 340;
-        const cardH = 100;
+        const cardH = 115;
         const cardX = this.canvas.width - this.padding - cardW;
         const cardY = 35;
         this.ctx.font = 'bold 36px "Noto Sans TC"';
@@ -188,7 +188,7 @@ class PetHealthReportGenerator {
         const metaText = metaParts.length ? metaParts.join(' · ') : '';
         const metaLines = metaText ? this.wrapText(metaText, cardW - 120) : [];
         metaLines.forEach((line, idx) => {
-            this.ctx.fillText(line, cardX + 100, cardY + 70 + nameLines.length * 32 + idx * 24);
+            this.ctx.fillText(line, cardX + 100, cardY + 68 + nameLines.length * 30 + idx * 22);
         });
     }
 
