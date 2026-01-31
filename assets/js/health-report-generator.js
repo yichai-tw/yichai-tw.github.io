@@ -156,21 +156,22 @@ class PetHealthReportGenerator {
         this.ctx.lineWidth = 1;
         this.ctx.stroke();
         this.ctx.restore();
+        const emojiSize = 80;
+        const emojiX = cardX + cardW - 50;
+        const emojiY = cardY + 58;
         this.ctx.fillStyle = 'rgba(255,255,255,0.95)';
         this.ctx.beginPath();
-        this.ctx.arc(cardX + 52, cardY + 50, 40, 0, Math.PI * 2);
+        this.ctx.arc(emojiX, emojiY, 40, 0, Math.PI * 2);
         this.ctx.fill();
         this.ctx.font = '38px "Noto Sans TC"';
         this.ctx.textAlign = 'center';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(this.data.petInfo.emoji || '🐱', cardX + 52, cardY + 58);
-        this.ctx.textAlign = 'left';
+        this.ctx.fillText(this.data.petInfo.emoji || '🐱', emojiX, emojiY);
+        this.ctx.textAlign = 'right';
         this.ctx.font = 'bold 24px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.onDarkText;
-        const nameLines = this.wrapText(`${this.data.petInfo.name} 的專屬報告`, cardW - 120);
-        nameLines.forEach((line, idx) => {
-            this.ctx.fillText(line, cardX + 100, cardY + 40 + idx * 28);
-        });
+        const textRightX = cardX + cardW - emojiSize - 20;
+        this.ctx.fillText(`${this.data.petInfo.name} 的專屬報告`, textRightX, cardY + 40);
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
         const sexLabel = this.data.petInfo.sexLabel || '';
@@ -186,10 +187,9 @@ class PetHealthReportGenerator {
         if (this.data.petInfo.neuteredLabel) metaParts.push(this.data.petInfo.neuteredLabel);
         if (ageText) metaParts.push(ageText);
         const metaText = metaParts.length ? metaParts.join(' · ') : '';
-        const metaLines = metaText ? this.wrapText(metaText, cardW - 120) : [];
-        metaLines.forEach((line, idx) => {
-            this.ctx.fillText(line, cardX + 100, cardY + 56 + nameLines.length * 28 + idx * 22);
-        });
+        if (metaText) {
+            this.ctx.fillText(metaText, textRightX, cardY + 66);
+        }
     }
 
     drawSectionDivider(y) {
