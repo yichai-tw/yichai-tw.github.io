@@ -145,8 +145,7 @@ class PetHealthReportGenerator {
         this.ctx.fillText('一鍵毛孩健康小幫手', leftX + 96, 92);
         this.ctx.font = '22px "Noto Sans TC"';
         this.ctx.fillStyle = 'rgba(255,255,255,0.95)';
-        // only show generatedDate on panel, not below title
-        this.ctx.fillText(this.data.generatedDate, cardX + 100, cardY + 72);
+        this.ctx.fillText(this.data.generatedDate, leftX + 96, 118);
 
         const sexLabel = this.data.petInfo.sexLabel || '';
         const petMeta = sexLabel ? `${sexLabel} · ${this.data.generatedDate}` : this.data.generatedDate;
@@ -173,7 +172,14 @@ class PetHealthReportGenerator {
         this.ctx.fillText(`${this.data.petInfo.name} 的專屬報告`, cardX + 100, cardY + 42);
         this.ctx.font = '20px "Noto Sans TC"';
         this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
-        this.ctx.fillText(petMeta, cardX + 100, cardY + 72);
+        const petAge = this.data.humanAge && this.data.humanAge.petAge;
+        const ageParts = [];
+        if (petAge) {
+            if (petAge.years) ageParts.push(`${petAge.years}歲`);
+            if (petAge.months) ageParts.push(`${petAge.months}個月`);
+        }
+        const ageText = ageParts.length ? ageParts.join('') : this.data.generatedDate;
+        this.ctx.fillText(ageText, cardX + 100, cardY + 72);
     }
 
     drawSectionDivider(y) {
@@ -546,10 +552,6 @@ class PetHealthReportGenerator {
         const qrUrl = 'https://yichai-tw.github.io/';
         const qrMarginTop = 10;
         await this.drawQRCode(qrUrl, qrX + columnPadding + ((qrColumnWidth - columnPadding * 2) - qrSize) / 2, columnY + qrMarginTop, qrSize);
-        this.ctx.textAlign = 'center';
-        this.ctx.font = '15px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textDark;
-        this.ctx.fillText('掃描獲取更多健康資訊', qrX + qrColumnWidth / 2, columnY + qrMarginTop + qrSize + 28);
     }
 
     drawTextWithShadow(text, x, y, fontSize, color, weight = 'normal') {
