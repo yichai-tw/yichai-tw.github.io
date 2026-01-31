@@ -147,15 +147,6 @@ class PetHealthReportGenerator {
         this.ctx.fillStyle = 'rgba(255,255,255,0.95)';
         this.ctx.fillText(this.data.generatedDate, leftX + 96, 118);
 
-        const sexLabel = this.data.petInfo.sexLabel || '';
-        const petAge = this.data.humanAge && this.data.humanAge.petAge;
-        const ageParts = [];
-        if (petAge) {
-            if (petAge.years) ageParts.push(`${petAge.years}歲`);
-            if (petAge.months) ageParts.push(`${petAge.months}個月`);
-        }
-        const ageText = ageParts.length ? ageParts.join('') : this.data.generatedDate;
-        const petMeta = sexLabel ? `${sexLabel} · ${ageText}` : ageText;
         this.ctx.save();
         this.ctx.fillStyle = 'rgba(255,255,255,0.25)';
         this.ctx.beginPath();
@@ -182,6 +173,14 @@ class PetHealthReportGenerator {
         });
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        const sexLabel = this.data.petInfo.sexLabel || '';
+        const petAge = this.data.humanAge && this.data.humanAge.petAge;
+        const ageParts = [];
+        if (petAge) {
+            if (petAge.years) ageParts.push(`${petAge.years}歲`);
+            if (petAge.months) ageParts.push(`${petAge.months}個月`);
+        }
+        const ageText = ageParts.length ? ageParts.join('') : '';
         const metaParts = [];
         if (sexLabel) metaParts.push(sexLabel);
         if (this.data.petInfo.neuteredLabel) metaParts.push(this.data.petInfo.neuteredLabel);
