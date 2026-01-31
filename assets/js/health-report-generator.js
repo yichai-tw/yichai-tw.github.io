@@ -61,7 +61,7 @@ class PetHealthReportGenerator {
         // 2. 體型與活動參考（標題＋左右兩欄：體型｜運動量）
         if (this.data.bodyCondition) {
             this.drawBodyConditionBlock(currentY);
-            currentY += 248 + this.sectionGap;
+            currentY += 268 + this.sectionGap;
         }
 
         // 3. 飲食建議（三張小卡橫排＋照護框）
@@ -265,15 +265,14 @@ class PetHealthReportGenerator {
     drawBodyConditionBlock(y) {
         const bc = this.data.bodyCondition;
         if (!bc) return;
-        const sectionH = 248;
+        const sectionH = 268;
         const titleH = 52;
         const cardsY = y + titleH;
-        const cardsH = 192;
+        const cardsH = 212;
         const halfW = (this.contentWidth - this.colGap) / 2;
         const leftX = this.padding;
         const rightX = this.padding + halfW + this.colGap;
         const actScore = bc.activityScore != null ? bc.activityScore : 3;
-        const bodyScore = bc.bodyScore != null ? bc.bodyScore : 3;
         const inner = 24;
         const lineH = 26;
 
@@ -290,22 +289,39 @@ class PetHealthReportGenerator {
         this.ctx.font = 'bold 20px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.ctx.fillText('體型參考', leftX + inner, drawY);
-        drawY += 32;
-        const bodyH = '♥'.repeat(bodyScore) + '♡'.repeat(5 - bodyScore);
-        this.ctx.font = '28px "Noto Sans TC"';
+        drawY += 28;
+        const bodyLabel = (bc.bodyShapeLabel && bc.bodyShapeLabel.trim()) ? bc.bodyShapeLabel.trim() : '標準';
+        this.ctx.font = '22px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText(bodyH, leftX + inner, drawY);
-        const bodyLabel = (bc.bodyShapeLabel && bc.bodyShapeLabel.trim()) ? ` (${bc.bodyShapeLabel.trim()})` : ' (標準)';
-        const heartW = this.ctx.measureText(bodyH).width;
-        this.ctx.font = '20px "Noto Sans TC"';
+        this.ctx.fillText(bodyLabel, leftX + inner, drawY);
+        drawY += 36;
+        this.ctx.font = 'bold 18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.ctx.fillText(bodyLabel, leftX + inner + heartW + 10, drawY);
-        drawY += lineH + 10;
-        this.ctx.font = '18px "Noto Sans TC"';
-        this.ctx.fillStyle = this.colors.textDark;
-        this.wrapText(bc.praise || bc.advice || '持續關心體態更健康', halfW - inner * 2).forEach((line, i) => {
-            this.ctx.fillText(line, leftX + inner, drawY + i * lineH);
-        });
+        this.ctx.fillText('幸福指數', leftX + inner, drawY);
+        drawY += 26;
+        const wellnessScore = bc.wellnessScore != null ? bc.wellnessScore : 3;
+        const wellnessHearts = '♥'.repeat(wellnessScore) + '♡'.repeat(5 - wellnessScore);
+        this.ctx.font = '26px "Noto Sans TC"';
+        this.ctx.fillStyle = this.colors.brandOrange;
+        this.ctx.fillText(wellnessHearts, leftX + inner, drawY);
+        drawY += lineH + 14;
+        if (bc.praise && bc.praise.trim()) {
+            this.ctx.font = 'bold 17px "Noto Sans TC"';
+            this.ctx.fillStyle = this.colors.brandOrange;
+            this.ctx.fillText('飼主很棒～', leftX + inner, drawY);
+            drawY += 22;
+            this.ctx.font = '17px "Noto Sans TC"';
+            this.ctx.fillStyle = this.colors.textDark;
+            this.wrapText(bc.praise.trim(), halfW - inner * 2).forEach((line, i) => {
+                this.ctx.fillText(line, leftX + inner, drawY + i * lineH);
+            });
+        } else {
+            this.ctx.font = '17px "Noto Sans TC"';
+            this.ctx.fillStyle = this.colors.textDark;
+            this.wrapText(bc.advice || '持續關心體態，毛孩會更健康～', halfW - inner * 2).forEach((line, i) => {
+                this.ctx.fillText(line, leftX + inner, drawY + i * lineH);
+            });
+        }
 
         drawY = cardsY + 28;
         this.ctx.font = 'bold 20px "Noto Sans TC"';
@@ -508,10 +524,10 @@ class PetHealthReportGenerator {
         });
         const qrUrl = 'https://yichai-tw.github.io/';
         await this.drawQRCode(qrUrl, qrX, contentStart, qrSize);
-        const disclaimerY = y + footerH + 36;
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 20px "Noto Sans TC"';
         this.ctx.fillStyle = '#555555';
+        const disclaimerY = this.canvas.height - 28;
         this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, disclaimerY);
     }
 
