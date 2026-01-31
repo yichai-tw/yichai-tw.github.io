@@ -504,7 +504,7 @@ class PetHealthReportGenerator {
         this.ctx.lineTo(this.canvas.width, y);
         this.ctx.stroke();
         this.ctx.restore();
-        const contentStart = y + 28;
+        const contentStart = y + 16;
         const columnGap = 12;
         const columnPadding = 14;
         const qrSize = 110;
@@ -516,7 +516,7 @@ class PetHealthReportGenerator {
         const ctaX = warningX + warningWidth + columnGap;
         const qrX = ctaX + ctaWidth + columnGap;
         const columnY = contentStart;
-        const columnH = footerH - 36;
+        const columnH = footerH - 30;
         this.ctx.strokeStyle = 'rgba(44,62,80,0.12)';
         this.ctx.lineWidth = 1;
         this.ctx.beginPath();
@@ -528,22 +528,22 @@ class PetHealthReportGenerator {
         this.ctx.textAlign = 'left';
         this.ctx.font = 'bold 18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText('警語', warningX + columnPadding, columnY + 42);
+        this.ctx.fillText('警語', warningX + columnPadding, columnY + 32);
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.wrapText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', warningWidth - columnPadding * 2).forEach((line, i) => {
-            this.ctx.fillText(line, warningX + columnPadding, columnY + 72 + i * 22);
+            this.ctx.fillText(line, warningX + columnPadding, columnY + 60 + i * 22);
         });
         this.ctx.font = 'bold 18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.brandOrange;
-        this.ctx.fillText('宜加寵物生活館', ctaX + columnPadding, columnY + 42);
+        this.ctx.fillText('宜加寵物生活館', ctaX + columnPadding, columnY + 32);
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
         this.wrapText('專業、用心、愛毛孩，全台多門市為您服務。官網、門市與健康小幫手請掃描 QR Code。', ctaWidth - columnPadding * 2).forEach((line, i) => {
-            this.ctx.fillText(line, ctaX + columnPadding, columnY + 72 + i * 22);
+            this.ctx.fillText(line, ctaX + columnPadding, columnY + 60 + i * 22);
         });
         const qrUrl = 'https://yichai-tw.github.io/';
-        const qrMarginTop = 18;
+        const qrMarginTop = 10;
         await this.drawQRCode(qrUrl, qrX + columnPadding + ((qrColumnWidth - columnPadding * 2) - qrSize) / 2, columnY + qrMarginTop, qrSize);
         this.ctx.textAlign = 'center';
         this.ctx.font = '15px "Noto Sans TC"';
