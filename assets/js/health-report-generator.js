@@ -527,7 +527,7 @@ class PetHealthReportGenerator {
         this.ctx.fillText('宜加寵物生活館', ctaX + 16, cardY + 34);
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.textDark;
-        this.wrapText('專業、用心、愛毛孩，全台多門市為您服務。官網、門市與更多健康資訊請掃描 QR Code。', cardWidth - 32).forEach((line, i) => {
+        this.wrapText('專業、用心、愛毛孩，全台多門市為您服務。官網、門市與健康小幫手請掃描 QR Code。', cardWidth - 32).forEach((line, i) => {
             this.ctx.fillText(line, ctaX + 16, cardY + 60 + i * 24);
         });
         const qrUrl = 'https://yichai-tw.github.io/';
