@@ -30,7 +30,7 @@ class PetHealthReportGenerator {
             brandOrange: '#DF7621',
             headerOrangeStart: '#FF6B35',
             headerOrangeEnd: '#FF8E53',
-            footerDark: '#2C3E50',
+            footerDark: '#3d5266',
             textDark: '#2C3E50',
             textLight: '#64748B',
             bodyText: '#475569',  /* 內文用較深灰，確保任何螢幕都看得見 */
@@ -474,7 +474,7 @@ class PetHealthReportGenerator {
 
     async drawFooter(footerY) {
         const y = footerY != null ? footerY : 1200;
-        const footerH = 150;
+        const footerH = 120;
         this.ctx.save();
         this.ctx.fillStyle = this.colors.footerDark;
         this.ctx.fillRect(0, y, this.canvas.width, footerH);
@@ -498,11 +498,11 @@ class PetHealthReportGenerator {
         });
         const qrUrl = 'https://yichai-tw.github.io/';
         await this.drawQRCode(qrUrl, qrX, contentStart, qrSize);
-        this.ctx.restore();
+        const disclaimerY = y + footerH + 28;
         this.ctx.textAlign = 'center';
         this.ctx.font = 'italic 20px "Noto Sans TC"';
         this.ctx.fillStyle = '#555555';
-        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, this.canvas.height - 36);
+        this.ctx.fillText('※ 不能取代專業獸醫，健康疑慮請諮詢獸醫或儘速就醫。', this.canvas.width / 2, disclaimerY);
     }
 
     drawTextWithShadow(text, x, y, fontSize, color, weight = 'normal') {
