@@ -136,7 +136,7 @@ class PetHealthReportGenerator {
             this.ctx.restore();
         }
         this.ctx.textAlign = 'left';
-        const cardW = 340;
+        const cardW = 390;
         const cardH = 115;
         const cardX = this.canvas.width - this.padding - cardW;
         const cardY = 35;
