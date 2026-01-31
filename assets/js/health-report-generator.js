@@ -187,7 +187,10 @@ class PetHealthReportGenerator {
         if (this.data.petInfo.neuteredLabel) metaParts.push(this.data.petInfo.neuteredLabel);
         if (ageText) metaParts.push(ageText);
         const metaText = metaParts.length ? metaParts.join(' · ') : '';
-        this.ctx.fillText(metaText, cardX + 100, cardY + 70 + nameLines.length * 32);
+        const metaLines = metaText ? this.wrapText(metaText, cardW - 120) : [];
+        metaLines.forEach((line, idx) => {
+            this.ctx.fillText(line, cardX + 100, cardY + 70 + nameLines.length * 32 + idx * 24);
+        });
     }
 
     drawSectionDivider(y) {
