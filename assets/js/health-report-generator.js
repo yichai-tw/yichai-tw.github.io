@@ -157,21 +157,25 @@ class PetHealthReportGenerator {
         this.ctx.stroke();
         this.ctx.restore();
         const emojiSize = 80;
+        const emojiRadius = 40;
         const emojiX = cardX + cardW - 50;
-        const emojiY = cardY + 58;
+        const emojiY = cardY + cardH / 2;
         this.ctx.fillStyle = 'rgba(255,255,255,0.95)';
         this.ctx.beginPath();
-        this.ctx.arc(emojiX, emojiY, 40, 0, Math.PI * 2);
+        this.ctx.arc(emojiX, emojiY, emojiRadius, 0, Math.PI * 2);
         this.ctx.fill();
         this.ctx.font = '38px "Noto Sans TC"';
         this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
         this.ctx.fillStyle = this.colors.brandOrange;
         this.ctx.fillText(this.data.petInfo.emoji || '🐱', emojiX, emojiY);
+        this.ctx.textBaseline = 'alphabetic';
         this.ctx.textAlign = 'right';
         this.ctx.font = 'bold 24px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.onDarkText;
         const textRightX = cardX + cardW - emojiSize - 20;
-        this.ctx.fillText(`${this.data.petInfo.name} 的專屬報告`, textRightX, cardY + 40);
+        const textStartY = cardY + cardH / 2 - 18;
+        this.ctx.fillText(`${this.data.petInfo.name} 的專屬報告`, textRightX, textStartY);
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
         const sexLabel = this.data.petInfo.sexLabel || '';
@@ -188,7 +192,7 @@ class PetHealthReportGenerator {
         if (ageText) metaParts.push(ageText);
         const metaText = metaParts.length ? metaParts.join(' · ') : '';
         if (metaText) {
-            this.ctx.fillText(metaText, textRightX, cardY + 66);
+            this.ctx.fillText(metaText, textRightX, textStartY + 28);
         }
     }
 
