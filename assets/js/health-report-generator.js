@@ -148,7 +148,14 @@ class PetHealthReportGenerator {
         this.ctx.fillText(this.data.generatedDate, leftX + 96, 118);
 
         const sexLabel = this.data.petInfo.sexLabel || '';
-        const petMeta = sexLabel ? `${sexLabel} · ${this.data.generatedDate}` : this.data.generatedDate;
+        const petAge = this.data.humanAge && this.data.humanAge.petAge;
+        const ageParts = [];
+        if (petAge) {
+            if (petAge.years) ageParts.push(`${petAge.years}歲`);
+            if (petAge.months) ageParts.push(`${petAge.months}個月`);
+        }
+        const ageText = ageParts.length ? ageParts.join('') : this.data.generatedDate;
+        const petMeta = sexLabel ? `${sexLabel} · ${ageText}` : ageText;
         this.ctx.save();
         this.ctx.fillStyle = 'rgba(255,255,255,0.25)';
         this.ctx.beginPath();
@@ -498,9 +505,7 @@ class PetHealthReportGenerator {
 
     async drawFooter(footerY) {
         const y = footerY != null ? footerY : 1200;
-        const bottomMargin = 30;
-        const maxFooterH = Math.max(140, this.canvas.height - bottomMargin - y);
-        const footerH = Math.min(210, maxFooterH);
+        const footerH = Math.max(190, this.canvas.height - y);
         this.ctx.save();
         this.ctx.fillStyle = this.colors.footerLight;
         this.ctx.fillRect(0, y, this.canvas.width, footerH);
