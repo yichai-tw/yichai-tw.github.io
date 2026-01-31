@@ -165,11 +165,11 @@ class PetHealthReportGenerator {
         this.ctx.fillStyle = this.colors.brandOrange;
         this.ctx.fillText(this.data.petInfo.emoji || '🐱', cardX + 52, cardY + 58);
         this.ctx.textAlign = 'left';
-        this.ctx.font = 'bold 28px "Noto Sans TC"';
+        this.ctx.font = 'bold 24px "Noto Sans TC"';
         this.ctx.fillStyle = this.colors.onDarkText;
         const nameLines = this.wrapText(`${this.data.petInfo.name} 的專屬報告`, cardW - 120);
         nameLines.forEach((line, idx) => {
-            this.ctx.fillText(line, cardX + 100, cardY + 42 + idx * 32);
+            this.ctx.fillText(line, cardX + 100, cardY + 40 + idx * 28);
         });
         this.ctx.font = '18px "Noto Sans TC"';
         this.ctx.fillStyle = 'rgba(255,255,255,0.9)';
@@ -188,7 +188,7 @@ class PetHealthReportGenerator {
         const metaText = metaParts.length ? metaParts.join(' · ') : '';
         const metaLines = metaText ? this.wrapText(metaText, cardW - 120) : [];
         metaLines.forEach((line, idx) => {
-            this.ctx.fillText(line, cardX + 100, cardY + 68 + nameLines.length * 30 + idx * 22);
+            this.ctx.fillText(line, cardX + 100, cardY + 66 + nameLines.length * 28 + idx * 22);
         });
     }
 
