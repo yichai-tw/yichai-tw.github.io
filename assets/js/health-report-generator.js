@@ -522,8 +522,8 @@ class PetHealthReportGenerator {
         const ctaWidth = remainingWidth - warningWidth;
         const warningX = this.padding;
         const ctaX = warningX + warningWidth + columnGap;
-        const columnY = contentStart;
-        const columnH = footerH - 30;
+        const columnY = y + 4;
+        const columnH = footerH - 16;
         this.ctx.strokeStyle = 'rgba(44,62,80,0.12)';
         this.ctx.lineWidth = 1;
         this.ctx.beginPath();
