@@ -602,7 +602,7 @@ class PetHealthCalculator {
         const sexLabel = (this.guidelines.common && this.guidelines.common.sexOptions && sex) 
             ? this.guidelines.common.sexOptions[sex].label 
             : (sex === 'female' ? '母' : '公');
-        const neuteredLabel = neutered ? '已結紮' : '未結紮';
+        const neuteredLabel = neutered ? '已絕育' : '未絕育';
 
         return {
             petInfo: {
