@@ -6,7 +6,7 @@
   python scripts/validate_and_convert_health_csv.py docs/health_conditions.csv docs/health_life_stages.csv
 
 輸出:
-    預設會輸出到 `data/`（或由 `--out-dir` 指定的目錄），例如 `data/health_conditions.json`
+    預設會輸出到 `data/`（或由 `--out-dir` 指定的目錄），產生 per-species JSON（例如 `data/conditions_cat.json`）。
 
 主要功能:
   - 檢查標頭是否符合預期
