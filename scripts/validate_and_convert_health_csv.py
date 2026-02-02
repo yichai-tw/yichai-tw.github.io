@@ -149,13 +149,13 @@ def main(argv: List[str] | None = None) -> int:
                 # write per-species files
                 for sp, items in groups.items():
                     key = name2key.get(sp)
-                    fname = f"conditions_{key or slugify(sp)}.json"
+                    fname = f"temp_conditions_{key or slugify(sp)}.json"
                     outpath = out_dir / fname
                     write_json(outpath, items)
                     print(f"已輸出: {outpath}")
 
-                # also write combined file for compatibility
-                combined = out_dir / 'conditions_all.json'
+                # also write combined file for compatibility (intermediate)
+                combined = out_dir / 'temp_conditions_all.json'
                 write_json(combined, rows)
                 print(f"已輸出: {combined}")
             else:

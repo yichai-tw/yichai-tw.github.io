@@ -62,7 +62,7 @@ def convert_health_guidelines():
                 for bkey, binfo in data['hamster']['breeds'].items():
                     lifespans['倉鼠'].append({'breed': binfo.get('label', bkey), 'lifespan': binfo.get('lifespanRange', '')})
 
-        with (data_dir / 'breeds_lifespans.json').open('w', encoding='utf-8') as f:
+        with (data_dir / 'temp_breeds_lifespans.json').open('w', encoding='utf-8') as f:
             json.dump(lifespans, f, ensure_ascii=False, indent=2)
     except Exception:
         pass
@@ -160,12 +160,12 @@ def convert_health_guidelines():
 
         for sp, items in cond_groups.items():
             key = name2key.get(sp)
-            fname = f'conditions_{key or sp.replace(" ", "_")}.json'
+            fname = f'temp_conditions_{key or sp.replace(" ", "_")}.json'
             with (data_dir / fname).open('w', encoding='utf-8') as f:
                 json.dump(items, f, ensure_ascii=False, indent=2)
 
         # overall combined conditions
-        with (data_dir / 'conditions_all.json').open('w', encoding='utf-8') as f:
+        with (data_dir / 'temp_conditions_all.json').open('w', encoding='utf-8') as f:
             json.dump(conditions_data, f, ensure_ascii=False, indent=2)
 
         # 輸出 breeds：使用 out_df（最終 CSV）按物種拆分
@@ -177,7 +177,7 @@ def convert_health_guidelines():
                 breeds_by_species.setdefault(sp, []).append(b)
             for sp, rows in breeds_by_species.items():
                 key = name2key.get(sp)
-                fname = f'breeds_{key or sp.replace(" ", "_")}.json'
+                fname = f'temp_breeds_{key or sp.replace(" ", "_")}.json'
                 with (data_dir / fname).open('w', encoding='utf-8') as f:
                     json.dump(rows, f, ensure_ascii=False, indent=2)
         except Exception:

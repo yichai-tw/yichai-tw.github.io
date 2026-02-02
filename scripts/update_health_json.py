@@ -201,7 +201,7 @@ def main(argv=None):
     # 以 data 中 species keys 為準
     for key in ('cat', 'dog', 'rabbit', 'hamster'):
         out_conditions = data.get(key, {}).get('commonConditions', [])
-        out_path = js.parent / f'conditions_{key}.json'
+        out_path = js.parent / f'temp_conditions_{key}.json'
         with out_path.open('w', encoding='utf-8') as f:
             json.dump(out_conditions, f, ensure_ascii=False, indent=2)
 
@@ -218,7 +218,7 @@ def main(argv=None):
     name2key = {v.get('name'): k for k, v in data.items() if isinstance(v, dict) and 'name' in v}
     for sp_name, rows in breeds_by_species.items():
         key = name2key.get(sp_name)
-        fname = f'breeds_{key or slugify(sp_name)}.json'
+        fname = f'temp_breeds_{key or slugify(sp_name)}.json'
         out_path = js.parent / fname
         with out_path.open('w', encoding='utf-8') as f:
             json.dump(rows, f, ensure_ascii=False, indent=2)
