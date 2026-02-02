@@ -22,6 +22,15 @@ import sys
 from pathlib import Path
 from typing import List, Tuple, Dict, Any
 
+import re
+
+
+def slugify(s: str) -> str:
+    s = (s or '').strip().lower()
+    s = re.sub(r"\s+", "_", s)
+    s = re.sub(r"[^a-z0-9_]+", "", s)
+    return s or 'unknown'
+
 
 EXPECTED_SCHEMAS = {
     "health_conditions.csv": ["物種", "疾病項目", "飲食注意", "專家叮嚀"],
@@ -119,10 +128,41 @@ def main(argv: List[str] | None = None) -> int:
         for e in errs:
             print("警告:", e)
         if rows:
-            outpath = out_dir / path.name
-            outpath = outpath.with_suffix('.json')
-            write_json(outpath, rows)
-            print(f"已輸出: {outpath}")
+            if path.name == 'health_conditions.csv':
+                # 拆分為每個物種的 JSON（嘗試以 data/health-guidelines.json 的 species key 命名）
+                hg_path = Path('data/health-guidelines.json')
+                name2key = {}
+                if hg_path.exists():
+                    try:
+                        with hg_path.open('r', encoding='utf-8') as f:
+                            hg = json.load(f)
+                            name2key = {v.get('name'): k for k, v in hg.items() if isinstance(v, dict) and 'name' in v}
+                    except Exception:
+                        name2key = {}
+
+                # group rows by species name
+                groups: Dict[str, List[Dict[str, Any]]] = {}
+                for r in rows:
+                    sp = (r.get('物種') or '').strip()
+                    groups.setdefault(sp or 'unknown', []).append(r)
+
+                # write per-species files
+                for sp, items in groups.items():
+                    key = name2key.get(sp)
+                    fname = f"conditions_{key or slugify(sp)}.json"
+                    outpath = out_dir / fname
+                    write_json(outpath, items)
+                    print(f"已輸出: {outpath}")
+
+                # also write combined file for compatibility
+                combined = out_dir / 'conditions_all.json'
+                write_json(combined, rows)
+                print(f"已輸出: {combined}")
+            else:
+                outpath = out_dir / path.name
+                outpath = outpath.with_suffix('.json')
+                write_json(outpath, rows)
+                print(f"已輸出: {outpath}")
         total_errors += len(errs)
 
     if total_errors:

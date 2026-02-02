@@ -189,13 +189,40 @@ def main(argv=None):
 
     cond_rows = read_csv(docs / 'health_conditions.csv')
     stage_rows = read_csv(docs / 'health_life_stages.csv')
-    hamster_rows = read_csv(docs / 'hamster_breeds.csv')
+    pet_breeds_rows = read_csv(docs / 'pet_breeds.csv')
 
     c1 = update_life_stages(data, stage_rows)
     c2 = update_conditions(data, cond_rows)
-    c3 = update_hamster_breeds(data, hamster_rows)
+    c3 = update_hamster_breeds(data, pet_breeds_rows)
 
     write_json(js, data)
+
+    # 寫出分割後的 per-species condition JSON
+    # 以 data 中 species keys 為準
+    for key in ('cat', 'dog', 'rabbit', 'hamster'):
+        out_conditions = data.get(key, {}).get('commonConditions', [])
+        out_path = js.parent / f'conditions_{key}.json'
+        with out_path.open('w', encoding='utf-8') as f:
+            json.dump(out_conditions, f, ensure_ascii=False, indent=2)
+
+    # 將 breeds 依 species 切分輸出為 data/breeds_{key}.json
+    # 使用 pet_breeds_rows 作為來源（若有）
+    breeds_by_species = {}
+    for r in pet_breeds_rows:
+        sp = (r.get('物種') or '').strip()
+        if not sp:
+            continue
+        breeds_by_species.setdefault(sp, []).append(r)
+
+    # mapping chinese name -> key for file naming
+    name2key = {v.get('name'): k for k, v in data.items() if isinstance(v, dict) and 'name' in v}
+    for sp_name, rows in breeds_by_species.items():
+        key = name2key.get(sp_name)
+        fname = f'breeds_{key or slugify(sp_name)}.json'
+        out_path = js.parent / fname
+        with out_path.open('w', encoding='utf-8') as f:
+            json.dump(rows, f, ensure_ascii=False, indent=2)
+
     print(f"Updated life stages: {c1}, conditions upserts: {c2}, hamster breeds upserts: {c3}")
     return 0
 

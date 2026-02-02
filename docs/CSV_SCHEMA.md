@@ -60,7 +60,7 @@ python scripts/convert_health_data.py --out-dir docs
 
 2. 編輯 `docs/*.csv`（`health_conditions.csv` / `health_life_stages.csv` / `hamster_breeds.csv`）
 
-3. 將 CSV 變更回寫入 JSON：
+3. 將 CSV 變更回寫入 JSON（注意：`pet_breeds.csv` 取代舊的 `hamster_breeds.csv`）：
 
 ```bash
 python scripts/update_health_json.py --docs-dir docs --json data/health-guidelines.json
