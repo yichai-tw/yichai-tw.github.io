@@ -4,4 +4,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://yichai-tw.github.io/sitemap.xml
+Sitemap: https://yichai-tw.github.io/yichai-tw/sitemap.xml
