@@ -1,0 +1,181 @@
+{
+  "name": "兔子",
+  "emoji": "🐰",
+  "ageConversion": {
+    "幼年期": {
+      "range": [
+        0,
+        0.5
+      ],
+      "formula": "month * 2",
+      "description": "快速成長期"
+    },
+    "青少年期": {
+      "range": [
+        0.5,
+        1
+      ],
+      "formula": "12 + (year - 0.5) * 16",
+      "description": "性成熟期"
+    },
+    "成年期": {
+      "range": [
+        1,
+        5
+      ],
+      "formula": "28 + (year - 1) * 6",
+      "description": "健康黃金期"
+    },
+    "熟齡期": {
+      "range": [
+        5,
+        8
+      ],
+      "formula": "52 + (year - 5) * 5",
+      "description": "需開始預防保健"
+    },
+    "老年期": {
+      "range": [
+        8,
+        99
+      ],
+      "formula": "67 + (year - 8) * 4",
+      "description": "特別照護期"
+    }
+  },
+  "lifeStages": {
+    "幼年期": {
+      "humanAge": "0-12歲",
+      "checkupFrequency": "每 2 個月健檢一次",
+      "healthTips": [
+        "🥬 提供苜蓿草補充鈣質與蛋白質",
+        "🌾 無限量提供提摩西草，促進腸道健康",
+        "💉 施打兔出血症、兔黏液瘤疫苗",
+        "🏠 準備安全活動空間，避免誤食"
+      ],
+      "commonIssues": [
+        "腸胃停滯",
+        "寄生蟲",
+        "牙齒問題"
+      ]
+    },
+    "青少年期": {
+      "humanAge": "12-28歲",
+      "checkupFrequency": "每 4 個月健檢一次",
+      "healthTips": [
+        "✂️ 建議 6 個月後絕育，避免生殖疾病",
+        "🌾 逐漸減少苜蓿草，改以提摩西草為主",
+        "🦷 提供磨牙木，預防牙齒過長",
+        "🏃 每日至少 3 小時籠外活動"
+      ],
+      "commonIssues": [
+        "領域行為",
+        "牙齒過長",
+        "肥胖"
+      ]
+    },
+    "成年期": {
+      "humanAge": "28-52歲",
+      "checkupFrequency": "每年健檢一次",
+      "healthTips": [
+        "🌾 無限量提摩西草 + 定量飼料",
+        "🥬 每日提供新鮮蔬菜（體重 2kg 約一杯量）",
+        "⚖️ 定期量測體重，避免肥胖",
+        "🦷 每月檢查牙齒與指甲長度"
+      ],
+      "commonIssues": [
+        "毛球症",
+        "肥胖",
+        "泌尿道結石"
+      ]
+    },
+    "熟齡期": {
+      "humanAge": "52-67歲",
+      "checkupFrequency": "每 6 個月健檢一次",
+      "healthTips": [
+        "🩺 定期健檢含血檢與 X 光",
+        "🦴 注意關節炎徵兆，提供軟墊",
+        "🦷 密切注意牙齒健康與咬合",
+        "💊 可補充關節保健品"
+      ],
+      "commonIssues": [
+        "關節炎",
+        "牙齒問題",
+        "白內障"
+      ]
+    },
+    "老年期": {
+      "humanAge": "67歲以上",
+      "checkupFrequency": "每 3-4 個月健檢一次",
+      "healthTips": [
+        "🩺 密切監控腎功能與心臟健康",
+        "🛏️ 提供低矮易進出的便盆與水盆",
+        "🌾 提供較軟的草料，方便咀嚼",
+        "💊 依獸醫指示補充營養品"
+      ],
+      "commonIssues": [
+        "器官衰退",
+        "行動不便",
+        "食慾下降"
+      ]
+    }
+  },
+  "nutritionGuidelines": {
+    "caloriesPerKgMin": 80,
+    "caloriesPerKgMax": 120,
+    "waterMlPerKgMin": 80,
+    "waterMlPerKgMax": 100,
+    "foodCaloriesPer100gDefault": 300,
+    "hayIntake": {
+      "description": "無限量供應提摩西草（成兔）",
+      "pellets": "每日飼料量：體重 2% (20-40g/kg)"
+    },
+    "feedingFrequency": {
+      "幼年期": "無限量苜蓿草 + 定量飼料",
+      "青少年期": "無限量提摩西草 + 減量飼料",
+      "成年期": "無限量提摩西草 + 定量飼料（每日1-2次）",
+      "熟齡期": "無限量提摩西草 + 少量飼料",
+      "老年期": "柔軟草料 + 易消化食物（少量多餐）"
+    }
+  },
+  "idealWeight": {
+    "general": {
+      "min": 1.5,
+      "max": 3.5,
+      "unit": "kg",
+      "note": "依品種差異大，荷蘭侏儒兔約 1kg，紐西蘭兔可達 5kg"
+    }
+  },
+  "commonConditions": [
+    {
+      "id": "teeth",
+      "label": "咬合不正／牙齒過長（兔最常見）",
+      "dietaryNote": "無限量提摩西草磨牙，依獸醫建議草料與飼料",
+      "tip": "荷蘭侏儒兔等短顎品種風險高，定期檢查"
+    },
+    {
+      "id": "gi_stasis",
+      "label": "腸胃停滯／毛球症",
+      "dietaryNote": "高纖維牧草、充足飲水，依獸醫指示",
+      "tip": "食慾下降、排便減少為警訊，盡速就醫"
+    },
+    {
+      "id": "bladder",
+      "label": "泌尿道／結石",
+      "dietaryNote": "依獸醫建議低鈣或處方飲食，每日飲水50–100ml/kg",
+      "tip": "多喝水、留意排尿量"
+    },
+    {
+      "id": "ecuniculi",
+      "label": "歪頭症／E. cuniculi",
+      "dietaryNote": "依獸醫指示用藥與支持照護",
+      "tip": "神經症狀、白內障等，及早治療"
+    },
+    {
+      "id": "pasteurella",
+      "label": "巴斯德桿菌／呼吸道",
+      "dietaryNote": "維持營養與食慾，依獸醫用藥",
+      "tip": "打噴嚏、鼻分泌物、肺炎，環境通風"
+    }
+  ]
+}

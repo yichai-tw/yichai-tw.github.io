@@ -1,0 +1,201 @@
+{
+  "name": "貓咪",
+  "emoji": "🐱",
+  "ageConversion": {
+    "幼年期": {
+      "range": [
+        0,
+        1
+      ],
+      "formula": "month * 1.5",
+      "description": "快速成長期"
+    },
+    "青少年期": {
+      "range": [
+        1,
+        2
+      ],
+      "formula": "15 + (year - 1) * 9",
+      "description": "活力旺盛期"
+    },
+    "成年期": {
+      "range": [
+        2,
+        7
+      ],
+      "formula": "24 + (year - 2) * 4",
+      "description": "健康黃金期"
+    },
+    "熟齡期": {
+      "range": [
+        7,
+        11
+      ],
+      "formula": "44 + (year - 7) * 4",
+      "description": "需開始預防保健"
+    },
+    "老年期": {
+      "range": [
+        11,
+        99
+      ],
+      "formula": "60 + (year - 11) * 3",
+      "description": "特別照護期"
+    }
+  },
+  "lifeStages": {
+    "幼年期": {
+      "humanAge": "0-15歲",
+      "checkupFrequency": "每 3 個月健檢一次",
+      "healthTips": [
+        "🍼 建議餵食幼貓專用飼料，營養需求較高",
+        "💉 按時施打疫苗與驅蟲，建立免疫力",
+        "🦷 開始訓練刷牙習慣，預防口腔疾病",
+        "🏃 提供充足活動空間，促進骨骼發育"
+      ],
+      "commonIssues": [
+        "寄生蟲感染",
+        "消化不良",
+        "疫苗反應"
+      ]
+    },
+    "青少年期": {
+      "humanAge": "15-24歲",
+      "checkupFrequency": "每 6 個月健檢一次",
+      "healthTips": [
+        "🏋️ 活動力旺盛，提供足夠玩具與運動空間",
+        "⚖️ 控制體重，避免過度餵食造成肥胖",
+        "🦷 定期口腔檢查，預防牙結石形成",
+        "✂️ 建議進行絕育手術，降低疾病風險"
+      ],
+      "commonIssues": [
+        "肥胖",
+        "牙結石",
+        "行為問題"
+      ]
+    },
+    "成年期": {
+      "humanAge": "24-44歲",
+      "checkupFrequency": "每年健檢一次",
+      "healthTips": [
+        "💧 注意飲水量，預防泌尿道與腎臟問題",
+        "⚖️ 維持理想體重，定期量測並記錄",
+        "🦷 每週刷牙 2-3 次，預防口腔疾病",
+        "🏃 保持適度運動，維持肌肉量"
+      ],
+      "commonIssues": [
+        "泌尿道結石",
+        "肥胖",
+        "牙周病"
+      ]
+    },
+    "熟齡期": {
+      "humanAge": "44-60歲",
+      "checkupFrequency": "每 6 個月健檢一次",
+      "healthTips": [
+        "🩺 每年完整健檢含血檢，早期發現疾病",
+        "💧 加強水分攝取，保護腎臟功能",
+        "🦴 注意關節保健，可補充葡萄糖胺",
+        "👁️ 定期檢查眼睛與牙齒健康"
+      ],
+      "commonIssues": [
+        "慢性腎病",
+        "關節炎",
+        "甲狀腺亢進"
+      ]
+    },
+    "老年期": {
+      "humanAge": "60歲以上",
+      "checkupFrequency": "每 3-4 個月健檢一次",
+      "healthTips": [
+        "🩺 密切監控腎功能、血壓與甲狀腺",
+        "🍲 提供易消化、高營養密度食物",
+        "🛏️ 準備舒適柔軟的睡眠環境",
+        "💊 依獸醫指示服藥，定期回診追蹤"
+      ],
+      "commonIssues": [
+        "慢性腎衰竭",
+        "心臟病",
+        "認知功能退化"
+      ]
+    }
+  },
+  "nutritionGuidelines": {
+    "rerFormula": "70 * weight(kg)^0.75",
+    "activityMultipliers": {
+      "very_low": 1.0,
+      "low": 1.1,
+      "moderate": 1.2,
+      "high": 1.35,
+      "very_high": 1.5
+    },
+    "bodyShapeMultipliers": {
+      "very_thin": 1.1,
+      "thin": 1.05,
+      "ideal": 1,
+      "heavy": 0.95,
+      "very_heavy": 0.9
+    },
+    "waterMlPerKgMin": 40,
+    "waterMlPerKgMax": 60,
+    "foodCaloriesPer100gDefault": 350,
+    "feedingFrequency": {
+      "幼年期": "每日 3-4 餐",
+      "青少年期": "每日 2-3 餐",
+      "成年期": "每日 2 餐",
+      "熟齡期": "每日 2-3 餐（少量多餐）",
+      "老年期": "每日 3-4 餐（少量多餐）"
+    }
+  },
+  "idealWeight": {
+    "general": {
+      "min": 3,
+      "max": 5,
+      "unit": "kg"
+    }
+  },
+  "commonConditions": [
+    {
+      "id": "kidney",
+      "label": "慢性腎病（貓頭號殺手）",
+      "dietaryNote": "依獸醫指示低磷飲食、濕食與飲水，定期血檢",
+      "tip": "7歲以上建議每年血檢尿檢，飲水充足"
+    },
+    {
+      "id": "fiv",
+      "label": "貓愛滋（FIV）",
+      "dietaryNote": "維持營養、避免生食，依獸醫建議選擇飼料",
+      "tip": "避免與其他貓打架、減少緊迫、室內飼養"
+    },
+    {
+      "id": "diabetes",
+      "label": "糖尿病",
+      "dietaryNote": "依獸醫指示控制碳水與餵食時間",
+      "tip": "規律餵食、監測血糖與體重"
+    },
+    {
+      "id": "hyperthyroid",
+      "label": "甲狀腺亢進",
+      "dietaryNote": "依獸醫指示飲食與用藥（碘限制等）",
+      "tip": "定期複檢甲狀腺與心腎"
+    },
+    {
+      "id": "flutd",
+      "label": "泌尿道／結石（公貓易阻塞）",
+      "dietaryNote": "依獸醫建議處方或低鎂飲食，鼓勵飲水與濕食",
+      "tip": "多喝水、留意如廁，公貓阻塞為急症"
+    },
+    {
+      "id": "heart",
+      "label": "心臟病",
+      "dietaryNote": "依獸醫建議低鈉或處方飲食",
+      "tip": "定期心臟檢查，留意咳嗽與喘"
+    },
+    {
+      "id": "arthritis",
+      "label": "關節炎（熟齡貓常見）",
+      "dietaryNote": "控制體重減輕負擔，可搭配關節保健",
+      "tip": "6歲以上好發，防滑、軟墊"
+    }
+  ]
+}

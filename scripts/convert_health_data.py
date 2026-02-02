@@ -6,8 +6,9 @@ from pathlib import Path
 # 設定路徑（JSON 固定在 data）
 JSON_PATH = 'data/health-guidelines.json'
 # 輸出目錄預設為 docs，可由 CLI --out-dir 覆寫
-CSV_HAMSTER_BREEDS = None
-OUTPUT_DIR = None
+# 為避免非預期寫入 data/，預設值設定為 'docs'
+CSV_HAMSTER_BREEDS = 'docs/hamster_breeds.csv'
+OUTPUT_DIR = 'docs'
 
 # 匯入時若 CSV 無「品種key」欄位，才用此對照表（向後相容）
 HAMSTER_LABEL_TO_KEY = {
@@ -25,8 +26,48 @@ def convert_health_guidelines():
 
     with open(JSON_PATH, 'r', encoding='utf-8') as f:
         data = json.load(f)
-
+    # 物種清單（用於拆分與 CSV 輸出）
     species_keys = ['cat', 'dog', 'rabbit', 'hamster']
+
+    # 立即拆分成每個物種的完整 guidelines JSON（便於小工具分別載入）
+    try:
+        data_dir = Path('data')
+        data_dir.mkdir(parents=True, exist_ok=True)
+        for skey in species_keys:
+            if skey in data:
+                outfile = data_dir / f'guidelines_{skey}.json'
+                with outfile.open('w', encoding='utf-8') as of:
+                    json.dump(data[skey], of, ensure_ascii=False, indent=2)
+
+        # 產生 breeds_lifespans.json：優先使用 docs/pet_breeds.csv，若不存在則嘗試從 JSON 中取出 hamster 品種壽命
+        lifespans = {}
+        pet_breeds_csv = f"{OUTPUT_DIR}/pet_breeds.csv"
+        if os.path.exists(pet_breeds_csv):
+            try:
+                pb_df = pd.read_csv(pet_breeds_csv, encoding='utf-8-sig')
+                if '物種' in pb_df.columns and '品種標籤' in pb_df.columns and '預期壽命' in pb_df.columns:
+                    for _, row in pb_df.iterrows():
+                        sp = row.get('物種')
+                        label = row.get('品種標籤')
+                        lifespan = row.get('預期壽命')
+                        if pd.isna(sp) or pd.isna(label):
+                            continue
+                        lifespans.setdefault(sp, []).append({'breed': label, 'lifespan': lifespan})
+            except Exception:
+                pass
+        else:
+            # fallback: use data['hamster']['breeds'] if present
+            if 'hamster' in data and isinstance(data['hamster'].get('breeds'), dict):
+                lifespans['倉鼠'] = []
+                for bkey, binfo in data['hamster']['breeds'].items():
+                    lifespans['倉鼠'].append({'breed': binfo.get('label', bkey), 'lifespan': binfo.get('lifespanRange', '')})
+
+        with (data_dir / 'breeds_lifespans.json').open('w', encoding='utf-8') as f:
+            json.dump(lifespans, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+    # species_keys 在上面已定義
     
     # 1. 生命階段建議表 (Life Stages)
     stages_data = []

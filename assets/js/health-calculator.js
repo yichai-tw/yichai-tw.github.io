@@ -41,7 +41,54 @@ class PetHealthCalculator {
                 this.guidelines = await altResponse.json();
                 console.log('✅ 使用備用路徑載入成功');
             } catch (altError) {
-                console.error('❌ 備用路徑也失敗:', altError);
+                console.warn('❌ 備用路徑也失敗，嘗試載入 per-species JSON:', altError);
+                // 嘗試載入 per-species guidelines（guidelines_{species}.json）
+                try {
+                    const speciesKeys = ['cat', 'dog', 'rabbit', 'hamster'];
+                    const assembled = {};
+                    for (const key of speciesKeys) {
+                        try {
+                            const resp = await fetch(`data/guidelines_${key}.json`);
+                            if (!resp.ok) {
+                                continue;
+                            }
+                            const json = await resp.json();
+                            assembled[key] = json;
+                        } catch (e) {
+                            // 忽略單一物種失敗，繼續其它物種
+                            console.warn(`載入 data/guidelines_${key}.json 失敗:`, e);
+                        }
+                    }
+
+                    // 若有載入任何物種，設定為 guidelines
+                    if (Object.keys(assembled).length > 0) {
+                        // 試著載入 breeds_* JSON（若存在）並合併到對應 species
+                        for (const key of Object.keys(assembled)) {
+                            try {
+                                const bresp = await fetch(`data/breeds_${key}.json`);
+                                if (bresp.ok) {
+                                    const breeds = await bresp.json();
+                                    // 若後端是 list，嘗試保留為屬性；若已是 dict，直接替換
+                                    if (Array.isArray(breeds)) {
+                                        // 無法自動轉成具有 key 的 dict，暫放於 assembled[key].breeds_list
+                                        assembled[key].breeds_list = breeds;
+                                    } else {
+                                        assembled[key].breeds = breeds;
+                                    }
+                                }
+                            } catch (_) {
+                                // 忽略
+                            }
+                        }
+
+                        this.guidelines = assembled;
+                        console.log('✅ 已使用 per-species JSON 組裝指引資料');
+                    } else {
+                        console.error('❌ 未能找到任何 per-species JSON');
+                    }
+                } catch (assembleError) {
+                    console.error('❌ 組裝 per-species JSON 時發生錯誤:', assembleError);
+                }
             }
         }
         })();
