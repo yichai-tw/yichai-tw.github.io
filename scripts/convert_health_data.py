@@ -2,10 +2,11 @@ import json
 import pandas as pd
 import os
 
-# 設定路徑
+# 設定路徑（JSON 固定在 data）
 JSON_PATH = 'data/health-guidelines.json'
-CSV_HAMSTER_BREEDS = 'docs/hamster_breeds.csv'
-OUTPUT_DIR = 'docs'
+# 輸出目錄預設為 docs，可由 CLI --out-dir 覆寫
+CSV_HAMSTER_BREEDS = None
+OUTPUT_DIR = None
 
 # 匯入時若 CSV 無「品種key」欄位，才用此對照表（向後相容）
 HAMSTER_LABEL_TO_KEY = {
@@ -69,7 +70,7 @@ def convert_health_guidelines():
         })
     hamster_df = pd.DataFrame(hamster_rows)
 
-    if os.path.exists(CSV_HAMSTER_BREEDS):
+    if CSV_HAMSTER_BREEDS and os.path.exists(CSV_HAMSTER_BREEDS):
         existing = pd.read_csv(CSV_HAMSTER_BREEDS, encoding='utf-8-sig')
         if '物種' in existing.columns:
             other = existing[existing['物種'] != '倉鼠'].copy()
@@ -82,21 +83,24 @@ def convert_health_guidelines():
             out_df = hamster_df
     else:
         out_df = hamster_df
-    out_df.to_csv(CSV_HAMSTER_BREEDS, index=False, encoding='utf-8-sig')
+    # 若 CSV_HAMSTER_BREEDS 未設定（理論上不會），改寫成 OUTPUT_DIR/hamster_breeds.csv
+    target_hamster = CSV_HAMSTER_BREEDS or f"{OUTPUT_DIR}/hamster_breeds.csv"
+    out_df.to_csv(target_hamster, index=False, encoding='utf-8-sig')
 
     print(f"[OK] 轉換完成！CSV 檔案已儲存至 {OUTPUT_DIR}/ 資料夾。")
 
 
 def update_health_guidelines_from_hamster_csv():
     """從 docs/hamster_breeds.csv 讀取「物種=倉鼠」的列，更新 data/health-guidelines.json 的 hamster.breeds。"""
-    if not os.path.exists(CSV_HAMSTER_BREEDS):
-        print(f"[ERROR] 找不到檔案: {CSV_HAMSTER_BREEDS}")
+    target_hamster = CSV_HAMSTER_BREEDS or f"{OUTPUT_DIR}/hamster_breeds.csv"
+    if not os.path.exists(target_hamster):
+        print(f"[ERROR] 找不到檔案: {target_hamster}")
         return
     if not os.path.exists(JSON_PATH):
         print(f"[ERROR] 找不到檔案: {JSON_PATH}")
         return
 
-    df = pd.read_csv(CSV_HAMSTER_BREEDS, encoding='utf-8-sig')
+    df = pd.read_csv(target_hamster, encoding='utf-8-sig')
     if '物種' not in df.columns:
         print("[ERROR] CSV 缺少「物種」欄位，無法對齊。")
         return
@@ -128,14 +132,23 @@ def update_health_guidelines_from_hamster_csv():
     with open(JSON_PATH, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    print(f"[OK] 已從 {CSV_HAMSTER_BREEDS} 更新 {JSON_PATH} 的倉鼠品種資料。")
+    print(f"[OK] 已從 {target_hamster} 更新 {JSON_PATH} 的倉鼠品種資料。")
 
 
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description='健康指引 JSON ↔ CSV 轉換')
     parser.add_argument('--import-csv', action='store_true', help='從 hamster_breeds.csv 匯入並更新 JSON 倉鼠品種')
+    parser.add_argument('--out-dir', default='docs', help='輸出 CSV 的目錄（預設: docs）')
     args = parser.parse_args()
+
+    # 設定輸出路徑全域變數，讓舊有函式沿用變數名稱
+    globals()['OUTPUT_DIR'] = args.out_dir
+    globals()['CSV_HAMSTER_BREEDS'] = f"{args.out_dir}/hamster_breeds.csv"
+
+    # 建立目錄
+    os.makedirs(args.out_dir, exist_ok=True)
+
     if args.import_csv:
         update_health_guidelines_from_hamster_csv()
     else:

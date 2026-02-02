@@ -49,3 +49,31 @@ python scripts/validate_and_convert_health_csv.py docs
 ```bash
 python scripts/validate_and_convert_health_csv.py docs --out-dir mapping
 ```
+
+操作流程建議（雙向同步）
+
+1. 由 JSON 匯出 CSV（開發者編輯 CSV）：
+
+```bash
+python scripts/convert_health_data.py --out-dir docs
+```
+
+2. 編輯 `docs/*.csv`（`health_conditions.csv` / `health_life_stages.csv` / `hamster_breeds.csv`）
+
+3. 將 CSV 變更回寫入 JSON：
+
+```bash
+python scripts/update_health_json.py --docs-dir docs --json data/health-guidelines.json
+```
+
+說明：兩支腳本支援自訂輸入/輸出目錄 (`--out-dir` / `--docs-dir`)；`convert_health_data.py` 會輸出 CSV（並與既有 `hamster_breeds.csv` 合併、去重），`update_health_json.py` 會讀取 CSV 並以「疾病名稱」或「品種 key」為主鍵更新 `data/health-guidelines.json`。
+
+在本機執行這些腳本前，請確認已啟用虛擬環境並安裝相依：
+
+```powershell
+& .venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+# 或直接安裝 pandas
+pip install pandas
+```
+

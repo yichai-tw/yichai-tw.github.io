@@ -1,52 +1,52 @@
-﻿物種,品種標籤,學名,俗名,預期壽命
-倉鼠,黃金鼠,Mesocricetus auratus,金絲熊 / 熊鼠,2-3 年
-倉鼠,三線鼠/冬白,Phodopus sungorus,加卡利亞倉鼠 / 銀狐 / 布丁,2-2.5 年
-倉鼠,一線鼠,Phodopus campbelli,坎貝爾倉鼠,2-2.5 年
-倉鼠,老公公鼠,Phodopus roborovskii,羅伯羅夫斯基倉鼠 / 羅波鼠,1.5-3.5 年
-犬,米克斯犬,Mixed Breed Dog,米克斯,12-14 年
-犬,貴賓犬（標準型）,Poodle (Standard),貴賓犬,10-18 年
-犬,玩具貴賓犬,Poodle (Toy),玩具貴賓,10-18 年
-犬,柴犬,Shiba Inu,日本柴犬,13-16 年
-犬,臘腸犬,Dachshund,臘腸犬,12-16 年
-犬,馬爾濟斯,Maltese,馬爾濟斯,12-15 年
-犬,吉娃娃,Chihuahua,吉娃娃,14-16 年
-犬,柯基犬（彭布羅克）,Pembroke Welsh Corgi,柯基,12-13 年
-犬,柯基犬（卡迪根）,Cardigan Welsh Corgi,柯基,12-15 年
-犬,法國鬥牛犬,French Bulldog,法鬥,10-12 年
-犬,博美犬,Pomeranian,博美犬,12-16 年
-犬,西施犬,Shih Tzu,西施犬,10-18 年
-犬,約克夏梗,Yorkshire Terrier,約克夏,11-15 年
-犬,比熊犬,Bichon Frise,比熊犬,14-15 年
-犬,黃金獵犬,Golden Retriever,金毛,10-12 年
-犬,哈士奇,Siberian Husky,二哈,12-14 年
-犬,拉布拉多犬,Labrador Retriever,拉布拉多,11-13 年
-犬,英國鬥牛犬,English Bulldog,英國鬥牛,8-10 年
-犬,巴哥犬,Pug,巴哥犬,13-15 年
-犬,迷你雪納瑞,Miniature Schnauzer,迷你雪納瑞,12-15 年
-犬,薩摩耶犬,Samoyed,薩摩耶,12-14 年
-犬,邊境牧羊犬,Border Collie,邊牧,12-15 年
-犬,秋田犬,Akita,秋田犬,10-14 年
-犬,台灣犬,Taiwan Dog (Formosan Mountain Dog),台灣土狗,9-13 年
-犬,卡瓦利爾,Cavalier King Charles Spaniel,查理王小獵犬,12-15 年
-犬,米格魯犬,Beagle,米格魯,10-15 年
-犬,杜賓犬,Doberman Pinscher,杜賓犬,10-12 年
-犬,德國牧羊犬,German Shepherd Dog,德牧,12-14 年
-犬,羅威那犬,Rottweiler,羅威那,9-10 年
-貓,混種貓,Mixed Breed Cat,家貓 / 米克斯,12-18 年
-貓,暹羅貓,Siamese Cat,暹羅貓,12-15 年
-貓,英國短毛貓,British Shorthair,英短,15-20 年
-貓,美國短毛貓,American Shorthair,美短,15-20 年
-貓,布偶貓,Ragdoll Cat,布偶貓,15-20 年
-貓,波斯貓,Persian Cat,波斯貓,15-20 年
-貓,緬因貓,Maine Coon Cat,緬因貓,12-15 年
-貓,挪威森林貓,Norwegian Forest Cat,挪威森林貓,14-16 年
-貓,俄羅斯藍貓,Russian Blue Cat,俄羅斯藍貓,12-15 年
-貓,緬甸貓,Burmese Cat,緬甸貓,15-20 年
-貓,伯曼貓,Birman Cat,伯曼貓,15-20 年
-貓,無毛貓,Sphynx Cat,斯芬克斯貓,8-14 年
-兔,混種兔,Mixed Breed Rabbit,米克斯兔 / 菜市場兔,8-12 年
-兔,獅子兔,Lionhead Rabbit,獅子兔,7-9 年
-兔,侏儒兔,Netherland Dwarf,侏儒兔,7-9 年
-兔,垂耳兔,Lop Rabbit,垂耳兔,7-10 年
-兔,迷你垂耳兔,Mini Lop,迷你垂耳兔,7-10 年
-兔,法國垂耳兔,French Lop,大型垂耳兔,6-8 年
+﻿物種,品種key,品種標籤,學名,俗名,預期壽命
+倉鼠,syrian,黃金鼠,Mesocricetus auratus,金絲熊 / 熊鼠,2-3 年
+倉鼠,winter_white,三線鼠/冬白,Phodopus sungorus,加卡利亞倉鼠 / 銀狐 / 布丁,2-2.5 年
+倉鼠,campbell,一線鼠,Phodopus campbelli,坎貝爾倉鼠,2-2.5 年
+倉鼠,roborovski,老公公鼠,Phodopus roborovskii,羅伯羅夫斯基倉鼠 / 羅波鼠,1.5-3.5 年
+犬,,米克斯犬,Mixed Breed Dog,米克斯,12-14 年
+犬,,貴賓犬（標準型）,Poodle (Standard),貴賓犬,10-18 年
+犬,,玩具貴賓犬,Poodle (Toy),玩具貴賓,10-18 年
+犬,,柴犬,Shiba Inu,日本柴犬,13-16 年
+犬,,臘腸犬,Dachshund,臘腸犬,12-16 年
+犬,,馬爾濟斯,Maltese,馬爾濟斯,12-15 年
+犬,,吉娃娃,Chihuahua,吉娃娃,14-16 年
+犬,,柯基犬（彭布羅克）,Pembroke Welsh Corgi,柯基,12-13 年
+犬,,柯基犬（卡迪根）,Cardigan Welsh Corgi,柯基,12-15 年
+犬,,法國鬥牛犬,French Bulldog,法鬥,10-12 年
+犬,,博美犬,Pomeranian,博美犬,12-16 年
+犬,,西施犬,Shih Tzu,西施犬,10-18 年
+犬,,約克夏梗,Yorkshire Terrier,約克夏,11-15 年
+犬,,比熊犬,Bichon Frise,比熊犬,14-15 年
+犬,,黃金獵犬,Golden Retriever,金毛,10-12 年
+犬,,哈士奇,Siberian Husky,二哈,12-14 年
+犬,,拉布拉多犬,Labrador Retriever,拉布拉多,11-13 年
+犬,,英國鬥牛犬,English Bulldog,英國鬥牛,8-10 年
+犬,,巴哥犬,Pug,巴哥犬,13-15 年
+犬,,迷你雪納瑞,Miniature Schnauzer,迷你雪納瑞,12-15 年
+犬,,薩摩耶犬,Samoyed,薩摩耶,12-14 年
+犬,,邊境牧羊犬,Border Collie,邊牧,12-15 年
+犬,,秋田犬,Akita,秋田犬,10-14 年
+犬,,台灣犬,Taiwan Dog (Formosan Mountain Dog),台灣土狗,9-13 年
+犬,,卡瓦利爾,Cavalier King Charles Spaniel,查理王小獵犬,12-15 年
+犬,,米格魯犬,Beagle,米格魯,10-15 年
+犬,,杜賓犬,Doberman Pinscher,杜賓犬,10-12 年
+犬,,德國牧羊犬,German Shepherd Dog,德牧,12-14 年
+犬,,羅威那犬,Rottweiler,羅威那,9-10 年
+貓,,混種貓,Mixed Breed Cat,家貓 / 米克斯,12-18 年
+貓,,暹羅貓,Siamese Cat,暹羅貓,12-15 年
+貓,,英國短毛貓,British Shorthair,英短,15-20 年
+貓,,美國短毛貓,American Shorthair,美短,15-20 年
+貓,,布偶貓,Ragdoll Cat,布偶貓,15-20 年
+貓,,波斯貓,Persian Cat,波斯貓,15-20 年
+貓,,緬因貓,Maine Coon Cat,緬因貓,12-15 年
+貓,,挪威森林貓,Norwegian Forest Cat,挪威森林貓,14-16 年
+貓,,俄羅斯藍貓,Russian Blue Cat,俄羅斯藍貓,12-15 年
+貓,,緬甸貓,Burmese Cat,緬甸貓,15-20 年
+貓,,伯曼貓,Birman Cat,伯曼貓,15-20 年
+貓,,無毛貓,Sphynx Cat,斯芬克斯貓,8-14 年
+兔,,混種兔,Mixed Breed Rabbit,米克斯兔 / 菜市場兔,8-12 年
+兔,,獅子兔,Lionhead Rabbit,獅子兔,7-9 年
+兔,,侏儒兔,Netherland Dwarf,侏儒兔,7-9 年
+兔,,垂耳兔,Lop Rabbit,垂耳兔,7-10 年
+兔,,迷你垂耳兔,Mini Lop,迷你垂耳兔,7-10 年
+兔,,法國垂耳兔,French Lop,大型垂耳兔,6-8 年
