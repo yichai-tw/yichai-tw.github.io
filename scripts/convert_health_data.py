@@ -85,16 +85,27 @@ def convert_health_guidelines():
     pd.DataFrame(stages_data).to_csv(f'{OUTPUT_DIR}/health_life_stages.csv', index=False, encoding='utf-8-sig')
 
     # 2. 常見疾病與飲食建議表 (Conditions)
+    import re
+    def slugify(s):
+        s = s.strip().lower()
+        s = re.sub(r"\s+", "_", s)
+        s = re.sub(r"[^a-z0-9_]+", "", s)
+        return s or "id"
+
     conditions_data = []
     for skey in species_keys:
         name = data[skey]['name']
         for cond in data[skey].get('commonConditions', []):
+            cid = cond.get('id') or slugify(cond.get('label', ''))
             conditions_data.append({
                 '物種': name,
+                'id': cid,
                 '疾病項目': cond['label'],
                 '飲食注意': cond['dietaryNote'],
                 '專家叮嚀': cond['tip']
             })
+            # 同步補齊原始 JSON 內的 id 欄位（避免下次轉出還是缺）
+            cond['id'] = cid
     pd.DataFrame(conditions_data).to_csv(f'{OUTPUT_DIR}/health_conditions.csv', index=False, encoding='utf-8-sig')
 
     # 3. 倉鼠品種資料表：與既有 CSV 對齊，匯出時帶「品種key」供網站與匯入對齊用（不依硬編碼）

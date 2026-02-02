@@ -86,35 +86,53 @@ def update_life_stages(data: Dict[str, Any], rows: List[Dict[str, str]]) -> int:
 
 def update_conditions(data: Dict[str, Any], rows: List[Dict[str, str]]) -> int:
     """Update commonConditions for each species. Dedupe by label. Returns number of upserts."""
+    import re
+    def slugify(s):
+        s = s.strip().lower()
+        s = re.sub(r"\s+", "_", s)
+        s = re.sub(r"[^a-z0-9_]+", "", s)
+        return s or "id"
+
     name2key = map_name_to_key(data)
     changes = 0
     for r in rows:
-        species = r.get('物種')
-        label = r.get('疾病項目')
+        # 支援兩種來源欄位
+        species = r.get('物種') or r.get('\u7269\u7a2e')
+        label = r.get('疾病項目') or r.get('\u75be\u75c5\u9805\u76ee')
         if not species or not label:
             continue
         key = name2key.get(species)
         if not key:
             continue
-        dietary = r.get('飲食注意') or ''
-        tip = r.get('專家叮嚀') or ''
+        dietary = r.get('飲食注意') or r.get('\u98f2\u98df\u6ce8\u610f') or ''
+        tip = r.get('專家叮嚀') or r.get('\u5c08\u5bb6\u53ee\u5680') or ''
 
         if 'commonConditions' not in data[key]:
             data[key]['commonConditions'] = []
         # build index by label
         idx = {c.get('label'): c for c in data[key]['commonConditions']}
+        cid = slugify(label)
         if label in idx:
             # update fields
             obj = idx[label]
             obj['dietaryNote'] = dietary or obj.get('dietaryNote', '')
             obj['tip'] = tip or obj.get('tip', '')
+            if 'id' not in obj or not obj['id']:
+                obj['id'] = cid
         else:
             data[key]['commonConditions'].append({
+                'id': cid,
                 'label': label,
                 'dietaryNote': dietary,
                 'tip': tip,
             })
         changes += 1
+    # 確保所有 commonConditions 都有 id
+    for key in data:
+        if isinstance(data[key], dict) and 'commonConditions' in data[key]:
+            for cond in data[key]['commonConditions']:
+                if 'id' not in cond or not cond['id']:
+                    cond['id'] = slugify(cond.get('label', ''))
     return changes
 
 
