@@ -393,40 +393,13 @@
                     </div>
                 </div>
 
-                <!-- 倉鼠專用：品種選擇 -->
+                <!-- 倉鼠專用：品種選擇（由 data/health-guidelines.json 動態產生，不硬編碼） -->
                 <div id="hamsterBreedSection" style="display: none;">
                     <label class="block text-gray-700 font-semibold mb-3">
                         🐹 品種（倉鼠專用）
                     </label>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <label class="cursor-pointer">
-                            <input type="radio" name="hamsterBreed" value="syrian" class="hidden peer">
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
-                                <p class="font-semibold">黃金鼠</p>
-                                <p class="text-xs text-gray-500">金絲熊／熊鼠</p>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="hamsterBreed" value="winter_white" class="hidden peer">
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
-                                <p class="font-semibold">三線鼠</p>
-                                <p class="text-xs text-gray-500">冬白/侏儒鼠</p>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="hamsterBreed" value="campbell" class="hidden peer">
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
-                                <p class="font-semibold">一線鼠</p>
-                                <p class="text-xs text-gray-500">坎貝爾</p>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="hamsterBreed" value="roborovski" class="hidden peer">
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
-                                <p class="font-semibold">老公公鼠</p>
-                                <p class="text-xs text-gray-500">羅伯羅夫斯基倉鼠／羅波鼠</p>
-                            </div>
-                        </label>
+                    <div id="hamsterBreedOptions" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <!-- 由 health-report-ui.js 依 health-guidelines.json 的 hamster.breeds 填入 -->
                     </div>
                 </div>
 

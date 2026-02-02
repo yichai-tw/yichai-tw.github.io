@@ -149,6 +149,47 @@ function applyRestoredFormData(data) {
 
 
 /**
+ * 依 data/health-guidelines.json 的 hamster.breeds 動態產生倉鼠品種選項（不硬編碼）
+ */
+async function renderHamsterBreeds() {
+    const container = document.getElementById('hamsterBreedOptions');
+    if (!container) return;
+    const calc = window.healthCalculator;
+    if (!calc) return;
+    await calc.loadGuidelines();
+    const breeds = calc.guidelines && calc.guidelines.hamster && calc.guidelines.hamster.breeds;
+    if (!breeds || typeof breeds !== 'object') {
+        container.innerHTML = '<p class="text-sm text-gray-500 col-span-2">無法載入品種資料</p>';
+        return;
+    }
+    container.innerHTML = '';
+    const commonSep = '／';
+    for (const [key, binfo] of Object.entries(breeds)) {
+        const label = binfo.label || key;
+        const sub = Array.isArray(binfo.commonNames) && binfo.commonNames.length
+            ? binfo.commonNames.join(commonSep)
+            : '';
+        const labelEl = document.createElement('label');
+        labelEl.className = 'cursor-pointer';
+        labelEl.innerHTML = `
+            <input type="radio" name="hamsterBreed" value="${key}" class="hidden peer">
+            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
+                <p class="font-semibold">${escapeHtml(label)}</p>
+                <p class="text-xs text-gray-500">${escapeHtml(sub)}</p>
+            </div>
+        `;
+        container.appendChild(labelEl);
+    }
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+/**
  * 選擇動物種類
  */
 function selectPetType(petType) {
@@ -173,10 +214,11 @@ function selectPetType(petType) {
     document.getElementById('dogSizeSection').style.display = 
         petType === 'dog' ? 'block' : 'none';
     
-    // 顯示/隱藏倉鼠品種選項
+    // 顯示/隱藏倉鼠品種選項（由 health-guidelines.json 動態產生）
     const hamsterSection = document.getElementById('hamsterBreedSection');
     if (hamsterSection) {
         hamsterSection.style.display = petType === 'hamster' ? 'block' : 'none';
+        if (petType === 'hamster') renderHamsterBreeds();
     }
 
     // 顯示/隱藏結紮選項（倉鼠一般不結紮，不顯示）

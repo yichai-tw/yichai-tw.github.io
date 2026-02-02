@@ -1,677 +1,1074 @@
 {
-    "common": {
-      "activityLevelOptions": {
-        "very_low": { "label": "很少動", "description": "多半在睡覺或靜態" },
-        "low": { "label": "偶爾動", "description": "室內走動、短暫玩耍" },
-        "moderate": { "label": "適中", "description": "每日有散步或固定活動" },
-        "high": { "label": "愛動", "description": "常跑跳、長時間玩耍" },
-        "very_high": { "label": "非常活潑", "description": "幾乎停不下來" }
+  "common": {
+    "activityLevelOptions": {
+      "very_low": {
+        "label": "很少動",
+        "description": "多半在睡覺或靜態"
       },
-      "bodyShapeOptions": {
-        "very_thin": { "label": "很瘦", "description": "肋骨明顯、腰身極凹" },
-        "thin": { "label": "偏瘦", "description": "摸得到肋骨、腰身明顯" },
-        "ideal": { "label": "標準", "description": "摸得到肋骨有薄脂肪、有腰身" },
-        "heavy": { "label": "偏胖", "description": "摸不太到肋骨、腰身不明顯" },
-        "very_heavy": { "label": "很胖", "description": "摸不到肋骨、無腰身" }
+      "low": {
+        "label": "偶爾動",
+        "description": "室內走動、短暫玩耍"
       },
-      "bodyShapeAdvice": {
-        "very_thin": "可依食慾適量增加飲食，觀察體重變化",
-        "thin": "維持均衡飲食，可稍多一點熱量",
-        "ideal": "維持目前飲食與活動習慣",
-        "heavy": "可稍減零食、增加活動時間",
-        "very_heavy": "建議減少零食、增加互動與散步，有疑慮可諮詢獸醫"
+      "moderate": {
+        "label": "適中",
+        "description": "每日有散步或固定活動"
       },
-      "bodyShapeLevel": {
-        "very_thin": 1,
-        "thin": 2,
-        "ideal": 3,
-        "heavy": 4,
-        "very_heavy": 5
+      "high": {
+        "label": "愛動",
+        "description": "常跑跳、長時間玩耍"
       },
-      "bodyShapePraise": {
-        "very_thin": "一起幫毛孩朝理想體態邁進吧！",
-        "thin": "持續關心體態，毛孩會更健康～",
-        "ideal": "維持得真好！毛孩體態很理想，飼主超棒～",
-        "heavy": "有在注意體態很棒，繼續保持關心～",
-        "very_heavy": "願意了解體態狀況很棒，可以慢慢一起調整～"
-      },
-      "sexOptions": {
-        "male": { "label": "公" },
-        "female": { "label": "母" }
-      },
-      "sexMerModifier": {
-        "male": 1,
-        "female": 0.95
+      "very_high": {
+        "label": "非常活潑",
+        "description": "幾乎停不下來"
       }
     },
-    "sexHealthFocus": {
-      "cat": {
-        "male": "公貓泌尿道阻塞風險較高，請注意飲水與如廁狀況；結紮後注意體重控制。",
-        "female": "母貓建議適齡結紮以降低乳腺腫瘤等風險；結紮後注意體重控制。"
+    "bodyShapeOptions": {
+      "very_thin": {
+        "label": "很瘦",
+        "description": "肋骨明顯、腰身極凹"
       },
-      "dog": {
-        "male": "公狗未絕育易有前列腺增生，建議絕育；注意泌尿道與體重。",
-        "female": "母狗未絕育易有子宮蓄膿、乳腺腫瘤，建議適齡絕育。"
+      "thin": {
+        "label": "偏瘦",
+        "description": "摸得到肋骨、腰身明顯"
       },
-      "rabbit": {
-        "male": "公兔可考慮絕育以減少噴尿與攻擊行為。",
-        "female": "母兔可考慮絕育以降低子宮病變風險。"
+      "ideal": {
+        "label": "標準",
+        "description": "摸得到肋骨有薄脂肪、有腰身"
       },
-      "hamster": {
-        "male": "黃金鼠公鼠腫瘤較多見，留意皮膚與淋巴結；侏儒鼠注意糖尿病。",
-        "female": "侏儒鼠母鼠糖尿病好發，規律餵食、觀察飲水量。"
+      "heavy": {
+        "label": "偏胖",
+        "description": "摸不太到肋骨、腰身不明顯"
+      },
+      "very_heavy": {
+        "label": "很胖",
+        "description": "摸不到肋骨、無腰身"
       }
     },
-    "neuteredFocus": {
-      "cat": "已結紮：注意體重控制與定期健檢，維持理想體態。",
-      "dog": "已絕育：注意體重控制與關節保健，定期健檢。",
-      "rabbit": "已絕育：注意體重與牙齒健康，定期健檢。",
-      "hamster": "照護重點：規律餵食、觀察飲水量與活動力。"
+    "bodyShapeAdvice": {
+      "very_thin": "可依食慾適量增加飲食，觀察體重變化",
+      "thin": "維持均衡飲食，可稍多一點熱量",
+      "ideal": "維持目前飲食與活動習慣",
+      "heavy": "可稍減零食、增加活動時間",
+      "very_heavy": "建議減少零食、增加互動與散步，有疑慮可諮詢獸醫"
     },
+    "bodyShapeLevel": {
+      "very_thin": 1,
+      "thin": 2,
+      "ideal": 3,
+      "heavy": 4,
+      "very_heavy": 5
+    },
+    "bodyShapePraise": {
+      "very_thin": "一起幫毛孩朝理想體態邁進吧！",
+      "thin": "持續關心體態，毛孩會更健康～",
+      "ideal": "維持得真好！毛孩體態很理想，飼主超棒～",
+      "heavy": "有在注意體態很棒，繼續保持關心～",
+      "very_heavy": "願意了解體態狀況很棒，可以慢慢一起調整～"
+    },
+    "sexOptions": {
+      "male": {
+        "label": "公"
+      },
+      "female": {
+        "label": "母"
+      }
+    },
+    "sexMerModifier": {
+      "male": 1,
+      "female": 0.95
+    }
+  },
+  "sexHealthFocus": {
     "cat": {
-      "name": "貓咪",
-      "emoji": "🐱",
-      "ageConversion": {
-        "幼年期": {
-          "range": [0, 1],
-          "formula": "month * 1.5",
-          "description": "快速成長期"
-        },
-        "青少年期": {
-          "range": [1, 2],
-          "formula": "15 + (year - 1) * 9",
-          "description": "活力旺盛期"
-        },
-        "成年期": {
-          "range": [2, 7],
-          "formula": "24 + (year - 2) * 4",
-          "description": "健康黃金期"
-        },
-        "熟齡期": {
-          "range": [7, 11],
-          "formula": "44 + (year - 7) * 4",
-          "description": "需開始預防保健"
-        },
-        "老年期": {
-          "range": [11, 99],
-          "formula": "60 + (year - 11) * 3",
-          "description": "特別照護期"
-        }
-      },
-      "lifeStages": {
-        "幼年期": {
-          "ageRange": [0, 1],
-          "humanAge": "0-15歲",
-          "comparison": "相當於人類的嬰幼兒到青春期",
-          "checkupFrequency": "每 3 個月健檢一次",
-          "healthTips": [
-            "🍼 建議餵食幼貓專用飼料，營養需求較高",
-            "💉 按時施打疫苗與驅蟲，建立免疫力",
-            "🦷 開始訓練刷牙習慣，預防口腔疾病",
-            "🏃 提供充足活動空間，促進骨骼發育"
-          ],
-          "nutritionFocus": "高蛋白、高熱量，支持快速生長",
-          "commonIssues": ["寄生蟲感染", "消化不良", "疫苗反應"]
-        },
-        "青少年期": {
-          "ageRange": [1, 2],
-          "humanAge": "15-24歲",
-          "comparison": "相當於人類的青壯年期",
-          "checkupFrequency": "每 6 個月健檢一次",
-          "healthTips": [
-            "🏋️ 活動力旺盛，提供足夠玩具與運動空間",
-            "⚖️ 控制體重，避免過度餵食造成肥胖",
-            "🦷 定期口腔檢查，預防牙結石形成",
-            "✂️ 建議進行絕育手術，降低疾病風險"
-          ],
-          "nutritionFocus": "均衡營養，控制熱量避免肥胖",
-          "commonIssues": ["肥胖", "牙結石", "行為問題"]
-        },
-        "成年期": {
-          "ageRange": [2, 7],
-          "humanAge": "24-44歲",
-          "comparison": "相當於人類的壯年期",
-          "checkupFrequency": "每年健檢一次",
-          "healthTips": [
-            "💧 注意飲水量，預防泌尿道與腎臟問題",
-            "⚖️ 維持理想體重，定期量測並記錄",
-            "🦷 每週刷牙 2-3 次，預防口腔疾病",
-            "🏃 保持適度運動，維持肌肉量"
-          ],
-          "nutritionFocus": "維持體態，注重泌尿道保健",
-          "commonIssues": ["泌尿道結石", "肥胖", "牙周病"]
-        },
-        "熟齡期": {
-          "ageRange": [7, 11],
-          "humanAge": "44-60歲",
-          "comparison": "相當於人類的中年期",
-          "checkupFrequency": "每 6 個月健檢一次",
-          "healthTips": [
-            "🩺 每年完整健檢含血檢，早期發現疾病",
-            "💧 加強水分攝取，保護腎臟功能",
-            "🦴 注意關節保健，可補充葡萄糖胺",
-            "👁️ 定期檢查眼睛與牙齒健康"
-          ],
-          "nutritionFocus": "低磷飲食，保護腎臟與關節",
-          "commonIssues": ["慢性腎病", "關節炎", "甲狀腺亢進"]
-        },
-        "老年期": {
-          "ageRange": [11, 99],
-          "humanAge": "60歲以上",
-          "comparison": "相當於人類的老年期",
-          "checkupFrequency": "每 3-4 個月健檢一次",
-          "healthTips": [
-            "🩺 密切監控腎功能、血壓與甲狀腺",
-            "🍲 提供易消化、高營養密度食物",
-            "🛏️ 準備舒適柔軟的睡眠環境",
-            "💊 依獸醫指示服藥，定期回診追蹤"
-          ],
-          "nutritionFocus": "易消化、低磷、高品質蛋白質",
-          "commonIssues": ["慢性腎衰竭", "心臟病", "認知功能退化"]
-        }
-      },
-      "nutritionGuidelines": {
-        "rerFormula": "70 * weight(kg)^0.75",
-        "activityMultipliers": { "very_low": 1.0, "low": 1.1, "moderate": 1.2, "high": 1.35, "very_high": 1.5 },
-        "bodyShapeMultipliers": { "very_thin": 1.1, "thin": 1.05, "ideal": 1, "heavy": 0.95, "very_heavy": 0.9 },
-        "waterMlPerKgMin": 40,
-        "waterMlPerKgMax": 60,
-        "foodCaloriesPer100gDefault": 350,
-        "feedingFrequency": {
-          "幼年期": "每日 3-4 餐",
-          "青少年期": "每日 2-3 餐",
-          "成年期": "每日 2 餐",
-          "熟齡期": "每日 2-3 餐（少量多餐）",
-          "老年期": "每日 3-4 餐（少量多餐）"
-        }
-      },
-      "idealWeight": {
-        "general": {
-          "min": 3,
-          "max": 5,
-          "unit": "kg"
-        }
-      },
-      "commonConditions": [
-        { "id": "kidney", "label": "慢性腎病（貓頭號殺手）", "dietaryNote": "依獸醫指示低磷飲食、濕食與飲水，定期血檢", "tip": "7歲以上建議每年血檢尿檢，飲水充足" },
-        { "id": "fiv", "label": "貓愛滋（FIV）", "dietaryNote": "維持營養、避免生食，依獸醫建議選擇飼料", "tip": "避免與其他貓打架、減少緊迫、室內飼養" },
-        { "id": "diabetes", "label": "糖尿病", "dietaryNote": "依獸醫指示控制碳水與餵食時間", "tip": "規律餵食、監測血糖與體重" },
-        { "id": "hyperthyroid", "label": "甲狀腺亢進", "dietaryNote": "依獸醫指示飲食與用藥（碘限制等）", "tip": "定期複檢甲狀腺與心腎" },
-        { "id": "flutd", "label": "泌尿道／結石（公貓易阻塞）", "dietaryNote": "依獸醫建議處方或低鎂飲食，鼓勵飲水與濕食", "tip": "多喝水、留意如廁，公貓阻塞為急症" },
-        { "id": "heart", "label": "心臟病", "dietaryNote": "依獸醫建議低鈉或處方飲食", "tip": "定期心臟檢查，留意咳嗽與喘" },
-        { "id": "arthritis", "label": "關節炎（熟齡貓常見）", "dietaryNote": "控制體重減輕負擔，可搭配關節保健", "tip": "6歲以上好發，防滑、軟墊" }
-      ]
+      "male": "公貓泌尿道阻塞風險較高，請注意飲水與如廁狀況；結紮後注意體重控制。",
+      "female": "母貓建議適齡結紮以降低乳腺腫瘤等風險；結紮後注意體重控制。"
     },
     "dog": {
-      "name": "狗狗",
-      "emoji": "🐶",
-      "sizeCategories": {
-        "small": {
-          "label": "小型犬",
-          "weightRange": [0, 10],
-          "lifespan": 15,
-          "ageMultiplier": 1.0
-        },
-        "medium": {
-          "label": "中型犬",
-          "weightRange": [10, 25],
-          "lifespan": 13,
-          "ageMultiplier": 1.1
-        },
-        "large": {
-          "label": "大型犬",
-          "weightRange": [25, 40],
-          "lifespan": 11,
-          "ageMultiplier": 1.3
-        },
-        "giant": {
-          "label": "巨型犬",
-          "weightRange": [40, 999],
-          "lifespan": 9,
-          "ageMultiplier": 1.5
-        }
-      },
-      "ageConversion": {
-        "幼年期": {
-          "range": [0, 1],
-          "small": "month * 1.5",
-          "medium": "month * 1.7",
-          "large": "month * 2.0",
-          "giant": "month * 2.5",
-          "description": "快速成長期"
-        },
-        "青少年期": {
-          "range": [1, 2],
-          "small": "15 + (year - 1) * 9",
-          "medium": "17 + (year - 1) * 10",
-          "large": "20 + (year - 1) * 12",
-          "giant": "25 + (year - 1) * 15",
-          "description": "活力旺盛期"
-        },
-        "成年期": {
-          "range": [2, 7],
-          "small": "24 + (year - 2) * 4",
-          "medium": "27 + (year - 2) * 5",
-          "large": "32 + (year - 2) * 6",
-          "giant": "40 + (year - 2) * 7",
-          "description": "健康黃金期"
-        },
-        "熟齡期": {
-          "range": [7, 10],
-          "small": "44 + (year - 7) * 4",
-          "medium": "52 + (year - 7) * 5",
-          "large": "62 + (year - 7) * 6",
-          "giant": "75 + (year - 7) * 7",
-          "description": "需開始預防保健"
-        },
-        "老年期": {
-          "range": [10, 99],
-          "small": "56 + (year - 10) * 3",
-          "medium": "67 + (year - 10) * 4",
-          "large": "80 + (year - 10) * 5",
-          "giant": "96 + (year - 10) * 6",
-          "description": "特別照護期"
-        }
-      },
-      "lifeStages": {
-        "幼年期": {
-          "ageRange": [0, 1],
-          "humanAge": "0-15歲",
-          "comparison": "相當於人類的嬰幼兒到青春期",
-          "checkupFrequency": "每 3 個月健檢一次",
-          "healthTips": [
-            "🍼 餵食幼犬專用飼料，支持骨骼與免疫發育",
-            "💉 完整疫苗接種（8週、12週、16週）",
-            "🦷 準備磨牙玩具，舒緩換牙不適",
-            "🏫 及早社會化訓練，建立良好行為"
-          ],
-          "nutritionFocus": "高蛋白、高鈣質營，促進健康成長",
-          "commonIssues": ["寄生蟲", "腸胃不適", "換牙期不適"]
-        },
-        "青少年期": {
-          "ageRange": [1, 2],
-          "humanAge": "15-24歲",
-          "comparison": "相當於人類的青壯年期",
-          "checkupFrequency": "每 6 個月健檢一次",
-          "healthTips": [
-            "🏃 每日充足運動，消耗旺盛精力",
-            "⚖️ 監控體重變化，避免過度餵食",
-            "🦷 開始刷牙習慣，每週 3-5 次",
-            "✂️ 適齡絕育，降低疾病與行為問題"
-          ],
-          "nutritionFocus": "均衡營養，控制熱量防肥胖",
-          "commonIssues": ["過動", "肥胖傾向", "行為訓練"]
-        },
-        "成年期": {
-          "ageRange": [2, 7],
-          "humanAge": "24-44歲",
-          "comparison": "相當於人類的壯年期",
-          "checkupFrequency": "每年健檢一次",
-          "healthTips": [
-            "🏃 維持規律運動，依體型調整強度",
-            "⚖️ 定期量測體重，維持理想體態",
-            "🦷 每日刷牙或使用潔牙骨",
-            "🦴 大型犬注意關節保健"
-          ],
-          "nutritionFocus": "維持體態，依活動量調整",
-          "commonIssues": ["肥胖", "牙周病", "關節問題（大型犬）"]
-        },
-        "熟齡期": {
-          "ageRange": [7, 10],
-          "humanAge": "44-67歲",
-          "comparison": "相當於人類的中年期",
-          "checkupFrequency": "每 6 個月健檢一次",
-          "healthTips": [
-            "🩺 每年完整健檢含血檢與X光",
-            "🦴 補充關節保健品（葡萄糖胺、軟骨素）",
-            "❤️ 注意心臟功能，避免過度劇烈運動",
-            "👀 定期檢查視力與聽力變化"
-          ],
-          "nutritionFocus": "低脂、護關節配方",
-          "commonIssues": ["關節炎", "心臟病", "白內障"]
-        },
-        "老年期": {
-          "ageRange": [10, 99],
-          "humanAge": "67歲以上",
-          "comparison": "相當於人類的老年期",
-          "checkupFrequency": "每 3-4 個月健檢一次",
-          "healthTips": [
-            "🩺 密切監控心臟、腎臟與肝功能",
-            "🛏️ 提供防滑地墊與軟墊床",
-            "🏃 溫和散步即可，避免劇烈運動",
-            "💊 依獸醫指示用藥，定期追蹤"
-          ],
-          "nutritionFocus": "易消化、高品質蛋白、護腎配方",
-          "commonIssues": ["器官衰退", "認知退化", "行動不便"]
-        }
-      },
-      "nutritionGuidelines": {
-        "rerFormula": "70 * weight(kg)^0.75",
-        "activityMultipliers": { "very_low": 1.2, "low": 1.35, "moderate": 1.6, "high": 1.8, "very_high": 2.0 },
-        "bodyShapeMultipliers": { "very_thin": 1.1, "thin": 1.05, "ideal": 1, "heavy": 0.95, "very_heavy": 0.9 },
-        "waterMlPerKgMin": 60,
-        "waterMlPerKgMax": 80,
-        "foodCaloriesPer100gDefault": 350,
-        "feedingFrequency": {
-          "幼年期": "每日 3-4 餐",
-          "青少年期": "每日 2-3 餐",
-          "成年期": "每日 2 餐",
-          "熟齡期": "每日 2-3 餐",
-          "老年期": "每日 3 餐（少量多餐）"
-        }
-      },
-      "idealWeight": {
-        "small": { "min": 2, "max": 10, "unit": "kg" },
-        "medium": { "min": 10, "max": 25, "unit": "kg" },
-        "large": { "min": 25, "max": 40, "unit": "kg" },
-        "giant": { "min": 40, "max": 70, "unit": "kg" }
-      },
-      "commonConditions": [
-        { "id": "kidney", "label": "慢性腎病", "dietaryNote": "依獸醫指示低磷飲食並注意飲水", "tip": "定期追蹤腎指數與血壓" },
-        { "id": "heart", "label": "心臟病（小型犬瓣膜、大型犬心肌）", "dietaryNote": "依獸醫建議低鈉或處方飲食", "tip": "留意久咳、喘、舌頭發紫，按時服藥" },
-        { "id": "arthritis", "label": "關節炎／髖關節發育不良", "dietaryNote": "控制體重、關節保健配方，依獸醫指示", "tip": "大型犬髖關節好發，防滑、適度活動" },
-        { "id": "diabetes", "label": "糖尿病", "dietaryNote": "依獸醫指示控制碳水與餵食時間", "tip": "規律餵食、監測血糖" },
-        { "id": "trachea", "label": "氣管塌陷（小型犬好發）", "dietaryNote": "維持理想體重，避免項圈拉扯", "tip": "吉娃娃、瑪爾濟斯、博美等好發，減少激動" },
-        { "id": "skin", "label": "皮膚／過敏", "dietaryNote": "依獸醫建議排除過敏原或處方飼料", "tip": "留意搔癢、脫毛、皮屑" }
-      ]
+      "male": "公狗未絕育易有前列腺增生，建議絕育；注意泌尿道與體重。",
+      "female": "母狗未絕育易有子宮蓄膿、乳腺腫瘤，建議適齡絕育。"
     },
     "rabbit": {
-      "name": "兔子",
-      "emoji": "🐰",
-      "ageConversion": {
-        "幼年期": {
-          "range": [0, 0.5],
-          "formula": "month * 2",
-          "description": "快速成長期"
-        },
-        "青少年期": {
-          "range": [0.5, 1],
-          "formula": "12 + (year - 0.5) * 16",
-          "description": "性成熟期"
-        },
-        "成年期": {
-          "range": [1, 5],
-          "formula": "28 + (year - 1) * 6",
-          "description": "健康黃金期"
-        },
-        "熟齡期": {
-          "range": [5, 8],
-          "formula": "52 + (year - 5) * 5",
-          "description": "需開始預防保健"
-        },
-        "老年期": {
-          "range": [8, 99],
-          "formula": "67 + (year - 8) * 4",
-          "description": "特別照護期"
-        }
-      },
-      "lifeStages": {
-        "幼年期": {
-          "ageRange": [0, 0.5],
-          "humanAge": "0-12歲",
-          "comparison": "相當於人類的嬰幼兒期",
-          "checkupFrequency": "每 2 個月健檢一次",
-          "healthTips": [
-            "🥬 提供苜蓿草補充鈣質與蛋白質",
-            "🌾 無限量提供提摩西草，促進腸道健康",
-            "💉 施打兔出血症、兔黏液瘤疫苗",
-            "🏠 準備安全活動空間，避免誤食"
-          ],
-          "nutritionFocus": "高纖維、高鈣質，支持骨骼發育",
-          "commonIssues": ["腸胃停滯", "寄生蟲", "牙齒問題"]
-        },
-        "青少年期": {
-          "ageRange": [0.5, 1],
-          "humanAge": "12-28歲",
-          "comparison": "相當於人類的青春期",
-          "checkupFrequency": "每 4 個月健檢一次",
-          "healthTips": [
-            "✂️ 建議 6 個月後絕育，避免生殖疾病",
-            "🌾 逐漸減少苜蓿草，改以提摩西草為主",
-            "🦷 提供磨牙木，預防牙齒過長",
-            "🏃 每日至少 3 小時籠外活動"
-          ],
-          "nutritionFocus": "轉換成年飼料，控制鈣質攝取",
-          "commonIssues": ["領域行為", "牙齒過長", "肥胖"]
-        },
-        "成年期": {
-          "ageRange": [1, 5],
-          "humanAge": "28-52歲",
-          "comparison": "相當於人類的壯年期",
-          "checkupFrequency": "每年健檢一次",
-          "healthTips": [
-            "🌾 無限量提摩西草 + 定量飼料",
-            "🥬 每日提供新鮮蔬菜（體重 2kg 約一杯量）",
-            "⚖️ 定期量測體重，避免肥胖",
-            "🦷 每月檢查牙齒與指甲長度"
-          ],
-          "nutritionFocus": "高纖維、低鈣、控制體重",
-          "commonIssues": ["毛球症", "肥胖", "泌尿道結石"]
-        },
-        "熟齡期": {
-          "ageRange": [5, 8],
-          "humanAge": "52-67歲",
-          "comparison": "相當於人類的中年期",
-          "checkupFrequency": "每 6 個月健檢一次",
-          "healthTips": [
-            "🩺 定期健檢含血檢與 X 光",
-            "🦴 注意關節炎徵兆，提供軟墊",
-            "🦷 密切注意牙齒健康與咬合",
-            "💊 可補充關節保健品"
-          ],
-          "nutritionFocus": "易消化、低鈣、護關節",
-          "commonIssues": ["關節炎", "牙齒問題", "白內障"]
-        },
-        "老年期": {
-          "ageRange": [8, 99],
-          "humanAge": "67歲以上",
-          "comparison": "相當於人類的老年期",
-          "checkupFrequency": "每 3-4 個月健檢一次",
-          "healthTips": [
-            "🩺 密切監控腎功能與心臟健康",
-            "🛏️ 提供低矮易進出的便盆與水盆",
-            "🌾 提供較軟的草料，方便咀嚼",
-            "💊 依獸醫指示補充營養品"
-          ],
-          "nutritionFocus": "柔軟易消化、高品質纖維",
-          "commonIssues": ["器官衰退", "行動不便", "食慾下降"]
-        }
-      },
-      "nutritionGuidelines": {
-        "caloriesPerKgMin": 80,
-        "caloriesPerKgMax": 120,
-        "waterMlPerKgMin": 80,
-        "waterMlPerKgMax": 100,
-        "foodCaloriesPer100gDefault": 300,
-        "hayIntake": {
-          "description": "無限量供應提摩西草（成兔）",
-          "pellets": "每日飼料量：體重 2% (20-40g/kg)"
-        },
-        "feedingFrequency": {
-          "幼年期": "無限量苜蓿草 + 定量飼料",
-          "青少年期": "無限量提摩西草 + 減量飼料",
-          "成年期": "無限量提摩西草 + 定量飼料（每日1-2次）",
-          "熟齡期": "無限量提摩西草 + 少量飼料",
-          "老年期": "柔軟草料 + 易消化食物（少量多餐）"
-        }
-      },
-      "idealWeight": {
-        "general": {
-          "min": 1.5,
-          "max": 3.5,
-          "unit": "kg",
-          "note": "依品種差異大，荷蘭侏儒兔約 1kg，紐西蘭兔可達 5kg"
-        }
-      },
-      "commonConditions": [
-        { "id": "teeth", "label": "咬合不正／牙齒過長（兔最常見）", "dietaryNote": "無限量提摩西草磨牙，依獸醫建議草料與飼料", "tip": "荷蘭侏儒兔等短顎品種風險高，定期檢查" },
-        { "id": "gi_stasis", "label": "腸胃停滯／毛球症", "dietaryNote": "高纖維牧草、充足飲水，依獸醫指示", "tip": "食慾下降、排便減少為警訊，盡速就醫" },
-        { "id": "bladder", "label": "泌尿道／結石", "dietaryNote": "依獸醫建議低鈣或處方飲食，每日飲水50–100ml/kg", "tip": "多喝水、留意排尿量" },
-        { "id": "ecuniculi", "label": "歪頭症／E. cuniculi", "dietaryNote": "依獸醫指示用藥與支持照護", "tip": "神經症狀、白內障等，及早治療" },
-        { "id": "pasteurella", "label": "巴斯德桿菌／呼吸道", "dietaryNote": "維持營養與食慾，依獸醫用藥", "tip": "打噴嚏、鼻分泌物、肺炎，環境通風" }
-      ]
+      "male": "公兔可考慮絕育以減少噴尿與攻擊行為。",
+      "female": "母兔可考慮絕育以降低子宮病變風險。"
     },
     "hamster": {
-      "name": "倉鼠",
-      "emoji": "🐹",
-      "breeds": {
-        "syrian": {
-          "label": "黃金鼠",
-          "scientific": "Mesocricetus auratus",
-          "commonNames": ["金絲熊", "熊鼠"],
-          "sexualMaturity": 2.0,
-          "medianLifespan": 30,
-          "seniorThreshold": 21,
-          "lifespanRange": "2-3 年"
-        },
-        "winter_white": {
-          "label": "三線鼠/冬白",
-          "scientific": "Phodopus sungorus",
-          "commonNames": ["加卡利亞倉鼠", "銀狐", "布丁"],
-          "sexualMaturity": 2.0,
-          "medianLifespan": 27,
-          "seniorThreshold": 18,
-          "lifespanRange": "2-2.5 年"
-        },
-        "campbell": {
-          "label": "一線鼠",
-          "scientific": "Phodopus campbelli",
-          "commonNames": ["坎貝爾倉鼠"],
-          "sexualMaturity": 2.0,
-          "medianLifespan": 27,
-          "seniorThreshold": 18,
-          "lifespanRange": "2-2.5 年"
-        },
-        "roborovski": {
-          "label": "老公公鼠",
-          "scientific": "Phodopus roborovskii",
-          "commonNames": ["羅伯羅夫斯基倉鼠", "羅波鼠"],
-          "sexualMaturity": 2.0,
-          "medianLifespan": 26,
-          "seniorThreshold": 15,
-          "lifespanRange": "1.5-3.5 年"
-        }
-      },
-      "ageConversion": {
-        "幼年期": {
-          "range": [0, 0.03],
-          "description": "幼鼠期（離乳前）"
-        },
-        "青年期": {
-          "range": [0.03, 0.16],
-          "description": "青年期（性成熟前）"
-        },
-        "成年期": {
-          "range": [0.16, 0.7],
-          "description": "成年黃金期"
-        },
-        "老年期": {
-          "range": [0.7, 99],
-          "description": "高齡特別照護期"
-        }
-      },
-      "lifeStages": {
-        "幼年期": {
-          "ageRange": [0, 1],
-          "humanAge": "0-8歲",
-          "comparison": "相當於人類的嬰幼兒期",
-          "checkupFrequency": "每月觀察健康狀況",
-          "healthTips": [
-            "🍼 提供幼鼠專用飼料（高蛋白），確保離乳順利",
-            "🏠 準備安全溫暖的窩，避免緊迫與低溫",
-            "🌾 無限量提供乾淨墊料與新鮮飲水",
-            "🚫 避免過度打擾，建立初步信任關係"
-          ],
-          "nutritionFocus": "高蛋白、高熱量，支持快速成長",
-          "commonIssues": ["緊迫", "腹瀉", "環境不適應"]
-        },
-        "青年期": {
-          "ageRange": [1, 2],
-          "humanAge": "8-15歲",
-          "comparison": "相當於人類的青春期",
-          "checkupFrequency": "每 2 個月觀察",
-          "healthTips": [
-            "🏃 提供符合尺寸的滾輪，消耗旺盛精力",
-            "🌰 適量提供堅果（每週 1-2 次），補充健康脂肪",
-            "🧼 定期更換部分墊料，保持環境乾淨乾燥",
-            "⚖️ 開始建立體重記錄，監控成長發育"
-          ],
-          "nutritionFocus": "均衡飲食，避免過早提供過多高脂點心",
-          "commonIssues": ["領域行為", "活動量極大"]
-        },
-        "成年期": {
-          "ageRange": [2, 18],
-          "humanAge": "15-55歲",
-          "comparison": "相當於人類的壯年期",
-          "checkupFrequency": "每 3 個月觀察",
-          "healthTips": [
-            "⚖️ 定期量測體重，避免肥胖引發疾病",
-            "🏃 確保每日有足夠運動，滾輪需運轉順暢",
-            "🦷 提供磨牙木與乾燥食物，預防牙齒過長",
-            "🌡️ 維持環境恆溫（20-24°C），預防感冒"
-          ],
-          "nutritionFocus": "維持體態，依據活動量微調給食量",
-          "commonIssues": ["肥胖", "腫瘤預防", "指甲過長"]
-        },
-        "老年期": {
-          "ageRange": [18, 99],
-          "humanAge": "55歲以上",
-          "comparison": "相當於人類的老年期",
-          "checkupFrequency": "每週密切觀察",
-          "healthTips": [
-            "🛏️ 提供低矮易取食的食盆，減少關節負擔",
-            "🌡️ 保持環境溫暖穩定，老年倉鼠耐寒力較弱",
-            "🍲 若牙口不佳，提供泡軟或碎細的易消化食物",
-            "💊 觀察活動力、食慾及排泄，如有異常立即就醫"
-          ],
-          "nutritionFocus": "高品質易消化蛋白，少量多餐",
-          "commonIssues": ["器官衰退", "白內障", "食慾下降"]
-        }
-      },
-      "nutritionGuidelines": {
-        "dailyCaloriesMin": 30,
-        "dailyCaloriesMax": 45,
-        "waterMlMin": 10,
-        "waterMlMax": 20,
-        "foodGramsMin": 10,
-        "foodGramsMax": 15,
-        "feedingFrequency": {
-          "幼年期": "每日 1 次（晚間餵食）",
-          "青年期": "每日 1 次",
-          "成年期": "每日 1 次",
-          "熟齡期": "每日 1-2 次（少量）",
-          "老年期": "每日 2 次（少量多餐）"
-        }
-      },
-      "idealWeight": {
-        "general": {
-          "min": 30,
-          "max": 50,
-          "unit": "g",
-          "note": "黃金鼠約 120-200g，侏儒鼠約 30-50g"
-        }
-      },
-      "commonConditions": [
-        { "id": "wet_tail", "label": "濕尾（幼鼠／黃金鼠，緊迫性腹瀉）", "dietaryNote": "就醫抗生素與補液，減少緊迫與環境變動", "tip": "幼鼠多見，腹瀉、嗜睡為警訊，盡速就醫" },
-        { "id": "diabetes", "label": "糖尿病（侏儒鼠好發）", "dietaryNote": "依獸醫指示控制糖分與餵食，避免高糖點心", "tip": "坎貝爾／一線鼠好發，規律餵食、觀察飲水量" },
-        { "id": "tumor", "label": "腫瘤／淋巴瘤（經獸醫診斷）", "dietaryNote": "依獸醫建議維持營養與食慾", "tip": "黃金鼠公鼠黑色素瘤較多，侏儒鼠淋巴瘤常見" },
-        { "id": "diarrhea", "label": "腹瀉／Tyzzer或寄生蟲", "dietaryNote": "就醫診治，維持飲水與易消化食物", "tip": "成鼠腹瀉可能為細菌或寄生蟲，勿拖延" }
-      ]
-    },
-    "metadata": {
-      "version": "1.2.0",
-      "lastUpdated": "2026-01-31",
-      "disclaimer": "本資料僅供參考，不能取代專業獸醫診斷。如有健康疑慮，請儘速就醫。",
-      "sources": [
-        "WSAVA Global Nutrition Guidelines (犬貓營養)",
-        "Pet Nutrition Alliance / AAHA - RER = 70×體重^0.75, MER 活動係數",
-        "Purina Institute - Maintenance Energy Requirement (MER) 計算",
-        "Hills Pet - 犬貓每日飲水量建議 (犬 60–80 ml/kg, 貓 40–60 ml/kg)",
-        "Merck Veterinary Manual - 兔、倉鼠生理與飼養",
-        "ADW (Animal Diversity Web) - 倉鼠物種資料",
-        "愛鼠協會 (台灣) - 倉鼠照護建議",
-        "台灣常見飼養環境與單位 (公斤、毫升、kcal)"
-      ],
-      "note": "熱量與飲水為參考區間，個體差異大，實際請依獸醫或營養師建議調整。"
+      "male": "黃金鼠公鼠腫瘤較多見，留意皮膚與淋巴結；侏儒鼠注意糖尿病。",
+      "female": "侏儒鼠母鼠糖尿病好發，規律餵食、觀察飲水量。"
     }
+  },
+  "neuteredFocus": {
+    "cat": "已結紮：注意體重控制與定期健檢，維持理想體態。",
+    "dog": "已絕育：注意體重控制與關節保健，定期健檢。",
+    "rabbit": "已絕育：注意體重與牙齒健康，定期健檢。",
+    "hamster": "照護重點：規律餵食、觀察飲水量與活動力。"
+  },
+  "cat": {
+    "name": "貓咪",
+    "emoji": "🐱",
+    "ageConversion": {
+      "幼年期": {
+        "range": [
+          0,
+          1
+        ],
+        "formula": "month * 1.5",
+        "description": "快速成長期"
+      },
+      "青少年期": {
+        "range": [
+          1,
+          2
+        ],
+        "formula": "15 + (year - 1) * 9",
+        "description": "活力旺盛期"
+      },
+      "成年期": {
+        "range": [
+          2,
+          7
+        ],
+        "formula": "24 + (year - 2) * 4",
+        "description": "健康黃金期"
+      },
+      "熟齡期": {
+        "range": [
+          7,
+          11
+        ],
+        "formula": "44 + (year - 7) * 4",
+        "description": "需開始預防保健"
+      },
+      "老年期": {
+        "range": [
+          11,
+          99
+        ],
+        "formula": "60 + (year - 11) * 3",
+        "description": "特別照護期"
+      }
+    },
+    "lifeStages": {
+      "幼年期": {
+        "ageRange": [
+          0,
+          1
+        ],
+        "humanAge": "0-15歲",
+        "comparison": "相當於人類的嬰幼兒到青春期",
+        "checkupFrequency": "每 3 個月健檢一次",
+        "healthTips": [
+          "🍼 建議餵食幼貓專用飼料，營養需求較高",
+          "💉 按時施打疫苗與驅蟲，建立免疫力",
+          "🦷 開始訓練刷牙習慣，預防口腔疾病",
+          "🏃 提供充足活動空間，促進骨骼發育"
+        ],
+        "nutritionFocus": "高蛋白、高熱量，支持快速生長",
+        "commonIssues": [
+          "寄生蟲感染",
+          "消化不良",
+          "疫苗反應"
+        ]
+      },
+      "青少年期": {
+        "ageRange": [
+          1,
+          2
+        ],
+        "humanAge": "15-24歲",
+        "comparison": "相當於人類的青壯年期",
+        "checkupFrequency": "每 6 個月健檢一次",
+        "healthTips": [
+          "🏋️ 活動力旺盛，提供足夠玩具與運動空間",
+          "⚖️ 控制體重，避免過度餵食造成肥胖",
+          "🦷 定期口腔檢查，預防牙結石形成",
+          "✂️ 建議進行絕育手術，降低疾病風險"
+        ],
+        "nutritionFocus": "均衡營養，控制熱量避免肥胖",
+        "commonIssues": [
+          "肥胖",
+          "牙結石",
+          "行為問題"
+        ]
+      },
+      "成年期": {
+        "ageRange": [
+          2,
+          7
+        ],
+        "humanAge": "24-44歲",
+        "comparison": "相當於人類的壯年期",
+        "checkupFrequency": "每年健檢一次",
+        "healthTips": [
+          "💧 注意飲水量，預防泌尿道與腎臟問題",
+          "⚖️ 維持理想體重，定期量測並記錄",
+          "🦷 每週刷牙 2-3 次，預防口腔疾病",
+          "🏃 保持適度運動，維持肌肉量"
+        ],
+        "nutritionFocus": "維持體態，注重泌尿道保健",
+        "commonIssues": [
+          "泌尿道結石",
+          "肥胖",
+          "牙周病"
+        ]
+      },
+      "熟齡期": {
+        "ageRange": [
+          7,
+          11
+        ],
+        "humanAge": "44-60歲",
+        "comparison": "相當於人類的中年期",
+        "checkupFrequency": "每 6 個月健檢一次",
+        "healthTips": [
+          "🩺 每年完整健檢含血檢，早期發現疾病",
+          "💧 加強水分攝取，保護腎臟功能",
+          "🦴 注意關節保健，可補充葡萄糖胺",
+          "👁️ 定期檢查眼睛與牙齒健康"
+        ],
+        "nutritionFocus": "低磷飲食，保護腎臟與關節",
+        "commonIssues": [
+          "慢性腎病",
+          "關節炎",
+          "甲狀腺亢進"
+        ]
+      },
+      "老年期": {
+        "ageRange": [
+          11,
+          99
+        ],
+        "humanAge": "60歲以上",
+        "comparison": "相當於人類的老年期",
+        "checkupFrequency": "每 3-4 個月健檢一次",
+        "healthTips": [
+          "🩺 密切監控腎功能、血壓與甲狀腺",
+          "🍲 提供易消化、高營養密度食物",
+          "🛏️ 準備舒適柔軟的睡眠環境",
+          "💊 依獸醫指示服藥，定期回診追蹤"
+        ],
+        "nutritionFocus": "易消化、低磷、高品質蛋白質",
+        "commonIssues": [
+          "慢性腎衰竭",
+          "心臟病",
+          "認知功能退化"
+        ]
+      }
+    },
+    "nutritionGuidelines": {
+      "rerFormula": "70 * weight(kg)^0.75",
+      "activityMultipliers": {
+        "very_low": 1.0,
+        "low": 1.1,
+        "moderate": 1.2,
+        "high": 1.35,
+        "very_high": 1.5
+      },
+      "bodyShapeMultipliers": {
+        "very_thin": 1.1,
+        "thin": 1.05,
+        "ideal": 1,
+        "heavy": 0.95,
+        "very_heavy": 0.9
+      },
+      "waterMlPerKgMin": 40,
+      "waterMlPerKgMax": 60,
+      "foodCaloriesPer100gDefault": 350,
+      "feedingFrequency": {
+        "幼年期": "每日 3-4 餐",
+        "青少年期": "每日 2-3 餐",
+        "成年期": "每日 2 餐",
+        "熟齡期": "每日 2-3 餐（少量多餐）",
+        "老年期": "每日 3-4 餐（少量多餐）"
+      }
+    },
+    "idealWeight": {
+      "general": {
+        "min": 3,
+        "max": 5,
+        "unit": "kg"
+      }
+    },
+    "commonConditions": [
+      {
+        "id": "kidney",
+        "label": "慢性腎病（貓頭號殺手）",
+        "dietaryNote": "依獸醫指示低磷飲食、濕食與飲水，定期血檢",
+        "tip": "7歲以上建議每年血檢尿檢，飲水充足"
+      },
+      {
+        "id": "fiv",
+        "label": "貓愛滋（FIV）",
+        "dietaryNote": "維持營養、避免生食，依獸醫建議選擇飼料",
+        "tip": "避免與其他貓打架、減少緊迫、室內飼養"
+      },
+      {
+        "id": "diabetes",
+        "label": "糖尿病",
+        "dietaryNote": "依獸醫指示控制碳水與餵食時間",
+        "tip": "規律餵食、監測血糖與體重"
+      },
+      {
+        "id": "hyperthyroid",
+        "label": "甲狀腺亢進",
+        "dietaryNote": "依獸醫指示飲食與用藥（碘限制等）",
+        "tip": "定期複檢甲狀腺與心腎"
+      },
+      {
+        "id": "flutd",
+        "label": "泌尿道／結石（公貓易阻塞）",
+        "dietaryNote": "依獸醫建議處方或低鎂飲食，鼓勵飲水與濕食",
+        "tip": "多喝水、留意如廁，公貓阻塞為急症"
+      },
+      {
+        "id": "heart",
+        "label": "心臟病",
+        "dietaryNote": "依獸醫建議低鈉或處方飲食",
+        "tip": "定期心臟檢查，留意咳嗽與喘"
+      },
+      {
+        "id": "arthritis",
+        "label": "關節炎（熟齡貓常見）",
+        "dietaryNote": "控制體重減輕負擔，可搭配關節保健",
+        "tip": "6歲以上好發，防滑、軟墊"
+      }
+    ]
+  },
+  "dog": {
+    "name": "狗狗",
+    "emoji": "🐶",
+    "sizeCategories": {
+      "small": {
+        "label": "小型犬",
+        "weightRange": [
+          0,
+          10
+        ],
+        "lifespan": 15,
+        "ageMultiplier": 1.0
+      },
+      "medium": {
+        "label": "中型犬",
+        "weightRange": [
+          10,
+          25
+        ],
+        "lifespan": 13,
+        "ageMultiplier": 1.1
+      },
+      "large": {
+        "label": "大型犬",
+        "weightRange": [
+          25,
+          40
+        ],
+        "lifespan": 11,
+        "ageMultiplier": 1.3
+      },
+      "giant": {
+        "label": "巨型犬",
+        "weightRange": [
+          40,
+          999
+        ],
+        "lifespan": 9,
+        "ageMultiplier": 1.5
+      }
+    },
+    "ageConversion": {
+      "幼年期": {
+        "range": [
+          0,
+          1
+        ],
+        "small": "month * 1.5",
+        "medium": "month * 1.7",
+        "large": "month * 2.0",
+        "giant": "month * 2.5",
+        "description": "快速成長期"
+      },
+      "青少年期": {
+        "range": [
+          1,
+          2
+        ],
+        "small": "15 + (year - 1) * 9",
+        "medium": "17 + (year - 1) * 10",
+        "large": "20 + (year - 1) * 12",
+        "giant": "25 + (year - 1) * 15",
+        "description": "活力旺盛期"
+      },
+      "成年期": {
+        "range": [
+          2,
+          7
+        ],
+        "small": "24 + (year - 2) * 4",
+        "medium": "27 + (year - 2) * 5",
+        "large": "32 + (year - 2) * 6",
+        "giant": "40 + (year - 2) * 7",
+        "description": "健康黃金期"
+      },
+      "熟齡期": {
+        "range": [
+          7,
+          10
+        ],
+        "small": "44 + (year - 7) * 4",
+        "medium": "52 + (year - 7) * 5",
+        "large": "62 + (year - 7) * 6",
+        "giant": "75 + (year - 7) * 7",
+        "description": "需開始預防保健"
+      },
+      "老年期": {
+        "range": [
+          10,
+          99
+        ],
+        "small": "56 + (year - 10) * 3",
+        "medium": "67 + (year - 10) * 4",
+        "large": "80 + (year - 10) * 5",
+        "giant": "96 + (year - 10) * 6",
+        "description": "特別照護期"
+      }
+    },
+    "lifeStages": {
+      "幼年期": {
+        "ageRange": [
+          0,
+          1
+        ],
+        "humanAge": "0-15歲",
+        "comparison": "相當於人類的嬰幼兒到青春期",
+        "checkupFrequency": "每 3 個月健檢一次",
+        "healthTips": [
+          "🍼 餵食幼犬專用飼料，支持骨骼與免疫發育",
+          "💉 完整疫苗接種（8週、12週、16週）",
+          "🦷 準備磨牙玩具，舒緩換牙不適",
+          "🏫 及早社會化訓練，建立良好行為"
+        ],
+        "nutritionFocus": "高蛋白、高鈣質營，促進健康成長",
+        "commonIssues": [
+          "寄生蟲",
+          "腸胃不適",
+          "換牙期不適"
+        ]
+      },
+      "青少年期": {
+        "ageRange": [
+          1,
+          2
+        ],
+        "humanAge": "15-24歲",
+        "comparison": "相當於人類的青壯年期",
+        "checkupFrequency": "每 6 個月健檢一次",
+        "healthTips": [
+          "🏃 每日充足運動，消耗旺盛精力",
+          "⚖️ 監控體重變化，避免過度餵食",
+          "🦷 開始刷牙習慣，每週 3-5 次",
+          "✂️ 適齡絕育，降低疾病與行為問題"
+        ],
+        "nutritionFocus": "均衡營養，控制熱量防肥胖",
+        "commonIssues": [
+          "過動",
+          "肥胖傾向",
+          "行為訓練"
+        ]
+      },
+      "成年期": {
+        "ageRange": [
+          2,
+          7
+        ],
+        "humanAge": "24-44歲",
+        "comparison": "相當於人類的壯年期",
+        "checkupFrequency": "每年健檢一次",
+        "healthTips": [
+          "🏃 維持規律運動，依體型調整強度",
+          "⚖️ 定期量測體重，維持理想體態",
+          "🦷 每日刷牙或使用潔牙骨",
+          "🦴 大型犬注意關節保健"
+        ],
+        "nutritionFocus": "維持體態，依活動量調整",
+        "commonIssues": [
+          "肥胖",
+          "牙周病",
+          "關節問題（大型犬）"
+        ]
+      },
+      "熟齡期": {
+        "ageRange": [
+          7,
+          10
+        ],
+        "humanAge": "44-67歲",
+        "comparison": "相當於人類的中年期",
+        "checkupFrequency": "每 6 個月健檢一次",
+        "healthTips": [
+          "🩺 每年完整健檢含血檢與X光",
+          "🦴 補充關節保健品（葡萄糖胺、軟骨素）",
+          "❤️ 注意心臟功能，避免過度劇烈運動",
+          "👀 定期檢查視力與聽力變化"
+        ],
+        "nutritionFocus": "低脂、護關節配方",
+        "commonIssues": [
+          "關節炎",
+          "心臟病",
+          "白內障"
+        ]
+      },
+      "老年期": {
+        "ageRange": [
+          10,
+          99
+        ],
+        "humanAge": "67歲以上",
+        "comparison": "相當於人類的老年期",
+        "checkupFrequency": "每 3-4 個月健檢一次",
+        "healthTips": [
+          "🩺 密切監控心臟、腎臟與肝功能",
+          "🛏️ 提供防滑地墊與軟墊床",
+          "🏃 溫和散步即可，避免劇烈運動",
+          "💊 依獸醫指示用藥，定期追蹤"
+        ],
+        "nutritionFocus": "易消化、高品質蛋白、護腎配方",
+        "commonIssues": [
+          "器官衰退",
+          "認知退化",
+          "行動不便"
+        ]
+      }
+    },
+    "nutritionGuidelines": {
+      "rerFormula": "70 * weight(kg)^0.75",
+      "activityMultipliers": {
+        "very_low": 1.2,
+        "low": 1.35,
+        "moderate": 1.6,
+        "high": 1.8,
+        "very_high": 2.0
+      },
+      "bodyShapeMultipliers": {
+        "very_thin": 1.1,
+        "thin": 1.05,
+        "ideal": 1,
+        "heavy": 0.95,
+        "very_heavy": 0.9
+      },
+      "waterMlPerKgMin": 60,
+      "waterMlPerKgMax": 80,
+      "foodCaloriesPer100gDefault": 350,
+      "feedingFrequency": {
+        "幼年期": "每日 3-4 餐",
+        "青少年期": "每日 2-3 餐",
+        "成年期": "每日 2 餐",
+        "熟齡期": "每日 2-3 餐",
+        "老年期": "每日 3 餐（少量多餐）"
+      }
+    },
+    "idealWeight": {
+      "small": {
+        "min": 2,
+        "max": 10,
+        "unit": "kg"
+      },
+      "medium": {
+        "min": 10,
+        "max": 25,
+        "unit": "kg"
+      },
+      "large": {
+        "min": 25,
+        "max": 40,
+        "unit": "kg"
+      },
+      "giant": {
+        "min": 40,
+        "max": 70,
+        "unit": "kg"
+      }
+    },
+    "commonConditions": [
+      {
+        "id": "kidney",
+        "label": "慢性腎病",
+        "dietaryNote": "依獸醫指示低磷飲食並注意飲水",
+        "tip": "定期追蹤腎指數與血壓"
+      },
+      {
+        "id": "heart",
+        "label": "心臟病（小型犬瓣膜、大型犬心肌）",
+        "dietaryNote": "依獸醫建議低鈉或處方飲食",
+        "tip": "留意久咳、喘、舌頭發紫，按時服藥"
+      },
+      {
+        "id": "arthritis",
+        "label": "關節炎／髖關節發育不良",
+        "dietaryNote": "控制體重、關節保健配方，依獸醫指示",
+        "tip": "大型犬髖關節好發，防滑、適度活動"
+      },
+      {
+        "id": "diabetes",
+        "label": "糖尿病",
+        "dietaryNote": "依獸醫指示控制碳水與餵食時間",
+        "tip": "規律餵食、監測血糖"
+      },
+      {
+        "id": "trachea",
+        "label": "氣管塌陷（小型犬好發）",
+        "dietaryNote": "維持理想體重，避免項圈拉扯",
+        "tip": "吉娃娃、瑪爾濟斯、博美等好發，減少激動"
+      },
+      {
+        "id": "skin",
+        "label": "皮膚／過敏",
+        "dietaryNote": "依獸醫建議排除過敏原或處方飼料",
+        "tip": "留意搔癢、脫毛、皮屑"
+      }
+    ]
+  },
+  "rabbit": {
+    "name": "兔子",
+    "emoji": "🐰",
+    "ageConversion": {
+      "幼年期": {
+        "range": [
+          0,
+          0.5
+        ],
+        "formula": "month * 2",
+        "description": "快速成長期"
+      },
+      "青少年期": {
+        "range": [
+          0.5,
+          1
+        ],
+        "formula": "12 + (year - 0.5) * 16",
+        "description": "性成熟期"
+      },
+      "成年期": {
+        "range": [
+          1,
+          5
+        ],
+        "formula": "28 + (year - 1) * 6",
+        "description": "健康黃金期"
+      },
+      "熟齡期": {
+        "range": [
+          5,
+          8
+        ],
+        "formula": "52 + (year - 5) * 5",
+        "description": "需開始預防保健"
+      },
+      "老年期": {
+        "range": [
+          8,
+          99
+        ],
+        "formula": "67 + (year - 8) * 4",
+        "description": "特別照護期"
+      }
+    },
+    "lifeStages": {
+      "幼年期": {
+        "ageRange": [
+          0,
+          0.5
+        ],
+        "humanAge": "0-12歲",
+        "comparison": "相當於人類的嬰幼兒期",
+        "checkupFrequency": "每 2 個月健檢一次",
+        "healthTips": [
+          "🥬 提供苜蓿草補充鈣質與蛋白質",
+          "🌾 無限量提供提摩西草，促進腸道健康",
+          "💉 施打兔出血症、兔黏液瘤疫苗",
+          "🏠 準備安全活動空間，避免誤食"
+        ],
+        "nutritionFocus": "高纖維、高鈣質，支持骨骼發育",
+        "commonIssues": [
+          "腸胃停滯",
+          "寄生蟲",
+          "牙齒問題"
+        ]
+      },
+      "青少年期": {
+        "ageRange": [
+          0.5,
+          1
+        ],
+        "humanAge": "12-28歲",
+        "comparison": "相當於人類的青春期",
+        "checkupFrequency": "每 4 個月健檢一次",
+        "healthTips": [
+          "✂️ 建議 6 個月後絕育，避免生殖疾病",
+          "🌾 逐漸減少苜蓿草，改以提摩西草為主",
+          "🦷 提供磨牙木，預防牙齒過長",
+          "🏃 每日至少 3 小時籠外活動"
+        ],
+        "nutritionFocus": "轉換成年飼料，控制鈣質攝取",
+        "commonIssues": [
+          "領域行為",
+          "牙齒過長",
+          "肥胖"
+        ]
+      },
+      "成年期": {
+        "ageRange": [
+          1,
+          5
+        ],
+        "humanAge": "28-52歲",
+        "comparison": "相當於人類的壯年期",
+        "checkupFrequency": "每年健檢一次",
+        "healthTips": [
+          "🌾 無限量提摩西草 + 定量飼料",
+          "🥬 每日提供新鮮蔬菜（體重 2kg 約一杯量）",
+          "⚖️ 定期量測體重，避免肥胖",
+          "🦷 每月檢查牙齒與指甲長度"
+        ],
+        "nutritionFocus": "高纖維、低鈣、控制體重",
+        "commonIssues": [
+          "毛球症",
+          "肥胖",
+          "泌尿道結石"
+        ]
+      },
+      "熟齡期": {
+        "ageRange": [
+          5,
+          8
+        ],
+        "humanAge": "52-67歲",
+        "comparison": "相當於人類的中年期",
+        "checkupFrequency": "每 6 個月健檢一次",
+        "healthTips": [
+          "🩺 定期健檢含血檢與 X 光",
+          "🦴 注意關節炎徵兆，提供軟墊",
+          "🦷 密切注意牙齒健康與咬合",
+          "💊 可補充關節保健品"
+        ],
+        "nutritionFocus": "易消化、低鈣、護關節",
+        "commonIssues": [
+          "關節炎",
+          "牙齒問題",
+          "白內障"
+        ]
+      },
+      "老年期": {
+        "ageRange": [
+          8,
+          99
+        ],
+        "humanAge": "67歲以上",
+        "comparison": "相當於人類的老年期",
+        "checkupFrequency": "每 3-4 個月健檢一次",
+        "healthTips": [
+          "🩺 密切監控腎功能與心臟健康",
+          "🛏️ 提供低矮易進出的便盆與水盆",
+          "🌾 提供較軟的草料，方便咀嚼",
+          "💊 依獸醫指示補充營養品"
+        ],
+        "nutritionFocus": "柔軟易消化、高品質纖維",
+        "commonIssues": [
+          "器官衰退",
+          "行動不便",
+          "食慾下降"
+        ]
+      }
+    },
+    "nutritionGuidelines": {
+      "caloriesPerKgMin": 80,
+      "caloriesPerKgMax": 120,
+      "waterMlPerKgMin": 80,
+      "waterMlPerKgMax": 100,
+      "foodCaloriesPer100gDefault": 300,
+      "hayIntake": {
+        "description": "無限量供應提摩西草（成兔）",
+        "pellets": "每日飼料量：體重 2% (20-40g/kg)"
+      },
+      "feedingFrequency": {
+        "幼年期": "無限量苜蓿草 + 定量飼料",
+        "青少年期": "無限量提摩西草 + 減量飼料",
+        "成年期": "無限量提摩西草 + 定量飼料（每日1-2次）",
+        "熟齡期": "無限量提摩西草 + 少量飼料",
+        "老年期": "柔軟草料 + 易消化食物（少量多餐）"
+      }
+    },
+    "idealWeight": {
+      "general": {
+        "min": 1.5,
+        "max": 3.5,
+        "unit": "kg",
+        "note": "依品種差異大，荷蘭侏儒兔約 1kg，紐西蘭兔可達 5kg"
+      }
+    },
+    "commonConditions": [
+      {
+        "id": "teeth",
+        "label": "咬合不正／牙齒過長（兔最常見）",
+        "dietaryNote": "無限量提摩西草磨牙，依獸醫建議草料與飼料",
+        "tip": "荷蘭侏儒兔等短顎品種風險高，定期檢查"
+      },
+      {
+        "id": "gi_stasis",
+        "label": "腸胃停滯／毛球症",
+        "dietaryNote": "高纖維牧草、充足飲水，依獸醫指示",
+        "tip": "食慾下降、排便減少為警訊，盡速就醫"
+      },
+      {
+        "id": "bladder",
+        "label": "泌尿道／結石",
+        "dietaryNote": "依獸醫建議低鈣或處方飲食，每日飲水50–100ml/kg",
+        "tip": "多喝水、留意排尿量"
+      },
+      {
+        "id": "ecuniculi",
+        "label": "歪頭症／E. cuniculi",
+        "dietaryNote": "依獸醫指示用藥與支持照護",
+        "tip": "神經症狀、白內障等，及早治療"
+      },
+      {
+        "id": "pasteurella",
+        "label": "巴斯德桿菌／呼吸道",
+        "dietaryNote": "維持營養與食慾，依獸醫用藥",
+        "tip": "打噴嚏、鼻分泌物、肺炎，環境通風"
+      }
+    ]
+  },
+  "hamster": {
+    "name": "倉鼠",
+    "emoji": "🐹",
+    "breeds": {
+      "syrian": {
+        "label": "黃金鼠",
+        "scientific": "Mesocricetus auratus",
+        "commonNames": [
+          "金絲熊",
+          "熊鼠"
+        ],
+        "sexualMaturity": 2.0,
+        "medianLifespan": 30,
+        "seniorThreshold": 21,
+        "lifespanRange": "2-3 年"
+      },
+      "winter_white": {
+        "label": "三線鼠/冬白",
+        "scientific": "Phodopus sungorus",
+        "commonNames": [
+          "加卡利亞倉鼠",
+          "銀狐",
+          "布丁"
+        ],
+        "sexualMaturity": 2.0,
+        "medianLifespan": 27,
+        "seniorThreshold": 18,
+        "lifespanRange": "2-2.5 年"
+      },
+      "campbell": {
+        "label": "一線鼠",
+        "scientific": "Phodopus campbelli",
+        "commonNames": [
+          "坎貝爾倉鼠"
+        ],
+        "sexualMaturity": 2.0,
+        "medianLifespan": 27,
+        "seniorThreshold": 18,
+        "lifespanRange": "2-2.5 年"
+      },
+      "roborovski": {
+        "label": "老公公鼠",
+        "scientific": "Phodopus roborovskii",
+        "commonNames": [
+          "羅伯羅夫斯基倉鼠",
+          "羅波鼠"
+        ],
+        "sexualMaturity": 2.0,
+        "medianLifespan": 26,
+        "seniorThreshold": 15,
+        "lifespanRange": "1.5-3.5 年"
+      }
+    },
+    "ageConversion": {
+      "幼年期": {
+        "range": [
+          0,
+          0.03
+        ],
+        "description": "幼鼠期（離乳前）"
+      },
+      "青年期": {
+        "range": [
+          0.03,
+          0.16
+        ],
+        "description": "青年期（性成熟前）"
+      },
+      "成年期": {
+        "range": [
+          0.16,
+          0.7
+        ],
+        "description": "成年黃金期"
+      },
+      "老年期": {
+        "range": [
+          0.7,
+          99
+        ],
+        "description": "高齡特別照護期"
+      }
+    },
+    "lifeStages": {
+      "幼年期": {
+        "ageRange": [
+          0,
+          1
+        ],
+        "humanAge": "0-8歲",
+        "comparison": "相當於人類的嬰幼兒期",
+        "checkupFrequency": "每月觀察健康狀況",
+        "healthTips": [
+          "🍼 提供幼鼠專用飼料（高蛋白），確保離乳順利",
+          "🏠 準備安全溫暖的窩，避免緊迫與低溫",
+          "🌾 無限量提供乾淨墊料與新鮮飲水",
+          "🚫 避免過度打擾，建立初步信任關係"
+        ],
+        "nutritionFocus": "高蛋白、高熱量，支持快速成長",
+        "commonIssues": [
+          "緊迫",
+          "腹瀉",
+          "環境不適應"
+        ]
+      },
+      "青年期": {
+        "ageRange": [
+          1,
+          2
+        ],
+        "humanAge": "8-15歲",
+        "comparison": "相當於人類的青春期",
+        "checkupFrequency": "每 2 個月觀察",
+        "healthTips": [
+          "🏃 提供符合尺寸的滾輪，消耗旺盛精力",
+          "🌰 適量提供堅果（每週 1-2 次），補充健康脂肪",
+          "🧼 定期更換部分墊料，保持環境乾淨乾燥",
+          "⚖️ 開始建立體重記錄，監控成長發育"
+        ],
+        "nutritionFocus": "均衡飲食，避免過早提供過多高脂點心",
+        "commonIssues": [
+          "領域行為",
+          "活動量極大"
+        ]
+      },
+      "成年期": {
+        "ageRange": [
+          2,
+          18
+        ],
+        "humanAge": "15-55歲",
+        "comparison": "相當於人類的壯年期",
+        "checkupFrequency": "每 3 個月觀察",
+        "healthTips": [
+          "⚖️ 定期量測體重，避免肥胖引發疾病",
+          "🏃 確保每日有足夠運動，滾輪需運轉順暢",
+          "🦷 提供磨牙木與乾燥食物，預防牙齒過長",
+          "🌡️ 維持環境恆溫（20-24°C），預防感冒"
+        ],
+        "nutritionFocus": "維持體態，依據活動量微調給食量",
+        "commonIssues": [
+          "肥胖",
+          "腫瘤預防",
+          "指甲過長"
+        ]
+      },
+      "老年期": {
+        "ageRange": [
+          18,
+          99
+        ],
+        "humanAge": "55歲以上",
+        "comparison": "相當於人類的老年期",
+        "checkupFrequency": "每週密切觀察",
+        "healthTips": [
+          "🛏️ 提供低矮易取食的食盆，減少關節負擔",
+          "🌡️ 保持環境溫暖穩定，老年倉鼠耐寒力較弱",
+          "🍲 若牙口不佳，提供泡軟或碎細的易消化食物",
+          "💊 觀察活動力、食慾及排泄，如有異常立即就醫"
+        ],
+        "nutritionFocus": "高品質易消化蛋白，少量多餐",
+        "commonIssues": [
+          "器官衰退",
+          "白內障",
+          "食慾下降"
+        ]
+      }
+    },
+    "nutritionGuidelines": {
+      "dailyCaloriesMin": 30,
+      "dailyCaloriesMax": 45,
+      "waterMlMin": 10,
+      "waterMlMax": 20,
+      "foodGramsMin": 10,
+      "foodGramsMax": 15,
+      "feedingFrequency": {
+        "幼年期": "每日 1 次（晚間餵食）",
+        "青年期": "每日 1 次",
+        "成年期": "每日 1 次",
+        "熟齡期": "每日 1-2 次（少量）",
+        "老年期": "每日 2 次（少量多餐）"
+      }
+    },
+    "idealWeight": {
+      "general": {
+        "min": 30,
+        "max": 50,
+        "unit": "g",
+        "note": "黃金鼠約 120-200g，侏儒鼠約 30-50g"
+      }
+    },
+    "commonConditions": [
+      {
+        "id": "wet_tail",
+        "label": "濕尾（幼鼠／黃金鼠，緊迫性腹瀉）",
+        "dietaryNote": "就醫抗生素與補液，減少緊迫與環境變動",
+        "tip": "幼鼠多見，腹瀉、嗜睡為警訊，盡速就醫"
+      },
+      {
+        "id": "diabetes",
+        "label": "糖尿病（侏儒鼠好發）",
+        "dietaryNote": "依獸醫指示控制糖分與餵食，避免高糖點心",
+        "tip": "坎貝爾／一線鼠好發，規律餵食、觀察飲水量"
+      },
+      {
+        "id": "tumor",
+        "label": "腫瘤／淋巴瘤（經獸醫診斷）",
+        "dietaryNote": "依獸醫建議維持營養與食慾",
+        "tip": "黃金鼠公鼠黑色素瘤較多，侏儒鼠淋巴瘤常見"
+      },
+      {
+        "id": "diarrhea",
+        "label": "腹瀉／Tyzzer或寄生蟲",
+        "dietaryNote": "就醫診治，維持飲水與易消化食物",
+        "tip": "成鼠腹瀉可能為細菌或寄生蟲，勿拖延"
+      }
+    ]
+  },
+  "metadata": {
+    "version": "1.2.0",
+    "lastUpdated": "2026-01-31",
+    "disclaimer": "本資料僅供參考，不能取代專業獸醫診斷。如有健康疑慮，請儘速就醫。",
+    "sources": [
+      "WSAVA Global Nutrition Guidelines (犬貓營養)",
+      "Pet Nutrition Alliance / AAHA - RER = 70×體重^0.75, MER 活動係數",
+      "Purina Institute - Maintenance Energy Requirement (MER) 計算",
+      "Hills Pet - 犬貓每日飲水量建議 (犬 60–80 ml/kg, 貓 40–60 ml/kg)",
+      "Merck Veterinary Manual - 兔、倉鼠生理與飼養",
+      "ADW (Animal Diversity Web) - 倉鼠物種資料",
+      "愛鼠協會 (台灣) - 倉鼠照護建議",
+      "台灣常見飼養環境與單位 (公斤、毫升、kcal)"
+    ],
+    "note": "熱量與飲水為參考區間，個體差異大，實際請依獸醫或營養師建議調整。"
   }
+}
