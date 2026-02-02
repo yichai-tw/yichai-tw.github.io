@@ -99,7 +99,7 @@ def write_json(path: Path, data: List[Dict[str, Any]]) -> None:
 def main(argv: List[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="驗證並轉換健康 CSV 為 JSON")
     parser.add_argument("files", nargs="+", help="要處理的 CSV 檔案，或目錄（會自動尋找預設檔名）")
-    parser.add_argument("--out-dir", "-o", default="data", help="輸出 JSON 的目錄（預設: data）")
+    parser.add_argument("--out-dir", "-o", default="docs", help="輸出 JSON 的目錄（預設: docs）")
     args = parser.parse_args(argv)
 
     total_errors = 0

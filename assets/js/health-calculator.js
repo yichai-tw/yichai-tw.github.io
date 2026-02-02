@@ -81,8 +81,31 @@ class PetHealthCalculator {
                             }
                         }
 
+                        // 合併各物種可能包含的 common 欄位（如 activityLevelOptions、sexMerModifier 等）
+                        const mergedCommon = {};
+                        for (const sk of Object.keys(assembled)) {
+                            try {
+                                const part = assembled[sk];
+                                if (part && typeof part === 'object' && part.common && typeof part.common === 'object') {
+                                    Object.assign(mergedCommon, part.common);
+                                }
+                            } catch (e) {
+                                // 忽略單一物種的 common 合併錯誤
+                            }
+                        }
+
+                        // 若沒有任何 common，建立最小預設以避免後端計算出錯
+                        if (!mergedCommon || Object.keys(mergedCommon).length === 0) {
+                            mergedCommon.sexMerModifier = mergedCommon.sexMerModifier || {};
+                            mergedCommon.activityLevelOptions = mergedCommon.activityLevelOptions || {};
+                        } else {
+                            mergedCommon.sexMerModifier = mergedCommon.sexMerModifier || {};
+                        }
+
+                        // 指定組裝結果與合併後的 common
                         this.guidelines = assembled;
-                        console.log('✅ 已使用 per-species JSON 組裝指引資料');
+                        this.guidelines.common = mergedCommon;
+                        console.log('✅ 已使用 per-species JSON 組裝指引資料，並合併 common 欄位');
                     } else {
                         console.error('❌ 未能找到任何 per-species JSON');
                     }
