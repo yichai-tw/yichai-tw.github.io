@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import os
+from pathlib import Path
 
 # 設定路徑（JSON 固定在 data）
 JSON_PATH = 'data/health-guidelines.json'
@@ -58,6 +59,7 @@ def convert_health_guidelines():
     # 3. 倉鼠品種資料表：與既有 CSV 對齊，匯出時帶「品種key」供網站與匯入對齊用（不依硬編碼）
     #     CSV 內「物種≠倉鼠」的列（犬/貓/兔）僅合併保留、不從 JSON 匯出（JSON 目前只有 hamster.breeds；
     #     dog 為 sizeCategories 體型，cat/rabbit 無品種結構）。若未來 JSON 新增 dog/cat/rabbit 的 breeds 再擴充匯出/匯入。
+    # build pet breeds rows from hamster JSON breeds
     hamster_rows = []
     for bkey, binfo in data['hamster']['breeds'].items():
         hamster_rows.append({
@@ -70,24 +72,75 @@ def convert_health_guidelines():
         })
     hamster_df = pd.DataFrame(hamster_rows)
 
+    # Merge with existing pet_breeds CSV if present (preserve non-hamster rows)
     if CSV_HAMSTER_BREEDS and os.path.exists(CSV_HAMSTER_BREEDS):
         existing = pd.read_csv(CSV_HAMSTER_BREEDS, encoding='utf-8-sig')
         if '物種' in existing.columns:
+            # keep non-hamster rows from existing
             other = existing[existing['物種'] != '倉鼠'].copy()
             if '品種key' not in other.columns:
                 other['品種key'] = ''
             out_df = pd.concat([hamster_df, other], ignore_index=True)
-            # 去重：以「物種 + 品種標籤」為鍵，保留第一次出現（倉鼠以 JSON 為準，其餘以既有列為準）
             out_df = out_df.drop_duplicates(subset=['物種', '品種標籤'], keep='first')
         else:
             out_df = hamster_df
     else:
         out_df = hamster_df
-    # 若 CSV_HAMSTER_BREEDS 未設定（理論上不會），改寫成 OUTPUT_DIR/hamster_breeds.csv
-    target_hamster = CSV_HAMSTER_BREEDS or f"{OUTPUT_DIR}/hamster_breeds.csv"
-    out_df.to_csv(target_hamster, index=False, encoding='utf-8-sig')
+
+    # 若 CSV_HAMSTER_BREEDS 未設定（理論上不會），改寫成 OUTPUT_DIR/pet_breeds.csv
+    target_pet = CSV_HAMSTER_BREEDS or f"{OUTPUT_DIR}/pet_breeds.csv"
+    out_df.to_csv(target_pet, index=False, encoding='utf-8-sig')
 
     print(f"[OK] 轉換完成！CSV 檔案已儲存至 {OUTPUT_DIR}/ 資料夾。")
+
+    # 同時輸出 per-species JSON 到 data/，方便小工具直接讀取
+    try:
+        data_dir = Path('data')
+        data_dir.mkdir(parents=True, exist_ok=True)
+
+        # 依物種拆分 conditions
+        cond_groups = {}
+        for row in conditions_data:
+            sp = row.get('物種') or 'unknown'
+            cond_groups.setdefault(sp, []).append(row)
+
+        # 以 data/health-guidelines.json 的 species keys 為命名（若存在）
+        name2key = {}
+        if os.path.exists(JSON_PATH):
+            try:
+                with open(JSON_PATH, 'r', encoding='utf-8') as f:
+                    hg = json.load(f)
+                    name2key = {v.get('name'): k for k, v in hg.items() if isinstance(v, dict) and 'name' in v}
+            except Exception:
+                name2key = {}
+
+        for sp, items in cond_groups.items():
+            key = name2key.get(sp)
+            fname = f'conditions_{key or sp.replace(" ", "_")}.json'
+            with (data_dir / fname).open('w', encoding='utf-8') as f:
+                json.dump(items, f, ensure_ascii=False, indent=2)
+
+        # overall combined conditions
+        with (data_dir / 'conditions_all.json').open('w', encoding='utf-8') as f:
+            json.dump(conditions_data, f, ensure_ascii=False, indent=2)
+
+        # 輸出 breeds：使用 out_df（最終 CSV）按物種拆分
+        try:
+            records = out_df.to_dict(orient='records')
+            breeds_by_species = {}
+            for b in records:
+                sp = (b.get('物種') or 'unknown')
+                breeds_by_species.setdefault(sp, []).append(b)
+            for sp, rows in breeds_by_species.items():
+                key = name2key.get(sp)
+                fname = f'breeds_{key or sp.replace(" ", "_")}.json'
+                with (data_dir / fname).open('w', encoding='utf-8') as f:
+                    json.dump(rows, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
+    except Exception:
+        # 不影響主流程，僅在產生 JSON 時忽略錯誤
+        pass
 
 
 def update_health_guidelines_from_hamster_csv():
