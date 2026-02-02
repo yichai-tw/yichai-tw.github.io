@@ -6,8 +6,8 @@ from pathlib import Path
 # 設定路徑（JSON 固定在 data）
 JSON_PATH = 'data/health-guidelines.json'
 # 輸出目錄預設為 docs，可由 CLI --out-dir 覆寫
-# 為避免非預期寫入 data/，預設值設定為 'docs'
-CSV_HAMSTER_BREEDS = 'docs/hamster_breeds.csv'
+# 預設不綁定單一 hamster CSV 路徑，統一輸出為 `pet_breeds.csv`
+CSV_HAMSTER_BREEDS = None
 OUTPUT_DIR = 'docs'
 
 # 匯入時若 CSV 無「品種key」欄位，才用此對照表（向後相容）
@@ -114,22 +114,25 @@ def convert_health_guidelines():
     hamster_df = pd.DataFrame(hamster_rows)
 
     # Merge with existing pet_breeds CSV if present (preserve non-hamster rows)
+    existing = None
+    # prefer an explicitly configured CSV_HAMSTER_BREEDS, otherwise check for OUTPUT_DIR/pet_breeds.csv
     if CSV_HAMSTER_BREEDS and os.path.exists(CSV_HAMSTER_BREEDS):
         existing = pd.read_csv(CSV_HAMSTER_BREEDS, encoding='utf-8-sig')
-        if '物種' in existing.columns:
-            # keep non-hamster rows from existing
-            other = existing[existing['物種'] != '倉鼠'].copy()
-            if '品種key' not in other.columns:
-                other['品種key'] = ''
-            out_df = pd.concat([hamster_df, other], ignore_index=True)
-            out_df = out_df.drop_duplicates(subset=['物種', '品種標籤'], keep='first')
-        else:
-            out_df = hamster_df
+    elif os.path.exists(f"{OUTPUT_DIR}/pet_breeds.csv"):
+        existing = pd.read_csv(f"{OUTPUT_DIR}/pet_breeds.csv", encoding='utf-8-sig')
+
+    if existing is not None and '物種' in existing.columns:
+        # keep non-hamster rows from existing
+        other = existing[existing['物種'] != '倉鼠'].copy()
+        if '品種key' not in other.columns:
+            other['品種key'] = ''
+        out_df = pd.concat([hamster_df, other], ignore_index=True)
+        out_df = out_df.drop_duplicates(subset=['物種', '品種標籤'], keep='first')
     else:
         out_df = hamster_df
 
-    # 若 CSV_HAMSTER_BREEDS 未設定（理論上不會），改寫成 OUTPUT_DIR/pet_breeds.csv
-    target_pet = CSV_HAMSTER_BREEDS or f"{OUTPUT_DIR}/pet_breeds.csv"
+    # 統一輸出為 OUTPUT_DIR/pet_breeds.csv（包含倉鼠與非倉鼠列）
+    target_pet = f"{OUTPUT_DIR}/pet_breeds.csv"
     out_df.to_csv(target_pet, index=False, encoding='utf-8-sig')
 
     print(f"[OK] 轉換完成！CSV 檔案已儲存至 {OUTPUT_DIR}/ 資料夾。")
