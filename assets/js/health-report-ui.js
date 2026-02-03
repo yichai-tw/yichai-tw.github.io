@@ -190,6 +190,7 @@ function escapeHtml(text) {
 }
 
 async function renderActivityBodyOptions(petType) {
+    const type = petType || selectedPetType;
     const actContainer = document.getElementById('activityLevelOptions');
     const bodyContainer = document.getElementById('bodyShapeOptions');
     if (!actContainer || !bodyContainer) return;
@@ -197,7 +198,8 @@ async function renderActivityBodyOptions(petType) {
     if (!calc) return;
     await calc.loadGuidelines();
     const guidelines = calc.guidelines || {};
-    const sp = guidelines[petType] || {};
+    if (!type) return;
+    const sp = guidelines[type] || {};
     const common = guidelines.common || {};
 
     const activityOrder = ['very_low', 'low', 'moderate', 'high', 'very_high'];
