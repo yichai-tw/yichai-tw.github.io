@@ -86,13 +86,6 @@ def update_life_stages(data: Dict[str, Any], rows: List[Dict[str, str]]) -> int:
 
 def update_conditions(data: Dict[str, Any], rows: List[Dict[str, str]]) -> int:
     """Update commonConditions for each species. Dedupe by label. Returns number of upserts."""
-    import re
-    def slugify(s):
-        s = s.strip().lower()
-        s = re.sub(r"\s+", "_", s)
-        s = re.sub(r"[^a-z0-9_]+", "", s)
-        return s or "id"
-
     name2key = map_name_to_key(data)
     changes = 0
     for r in rows:
@@ -104,21 +97,29 @@ def update_conditions(data: Dict[str, Any], rows: List[Dict[str, str]]) -> int:
         key = name2key.get(species)
         if not key:
             continue
+        cid = (r.get('id') or r.get('ID') or '').strip()
         dietary = r.get('飲食注意') or r.get('\u98f2\u98df\u6ce8\u610f') or ''
         tip = r.get('專家叮嚀') or r.get('\u5c08\u5bb6\u53ee\u5680') or ''
 
         if 'commonConditions' not in data[key]:
             data[key]['commonConditions'] = []
-        # build index by label
-        idx = {c.get('label'): c for c in data[key]['commonConditions']}
-        cid = slugify(label)
-        if label in idx:
-            # update fields
-            obj = idx[label]
+        # build index by id + label
+        idx_by_id = {c.get('id'): c for c in data[key]['commonConditions'] if c.get('id')}
+        idx_by_label = {c.get('label'): c for c in data[key]['commonConditions'] if c.get('label')}
+        if not cid:
+            cid = slugify(label)
+
+        if cid in idx_by_id:
+            obj = idx_by_id[cid]
+        elif label in idx_by_label:
+            obj = idx_by_label[label]
+        else:
+            obj = None
+
+        if obj:
             obj['dietaryNote'] = dietary or obj.get('dietaryNote', '')
             obj['tip'] = tip or obj.get('tip', '')
-            if 'id' not in obj or not obj['id']:
-                obj['id'] = cid
+            obj['id'] = cid
         else:
             data[key]['commonConditions'].append({
                 'id': cid,
