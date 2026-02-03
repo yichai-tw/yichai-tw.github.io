@@ -189,6 +189,46 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+async function renderActivityBodyOptions(petType) {
+    const actContainer = document.getElementById('activityLevelOptions');
+    const bodyContainer = document.getElementById('bodyShapeOptions');
+    if (!actContainer || !bodyContainer) return;
+    const calc = window.healthCalculator;
+    if (!calc) return;
+    await calc.loadGuidelines();
+    const guidelines = calc.guidelines || {};
+    const sp = guidelines[petType] || {};
+    const common = guidelines.common || {};
+
+    const activityOrder = ['very_low', 'low', 'moderate', 'high', 'very_high'];
+    const bodyOrder = ['very_thin', 'thin', 'ideal', 'heavy', 'very_heavy'];
+
+    const actMap = sp.activityLevelOptions || common.activityLevelOptions || {};
+    const bodyMap = sp.bodyShapeOptions || common.bodyShapeOptions || {};
+
+    const actHtml = activityOrder.map((k) => {
+        const v = actMap[k] || { label: k, description: '' };
+        const checked = k === 'moderate' ? 'checked' : '';
+        return `
+        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+            <input type="radio" name="activityLevel" value="${k}" class="text-orange-500" ${checked}>
+            <span><strong>${escapeHtml(v.label || '')}</strong> — ${escapeHtml(v.description || '')}</span>
+        </label>`;
+    }).join('');
+    actContainer.innerHTML = actHtml || '<p class="text-sm text-gray-500 col-span-2">暫無選項</p>';
+
+    const bodyHtml = bodyOrder.map((k) => {
+        const v = bodyMap[k] || { label: k, description: '' };
+        const checked = k === 'ideal' ? 'checked' : '';
+        return `
+        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
+            <input type="radio" name="bodyShape" value="${k}" class="text-orange-500" ${checked}>
+            <span><strong>${escapeHtml(v.label || '')}</strong> — ${escapeHtml(v.description || '')}</span>
+        </label>`;
+    }).join('');
+    bodyContainer.innerHTML = bodyHtml || '<p class="text-sm text-gray-500 col-span-2">暫無選項</p>';
+}
+
 /**
  * 選擇動物種類
  */
@@ -239,6 +279,9 @@ function selectPetType(petType) {
         }
     }
     
+    // 依物種動態更新運動量/體型選項
+    renderActivityBodyOptions(petType);
+
     // 自動跳轉到步驟 2
     setTimeout(() => goToStep2(), 500);
 }

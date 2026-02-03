@@ -409,27 +409,8 @@
                         🏃 平常運動量
                     </label>
                     <p class="text-sm text-gray-500 mb-2">請依毛孩平常活動情況選擇</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-                            <input type="radio" name="activityLevel" value="very_low" class="text-orange-500">
-                            <span><strong>很少動</strong> — 多半在睡覺或靜態</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-                            <input type="radio" name="activityLevel" value="low" class="text-orange-500">
-                            <span><strong>偶爾動</strong> — 室內走動、短暫玩耍</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-                            <input type="radio" name="activityLevel" value="moderate" class="text-orange-500" checked>
-                            <span><strong>適中</strong> — 每日有散步或固定活動</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-                            <input type="radio" name="activityLevel" value="high" class="text-orange-500">
-                            <span><strong>愛動</strong> — 常跑跳、長時間玩耍</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-                            <input type="radio" name="activityLevel" value="very_high" class="text-orange-500">
-                            <span><strong>非常活潑</strong> — 幾乎停不下來</span>
-                        </label>
+                    <div id="activityLevelOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <!-- 由 health-report-ui.js 依物種動態產生 -->
                     </div>
                 </div>
 
@@ -450,27 +431,8 @@
                         📐 看起來的體型
                     </label>
                     <p class="text-sm text-gray-500 mb-2">請依目視或觸摸肋骨、腰身選擇最接近的描述</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-                            <input type="radio" name="bodyShape" value="very_thin" class="text-orange-500">
-                            <span><strong>很瘦</strong> — 肋骨明顯、腰身極凹</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-                            <input type="radio" name="bodyShape" value="thin" class="text-orange-500">
-                            <span><strong>偏瘦</strong> — 摸得到肋骨、腰身明顯</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-                            <input type="radio" name="bodyShape" value="ideal" class="text-orange-500" checked>
-                            <span><strong>標準</strong> — 摸得到肋骨有薄脂肪、有腰身</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-                            <input type="radio" name="bodyShape" value="heavy" class="text-orange-500">
-                            <span><strong>偏胖</strong> — 摸不太到肋骨、腰身不明顯</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer border border-gray-200 rounded-lg px-3 py-2 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50">
-                            <input type="radio" name="bodyShape" value="very_heavy" class="text-orange-500">
-                            <span><strong>很胖</strong> — 摸不到肋骨、無腰身</span>
-                        </label>
+                    <div id="bodyShapeOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <!-- 由 health-report-ui.js 依物種動態產生 -->
                     </div>
                 </div>
 
