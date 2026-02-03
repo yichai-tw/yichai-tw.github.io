@@ -626,6 +626,9 @@ class PetHealthCalculator {
 
         // 取得生命階段資訊
         const stageInfo = this.getStageInfo(petType, humanAgeData.stage);
+        const stageAgeRange = (stageInfo && Array.isArray(stageInfo.ageRange) && stageInfo.ageRange.length >= 2)
+            ? stageInfo.ageRange
+            : null;
 
         // 計算營養需求區間（綜合品種、年齡、體重、體型、性別；熱量、乾糧、飲水皆為區間）
         const nutritionRanges = weight
@@ -667,8 +670,10 @@ class PetHealthCalculator {
         const healthTipsMerged = (sexFocus ? ['👤 ' + sexFocus] : []).concat(conditionAdvice.tips, stageTips);
 
         // 產生報告（綜合品種、年齡、體重、體型、性別，若有勾選健康狀況則納入建議）
-        const breedName = (petType === 'hamster' && hamsterBreed) ? 
-            ` (${this.guidelines.hamster.breeds[hamsterBreed].label})` : '';
+        const breedLabel = (petType === 'hamster' && hamsterBreed && this.guidelines.hamster && this.guidelines.hamster.breeds)
+            ? (this.guidelines.hamster.breeds[hamsterBreed] && this.guidelines.hamster.breeds[hamsterBreed].label)
+            : '';
+        const breedName = breedLabel ? ` (${breedLabel})` : '';
         const sexLabel = (this.guidelines.common && this.guidelines.common.sexOptions && sex) 
             ? this.guidelines.common.sexOptions[sex].label 
             : (sex === 'female' ? '母' : '公');
@@ -697,10 +702,10 @@ class PetHealthCalculator {
                 }
             },
             stageInfo: {
-                ageRange: stageInfo ? `${stageInfo.ageRange[0]}-${stageInfo.ageRange[1]} 歲` : '',
-                humanAge: stageInfo ? stageInfo.humanAge : '',
-                checkupFrequency: stageInfo ? stageInfo.checkupFrequency : '每年一次',
-                comparison: stageInfo ? stageInfo.comparison : ''
+                ageRange: stageAgeRange ? `${stageAgeRange[0]}-${stageAgeRange[1]} 歲` : '',
+                humanAge: stageInfo && stageInfo.humanAge ? stageInfo.humanAge : '',
+                checkupFrequency: stageInfo && stageInfo.checkupFrequency ? stageInfo.checkupFrequency : '每年一次',
+                comparison: stageInfo && stageInfo.comparison ? stageInfo.comparison : ''
             },
             nutrition: {
                 dailyCaloriesMin: nutritionRanges.dailyCaloriesMin,

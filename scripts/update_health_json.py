@@ -214,6 +214,23 @@ def main(argv=None):
     c2 = update_conditions(data, cond_rows)
     c3 = update_hamster_breeds(data, pet_breeds_rows)
 
+    # 補齊各物種 lifeStages 的 ageRange（從 ageConversion.range 推導）
+    for skey, sinfo in data.items():
+        if not isinstance(sinfo, dict):
+            continue
+        life_stages = sinfo.get('lifeStages')
+        age_conv = sinfo.get('ageConversion')
+        if not isinstance(life_stages, dict) or not isinstance(age_conv, dict):
+            continue
+        for stage_name, stage_info in life_stages.items():
+            if not isinstance(stage_info, dict):
+                continue
+            if 'ageRange' in stage_info and stage_info['ageRange']:
+                continue
+            conv = age_conv.get(stage_name)
+            if isinstance(conv, dict) and isinstance(conv.get('range'), list):
+                stage_info['ageRange'] = conv.get('range')
+
     write_json(js, data)
 
     # 寫出分割後的 per-species condition JSON
