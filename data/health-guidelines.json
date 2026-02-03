@@ -371,7 +371,51 @@
         "tip": "常見夜間嚎叫、迷失方向；環境擺設應固定，給予夜燈減少恐懼，維持尊嚴照護",
         "id": "cognitive_dysfunction"
       }
-    ]
+    ],
+    "activityLevelOptions": {
+      "very_low": {
+        "label": "很少動",
+        "description": "多在休息，很少主動玩"
+      },
+      "low": {
+        "label": "偶爾動",
+        "description": "短暫追逐或跳躍，活動時間不長"
+      },
+      "moderate": {
+        "label": "適中",
+        "description": "每天有 2-3 次短時互動遊戲（每次約 10-15 分鐘）"
+      },
+      "high": {
+        "label": "愛動",
+        "description": "一天多次追逐、跳躍或攀爬，活動量明顯較多"
+      },
+      "very_high": {
+        "label": "非常活潑",
+        "description": "幾乎隨時想玩，常主動找人互動"
+      }
+    },
+    "bodyShapeOptions": {
+      "very_thin": {
+        "label": "很瘦",
+        "description": "肋骨與脊椎非常明顯、幾乎沒有脂肪"
+      },
+      "thin": {
+        "label": "偏瘦",
+        "description": "肋骨容易摸到、腰身清楚"
+      },
+      "ideal": {
+        "label": "標準",
+        "description": "肋骨可觸及但不突出、腰身自然"
+      },
+      "heavy": {
+        "label": "偏胖",
+        "description": "肋骨不易摸到、腰身不明顯"
+      },
+      "very_heavy": {
+        "label": "很胖",
+        "description": "肋骨幾乎摸不到、腹部脂肪明顯"
+      }
+    }
   },
   "dog": {
     "name": "狗狗",
@@ -710,7 +754,51 @@
         "tip": "常見大便變細（緞帶狀）或血尿；結紮可有效預防與治療良性增生",
         "id": "prostatomegaly"
       }
-    ]
+    ],
+    "activityLevelOptions": {
+      "very_low": {
+        "label": "很少動",
+        "description": "多在休息，僅有短暫外出或伸展"
+      },
+      "low": {
+        "label": "偶爾動",
+        "description": "輕鬆散步或少量玩耍即可滿足"
+      },
+      "moderate": {
+        "label": "適中",
+        "description": "每天固定散步並搭配遊戲或訓練"
+      },
+      "high": {
+        "label": "愛動",
+        "description": "需要較多運動（跑步、取物、長時間玩耍）"
+      },
+      "very_high": {
+        "label": "非常活潑",
+        "description": "精力旺盛，需長時間運動與刺激"
+      }
+    },
+    "bodyShapeOptions": {
+      "very_thin": {
+        "label": "很瘦",
+        "description": "肋骨與髖骨明顯、肌肉量偏少"
+      },
+      "thin": {
+        "label": "偏瘦",
+        "description": "肋骨容易觸及、腰身清楚"
+      },
+      "ideal": {
+        "label": "標準",
+        "description": "肋骨可摸到且覆有薄脂肪、腰身自然"
+      },
+      "heavy": {
+        "label": "偏胖",
+        "description": "肋骨不易摸到、腰身不明顯"
+      },
+      "very_heavy": {
+        "label": "很胖",
+        "description": "肋骨難以觸及、腹部脂肪明顯"
+      }
+    }
   },
   "rabbit": {
     "name": "兔子",
@@ -960,7 +1048,51 @@
         "tip": "絕對禁止使用「芬普尼（Fipronil）」成分（如蚤不到），對兔子具神經毒性會致死；台灣潮濕易發，需環境消毒",
         "id": "mange"
       }
-    ]
+    ],
+    "activityLevelOptions": {
+      "very_low": {
+        "label": "很少動",
+        "description": "多在休息，活動時間很少"
+      },
+      "low": {
+        "label": "偶爾動",
+        "description": "偶爾在圍欄內跳躍或探索"
+      },
+      "moderate": {
+        "label": "適中",
+        "description": "每天至少約 4 小時的活動空間可自由跳躍"
+      },
+      "high": {
+        "label": "愛動",
+        "description": "長時間在活動區域跑跳、探索與互動"
+      },
+      "very_high": {
+        "label": "非常活潑",
+        "description": "多數時間都在活動區域中跑跳"
+      }
+    },
+    "bodyShapeOptions": {
+      "very_thin": {
+        "label": "很瘦",
+        "description": "脊椎與骨盆明顯、觸感尖銳"
+      },
+      "thin": {
+        "label": "偏瘦",
+        "description": "脊椎明顯、肌肉量偏少"
+      },
+      "ideal": {
+        "label": "標準",
+        "description": "脊椎可觸及但不突出、肌肉勻稱"
+      },
+      "heavy": {
+        "label": "偏胖",
+        "description": "脊椎不易觸及、身形偏厚"
+      },
+      "very_heavy": {
+        "label": "很胖",
+        "description": "脊椎幾乎摸不到、身形明顯過圓"
+      }
+    }
   },
   "hamster": {
     "name": "倉鼠",
@@ -1144,12 +1276,6 @@
     },
     "commonConditions": [
       {
-        "id": "wet_tail",
-        "label": "濕尾（幼鼠／黃金鼠，緊迫性腹瀉）",
-        "dietaryNote": "就醫抗生素與補液，減少緊迫與環境變動",
-        "tip": "幼鼠多見，腹瀉、嗜睡為警訊，盡速就醫"
-      },
-      {
         "id": "diabetes",
         "label": "糖尿病（侏儒鼠好發）",
         "dietaryNote": "依獸醫指示控制糖分與餵食，避免高糖點心",
@@ -1227,7 +1353,51 @@
         "tip": "需區分是否為寄生蟲或食物不潔（生水）；台灣自來水含氯與細菌，絕對禁止給予生水，務必餵食煮沸過的冷開水",
         "id": "diarrhea_mild"
       }
-    ]
+    ],
+    "activityLevelOptions": {
+      "very_low": {
+        "label": "很少動",
+        "description": "夜間活動少，跑輪使用很少"
+      },
+      "low": {
+        "label": "偶爾動",
+        "description": "夜間短時間在籠內走動或探索"
+      },
+      "moderate": {
+        "label": "適中",
+        "description": "夜間規律使用跑輪並在籠內探索"
+      },
+      "high": {
+        "label": "愛動",
+        "description": "夜間長時間跑輪、挖掘與活動"
+      },
+      "very_high": {
+        "label": "非常活潑",
+        "description": "夜間非常活躍，長時間跑輪或探索"
+      }
+    },
+    "bodyShapeOptions": {
+      "very_thin": {
+        "label": "很瘦",
+        "description": "脊椎明顯、觸感偏瘦"
+      },
+      "thin": {
+        "label": "偏瘦",
+        "description": "脊椎可觸及、身形較纖細"
+      },
+      "ideal": {
+        "label": "標準",
+        "description": "脊椎可摸到但不突出、身形勻稱"
+      },
+      "heavy": {
+        "label": "偏胖",
+        "description": "脊椎不易摸到、身形偏圓"
+      },
+      "very_heavy": {
+        "label": "很胖",
+        "description": "脊椎幾乎摸不到、身形明顯過圓"
+      }
+    }
   },
   "metadata": {
     "version": "1.2.0",

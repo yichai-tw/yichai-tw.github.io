@@ -467,9 +467,12 @@ class PetHealthCalculator {
      */
     getBodyShapeAndAdvice(bodyShape, activityLevel) {
         const common = this.guidelines && this.guidelines.common;
+        const speciesCommon = (this.guidelines && this.guidelines[petType]) || {};
         if (!common) return { bodyShapeLabel: '', activityLabel: '', advice: '', bodyShapeLevel: 3, praise: '' };
-        const bodyOpt = common.bodyShapeOptions && bodyShape ? common.bodyShapeOptions[bodyShape] : null;
-        const activityOpt = common.activityLevelOptions && activityLevel ? common.activityLevelOptions[activityLevel] : null;
+        const bodyOpt = (speciesCommon.bodyShapeOptions && bodyShape ? speciesCommon.bodyShapeOptions[bodyShape] : null)
+            || (common.bodyShapeOptions && bodyShape ? common.bodyShapeOptions[bodyShape] : null);
+        const activityOpt = (speciesCommon.activityLevelOptions && activityLevel ? speciesCommon.activityLevelOptions[activityLevel] : null)
+            || (common.activityLevelOptions && activityLevel ? common.activityLevelOptions[activityLevel] : null);
         const advice = (common.bodyShapeAdvice && bodyShape) ? common.bodyShapeAdvice[bodyShape] : '';
         const bodyShapeLevel = (common.bodyShapeLevel && bodyShape) ? common.bodyShapeLevel[bodyShape] : 3;
         const praise = (common.bodyShapePraise && bodyShape) ? common.bodyShapePraise[bodyShape] : '';

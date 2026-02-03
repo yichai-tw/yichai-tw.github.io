@@ -86,6 +86,36 @@ def convert_health_guidelines():
             })
     pd.DataFrame(stages_data).to_csv(f'{OUTPUT_DIR}/health_life_stages.csv', index=False, encoding='utf-8-sig')
 
+    # 1-1. 物種專用選項表 (Activity/Body Options)
+    options_rows = []
+    common_act = data.get('common', {}).get('activityLevelOptions') or {}
+    common_body = data.get('common', {}).get('bodyShapeOptions') or {}
+    for skey in species_keys:
+        sp = data.get(skey, {})
+        name = sp.get('name')
+        if not name:
+            continue
+        act = sp.get('activityLevelOptions') or common_act
+        for k, v in act.items():
+            options_rows.append({
+                '物種': name,
+                '類型': 'activity',
+                'key': k,
+                'label': v.get('label', ''),
+                'description': v.get('description', '')
+            })
+        body = sp.get('bodyShapeOptions') or common_body
+        for k, v in body.items():
+            options_rows.append({
+                '物種': name,
+                '類型': 'body',
+                'key': k,
+                'label': v.get('label', ''),
+                'description': v.get('description', '')
+            })
+    if options_rows:
+        pd.DataFrame(options_rows).to_csv(f'{OUTPUT_DIR}/activity_body_options.csv', index=False, encoding='utf-8-sig')
+
     # 2. 常見疾病與飲食建議表 (Conditions)
     import re
     def slugify(s):

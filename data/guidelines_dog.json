@@ -335,5 +335,49 @@
       "tip": "常見大便變細（緞帶狀）或血尿；結紮可有效預防與治療良性增生",
       "id": "prostatomegaly"
     }
-  ]
+  ],
+  "activityLevelOptions": {
+    "very_low": {
+      "label": "很少動",
+      "description": "多在休息，僅有短暫外出或伸展"
+    },
+    "low": {
+      "label": "偶爾動",
+      "description": "輕鬆散步或少量玩耍即可滿足"
+    },
+    "moderate": {
+      "label": "適中",
+      "description": "每天固定散步並搭配遊戲或訓練"
+    },
+    "high": {
+      "label": "愛動",
+      "description": "需要較多運動（跑步、取物、長時間玩耍）"
+    },
+    "very_high": {
+      "label": "非常活潑",
+      "description": "精力旺盛，需長時間運動與刺激"
+    }
+  },
+  "bodyShapeOptions": {
+    "very_thin": {
+      "label": "很瘦",
+      "description": "肋骨與髖骨明顯、肌肉量偏少"
+    },
+    "thin": {
+      "label": "偏瘦",
+      "description": "肋骨容易觸及、腰身清楚"
+    },
+    "ideal": {
+      "label": "標準",
+      "description": "肋骨可摸到且覆有薄脂肪、腰身自然"
+    },
+    "heavy": {
+      "label": "偏胖",
+      "description": "肋骨不易摸到、腰身不明顯"
+    },
+    "very_heavy": {
+      "label": "很胖",
+      "description": "肋骨難以觸及、腹部脂肪明顯"
+    }
+  }
 }

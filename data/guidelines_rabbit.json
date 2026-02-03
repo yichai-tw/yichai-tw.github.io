@@ -246,5 +246,49 @@
       "tip": "絕對禁止使用「芬普尼（Fipronil）」成分（如蚤不到），對兔子具神經毒性會致死；台灣潮濕易發，需環境消毒",
       "id": "mange"
     }
-  ]
+  ],
+  "activityLevelOptions": {
+    "very_low": {
+      "label": "很少動",
+      "description": "多在休息，活動時間很少"
+    },
+    "low": {
+      "label": "偶爾動",
+      "description": "偶爾在圍欄內跳躍或探索"
+    },
+    "moderate": {
+      "label": "適中",
+      "description": "每天至少約 4 小時的活動空間可自由跳躍"
+    },
+    "high": {
+      "label": "愛動",
+      "description": "長時間在活動區域跑跳、探索與互動"
+    },
+    "very_high": {
+      "label": "非常活潑",
+      "description": "多數時間都在活動區域中跑跳"
+    }
+  },
+  "bodyShapeOptions": {
+    "very_thin": {
+      "label": "很瘦",
+      "description": "脊椎與骨盆明顯、觸感尖銳"
+    },
+    "thin": {
+      "label": "偏瘦",
+      "description": "脊椎明顯、肌肉量偏少"
+    },
+    "ideal": {
+      "label": "標準",
+      "description": "脊椎可觸及但不突出、肌肉勻稱"
+    },
+    "heavy": {
+      "label": "偏胖",
+      "description": "脊椎不易觸及、身形偏厚"
+    },
+    "very_heavy": {
+      "label": "很胖",
+      "description": "脊椎幾乎摸不到、身形明顯過圓"
+    }
+  }
 }

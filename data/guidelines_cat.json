@@ -267,5 +267,49 @@
       "tip": "常見夜間嚎叫、迷失方向；環境擺設應固定，給予夜燈減少恐懼，維持尊嚴照護",
       "id": "cognitive_dysfunction"
     }
-  ]
+  ],
+  "activityLevelOptions": {
+    "very_low": {
+      "label": "很少動",
+      "description": "多在休息，很少主動玩"
+    },
+    "low": {
+      "label": "偶爾動",
+      "description": "短暫追逐或跳躍，活動時間不長"
+    },
+    "moderate": {
+      "label": "適中",
+      "description": "每天有 2-3 次短時互動遊戲（每次約 10-15 分鐘）"
+    },
+    "high": {
+      "label": "愛動",
+      "description": "一天多次追逐、跳躍或攀爬，活動量明顯較多"
+    },
+    "very_high": {
+      "label": "非常活潑",
+      "description": "幾乎隨時想玩，常主動找人互動"
+    }
+  },
+  "bodyShapeOptions": {
+    "very_thin": {
+      "label": "很瘦",
+      "description": "肋骨與脊椎非常明顯、幾乎沒有脂肪"
+    },
+    "thin": {
+      "label": "偏瘦",
+      "description": "肋骨容易摸到、腰身清楚"
+    },
+    "ideal": {
+      "label": "標準",
+      "description": "肋骨可觸及但不突出、腰身自然"
+    },
+    "heavy": {
+      "label": "偏胖",
+      "description": "肋骨不易摸到、腰身不明顯"
+    },
+    "very_heavy": {
+      "label": "很胖",
+      "description": "肋骨幾乎摸不到、腹部脂肪明顯"
+    }
+  }
 }

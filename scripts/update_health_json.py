@@ -130,6 +130,7 @@ def update_conditions(data: Dict[str, Any], rows: List[Dict[str, str]]) -> int:
             obj = None
 
         if obj:
+            obj['label'] = label or obj.get('label', '')
             obj['dietaryNote'] = dietary or obj.get('dietaryNote', '')
             obj['tip'] = tip or obj.get('tip', '')
             obj['id'] = cid
@@ -147,6 +148,20 @@ def update_conditions(data: Dict[str, Any], rows: List[Dict[str, str]]) -> int:
             for cond in data[key]['commonConditions']:
                 if 'id' not in cond or not cond['id']:
                     cond['id'] = slugify(cond.get('label', ''))
+    # 去重：同一 id 只保留最後一筆（避免重複與舊值殘留）
+    for key in data:
+        if isinstance(data[key], dict) and 'commonConditions' in data[key]:
+            conds = data[key]['commonConditions']
+            seen = set()
+            dedup_rev = []
+            for cond in reversed(conds):
+                cid = cond.get('id')
+                if cid and cid in seen:
+                    continue
+                if cid:
+                    seen.add(cid)
+                dedup_rev.append(cond)
+            data[key]['commonConditions'] = list(reversed(dedup_rev))
     return changes
 
 
@@ -205,6 +220,37 @@ def update_hamster_breeds(data: Dict[str, Any], rows: List[Dict[str, str]]) -> i
     return changes
 
 
+def update_activity_body_options(data: Dict[str, Any], rows: List[Dict[str, str]]) -> int:
+    """Update per-species activity/body shape options from CSV. Returns number of upserts."""
+    if not rows:
+        return 0
+    name2key = map_name_to_key(data)
+    changes = 0
+    for r in rows:
+        species = (r.get('物種') or '').strip()
+        opt_type = (r.get('類型') or '').strip()  # activity | body
+        key = (r.get('key') or '').strip()
+        label = (r.get('label') or '').strip()
+        desc = (r.get('description') or '').strip()
+        if not species or not opt_type or not key:
+            continue
+        skey = name2key.get(species)
+        if not skey:
+            continue
+        if opt_type not in ('activity', 'body'):
+            continue
+        data.setdefault(skey, {})
+        target = 'activityLevelOptions' if opt_type == 'activity' else 'bodyShapeOptions'
+        if target not in data[skey] or not isinstance(data[skey][target], dict):
+            data[skey][target] = {}
+        data[skey][target][key] = {
+            'label': label or key,
+            'description': desc or ''
+        }
+        changes += 1
+    return changes
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description='Update health-guidelines.json from CSVs')
     parser.add_argument('--docs-dir', default='docs', help='CSV source directory (default: docs)')
@@ -222,10 +268,12 @@ def main(argv=None):
     cond_rows = read_csv(docs / 'health_conditions.csv')
     stage_rows = read_csv(docs / 'health_life_stages.csv')
     pet_breeds_rows = read_csv(docs / 'pet_breeds.csv')
+    options_rows = read_csv(docs / 'activity_body_options.csv')
 
     c1 = update_life_stages(data, stage_rows)
     c2 = update_conditions(data, cond_rows)
     c3 = update_hamster_breeds(data, pet_breeds_rows)
+    c4 = update_activity_body_options(data, options_rows)
 
     # 補齊各物種 lifeStages 的 ageRange（從 ageConversion.range 推導）
     for skey, sinfo in data.items():
@@ -272,7 +320,7 @@ def main(argv=None):
         with out_path.open('w', encoding='utf-8') as f:
             json.dump(rows, f, ensure_ascii=False, indent=2)
 
-    print(f"Updated life stages: {c1}, conditions upserts: {c2}, hamster breeds upserts: {c3}")
+    print(f"Updated life stages: {c1}, conditions upserts: {c2}, hamster breeds upserts: {c3}, options upserts: {c4}")
     return 0
 
 

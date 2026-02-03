@@ -180,12 +180,6 @@
   },
   "commonConditions": [
     {
-      "id": "wet_tail",
-      "label": "濕尾（幼鼠／黃金鼠，緊迫性腹瀉）",
-      "dietaryNote": "就醫抗生素與補液，減少緊迫與環境變動",
-      "tip": "幼鼠多見，腹瀉、嗜睡為警訊，盡速就醫"
-    },
-    {
       "id": "diabetes",
       "label": "糖尿病（侏儒鼠好發）",
       "dietaryNote": "依獸醫指示控制糖分與餵食，避免高糖點心",
@@ -263,5 +257,49 @@
       "tip": "需區分是否為寄生蟲或食物不潔（生水）；台灣自來水含氯與細菌，絕對禁止給予生水，務必餵食煮沸過的冷開水",
       "id": "diarrhea_mild"
     }
-  ]
+  ],
+  "activityLevelOptions": {
+    "very_low": {
+      "label": "很少動",
+      "description": "夜間活動少，跑輪使用很少"
+    },
+    "low": {
+      "label": "偶爾動",
+      "description": "夜間短時間在籠內走動或探索"
+    },
+    "moderate": {
+      "label": "適中",
+      "description": "夜間規律使用跑輪並在籠內探索"
+    },
+    "high": {
+      "label": "愛動",
+      "description": "夜間長時間跑輪、挖掘與活動"
+    },
+    "very_high": {
+      "label": "非常活潑",
+      "description": "夜間非常活躍，長時間跑輪或探索"
+    }
+  },
+  "bodyShapeOptions": {
+    "very_thin": {
+      "label": "很瘦",
+      "description": "脊椎明顯、觸感偏瘦"
+    },
+    "thin": {
+      "label": "偏瘦",
+      "description": "脊椎可觸及、身形較纖細"
+    },
+    "ideal": {
+      "label": "標準",
+      "description": "脊椎可摸到但不突出、身形勻稱"
+    },
+    "heavy": {
+      "label": "偏胖",
+      "description": "脊椎不易摸到、身形偏圓"
+    },
+    "very_heavy": {
+      "label": "很胖",
+      "description": "脊椎幾乎摸不到、身形明顯過圓"
+    }
+  }
 }
