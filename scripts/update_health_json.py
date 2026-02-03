@@ -67,6 +67,16 @@ def update_life_stages(data: Dict[str, Any], rows: List[Dict[str, str]]) -> int:
         key = name2key.get(species)
         if not key:
             continue
+        age_range_raw = (r.get('ageRange') or r.get('age_range') or '').strip()
+        age_range = None
+        if age_range_raw:
+            # 支援 "0-1" 或 "0~1" 或 "0 – 1"
+            parts = re.split(r"\s*[-~–—]\s*", age_range_raw)
+            if len(parts) >= 2:
+                try:
+                    age_range = [float(parts[0]), float(parts[1])]
+                except ValueError:
+                    age_range = None
         human = r.get('對應人類年齡') or ''
         freq = r.get('建議健檢頻率') or ''
         health_tips = [s.strip() for s in (r.get('照護重點') or '').split(' | ') if s.strip()]
@@ -74,12 +84,15 @@ def update_life_stages(data: Dict[str, Any], rows: List[Dict[str, str]]) -> int:
 
         if 'lifeStages' not in data[key]:
             data[key]['lifeStages'] = {}
-        data[key]['lifeStages'][stage] = {
+        stage_obj = {
             'humanAge': human,
             'checkupFrequency': freq,
             'healthTips': health_tips,
             'commonIssues': common_issues,
         }
+        if age_range:
+            stage_obj['ageRange'] = age_range
+        data[key]['lifeStages'][stage] = stage_obj
         updated += 1
     return updated
 

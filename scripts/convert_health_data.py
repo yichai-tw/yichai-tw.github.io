@@ -74,9 +74,11 @@ def convert_health_guidelines():
     for skey in species_keys:
         name = data[skey]['name']
         for stage, info in data[skey]['lifeStages'].items():
+            age_range = info.get('ageRange') or data[skey].get('ageConversion', {}).get(stage, {}).get('range')
             stages_data.append({
                 '物種': name,
                 '階段': stage,
+                'ageRange': f"{age_range[0]}-{age_range[1]}" if isinstance(age_range, list) and len(age_range) >= 2 else '',
                 '對應人類年齡': info.get('humanAge'),
                 '建議健檢頻率': info.get('checkupFrequency'),
                 '照護重點': " | ".join(info.get('healthTips', [])),
