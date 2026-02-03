@@ -465,7 +465,7 @@ class PetHealthCalculator {
     /**
      * 取得體型／運動量標籤與建議（保留供營養計算與建議文案；幸福度改由計算產生）
      */
-    getBodyShapeAndAdvice(bodyShape, activityLevel) {
+    getBodyShapeAndAdvice(petType, bodyShape, activityLevel) {
         const common = this.guidelines && this.guidelines.common;
         const speciesCommon = (this.guidelines && this.guidelines[petType]) || {};
         if (!common) return { bodyShapeLabel: '', activityLabel: '', advice: '', bodyShapeLevel: 3, praise: '' };
@@ -647,7 +647,7 @@ class PetHealthCalculator {
         const activityScore = this.getActivityScore(actLevel);
         const wellnessScore = this.computeWellnessScore(bodyScore, activityScore);
         const wellnessPraise = this.getWellnessPraiseAndAdvice(wellnessScore);
-        const bodyShapeAdvice = this.getBodyShapeAndAdvice(bShape, actLevel);
+        const bodyShapeAdvice = this.getBodyShapeAndAdvice(petType, bShape, actLevel);
         const bodyCondition = {
             bodyShape: bShape,
             bodyShapeLabel: bodyShapeAdvice.bodyShapeLabel,
