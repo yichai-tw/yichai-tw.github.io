@@ -117,7 +117,7 @@
         "grooming_phone": ""
       },
       "services": {
-        "grooming": true
+        "grooming": false
       },
       "business_hours": {
         "monday": "12:00-22:00",
@@ -186,7 +186,7 @@
         "grooming_phone": ""
       },
       "services": {
-        "grooming": true
+        "grooming": false
       },
       "business_hours": {
         "monday": "OFF",
@@ -324,7 +324,7 @@
         "grooming_phone": ""
       },
       "services": {
-        "grooming": true
+        "grooming": false
       },
       "business_hours": {
         "monday": "11:00-22:00",
@@ -393,7 +393,7 @@
         "grooming_phone": ""
       },
       "services": {
-        "grooming": true
+        "grooming": false
       },
       "business_hours": {
         "monday": "11:30-22:30",
@@ -600,7 +600,7 @@
         "grooming_phone": ""
       },
       "services": {
-        "grooming": true
+        "grooming": false
       },
       "business_hours": {
         "monday": "OFF",
@@ -738,7 +738,7 @@
         "grooming_phone": ""
       },
       "services": {
-        "grooming": true
+        "grooming": false
       },
       "business_hours": {
         "monday": "11:00-22:00",
@@ -807,7 +807,7 @@
         "grooming_phone": ""
       },
       "services": {
-        "grooming": true
+        "grooming": false
       },
       "business_hours": {
         "monday": "11:00-22:00",
