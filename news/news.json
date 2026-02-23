@@ -14,10 +14,10 @@
     "title": "2026 宜加寵物 春節營業公告",
     "type": "operation",
     "date": "2026-01-29",
-    "pinned": true,
+    "pinned": false,
     "excerpt": "2026 春節期間各門市營業時間有所調整，除夕全門市營業至 18:00，初一至初四部分門市正常營業，請各位毛爸媽留意時間喔！",
     "content": "posts/2026-01-29_2026-cny.md",
-    "autoExpand": true
+    "autoExpand": false
   },
   {
     "id": "website-update",

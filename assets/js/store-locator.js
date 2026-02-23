@@ -1,5 +1,5 @@
 // 門市定位與清單系統
-(function() {
+(function () {
   // 瀏覽器偵測：判斷是否為 LINE 內建瀏覽器或其他不支援 iframe 地圖的環境
   const isLineBrowser = /Line/i.test(navigator.userAgent);
 
@@ -12,12 +12,12 @@
   }
 
   function resolveTodayHours(weeklyHours, specialHours, now) {
-    // 優先檢查特別營業時間 (如春節)
+    // 優先檢查特別營業時間
     if (specialHours && specialHours.length > 0) {
       const month = now.getMonth() + 1;
       const date = now.getDate();
       const todayStr = `${month}/${date}`;
-      
+
       const special = specialHours.find(sh => sh.date === todayStr);
       if (special) {
         if (special.hours === '公休') return { isClosedAllDay: true, rawText: '公休' };
@@ -75,7 +75,7 @@
     }).filter(Boolean).join('');
 
     if (specialHours && specialHours.length > 0) {
-      html += `<li class="special-hours-divider mt-2 pt-2 border-t border-dashed border-gray-200 font-bold text-[#DF7621]">【春節特別營業時間】</li>`;
+      html += `<li class="special-hours-divider mt-2 pt-2 border-t border-dashed border-gray-200 font-bold text-[#DF7621]">【特別營業時間】</li>`;
       specialHours.forEach(sh => {
         html += `<li class="special-hours-item text-[#DF7621]"><span class="store-hours-day">${sh.date} (${sh.note})</span><span class="store-hours-slot">${sh.hours}</span></li>`;
       });
@@ -204,7 +204,7 @@
         selectedStoreId = filtered[0].id;
       }
       const activeStore = filtered.find(s => s.id === selectedStoreId) || filtered[0];
-      
+
       const frame = document.getElementById('store-map-frame');
       if (frame) {
         if (isLineBrowser) {
@@ -246,7 +246,7 @@
           `;
           listContainer.innerHTML = chipsHTML + `<div class="active-store-detail">${renderStoreCard(activeStore, true)}</div>`;
           chipsContainer = listContainer.querySelector('.store-nav-chips-mobile');
-          
+
           // 初次載入時的微幅跳動動畫提示
           setTimeout(() => {
             if (chipsContainer) {
@@ -274,10 +274,10 @@
         }
 
         listContainer.querySelectorAll('.nav-chip').forEach(chip => {
-          chip.onclick = () => { 
+          chip.onclick = () => {
             if (selectedStoreId === chip.dataset.id) return;
-            selectedStoreId = chip.dataset.id; 
-            renderUI(); 
+            selectedStoreId = chip.dataset.id;
+            renderUI();
           };
         });
       } else {
@@ -361,19 +361,19 @@
 
     if (otherContainer) {
       // 顯示所有門市（或前 16 間）作為小卡片展示數量
-      const showStores = sortedStores.slice(1); 
+      const showStores = sortedStores.slice(1);
       otherContainer.innerHTML = `
         <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4 mt-10">
           ${showStores.map(store => {
-            // 縮短名稱以適應小卡片：移除「宜加寵物生活館」字樣，只保留分店名
-            const shortName = store.name.replace('宜加寵物', '').replace('生活館', '').replace('店', '');
-            return `
+        // 縮短名稱以適應小卡片：移除「宜加寵物生活館」字樣，只保留分店名
+        const shortName = store.name.replace('宜加寵物', '').replace('生活館', '').replace('店', '');
+        return `
               <div class="bg-white p-4 md:p-6 rounded-[1.5rem] shadow-sm border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-2 hover:border-[#DF7621] text-center group">
                 <h4 class="font-bold text-[15px] md:text-lg text-gray-800 group-hover:text-[#DF7621] transition-colors line-clamp-1">${shortName}</h4>
                 <p class="text-gray-400 text-[10px] md:text-xs mt-2 tracking-wide uppercase font-medium">${store.city}</p>
               </div>
             `;
-          }).join('')}
+      }).join('')}
         </div>
       `;
     }
@@ -386,10 +386,10 @@
       const cachedLat = localStorage.getItem('yichai_user_lat');
       const cachedLng = localStorage.getItem('yichai_user_lng');
       const cachedTime = localStorage.getItem('yichai_user_loc_time');
-      
+
       const nowTs = Date.now();
       // 延長快取至 7 天 (與 README 文件一致)，避免使用者每次進來都要重新等待定位
-      const isCacheValid = cachedTime && (nowTs - parseInt(cachedTime) < 7 * 24 * 60 * 60 * 1000); 
+      const isCacheValid = cachedTime && (nowTs - parseInt(cachedTime) < 7 * 24 * 60 * 60 * 1000);
 
       if (isCacheValid && cachedLat && cachedLng) {
         // 使用有效的短暫快取先顯示，避免跳動
@@ -408,12 +408,12 @@
           p => {
             const lat = p.coords.latitude;
             const lng = p.coords.longitude;
-            
+
             // 檢查新位置是否與快取位置有差異 (縮小至 0.1km = 100公尺)
             const lastLat = cachedLat ? parseFloat(cachedLat) : null;
             const lastLng = cachedLng ? parseFloat(cachedLng) : null;
             let needsUpdate = true;
-            
+
             if (lastLat && lastLng) {
               const moveDist = calculateDistance(lat, lng, lastLat, lastLng);
               if (moveDist < 0.1) needsUpdate = false; // 移動小於 100m 則維持現狀，避免畫面頻繁跳動
@@ -423,7 +423,7 @@
             localStorage.setItem('yichai_user_lat', lat);
             localStorage.setItem('yichai_user_lng', lng);
             localStorage.setItem('yichai_user_loc_time', Date.now().toString());
-            
+
             if (needsUpdate) {
               renderStoresPage(stores, lat, lng);
               renderHomepageStores(stores, lat, lng);
