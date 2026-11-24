@@ -76,6 +76,14 @@ def csv_to_json(csv_file_path, json_file_path):
                 "google_business_url": row.get('google_business_url', ''),
                 "google_business_short_url": row.get('google_business_short_url', '')
             }
+
+            # 搬遷、整修等期間的臨時停業資訊
+            temporary_closed = (row.get('temporary_closed') or 'false').lower() == 'true'
+            if temporary_closed:
+                store_data["temporary_closure"] = {
+                    "active": True,
+                    "note": (row.get('temporary_closure_note') or '').strip()
+                }
             
             # 如果有舊版的次要公司資訊欄位（若 CSV 中還有保留的話）
             if row.get('Secondary Company') or row.get('Tax ID'):

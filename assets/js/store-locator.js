@@ -94,7 +94,12 @@
         const fullAddress = store.location?.full_address || `${city}${store.location?.address || ''}`;
         const weeklyHours = store.business_hours || null;
         const specialHours = store.special_hours || null;
-        const hours = resolveTodayHours(weeklyHours, specialHours, now);
+        const temporaryClosure = store.temporary_closure?.active === true
+          ? store.temporary_closure
+          : null;
+        const hours = temporaryClosure
+          ? { isClosedAllDay: true, rawText: '暫停營業' }
+          : resolveTodayHours(weeklyHours, specialHours, now);
         return {
           id: normalizeStoreName(store.store_name),
           name: `${store.store_name}店`,
@@ -106,7 +111,10 @@
           phoneDigits: (store.contact?.supplies_phone || '').replace(/[^\d]/g, ''),
           weeklyHours,
           specialHours,
-          status: getStatus(hours, now),
+          status: temporaryClosure
+            ? { text: '● 搬遷整理中', className: 'status-closed', isOpen: false }
+            : getStatus(hours, now),
+          temporaryClosure,
           hasGrooming: store.services?.grooming === true,
           mapUrl: store.google_business_short_url || store.google_business_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`,
           mapEmbedUrl: (coordinates.latitude && coordinates.longitude)
@@ -167,6 +175,9 @@
 
     function renderStoreCard(store, isActive) {
       const hoursList = buildWeeklyHoursList(store.weeklyHours, store.specialHours);
+      const closureNotice = store.temporaryClosure
+        ? `<div class="mt-3 rounded-lg bg-orange-50 px-4 py-3 text-sm font-bold text-[#C65D1A]"><i class="fas fa-truck-moving mr-2"></i>${store.temporaryClosure.note}</div>`
+        : '';
       return `
         <div class="store-card ${isActive ? 'active' : ''}" data-id="${store.id}">
           <div class="card-header">
@@ -181,6 +192,7 @@
               <a href="tel:${store.phoneDigits}" class="text-[#DF7621] font-bold">${store.phone}</a>
             </div>
           </div>
+          ${closureNotice}
           <details class="card-hours-details">
             <summary>營業時間 (點擊展開)</summary>
             <ul class="card-hours-list">${hoursList}</ul>

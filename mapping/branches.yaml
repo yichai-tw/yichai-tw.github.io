@@ -92,7 +92,7 @@ yichai_pet_branches:
   - branch_name: "五股成泰店"
     brand_full_name: "宜加寵物生活館_五股成泰店(無美容)"
     location:
-      address: "248台灣新北市五股區成泰路三段518號"
+      address: "248台灣新北市五股區西雲路290號"
       postal_code: "248"
     business_hours:
       monday:    "11:00-22:00"
@@ -102,7 +102,7 @@ yichai_pet_branches:
       friday:    "11:00-22:00"
       saturday:  "11:00-22:00"
       sunday:    "11:00-22:00"
-    summary: { weekly_closed_on: null, services: { grooming: false } }
+    summary: { weekly_closed_on: null, services: { grooming: false }, temporary_closure: "11/21 起暫停營業，搬遷整理中，預計 12 月起於新址營業" }
 
   - branch_name: "明志(泰山)店"
     brand_full_name: "宜加寵物生活館_明志(泰山)店"
