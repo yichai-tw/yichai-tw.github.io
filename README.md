@@ -25,7 +25,9 @@
 │   │   └── 📝 twicon_license.md  # 字體版權資訊
 │   ├── 📂 images            # 圖片資源
 │   │   ├── 📂 brand_logo     # 品牌 Logo
-│   │   ├── 🖼️ 2026_cny_operation_notice.webp
+│   │   ├── 📂 news           # 最新消息文章圖片
+│   │   │   ├── 🖼️ 2026_cny_operation_notice.webp
+│   │   │   └── 🖼️ 2026_wugu-chengtai-store-relocation.webp
 │   │   └── 🖼️ yichai-petshop-logo.png
 │   └── 📂 js                # JavaScript 檔案
 │       ├── 🟨 load-footer.js # 動態載入頁尾腳本

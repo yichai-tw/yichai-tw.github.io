@@ -14,4 +14,4 @@
 
 > ※ 實際營業資訊如有調整，請以門市最新公告為準。
 
-![宜加寵物生活館五股成泰店搬遷公告](assets/images/2026_wugu-chengtai-store-relocation.png)
+![宜加寵物生活館五股成泰店搬遷公告](assets/images/news/2026_wugu-chengtai-store-relocation.webp)
