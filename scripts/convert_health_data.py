@@ -1,3 +1,37 @@
+"""健康指引 JSON／CSV 轉換工具。
+
+用途：
+    維護毛孩健康小幫手使用的結構化資料，支援將主要健康指引 JSON
+    匯出成便於人工檢查與編輯的 CSV，也能將倉鼠品種 CSV 匯回 JSON。
+
+預設輸入：
+    - ``data/health-guidelines.json``：健康指引主要資料來源。
+    - ``docs/hamster_breeds.csv``：使用 ``--import-csv`` 時的倉鼠品種來源。
+
+預設輸出：
+    - ``docs/health_life_stages.csv``：各物種生命階段與照護建議。
+    - ``docs/activity_body_options.csv``：活動量及體型選項。
+    - ``docs/health_conditions.csv``：常見疾病與飲食建議。
+    - ``docs/pet_breeds.csv``：寵物品種資料。
+    - ``data/guidelines_<species>.json``：依物種拆分的健康指引。
+    - ``data/temp_*.json``：供檢查或後續流程使用的暫存彙整資料。
+
+使用方式：
+    python scripts/convert_health_data.py
+    python scripts/convert_health_data.py --out-dir docs
+    python scripts/convert_health_data.py --import-csv --out-dir docs
+
+注意事項：
+    - 未加 ``--import-csv`` 時，以 JSON 為來源並重新產生 CSV／拆分 JSON。
+    - 加上 ``--import-csv`` 時，會讀取輸出目錄內的 ``hamster_breeds.csv``，
+      並直接更新 ``data/health-guidelines.json`` 的 ``hamster.breeds``。
+    - CSV 採 UTF-8 BOM 編碼，以提升試算表軟體開啟中文內容時的相容性。
+    - 建議執行前先確認 Git 工作目錄，並於執行後檢查產生的差異。
+
+需求：
+    Python 3.9+、pandas（安裝專案 ``requirements.txt`` 即可）。
+"""
+
 import json
 import pandas as pd
 import os
